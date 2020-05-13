@@ -7,35 +7,28 @@ import java.sql.Statement;
 public class RegistroInicioSesion {
 	private static Connection connect;
 	
-	public RegistroInicioSesion(Connection cn) {
-		connect = cn;
+	public RegistroInicioSesion(ConexionBD cn) {
+		connect = cn.conectar();
 	}
 	
 	public void registrarUsuario(String usr, String pass) {
-		Statement stm;
 		try {
-			stm = connect.createStatement();
-			ResultSet rs = stm.executeQuery("SELECT * FROM Usuarios");
-			
 			//Comprueba que el usuario no estaba registrado
+			PreparedStatement pst = connect.prepareStatement("SELECT * FROM Usuarios WHERE `ID Usuarios` = ?");
+			pst.setString(1, usr);
+			ResultSet rs = pst.executeQuery();
 			boolean esta = false;
-			String us;
-			while(rs.next() && !esta){
-				us = rs.getString(1);
-				if(us.equalsIgnoreCase(usr)) {
-					esta = true;
-				}
+			if(rs.next()) {
+				esta = true;
 			}
-			rs.close();
-			stm.close();
 			
 			if (!esta) {
-				PreparedStatement ps = connect.prepareStatement("INSERT INTO `Usuarios` (`ID Usuarios`, `Contraseña`) VALUES (?,?)");
+				PreparedStatement ps = connect.prepareStatement("INSERT INTO `Usuarios` (`ID Usuarios`, `ContraseÃ±a`) VALUES (?,?)");
 				ps.setString(1, usr);
 				ps.setString(2, pass);
 				int res = ps.executeUpdate();
 				if(res > 0) {
-					System.out.println("Usuario " + usr + " registrado con éxito");
+					System.out.println("Usuario " + usr + " registrado con Ã©xito");
 				} else {
 					System.out.println("Error registrando el usuario en la base de datos");
 				}
