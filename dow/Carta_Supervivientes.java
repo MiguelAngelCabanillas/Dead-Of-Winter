@@ -61,7 +61,7 @@ public class Carta_Supervivientes extends Carta{
 
 	@Override
 	public boolean equals(Object arg0) {
-		return (arg0 instanceof Carta_Supervivientes);
+		return (arg0 instanceof Carta_Supervivientes) && (this.getNombre() == ((Carta_Supervivientes) arg0).getNombre()) && this.hashCode() == ((Localizacion)arg0).hashCode();
 	}
 	
 	public int hashCode() {

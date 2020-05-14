@@ -1,4 +1,4 @@
-//PARA NADA VERSIÃ“N DEFINITIVA
+//PARA NADA VERSIÓN DEFINITIVA
 package dow;
 
 public class Carta {

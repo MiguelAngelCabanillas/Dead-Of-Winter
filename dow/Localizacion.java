@@ -11,18 +11,6 @@ public class Localizacion {
 	private Mazo mazo;
 	private CasillasZombie zombies;
 	
-//	/*El siguiente es el atributo que representa las entradas. Que sea lista de Carta no me gusta. 
-//	  En principio, en una entrada puede haber sólo una de tres:
-//		1) Zombie
-//		2) Barricada
-//		3) Nada
-//	Quizá sería interesante crear una clase Zombie y una Barricada herederas de Carta, como viene en las reglas.
-//	Otra solución sería implementarlo con una lista de enteros donde 0 represente nada, 1 un zombie y 2 una barricada, de manera
-//	que el resto de métodos que interactúen con las entradas "conozcan" qué significa cada cosa.
-//	¡¡¡CONSULTAR CON NIETO!!!
-//	*/
-//	private List <Carta> entradas;
-	
 	private int tokensDeRuido;
 	
 	//Constructor/es
@@ -30,7 +18,6 @@ public class Localizacion {
 		this.nombre = n;
 		this.mazo = m;
 		this.supervivientes = new LinkedList<Carta_Supervivientes>();
-		this.entradas = new LinkedList<Carta>();
 		this.tokensDeRuido = 0;
 		this.zombies = new CasillasZombie(c, z);
 	}
@@ -56,14 +43,6 @@ public class Localizacion {
 		this.mazo = mazo;
 	}
 
-	public List<Carta> getEntradas() {
-		return entradas;
-	}
-
-	public void setEntradas(List<Carta> entradas) {
-		this.entradas = entradas;
-	}
-
 	public int getTokensDeRuido() {
 		return tokensDeRuido;
 	}
@@ -78,4 +57,21 @@ public class Localizacion {
 		zombies.matarZombie();
 	}
 	
+	public void barricada() {
+		zombies.añadirBarricada();
+	}
+	
+	public Carta_Objeto cogerCarta() {
+		return mazo.getCarta();
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return (o instanceof Localizacion) && (this.getNombre().contentEquals(((Localizacion)o).getNombre())) && (this.hashCode() == ((Localizacion)o).hashCode());
+	}
+	
+	@Override
+	public int hashCode() {
+		return nombre.hashCode();
+	}
 }

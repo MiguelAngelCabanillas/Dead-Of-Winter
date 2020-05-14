@@ -14,11 +14,12 @@ public class Jugador {
 	private DadoDeRiesgo riesgo;
 	
 	//Constructor/es
-	public Jugador(List<Carta_Objeto> mazo, int id) {
+	public Jugador(List<Carta_Objeto> mazo, int id, boolean primero) {
 		this.mazoSuperviviente = new LinkedList<Carta_Supervivientes>();
 		this.mazoObjeto  = mazo;
 		riesgo = new DadoDeRiesgo();
 		this.id = id;
+		primerJugador = primero;
 	}
 	
 	//Métodos
@@ -72,6 +73,18 @@ public class Jugador {
 	public void herir(Carta_Supervivientes carta) {
 		mazoSuperviviente.get(indice(carta)).recibirHerida(false);
 	}
+	
+	public boolean comprobarLocalizacion(Localizacion l) {
+		boolean esta = false;
+		
+		for(Carta_Supervivientes c : mazoSuperviviente) {
+			if(c.getLugar().equals(l)) {
+				esta = true;
+			}
+		}
+		
+		return esta;
+	}
 	 
 	//ACCIONES DEL JUGADOR
 	
@@ -98,18 +111,24 @@ public class Jugador {
 				tirada.tirarDado();
 				
 				if(tirada.valor() >= objetivo.getAtaque()) {
-					enemigo.
+					enemigo.herir(objetivo);
 				}
 			}
 		}
 	}
 	
-	public void barricada() {
-		
+	public void barricada(Localizacion l) throws localizacionException {
+		if(comprobarLocalizacion(l)) {
+			l.barricada();
+		}else {
+			throw new localizacionException("No estas en la localizacion");
+		}
 	}
 	
-	public void buscar() {
-		
+	public void buscar(Carta_Supervivientes personaje) {
+		if(hayDado(personaje.getBusqueda())) {
+			mazoObjeto.add(personaje.getLugar())
+		}
 	}
 	
 	public void mover() {
