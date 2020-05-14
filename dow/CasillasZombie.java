@@ -28,12 +28,14 @@ public class CasillasZombie {
 		return meter == 0;
 	}
 	
-	public boolean añadirBarricada() {
+	public boolean añadirBarricada() throws barricadaException {
 		boolean hecho = false;
 		if(casillas > 0) {
 			barricadas++;
 			casillas--;
 			hecho = true;
+		}else {
+			throw new barricadaException("No hay espacio");
 		}
 		
 		return hecho;

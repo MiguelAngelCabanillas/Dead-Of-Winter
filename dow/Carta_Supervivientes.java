@@ -1,5 +1,8 @@
 package dow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Carta_Supervivientes extends Carta{
 
 	private int influencia;
@@ -7,6 +10,7 @@ public class Carta_Supervivientes extends Carta{
 	private int busqueda;
 	private String habilidad;
 	private Localizacion lugar;
+	private List<Carta_Objeto> equipamiento;
 	
 	private int heridas;
 	private boolean congelamiento;
@@ -20,10 +24,28 @@ public class Carta_Supervivientes extends Carta{
 		this.congelamiento = false;
 		this.lugar = null;
 		this.influencia = influencia;
+		this.equipamiento = new ArrayList<>();
+	}
+	
+	//METODOS
+	public void equipar(Carta_Objeto carta) {
+		equipamiento.add(carta);
+	}
+	
+	public List<Carta_Objeto> getEquipamiento(){
+		return equipamiento;
 	}
 	
 	public Localizacion getLugar() {
 		return lugar;
+	}
+	
+	public void setLugar(Localizacion lugar) {
+		this.lugar = lugar;
+	}
+	
+	public int getInfluencia() {
+		return influencia;
 	}
 	
 	public int getAtaque() {

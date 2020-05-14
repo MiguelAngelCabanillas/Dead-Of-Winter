@@ -8,21 +8,23 @@ public class Localizacion {
 	//Atributos
 	private String nombre;
 	private List <Carta_Supervivientes> supervivientes;
+	private int maximo;
 	private Mazo mazo;
 	private CasillasZombie zombies;
 	
 	private int tokensDeRuido;
 	
 	//Constructor/es
-	public Localizacion(String n, Mazo m, int c, int z) {
+	public Localizacion(String n, Mazo m, int c, int z, int max) {
 		this.nombre = n;
 		this.mazo = m;
 		this.supervivientes = new LinkedList<Carta_Supervivientes>();
 		this.tokensDeRuido = 0;
 		this.zombies = new CasillasZombie(c, z);
+		this.maximo = max;
 	}
 
-	//Métodos
+	//METODOS
 	public String getNombre() {
 		return nombre;
 	}
@@ -51,19 +53,40 @@ public class Localizacion {
 		this.tokensDeRuido = tokensDeRuido;
 	}
 	
+	public void pasaRonda() {
+		zombies.añadirZombies(supervivientes.size());
+	}
+	
 	//ACCIONES DE MODIFICACION
 	
 	public void matar() throws matarException {
 		zombies.matarZombie();
 	}
 	
-	public void barricada() {
+	public void barricada() throws barricadaException {
 		zombies.añadirBarricada();
 	}
 	
 	public Carta_Objeto cogerCarta() {
 		return mazo.getCarta();
 	}
+	
+	public boolean llegar(Carta_Supervivientes personaje) {
+		boolean mover = false;
+		
+		if(supervivientes.size() <= maximo) {
+			supervivientes.add(personaje);
+			mover = true;
+		}
+		
+		return mover;
+	}
+	
+	public void irse(Carta_Supervivientes personaje) {
+		supervivientes.remove(personaje);
+	}
+	
+	//OTROS METODOS
 	
 	@Override
 	public boolean equals(Object o) {

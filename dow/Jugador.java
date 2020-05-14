@@ -12,14 +12,25 @@ public class Jugador {
 	private boolean primerJugador;
 	private List<Dado> dados;
 	private DadoDeRiesgo riesgo;
+	private Colonia colonia;
 	
 	//Constructor/es
-	public Jugador(List<Carta_Objeto> mazo, int id, boolean primero) {
+	public Jugador(List<Carta_Objeto> mazo, int id, boolean primero, Colonia col) {
 		this.mazoSuperviviente = new LinkedList<Carta_Supervivientes>();
 		this.mazoObjeto  = mazo;
 		riesgo = new DadoDeRiesgo();
 		this.id = id;
 		primerJugador = primero;
+		colonia = col;
+	}
+	
+	//METODOS PARA EJECUTAR DESDE LA CLASE PARTIDA
+	public void matar() {
+		for(Carta_Supervivientes personaje : mazoSuperviviente) {
+			if(personaje.estaMuerto()) {
+				mazoSuperviviente.remove(personaje);
+			}
+		}
 	}
 	
 	//Métodos
@@ -117,7 +128,7 @@ public class Jugador {
 		}
 	}
 	
-	public void barricada(Localizacion l) throws localizacionException {
+	public void barricada(Localizacion l) throws localizacionException, barricadaException {
 		if(comprobarLocalizacion(l)) {
 			l.barricada();
 		}else {
@@ -127,39 +138,55 @@ public class Jugador {
 	
 	public void buscar(Carta_Supervivientes personaje) {
 		if(hayDado(personaje.getBusqueda())) {
-			mazoObjeto.add(personaje.getLugar())
+			mazoObjeto.add(personaje.getLugar().cogerCarta());
 		}
 	}
 	
-	public void mover() {
-		
+	public void mover(Carta_Supervivientes personaje, Localizacion lugar) {
+		if(lugar.llegar(personaje)) {
+			personaje.getLugar().irse(personaje);
+			personaje.setLugar(lugar);
+		}
 	}
 	
 	public void votacion() {
 		
 	}
 	
-	public void añadirComida() {
+	/*HAY QUE COMPROBAR MAS ADELANTE QUE SE INCREMENTE LA COMIDA POR EL USO DE UNA CARTA O PORQUE SE AÑADA POR 
+	 * UN METODO EXTERNO COMO UNA CARTA DE ENCRUCIJADA
+	 */
+	
+	public void añadirComida(Carta_Objeto objeto, int cantidad) {
+		if(objeto != null) {
+			mazoObjeto.remove(objeto);
+		}
 		
+		colonia.setTokensDeHambre(colonia.getTokensDeHambre() + cantidad);
 	}
 	
-	public void añadirCrisis() {
-		
+	public void añadirCrisis(Carta_Objeto carta) {
+		colonia.añadirCrisis(carta);
+		mazoObjeto.remove(carta);
 	}
 	
 	public void darCarta() {
-		
+		//POR DETERMINAR
 	}
 	
 	public void pedirCarta() {
-		
+		//POR DETERMINAR
 	}
 	
-	public void usarObjeto() {
+	public void usarObjeto(Carta_Objeto carta) {
 		
+		
+		//POR DETERMINAR
+		
+		mazoObjeto.remove(carta);
 	}
 	
-	public void equiparObjeto() {
-		
+	public void equiparObjeto(Carta_Objeto carta, Carta_Supervivientes personaje) {
+		personaje.equipar(carta);
 	}
 }
