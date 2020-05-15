@@ -11,6 +11,8 @@ public class ServidorPrincipal {
 	ServerSocket server_socket = new ServerSocket(12975);	// Iniciamos el Socket que va a recibir las peticiones en el puerto 12975
 	List<Socket> peticiones = new ArrayList<Socket>();	// Iniciamos la lista que va a tener los usuarios activos
 	List<PrintWriter> envioAUsuarios = new ArrayList<PrintWriter>(); // Iniciamos la lista con todos los outputs de la conexion
+	
+	boolean encontrado = false;
 	System.out.println("Servidor abierto"); 
 	
 	while(true) {
@@ -25,6 +27,26 @@ public class ServidorPrincipal {
 		
 		System.out.println("Listo para recibir petición");
 		Socket peticion = server_socket.accept();  // Cuando llega una peticion, se acepta y se crea como un Socket
+		//peticion.setSoTimeout(30000);
+		int j = 0;
+		while(j < peticiones.size()){
+			if(peticiones.get(j).getInetAddress().equals(peticion.getInetAddress()) || peticiones.get(j).isClosed()) {
+			//envioAUsuarios.get(j).println("Error: Sesión duplicada");
+			envioAUsuarios.get(j).close();
+			envioAUsuarios.remove(j);
+			peticiones.get(j).close();
+			peticiones.remove(j);
+			System.out.println("La madre que pario al Dani");
+			j--;
+			}
+			j++;
+		}
+		j = 0;
+		
+//		if(peticion.isClosed()) {
+//			continue;
+//		}
+		
 		peticiones.add(peticion); // Se añade la petición de conexión a la lista de usuarios activos
 		
 		// Mandar mensajes al cliente
@@ -33,20 +55,17 @@ public class ServidorPrincipal {
 		pw.println("Conectado al Servidor"); // Se envia el mensaje al usuario de Conectado al Servidor 
 		pw.flush();
 		
+		
+		
 		System.out.println("Servidor conectado a " + peticion.getInetAddress());
 		//Recibir mensajes del cliente
 		
 		Reader reader = new Reader(peticion, envioAUsuarios, peticiones); // Crea un Reader (Clase que procesa los mensajes via servidor)
+		Usuario usuario = new Usuario(reader.recibirMensaje(), peticion);
+		System.out.println(usuario.getNombre());
 		Thread thread = new Thread(reader); // Crea un hilo para ese reader específico
 		thread.start();
-		
-		
-	}
-	
-	
-	} catch(SocketException se) {
-		
-		
+		}
 	}
 	
 	catch(Exception e) { e.printStackTrace();}

@@ -13,7 +13,7 @@ public class Cliente {
 	public Cliente() {
 		try {
 			System.out.println("Conectando al Servidor...");
-			this.socket = new Socket("25.51.116.27", 12975);
+			this.socket = new Socket("25.66.43.164", 12975);
 			
 			Thread thread = new Thread(new ClientReader(socket));
 			thread.start();

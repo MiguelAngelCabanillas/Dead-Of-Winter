@@ -3,7 +3,10 @@ package Server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 
 public class ClientReader implements Runnable {
@@ -33,6 +36,11 @@ public class ClientReader implements Runnable {
 	public void hacerPeticionAlServidor(String peticion) throws IOException {
 		out.println(peticion);
 		out.flush();
+	}
+	
+	public void close() throws IOException {
+		socket.close();
+		out.close();
 	}
 
 }
