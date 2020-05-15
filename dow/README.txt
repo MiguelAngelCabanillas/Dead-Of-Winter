@@ -1,8 +1,8 @@
 1. Ordenar el código.
-2. Llamada a constructor Colonia desde Tablero.java
-3. Terminar de concretar la clase Partida.java
+2. Llamada a constructor Colonia desde Tablero.java (definir cómo vamos a pasarle la carta objetivo principal).
+3. Terminar de concretar la clase Partida.java (qué recibe como parámetros, cómo va a funcionar el bucle).
 4. Método menorInfluencia de la clase Localizacion.java (debería devolver los índices de los "num" elementos de la lista. Si se te ocurre una mejor manera de hacerlo,
-ten en cuenta el cambio en el resto de métodos que lo referencian.
+ten en cuenta el cambio en el resto de métodos que lo referencian).
 5. votacion, darCarta, pedirCarta y usarObjeto de la clase Jugador.java
 6. Método actualizarCasillasZombiePasoDeRonda de Colonia.java (recuerdo que conjuntoCasillasZombie es una lista de listas de casillas zombie).
 
