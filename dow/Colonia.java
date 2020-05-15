@@ -1,4 +1,3 @@
-//Gómez 14/05
 package dow;
 
 import java.util.LinkedList;
@@ -66,41 +65,6 @@ public class Colonia extends Localizacion {
 	//TERMINAR.
 	@Override
 	public void actualizarCasillasZombiePasoDeRonda() {
-		
-		//ESTO ES UNA MOVIDA
-		
-		
-		/*
-		int numZombies = (inutiles + this.getSupervivientes().size()) / 2;
-		int i = 0, j;
-		
-		while (i < 3 && numZombies != 0) {
-			j = 0;
-			while (j < this.conjuntoCasillasZombie.size() && numZombies != 0) {
-				if (!this.conjuntoCasillasZombie.get(j).get(i).getHayZombie() && 
-						!this.conjuntoCasillasZombie.get(j).get(i).getHayBarricada()) {
-					this.conjuntoCasillasZombie.get(j).get(i).setHayZombie(true);
-					numZombies--;
-				}
-				j++;
-			}
-			i++;
-		}
-		
-		
-		
-		
-		
-		
-		
-		if (numZombies > 0) {
-			int [] indices = super.menorInfluencia(numZombies);
-			i = 0;
-			while (i < indices.length) {
-				this.getSupervivientes().get(indices[i]).setHeridas(3);
-				i++;
-			}
-		}*/
 	}
 	
 	public void matarSuperviviente() {
@@ -135,7 +99,6 @@ public class Colonia extends Localizacion {
 		return moral;
 	}
 
-	//puede que no haga falta
 	public void setMoral(int moral) {
 		this.moral = moral;
 	}
@@ -152,7 +115,6 @@ public class Colonia extends Localizacion {
 		return rondasRestantes;
 	}
 
-	//puede que no haga falta
 	public void setRondasRestantes(int rondasRestantes) {
 		this.rondasRestantes = rondasRestantes;
 	}
@@ -161,7 +123,6 @@ public class Colonia extends Localizacion {
 		return tokensDeHambre;
 	}
 
-	//puede que no haga falta
 	public void setTokensDeHambre(int tokensDeHambre) {
 		this.tokensDeHambre = tokensDeHambre;
 	}
@@ -170,7 +131,6 @@ public class Colonia extends Localizacion {
 		return vertedero;
 	}
 
-	//puede que no haga falta
 	public void setVertedero(int vertedero) {
 		this.vertedero = vertedero;
 	}

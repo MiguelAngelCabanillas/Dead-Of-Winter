@@ -1,5 +1,3 @@
-//Gómez 14/05
-
 package dow;
 
 public class dadoException extends Exception {

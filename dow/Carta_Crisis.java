@@ -1,5 +1,3 @@
-//Gómez 14/05
-
 package dow;
 
 public class Carta_Crisis extends Carta{
@@ -26,10 +24,8 @@ public class Carta_Crisis extends Carta{
 		return this.efecto;
 	}
 
-	
 	public String getOpcional() {
 		return opcional;
 	}
-
 
 }

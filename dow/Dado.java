@@ -1,22 +1,20 @@
-//Gómez 14/05
-
 package dow;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Dado {
 	
-	//Atributos
+	//Atributo/s.
 	private final int caras = 6;
 	private int valor;
 	private boolean haSidoTirado;
 	
-	//Constructor/es
+	//Constructor/es.
 	public Dado() {
 		this.haSidoTirado = false;
 	}
 	
-	//Métodos
+	//Método/s.
 	public void tirarDado() throws dadoException {
 		if (this.haSidoTirado == true) {
 			throw new dadoException("Este dado ya ha sido utilizado.");

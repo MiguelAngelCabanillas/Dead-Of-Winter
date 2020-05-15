@@ -1,5 +1,3 @@
-//Gómez 14/05
-
 package dow;
 
 import java.util.*;
@@ -39,7 +37,6 @@ public class Jugador {
 		return this.nombre;
 	}
 	
-	//Puede no ser necesario
 	public void setNombre(String n) {
 		this.nombre = n;
 	}
@@ -48,7 +45,6 @@ public class Jugador {
 		return this.id;
 	}
 	
-	//puede no ser necesario
 	public void setId (int i) {
 		this.id = i;
 	}
@@ -155,7 +151,6 @@ public class Jugador {
 	/*HAY QUE COMPROBAR MAS ADELANTE QUE SE INCREMENTE LA COMIDA POR EL USO DE UNA CARTA O PORQUE SE AÑADA POR 
 	 * UN METODO EXTERNO COMO UNA CARTA DE ENCRUCIJADA
 	 */
-	
 	public void anyadirComida(Carta_Objeto objeto, int cantidad) {
 		if(objeto != null) {
 			mazoObjeto.remove(objeto);

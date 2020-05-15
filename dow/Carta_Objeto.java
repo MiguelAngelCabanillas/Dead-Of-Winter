@@ -1,15 +1,13 @@
-//Gómez 14/05
-
 package dow;
 
 public class Carta_Objeto extends Carta {
 
-	//Atributo/s
+	//Atributo/s.
 	private String localizacion;
 	private String tipo;
 	private int cantidad;
 	
-	//Constructor/es
+	//Constructor/es.
 	public Carta_Objeto(int id, String nombre, String desc, String loc, String t, int c) {
 		super(id, nombre, desc);
 		localizacion = loc;
@@ -17,7 +15,7 @@ public class Carta_Objeto extends Carta {
 		cantidad = c;
 	}
 
-	//Método/s
+	//Método/s.
 	public String getLocalizacion() {
 		return localizacion;
 	}

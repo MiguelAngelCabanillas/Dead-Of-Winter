@@ -1,5 +1,3 @@
-//Gómez 14/05
-
 package dow;
 
 public class Carta_Objetivo_Principal extends Carta {
@@ -7,7 +5,7 @@ public class Carta_Objetivo_Principal extends Carta {
 	//Atributos.
 	private String objetivo;
 	
-	//Constructor/es
+	//Constructor/es.
 	public Carta_Objetivo_Principal(int id, String nombre, String desc, String objetivo) {
 		super(id, nombre, desc);
 		this.objetivo = objetivo;

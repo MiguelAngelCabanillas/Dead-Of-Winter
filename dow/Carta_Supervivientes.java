@@ -1,5 +1,3 @@
-//Gómez 14/05
-
 package dow;
 
 import java.util.ArrayList;
@@ -93,6 +91,7 @@ public class Carta_Supervivientes extends Carta{
 		return (arg0 instanceof Carta_Supervivientes) && (this.getNombre() == ((Carta_Supervivientes) arg0).getNombre()) && this.hashCode() == ((Localizacion)arg0).hashCode();
 	}
 	
+	@Override
 	public int hashCode() {
 		return getNombre().hashCode();
 	}

@@ -1,10 +1,8 @@
-//Gómez 14/05
-
 package dow;
 
 public class Carta {
 
-	//Atributos
+	//Atributo/s.
 	private int id;
 	private String nombre;
 	//private imagen;
@@ -17,7 +15,7 @@ public class Carta {
 		this.descripcion = desc;
 	}
 	
-	//Método/s
+	//Método/s.
 	public int getId() {
 		return this.id;
 	}
