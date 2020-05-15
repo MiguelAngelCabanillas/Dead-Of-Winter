@@ -9,7 +9,7 @@ public class Jugador {
 	private int id;		
 	private List<Carta_Supervivientes> mazoSuperviviente;
 	private List<Carta_Objeto> mazoObjeto;
-	private boolean primerJugador;
+	//private boolean primerJugador;
 	private List<Dado> dados;
 	private DadoDeRiesgo riesgo;
 	private Colonia colonia;
@@ -20,7 +20,7 @@ public class Jugador {
 		this.mazoObjeto  = mazo;
 		//riesgo = new DadoDeRiesgo();
 		this.id = id;
-		primerJugador = primero;
+		//primerJugador = primero;
 		colonia = col;
 	}
 	
@@ -145,7 +145,7 @@ public class Jugador {
 	}
 	
 	public void votacion() {
-		//Votación para exiliar.
+		//QUEDA PARA LA SIGUIENTE ENTREGA
 	}
 	
 	/*HAY QUE COMPROBAR MAS ADELANTE QUE SE INCREMENTE LA COMIDA POR EL USO DE UNA CARTA O PORQUE SE AÑADA POR 

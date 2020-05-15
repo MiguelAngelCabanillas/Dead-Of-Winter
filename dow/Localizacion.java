@@ -2,7 +2,6 @@
 
 package dow;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -11,7 +10,7 @@ public class Localizacion {
 	
 	//Atributo/s.
 	private String nombre;
-	private List <Carta_Supervivientes> supervivientes;
+	private PriorityQueue <Carta_Supervivientes> supervivientes;
 	private int maximoNumSupervivientes;
 	private Mazo mazo;
 	private List<CasillasZombie> casillasZombie;
@@ -20,7 +19,7 @@ public class Localizacion {
 	//Constructor/es.
 	public Localizacion(String n, Mazo m, int max, int numCasillasZombie) {
 		this.nombre = n;
-		this.supervivientes = new LinkedList<Carta_Supervivientes>();
+		this.supervivientes = new PriorityQueue<Carta_Supervivientes>();
 		this.maximoNumSupervivientes = max;
 		this.mazo = m;
 		this.casillasZombie = new LinkedList<CasillasZombie>();
@@ -37,7 +36,7 @@ public class Localizacion {
 		return nombre;
 	}
 
-	public List<Carta_Supervivientes> getSupervivientes() {
+	public PriorityQueue<Carta_Supervivientes> getSupervivientes() {
 		return supervivientes;
 	}
 	
@@ -57,7 +56,7 @@ public class Localizacion {
 		return tokensDeRuido;
 	}
 	
-	public void setSupervivientes(List<Carta_Supervivientes> supervivientes) {
+	public void setSupervivientes(PriorityQueue<Carta_Supervivientes> supervivientes) {
 		this.supervivientes = supervivientes;
 	}
 
@@ -69,39 +68,31 @@ public class Localizacion {
 		this.tokensDeRuido = tokensDeRuido;
 	}
 	
-	//TERMINAR
-	public int [] menorInfluencia(int num) {
-		return null;
-	}
-	
 	public void actualizarCasillasZombiePasoDeRonda() {
 		int numZombies = this.supervivientes.size();
-		int i = 0;
 		
-		while (i < this.casillasZombie.size() && numZombies != 0) {
-			 if (!this.casillasZombie.get(i).getHayZombie() && !this.casillasZombie.get(i).getHayBarricada()) {
-					this.casillasZombie.get(i).setHayZombie(true);
-					numZombies--;
-				}
-			 i++;
-		}
-		
-		i = 0;
-		while (i < this.casillasZombie.size() && numZombies != 0) {
-			if (this.casillasZombie.get(i).getHayBarricada()) {
-				this.casillasZombie.get(i).setHayBarricada(false);
+		//AUNQUE NO PAREZCA MUY EFICIENTE, SOLO SE REALIZAN 8 ITERACIONES A LO SUMO
+		for(CasillasZombie hueco : casillasZombie) {
+			if(numZombies > 0 && hueco.getHayBarricada()) {
+				hueco.setHayBarricada(false);
 				numZombies--;
 			}
-			i++;
 		}
-	
-		if (numZombies > 0) {
-			int [] indices = this.menorInfluencia(numZombies);
-			i = 0;
-			while (i < indices.length) {
-				this.supervivientes.get(indices[i]).setHeridas(3);
-				i++;
+		
+		for(CasillasZombie hueco : casillasZombie) {
+			if(numZombies > 0 && !hueco.getHayZombie()) {
+				hueco.setHayZombie(true);
+				numZombies--;
 			}
+		}
+		
+		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
+		while(numZombies > 0) {
+			Carta_Supervivientes muerto = this.supervivientes.poll();;
+			muerto.recibirHerida(false);
+			muerto.recibirHerida(false);
+			muerto.recibirHerida(false);
+			numZombies--;
 		}
 	}
 	
@@ -147,6 +138,8 @@ public class Localizacion {
 	public void irse(Carta_Supervivientes personaje) {
 		supervivientes.remove(personaje);
 	}
+	
+	//METODOS DE CLASE
 	
 	@Override
 	public boolean equals(Object o) {

@@ -12,7 +12,7 @@ public class Colonia extends Localizacion {
 	private int rondasRestantes;
 	private int tokensDeHambre;
 	private int vertedero;
-	private List<List<CasillasZombie>> conjuntoCasillasZombie;
+	private List<List<CasillasZombie>> puertas;
 	private int inutiles;
 	private List<Carta_Objeto> crisis;
 	private int numJugadores;
@@ -26,10 +26,10 @@ public class Colonia extends Localizacion {
 		this.tokensDeHambre = 0;		
 		this.vertedero = 0;
 		//conjuntoCasillasZombie es una lista tamaño 6 cuyos elementos son listas de 3 casillas zombie.
-		this.conjuntoCasillasZombie = new LinkedList<List<CasillasZombie>>();
+		this.puertas = new LinkedList<List<CasillasZombie>>();
 		int i = 0;
 		while (i < 6) {
-			this.conjuntoCasillasZombie.add(super.getCasillasZombie());
+			this.puertas.add(super.getCasillasZombie());
 			i++;
 		}
 		this.inutiles = 0;
@@ -41,8 +41,8 @@ public class Colonia extends Localizacion {
 		int i = 0;
 		boolean muerto = false;
 		while (i < 3 && !muerto) {
-			if (this.conjuntoCasillasZombie.get(puerta).get(i).getHayZombie()) {
-				this.conjuntoCasillasZombie.get(puerta).get(i).setHayZombie(false);
+			if (this.puertas.get(puerta).get(i).getHayZombie()) {
+				this.puertas.get(puerta).get(i).setHayZombie(false);
 				muerto = true;
 			}
 			i++;
@@ -53,26 +53,47 @@ public class Colonia extends Localizacion {
 		int i = 0;
 		boolean puesta = false;
 		while (i < 3 && !puesta) {
-			if (!this.conjuntoCasillasZombie.get(puerta).get(i).getHayBarricada() &&
-				!this.conjuntoCasillasZombie.get(puerta).get(i).getHayZombie() && !puesta) {
-				this.conjuntoCasillasZombie.get(puerta).get(i).setHayBarricada(true);
+			if (!this.puertas.get(puerta).get(i).getHayBarricada() &&
+				!this.puertas.get(puerta).get(i).getHayZombie() && !puesta) {
+				this.puertas.get(puerta).get(i).setHayBarricada(true);
 				puesta = true;
 			}
 			i++;
 		}
 	}
 	
-	//TERMINAR.
 	@Override
 	public void actualizarCasillasZombiePasoDeRonda() {
-	}
-	
-	public void matarSuperviviente() {
-		//Implementar método menorInfluencia.
-		Carta_Supervivientes muerto = super.menorInfluencia(1);
+		int numZombies = (this.getSupervivientes().size() + inutiles) / 2;
+		int noColocados = 0;
 		
-		while (!muerto.estaMuerto()) {
+		for(int j = 0; j < numZombies; j++) {
+			List<CasillasZombie> puerta = puertas.get(j%6);
+			boolean colocado = false;
+			int i = 0;
+			
+			while(!colocado && i < puerta.size()) {
+				CasillasZombie aux = puerta.get(i);
+				if(!aux.getHayZombie()) {
+					aux.setHayZombie(true);
+					colocado = true;
+				}else {
+					i++;
+				}
+			}
+			
+			if(!colocado) {
+				noColocados++;
+			}
+		}
+		
+		//MATAMOS A LOS JUGADORES NECESARIOS
+		while(noColocados > 0) {
+			Carta_Supervivientes muerto = super.getSupervivientes().poll();;
 			muerto.recibirHerida(false);
+			muerto.recibirHerida(false);
+			muerto.recibirHerida(false);
+			noColocados--;
 		}
 	}
 	
@@ -87,7 +108,6 @@ public class Colonia extends Localizacion {
 				contador--;
 			}
 		}
-
 		return contador/numJugadores;
 	}
 	

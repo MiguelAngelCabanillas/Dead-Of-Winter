@@ -3,7 +3,7 @@ package dow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carta_Supervivientes extends Carta{
+public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supervivientes>{
 
 	//Atributo/s.
 	private int influencia;
@@ -79,7 +79,7 @@ public class Carta_Supervivientes extends Carta{
 	}
 	
 	public boolean estaMuerto() {
-		if (this.heridas == 3) {
+		if (this.heridas >= 3) {
 			return true;
 		} else {
 			return false;
@@ -94,6 +94,19 @@ public class Carta_Supervivientes extends Carta{
 	@Override
 	public int hashCode() {
 		return getNombre().hashCode();
+	}
+
+	@Override
+	public int compareTo(Carta_Supervivientes o) {
+		int salida = 0;
+		
+		if(this.influencia < o.influencia) {
+			salida = -1;
+		}else if(this.influencia > o.influencia) {
+			salida = 1;
+		}
+		
+		return salida;
 	}
 	
 }

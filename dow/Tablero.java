@@ -12,8 +12,10 @@ public class Tablero {
 	private static Localizacion biblioteca;
 	private static Colonia colonia;
 	
+	private Carta_Objetivo_Principal objetivo;
+	
 	//Constructor/es.
-	public Tablero() {
+	public Tablero(int jugadores) {
 		//Donde pone null habría que pasarle los mazos BARAJADOS.
 		//En colonia los atributos dependerán de la carta de objetivo principal. Sería interesante
 		//Pasarle a tablero los objetivos principales.
@@ -23,7 +25,7 @@ public class Tablero {
 		supermercado= new Localizacion("Supermercado.", null, 3, 4);
 		gasolinera = new Localizacion("Gasolinera.", null, 2, 4);
 		biblioteca = new Localizacion("Biblioteca.", null, 3, 4);
-		colonia = new Colonia(null, null, null, null);
+		colonia = new Colonia(objetivo, 5, 5, jugadores);
 	}
 	
 	//Métodos.
