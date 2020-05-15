@@ -17,7 +17,7 @@ public class Login {
 	private JFrame frame;
 	IniciarSesion iS;
 	RegistroInicioSesion rIS;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -90,8 +90,8 @@ public class Login {
 					boolean correcto = iS.InicioSesion(user, passw);
 					if(correcto) {
 						frame.dispose();
-						PruebaFrameSeguido prueba = new PruebaFrameSeguido();
-						prueba.setVisible(true);
+						FrameSeleccion SalaSeleccion = new FrameSeleccion();
+						SalaSeleccion.setVisible(true);
 					}
 					
 					
