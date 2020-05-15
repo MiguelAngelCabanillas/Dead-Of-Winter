@@ -1,12 +1,14 @@
-//PARA NADA VERSIÓN DEFINITIVA
+//Gómez 14/05
+
 package dow;
 
 import java.util.*;
 
 public class Jugador {
-	//Atributos
-	private String nombre;	//para identificar al jugador
-	private int id;		//lo usa partida
+	
+	//Atributos.
+	private String nombre;
+	private int id;		
 	private List<Carta_Supervivientes> mazoSuperviviente;
 	private List<Carta_Objeto> mazoObjeto;
 	private boolean primerJugador;
@@ -14,17 +16,17 @@ public class Jugador {
 	private DadoDeRiesgo riesgo;
 	private Colonia colonia;
 	
-	//Constructor/es
+	//Constructor/es.
 	public Jugador(List<Carta_Objeto> mazo, int id, boolean primero, Colonia col) {
 		this.mazoSuperviviente = new LinkedList<Carta_Supervivientes>();
 		this.mazoObjeto  = mazo;
-		riesgo = new DadoDeRiesgo();
+		//riesgo = new DadoDeRiesgo();
 		this.id = id;
 		primerJugador = primero;
 		colonia = col;
 	}
 	
-	//METODOS PARA EJECUTAR DESDE LA CLASE PARTIDA
+	//Métodos.
 	public void matar() {
 		for(Carta_Supervivientes personaje : mazoSuperviviente) {
 			if(personaje.estaMuerto()) {
@@ -33,12 +35,11 @@ public class Jugador {
 		}
 	}
 	
-	//Métodos
 	public String getNombre() {
 		return this.nombre;
 	}
 	
-	//puede no ser necesario
+	//Puede no ser necesario
 	public void setNombre(String n) {
 		this.nombre = n;
 	}
@@ -55,9 +56,9 @@ public class Jugador {
 	public boolean hayDado(int valor) {
 		int id = -1, dado = 1, i = 0;
 		
-		for(Dado d : dados) {
-			if(d.valor() >= valor && dado <= d.valor()) {
-				dado = d.valor();
+		for (Dado d : dados) {
+			if (d.getValor() >= valor && dado <= d.getValor()) {
+				dado = d.getValor();
 				id = i;
 			}
 			i++;
@@ -71,9 +72,9 @@ public class Jugador {
 		int i = 0;
 		
 		while(indice == -1 && i < mazoSuperviviente.size()) {
-			if(carta.equals(mazoSuperviviente.get(i))){
+			if (carta.equals(mazoSuperviviente.get(i))) {
 				indice = i;
-			}else {
+			} else {
 				i++;
 			}
 		}
@@ -88,8 +89,8 @@ public class Jugador {
 	public boolean comprobarLocalizacion(Localizacion l) {
 		boolean esta = false;
 		
-		for(Carta_Supervivientes c : mazoSuperviviente) {
-			if(c.getLugar().equals(l)) {
+		for (Carta_Supervivientes c : mazoSuperviviente) {
+			if (c.getLugar().equals(l)) {
 				esta = true;
 			}
 		}
@@ -97,31 +98,29 @@ public class Jugador {
 		return esta;
 	}
 	 
-	//ACCIONES DEL JUGADOR
-	
 	public void atacar(Carta_Supervivientes personaje, boolean persona, Carta_Supervivientes objetivo, Jugador enemigo) throws matarException, dadoException {
 		if(!persona) {	//ATACAR ZOMBIES
 			if(hayDado(personaje.getAtaque())) {
-				personaje.getLugar().matar();
+				personaje.getLugar().matarZombie();
 				int dado = riesgo.tirarDado();
 				
 				if(dado > 5 && dado <= 8) {
 					personaje.recibirHerida(false);
-				}else if(dado > 8 && dado <= 10){
+				} else if(dado > 8 && dado <= 10){
 					personaje.recibirHerida(true);
-				}else if(dado == 11) {
+				} else if(dado == 11) {
 					mazoSuperviviente.remove(personaje);
 				}
-			}else {
+			} else {
 				throw new dadoException();
 			}
-		}else {
+		} else {
 			
-			if(hayDado(personaje.getAtaque())) {
+			if (hayDado(personaje.getAtaque())) {
 				Dado tirada = new Dado();
 				tirada.tirarDado();
 				
-				if(tirada.valor() >= objetivo.getAtaque()) {
+				if (tirada.getValor() >= objetivo.getAtaque()) {
 					enemigo.herir(objetivo);
 				}
 			}
@@ -130,7 +129,7 @@ public class Jugador {
 	
 	public void barricada(Localizacion l) throws localizacionException, barricadaException {
 		if(comprobarLocalizacion(l)) {
-			l.barricada();
+			l.ponerBarricada();
 		}else {
 			throw new localizacionException("No estas en la localizacion");
 		}
@@ -150,14 +149,14 @@ public class Jugador {
 	}
 	
 	public void votacion() {
-		
+		//Votación para exiliar.
 	}
 	
 	/*HAY QUE COMPROBAR MAS ADELANTE QUE SE INCREMENTE LA COMIDA POR EL USO DE UNA CARTA O PORQUE SE AÑADA POR 
 	 * UN METODO EXTERNO COMO UNA CARTA DE ENCRUCIJADA
 	 */
 	
-	public void añadirComida(Carta_Objeto objeto, int cantidad) {
+	public void anyadirComida(Carta_Objeto objeto, int cantidad) {
 		if(objeto != null) {
 			mazoObjeto.remove(objeto);
 		}
@@ -165,8 +164,8 @@ public class Jugador {
 		colonia.setTokensDeHambre(colonia.getTokensDeHambre() + cantidad);
 	}
 	
-	public void añadirCrisis(Carta_Objeto carta) {
-		colonia.añadirCrisis(carta);
+	public void anyadirCrisis(Carta_Objeto carta) {
+		colonia.anyadirCrisis(carta);
 		mazoObjeto.remove(carta);
 	}
 	
@@ -179,10 +178,7 @@ public class Jugador {
 	}
 	
 	public void usarObjeto(Carta_Objeto carta) {
-		
-		
-		//POR DETERMINAR
-		
+		//
 		mazoObjeto.remove(carta);
 	}
 	

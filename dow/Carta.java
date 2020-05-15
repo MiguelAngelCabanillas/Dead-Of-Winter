@@ -1,30 +1,33 @@
-//PARA NADA VERSIÓN DEFINITIVA
+//Gómez 14/05
+
 package dow;
 
 public class Carta {
 
-	private int ID;
-	private String Nombre;
-	//hay que saber como vamos a implementas las imagenes de las cartas
+	//Atributos
+	private int id;
+	private String nombre;
 	//private imagen;
 	private String descripcion;
 	
+	//Constructor/es.
 	public Carta(int id, String nombre, String desc) {
-		ID = id;
-		Nombre = nombre;
-		descripcion = desc;
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = desc;
 	}
 	
-	public int getID() {
-		return this.ID;
+	//Método/s
+	public int getId() {
+		return this.id;
 	}
 	
 	public String getNombre() {
-		return Nombre;
+		return this.nombre;
 	}
 	
 	public String getDescripcion() {
-		return descripcion;
+		return this.descripcion;
 	}
 	
 }

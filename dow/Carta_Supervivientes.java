@@ -1,3 +1,5 @@
+//Gómez 14/05
+
 package dow;
 
 import java.util.ArrayList;
@@ -5,16 +7,17 @@ import java.util.List;
 
 public class Carta_Supervivientes extends Carta{
 
+	//Atributo/s.
 	private int influencia;
 	private int ataque;
 	private int busqueda;
 	private String habilidad;
 	private Localizacion lugar;
 	private List<Carta_Objeto> equipamiento;
-	
 	private int heridas;
 	private boolean congelamiento;
-
+	
+	//Constructor/es.
 	public Carta_Supervivientes(int id, String nombre, String desc, int ataque, int busqueda, String habilidad, int influencia) {
 		super(id, nombre, desc);
 		this.ataque = ataque;
@@ -27,9 +30,13 @@ public class Carta_Supervivientes extends Carta{
 		this.equipamiento = new ArrayList<>();
 	}
 	
-	//METODOS
+	//Método/s.
 	public void equipar(Carta_Objeto carta) {
 		equipamiento.add(carta);
+	}
+	
+	public void setHeridas(int num) {
+		this.heridas = num;
 	}
 	
 	public List<Carta_Objeto> getEquipamiento(){
@@ -90,5 +97,4 @@ public class Carta_Supervivientes extends Carta{
 		return getNombre().hashCode();
 	}
 	
-
 }

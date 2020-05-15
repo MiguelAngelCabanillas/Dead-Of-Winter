@@ -1,19 +1,19 @@
-//VERSIÓN SEMI-DEFINITIVA
+//Gómez 14/05
+
 package dow;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Dado {
+	
 	//Atributos
 	private final int caras = 6;
 	private int valor;
 	private boolean haSidoTirado;
-	private boolean usado;
 	
 	//Constructor/es
 	public Dado() {
 		this.haSidoTirado = false;
-		usado = false;
 	}
 	
 	//Métodos
@@ -22,23 +22,20 @@ public class Dado {
 			throw new dadoException("Este dado ya ha sido utilizado.");
 		} else {
 			this.haSidoTirado = true;
-			valor = ThreadLocalRandom.current().nextInt(1,this.caras + 1);
+			this.valor = ThreadLocalRandom.current().nextInt(1,this.caras + 1);
 		}
 	}
 	
-	public void usarDado() {
-		usado = true;
-	}
-	
-	public int valor() {
+	public int getValor() {
 		return valor;
 	}
 	
-	public boolean estaUsado() {
-		return usado;
+	public boolean getHaSidoTirado() {
+		return this.haSidoTirado;
 	}
 
 	public void setHaSidoTirado(boolean t) {
 		this.haSidoTirado = t;
 	}
+	
 }

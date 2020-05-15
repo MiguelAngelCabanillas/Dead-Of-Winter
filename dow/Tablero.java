@@ -1,8 +1,9 @@
-//PARA NADA VERSIÓN DEFINITIVA
+//Gómez 14/05
 package dow;
 
 public class Tablero {
-	//Atributos
+	
+	//Atributos.
 	private static Localizacion hospital;
 	private static Localizacion colegio;
 	private static Localizacion comisaria;
@@ -11,15 +12,21 @@ public class Tablero {
 	private static Localizacion biblioteca;
 	private static Colonia colonia;
 	
-	//Constructor/es
+	//Constructor/es.
 	public Tablero() {
-		//Aquí inicializariamos las localizaciones y los jugadores (personajes y cartas).
-		//Aquí sólo se inicializan las condiciones necesarias para comenzar la partida. La clase Partida es la que se encarga
-		//del transcurso de la misma, de manera que esta modificará Tablero (que a su vez modifica Localización)
-		//a medida que transcurran los turnos.
+		//Donde pone null habría que pasarle los mazos BARAJADOS.
+		//En colonia los atributos dependerán de la carta de objetivo principal. Sería interesante
+		//Pasarle a tablero los objetivos principales.
+		hospital = new Localizacion("Hospital.", null, 4, 4);
+		colegio = new Localizacion("Colegio", null, 4, 4);
+		comisaria = new Localizacion("Comisaría.", null, 3, 4);
+		supermercado= new Localizacion("Supermercado.", null, 3, 4);
+		gasolinera = new Localizacion("Gasolinera.", null, 2, 4);
+		biblioteca = new Localizacion("Biblioteca.", null, 3, 4);
+		colonia = new Colonia(null, null, null, null);
 	}
 	
-	//Métodos
+	//Métodos.
 	public static Colonia getColonia() {
 		return colonia;
 	}

@@ -1,28 +1,33 @@
-package dow;
-public class Carta_Encrucijada extends Carta{
+//Gómez 14/05
 
-	private String Condicion;
-	private String Efecto;
-	private boolean Votacion;
+package dow;
+
+public class Carta_Encrucijada extends Carta {
+
+	//Atributos.
+	private String condicion;
+	private String efecto;
+	private boolean votacion;
 	
-	
+	//Constructor/es.
 	public Carta_Encrucijada(int id, String nombre, String desc, String condicion, String efecto, boolean votacion) {
 		super(id, nombre, desc);
-		Condicion = condicion;
-		Efecto = efecto;
-		Votacion = votacion;
+		this.condicion = condicion;
+		this.efecto = efecto;
+		this.votacion = votacion;
 	}
 	
+	//Método/s.
 	public String getCondicion() {
-		return Condicion;
+		return this.condicion;
 	}
 	
 	public String getEfecto() {
-		return Efecto;
+		return this.efecto;
 	}
 	
 	public boolean getVotacion() {
-		return Votacion;
+		return this.votacion;
 	}
 
 }

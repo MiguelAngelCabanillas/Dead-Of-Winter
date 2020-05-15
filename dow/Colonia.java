@@ -1,105 +1,133 @@
-//PARA NADA VERSIÓN DEFINITIVA
+//Gómez 14/05
 package dow;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Colonia extends Localizacion {
-	//Atributos
+	
+	//Atributos.
 	private int moral;
 	private Carta_Objetivo_Principal cartaObjetivoPrincipal;
 	private Carta_Crisis ronda;
 	private int rondasRestantes;
 	private int tokensDeHambre;
-	private int vertedero;		//el vertedero solo es un contador
-	
-	private List <Carta_Supervivientes> supervivientes;
-	private int maximo;
-	private CasillasZombie[] zombies;
+	private int vertedero;
+	private List<List<CasillasZombie>> conjuntoCasillasZombie;
 	private int inutiles;
 	private List<Carta_Objeto> crisis;
-	private int jugadores;
+	private int numJugadores;
 	
-	//Constructor/es
-	public Colonia(Carta_Objetivo_Principal c, int rondas, int moral, int max, int jugadores) {
-		super("Colonia", null, 0, 0, 24);		
-		
+	//Constructor/es.
+	public Colonia(Carta_Objetivo_Principal c, int rondas, int moral, int jugadores) {
+		super("Colonia.", null, 24, 3);		
 		this.moral = moral;
 		this.cartaObjetivoPrincipal = c;
 		this.rondasRestantes = rondas;
-		this.tokensDeHambre = 0;		//se empieza por defecto sin comida
+		this.tokensDeHambre = 0;		
 		this.vertedero = 0;
-		this.zombies = new CasillasZombie[6];
-		this.maximo = 3;
+		//conjuntoCasillasZombie es una lista tamaño 6 cuyos elementos son listas de 3 casillas zombie.
+		this.conjuntoCasillasZombie = new LinkedList<List<CasillasZombie>>();
+		int i = 0;
+		while (i < 6) {
+			this.conjuntoCasillasZombie.add(super.getCasillasZombie());
+			i++;
+		}
 		this.inutiles = 0;
-		this.jugadores = jugadores;
+		this.numJugadores = jugadores;
 	}
-
-	//METODOS REESCRITOS
 	
+	//Método/s.
 	public void matar(int puerta) throws matarException {
-		zombies[puerta].matarZombie();
+		int i = 0;
+		boolean muerto = false;
+		while (i < 3 && !muerto) {
+			if (this.conjuntoCasillasZombie.get(puerta).get(i).getHayZombie()) {
+				this.conjuntoCasillasZombie.get(puerta).get(i).setHayZombie(false);
+				muerto = true;
+			}
+			i++;
+		}
 	}
 	
 	public void barricada(int puerta) throws barricadaException {
-		zombies[puerta].añadirBarricada();
+		int i = 0;
+		boolean puesta = false;
+		while (i < 3 && !puesta) {
+			if (!this.conjuntoCasillasZombie.get(puerta).get(i).getHayBarricada() &&
+				!this.conjuntoCasillasZombie.get(puerta).get(i).getHayZombie() && !puesta) {
+				this.conjuntoCasillasZombie.get(puerta).get(i).setHayBarricada(true);
+				puesta = true;
+			}
+			i++;
+		}
 	}
 	
+	//TERMINAR.
 	@Override
-	public void pasaRonda() {
-		int colocar = (inutiles + supervivientes.size()) / 2;
-		int noColocados = 0;
+	public void actualizarCasillasZombiePasoDeRonda() {
 		
-		for(int i = 0; i < colocar; i++) {
-			if(!zombies[i%6].añadirZombies(1)) {
-				noColocados++;
+		//ESTO ES UNA MOVIDA
+		
+		
+		/*
+		int numZombies = (inutiles + this.getSupervivientes().size()) / 2;
+		int i = 0, j;
+		
+		while (i < 3 && numZombies != 0) {
+			j = 0;
+			while (j < this.conjuntoCasillasZombie.size() && numZombies != 0) {
+				if (!this.conjuntoCasillasZombie.get(j).get(i).getHayZombie() && 
+						!this.conjuntoCasillasZombie.get(j).get(i).getHayBarricada()) {
+					this.conjuntoCasillasZombie.get(j).get(i).setHayZombie(true);
+					numZombies--;
+				}
+				j++;
 			}
-		}
-		
-		//SE MATA A UN JUGADOR POR CADA ZOMBIE QUE NO SE HA COLOCADO
-		for(int i = 0; i < noColocados; i++) {
-			matarSuperviviente();
+			i++;
 		}
 		
 		
-	}
-	
-	//METODOS
-	public Carta_Supervivientes menorInfluencia() {
-		int indice = 0;
 		
-		for(int i = 0; i < supervivientes.size(); i++) {
-			if(supervivientes.get(indice).getInfluencia() > supervivientes.get(i).getInfluencia()) {
-				indice = i;
+		
+		
+		
+		
+		if (numZombies > 0) {
+			int [] indices = super.menorInfluencia(numZombies);
+			i = 0;
+			while (i < indices.length) {
+				this.getSupervivientes().get(indices[i]).setHeridas(3);
+				i++;
 			}
-		}
-		
-		return supervivientes.get(indice);
+		}*/
 	}
 	
 	public void matarSuperviviente() {
-		Carta_Supervivientes muerto = menorInfluencia();
+		//Implementar método menorInfluencia.
+		Carta_Supervivientes muerto = super.menorInfluencia(1);
 		
-		while(!muerto.estaMuerto()) {
+		while (!muerto.estaMuerto()) {
 			muerto.recibirHerida(false);
 		}
 	}
 	
 	public int pasarCrisis() {
 		int contador = 0;
-		String objeto = ronda.getObjeto();
+		Carta_Objeto objeto = ronda.getObjeto();
 		
-		for(Carta_Objeto carta : crisis) {
-			if(objeto.contentEquals(carta.getTipo())) {
+		for (Carta_Objeto carta : crisis) {
+			if (objeto.getTipo().equals(carta.getTipo())) {
 				contador++;
-			}else {
+			} else {
 				contador--;
 			}
 		}
-		
-		return contador/jugadores;
+
+		return contador/numJugadores;
 	}
 	
-	public void añadirCrisis(Carta_Objeto carta) {
+	public void anyadirCrisis(Carta_Objeto carta) {
 		crisis.add(carta);
 	}
 	

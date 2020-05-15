@@ -1,18 +1,38 @@
+//Gómez 14/05
+
 package dow;
 
 public class CasillasZombie {
 
-	private int casillas;
-	private int zombies;
-	private int barricadas;
+	//Atributo/s
+	private boolean hayZombie;
+	private boolean hayBarricada;
 	
-	public CasillasZombie(int c, int z) {
-		casillas = c;
-		zombies = z;
-		barricadas = 0;
+	//Constructor/es
+	public CasillasZombie() {
+		this.hayZombie = false;
+		this.hayBarricada = false;
 	}
-	
-	public boolean añadirZombies(int n) {
+
+	//Método/s
+	public boolean getHayZombie() {
+		return hayZombie;
+	}
+
+	public void setHayZombie(boolean b) {
+		this.hayZombie = b;
+	}
+
+	public boolean getHayBarricada() {
+		return hayBarricada;
+	}
+
+	public void setHayBarricada(boolean b) {
+		this.hayBarricada = b;
+	}
+
+	/*
+	public boolean anyadirZombies(int n) {
 		int meter = n;
 		while(casillas > 0 && meter > 0) {
 			if(barricadas > 0) {
@@ -52,6 +72,7 @@ public class CasillasZombie {
 		}else {
 			throw new matarException("No hay zombies");
 		}
-
-	}
+      
+	}*/
+	
 }

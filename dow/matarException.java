@@ -1,7 +1,12 @@
+//Gómez 14/05
+
 package dow;
 
-public class matarException extends Exception{
+public class matarException extends Exception {
+	
+	private static final long serialVersionUID = 1L;
 
+	//Constructor/es.
 	public matarException() {
 		super();
 	}
@@ -9,4 +14,5 @@ public class matarException extends Exception{
 	public matarException(String msg) {
 		super(msg);
 	}
+	
 }
