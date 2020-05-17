@@ -1,3 +1,5 @@
+package seminarioCancelado;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,7 +38,7 @@ public class FrameTablero extends JFrame {
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("DEAD OF WINTER");
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\danij\\Proyectos Eclipse\\GUITest\\images\\icono4.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		
@@ -70,6 +72,22 @@ public class FrameTablero extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		///LABELS RONDAS
+		JLabel fichRonda1 = new JLabel("");
+		fichRonda1.setBounds(1061, 914, 36, 33);
+		fichRonda1.setIcon(imgCircular("images/RondaDef.png",36,33));
+		contentPane.add(fichRonda1);
+		
+		JLabel AccReqDice = new JLabel("Necesitan Dado\r\n");
+		AccReqDice.setForeground(Color.WHITE);
+		AccReqDice.setFont(new Font("Arial", Font.PLAIN, 18));
+		AccReqDice.setBounds(12, 59, 128, 22);
+		contentPane.add(AccReqDice);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 37, 286, 2);
+		contentPane.add(separator);
 		
 		
 		
@@ -105,14 +123,8 @@ public class FrameTablero extends JFrame {
 		///LABELS MORAL
 		JLabel fichMoral10 = new JLabel("");
 		fichMoral10.setBounds(1526, 914, 36, 33);
-		fichMoral10.setIcon(imgCircular("images/fichaMoral.png",36,33));
+		fichMoral10.setIcon(imgCircular("images/MoralDef.png",36,33));
 		contentPane.add(fichMoral10);
-		
-		///LABELS RONDAS
-		JLabel fichRonda1 = new JLabel("");
-		fichRonda1.setBounds(1061, 914, 36, 33);
-		fichRonda1.setIcon(imgCircular("images/fichaRondas.png",36,33));
-		contentPane.add(fichRonda1);
 		
 		///LABELS COMISARIA
 		
@@ -209,69 +221,67 @@ public class FrameTablero extends JFrame {
 		contentPane.add(lblAcciones);
 		
 		JButton btnAtacar = new JButton("ATACAR");
-		btnAtacar.setForeground(Color.BLACK);
-		btnAtacar.setBackground(Color.WHITE);
-		btnAtacar.setBounds(12, 52, 115, 41);
+		btnAtacar.setBounds(12, 92, 115, 41);
 		btnAtacar.setToolTipText("Atacar a un zombie o superviviente");
 		contentPane.add(btnAtacar);
 		
 		JButton btnMoverse = new JButton("MOVERSE");
-		btnMoverse.setBounds(12, 106, 115, 41);
+		btnMoverse.setBounds(183, 196, 115, 41);
 		btnMoverse.setToolTipText("Desplazar un superviviente a otra localización");
 		contentPane.add(btnMoverse);
 		
 		JButton btnLanzarDado = new JButton("BUSCAR");
-		btnLanzarDado.setBounds(12, 160, 115, 41);
+		btnLanzarDado.setBounds(12, 144, 115, 41);
 		btnLanzarDado.setToolTipText("Lanzar uno o varios dados");
 		contentPane.add(btnLanzarDado);
 		
 		JButton btnBarricada = new JButton("BARRICADA");
-		btnBarricada.setBounds(12, 214, 115, 41);
+		btnBarricada.setBounds(12, 196, 115, 41);
 		btnBarricada.setToolTipText("Construir una barricada protegiendo un espacio para Zombies");
 		contentPane.add(btnBarricada);
 		
 		JTextArea txtrHistorial = new JTextArea();
 		txtrHistorial.setText("MENSAJES SERVIDOR AQUI:");
-		txtrHistorial.setBounds(12, 428, 286, 431);
+		txtrHistorial.setBounds(12, 497, 286, 362);
 		contentPane.add(txtrHistorial);
 		
 		JButton btnContribuir = new JButton("CONTRIBUIR");
-		btnContribuir.setBounds(183, 52, 115, 41);
+		btnContribuir.setBounds(183, 144, 115, 41);
 		btnContribuir.setToolTipText("Aportar un objeto a la crisis");
 		contentPane.add(btnContribuir);
 		
 		JButton btnLimpiarVertedero = new JButton("VERTEDERO");
-		btnLimpiarVertedero.setBounds(12, 268, 115, 41);
+		btnLimpiarVertedero.setBounds(12, 248, 115, 41);
 		btnLimpiarVertedero.setToolTipText("Limpia 3 objetos del vertedero");
 		contentPane.add(btnLimpiarVertedero);
 		
-		JButton btnHacerRuido = new JButton("RUIDO");
-		btnHacerRuido.setBounds(12, 322, 115, 41);
-		btnHacerRuido.setToolTipText("Obtienes más objetos buscando, pero atrae Zombies");
-		contentPane.add(btnHacerRuido);
+		JButton btnAtraerZombie = new JButton("ATRAER Z");
+		btnAtraerZombie.setBounds(12, 300, 115, 41);
+		btnAtraerZombie.setToolTipText("Obtienes más objetos buscando, pero atrae Zombies");
+		contentPane.add(btnAtraerZombie);
 		
 		JButton btnJugarCarta = new JButton("JUGAR CARTA");
-		btnJugarCarta.setBounds(183, 322, 115, 41);
+		btnJugarCarta.setBounds(183, 92, 115, 41);
 		btnJugarCarta.setToolTipText("Usa una carta de tu mano");
 		contentPane.add(btnJugarCarta);
 		
 		JButton btnExilio = new JButton("VOTAR EXILIO");
-		btnExilio.setBounds(183, 268, 115, 41);
+		btnExilio.setBounds(183, 408, 115, 41);
 		btnExilio.setToolTipText("Se inicia una votación entre todos los jugadores para exiliar a un jugador determinado");
 		contentPane.add(btnExilio);
 		
 		JButton btnDarCarta = new JButton("DAR CARTA");
-		btnDarCarta.setBounds(183, 214, 115, 41);
+		btnDarCarta.setBounds(183, 356, 115, 41);
 		btnDarCarta.setToolTipText("Ofrece una determinada carta a otro jugador");
 		contentPane.add(btnDarCarta);
 		
 		JButton btnPedirCarta = new JButton("PEDIR CARTA");
-		btnPedirCarta.setBounds(183, 160, 115, 41);
+		btnPedirCarta.setBounds(183, 300, 115, 41);
 		btnPedirCarta.setToolTipText("Pide una determinada carta a otro jugador");
 		contentPane.add(btnPedirCarta);
 		
 		JButton btnGastarComida = new JButton("GASTAR COMIDA");
-		btnGastarComida.setBounds(183, 106, 115, 41);
+		btnGastarComida.setBounds(183, 248, 115, 41);
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
 		
@@ -279,7 +289,7 @@ public class FrameTablero extends JFrame {
 		lblHistorial.setForeground(Color.WHITE);
 		lblHistorial.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHistorial.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblHistorial.setBounds(12, 389, 287, 26);
+		lblHistorial.setBounds(12, 460, 287, 26);
 		contentPane.add(lblHistorial);
 		
 		JLabel lblChat = new JLabel("CHAT");
@@ -299,9 +309,23 @@ public class FrameTablero extends JFrame {
 		JLabel lblTablero = new JLabel("");
 		lblTablero.setBounds(324, 0, 1598, 975);
 		//DEJAR EL PATH ACTUAL DEL TABLERO PARA PODER VER SU VISTA PREVIA EN DESIGN
-		ImageIcon tableroIcon = new ImageIcon("C:\\Users\\danij\\Proyectos Eclipse\\GUITest\\images\\TableroOriginal.png");
+		ImageIcon tableroIcon = new ImageIcon(this.getClass().getResource("/TableroOriginal.png"));
 		Image aux = tableroIcon.getImage();
 		Image aux2 = aux.getScaledInstance(1598,975, java.awt.Image.SCALE_SMOOTH);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(12, 79, 128, 2);
+		contentPane.add(separator_1);
+		
+		JLabel AccNotRecDice = new JLabel("NO Necesitan Dado");
+		AccNotRecDice.setFont(new Font("Arial", Font.PLAIN, 18));
+		AccNotRecDice.setForeground(Color.WHITE);
+		AccNotRecDice.setBounds(150, 59, 160, 22);
+		contentPane.add(AccNotRecDice);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(150, 79, 160, 2);
+		contentPane.add(separator_2);
 		lblTablero.setIcon(new ImageIcon(aux2));
 		contentPane.add(lblTablero);
 		
