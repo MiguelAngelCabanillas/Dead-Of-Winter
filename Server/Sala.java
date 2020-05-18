@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Sala {
-	int id;
+	private int id;
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	Usuario host;
 	String passw;
 	
-	public Sala(Usuario usuario, String passw) {
-		id = 1;
+	public Sala(Usuario usuario, int id) {
 		usuarios.add(usuario);
 		host = usuario;
-		this.passw = passw;
+		this.id = id;
 	}
 	
 	public void anyadirUsuario(Usuario usuario) {
@@ -43,6 +42,12 @@ public class Sala {
 
 	public void setPassw(String passw) {
 		this.passw = passw;
+	}
+	
+	public void enviarAUsuariosDeLaSala(String peticion) throws IOException {
+		for(Usuario usuario : usuarios) {
+			
+		}
 	}
 	
 	

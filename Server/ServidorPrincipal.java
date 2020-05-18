@@ -11,6 +11,8 @@ public class ServidorPrincipal {
 	ServerSocket server_socket = new ServerSocket(12975);	// Iniciamos el Socket que va a recibir las peticiones en el puerto 12975
 	List<Socket> peticiones = new ArrayList<Socket>();	// Iniciamos la lista que va a tener los usuarios activos
 	List<PrintWriter> envioAUsuarios = new ArrayList<PrintWriter>(); // Iniciamos la lista con todos los outputs de la conexion
+	List<Usuario> usuarios = new ArrayList<Usuario>();
+	List<Sala> salas = new ArrayList<Sala>();
 	
 	boolean encontrado = false;
 	System.out.println("Servidor abierto"); 
@@ -30,13 +32,13 @@ public class ServidorPrincipal {
 		//peticion.setSoTimeout(30000);
 		int j = 0;
 		while(j < peticiones.size()){
-			if(peticiones.get(j).getInetAddress().equals(peticion.getInetAddress()) || peticiones.get(j).isClosed()) {
+			if(peticiones.get(j).getInetAddress().equals(peticion.getInetAddress())) {
 			//envioAUsuarios.get(j).println("Error: Sesión duplicada");
 			envioAUsuarios.get(j).close();
 			envioAUsuarios.remove(j);
 			peticiones.get(j).close();
 			peticiones.remove(j);
-			System.out.println("La madre que pario al Dani");
+			System.out.println("Error en la conexión. Otra instancia ha iniciado sesión con la misma IP.");
 			j--;
 			}
 			j++;
@@ -60,9 +62,10 @@ public class ServidorPrincipal {
 		System.out.println("Servidor conectado a " + peticion.getInetAddress());
 		//Recibir mensajes del cliente
 		
-		Reader reader = new Reader(peticion, envioAUsuarios, peticiones); // Crea un Reader (Clase que procesa los mensajes via servidor)
-		Usuario usuario = new Usuario(reader.recibirMensaje(), peticion);
-		System.out.println(usuario.getNombre());
+		Reader reader = new Reader(peticion, envioAUsuarios, peticiones, usuarios, salas); // Crea un Reader (Clase que procesa los mensajes via servidor)
+		Usuario usuario = new Usuario(reader.recibirMensaje(), new ClientReader(peticion));
+		usuarios.add(usuario);
+		reader.setUsuario(usuario);
 		Thread thread = new Thread(reader); // Crea un hilo para ese reader específico
 		thread.start();
 		}

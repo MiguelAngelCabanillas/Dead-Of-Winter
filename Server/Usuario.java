@@ -7,12 +7,12 @@ import java.net.Socket;
 public class Usuario{
 
 	private String nombre;
-	private Socket conexion;
 	private ClientReader conector;
+	private Sala sala;
 	
-	public Usuario(String nombre, Socket conexion) {
+	public Usuario(String nombre, ClientReader conector) {
 		this.nombre = nombre;
-		this.conexion = conexion;
+		this.conector = conector;
 	}
 
 	public String getNombre() {
@@ -22,25 +22,22 @@ public class Usuario{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public Socket getConexion() {
-		return conexion;
+	
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
-
-	public void setConexion(Socket conexion) {
-		this.conexion = conexion;
+	
+	public Sala getSala() {
+		return sala;
 	}
 	
 	public void hacerPeticionAlServidor(String peticion) throws IOException {
-		if(conector == null) {
-			conector = new ClientReader(conexion);
-		}
-		
 		conector.hacerPeticionAlServidor(peticion);
 	}
 	
-	public void desconectar() throws IOException {
-		conexion.close();
+	public void enviarALaSala(String peticion) throws IOException {
+		sala.enviarAUsuariosDeLaSala(peticion);
 	}
+
 	
 }
