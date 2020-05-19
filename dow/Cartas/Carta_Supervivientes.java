@@ -45,10 +45,9 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	public List<Carta_Objeto> getEquipamiento(){
 		return equipamiento;
 		
-	//GETTERS Y SETTERS	
-	}	public void setHeridas(int num) {
-		this.heridas = num;
 	}
+	
+	//GETTERS Y SETTERS	
 	
 	public int getInfluencia() {
 		return influencia;
@@ -66,6 +65,10 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		return habilidad;
 	}
 	
+	public int getHeridas() {
+		return this.heridas;
+	}
+	
 	//METODOS DE SALUD DEL PERSONAJE
 	public void congelamiento() {
 		if (this.congelamiento == true) {
@@ -81,11 +84,11 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public boolean estaMuerto() {
+		boolean res = false;
 		if (this.heridas >= 3) {
-			return true;
-		} else {
-			return false;
+			res = true;
 		}
+		return res;
 	}
 	
 	//METODOS DE CLASE

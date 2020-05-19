@@ -54,6 +54,10 @@ public class Jugador {
 		return this.nombre;
 	}
 	
+	public List<Dado> getDados() {
+		return this.dados;
+	}
+	
 	public void setNombre(String n) {
 		this.nombre = n;
 	}
@@ -66,21 +70,31 @@ public class Jugador {
 		this.id = i;
 	}
 	
+	public List<Carta_Supervivientes> getMazoSuperviviente() {
+		return this.mazoSuperviviente;
+	}
+	
 	//METODOS DE RONDA
+	public void anyadirDados() {
+		for (int i = 0; i < this.mazoSuperviviente.size(); ++i) {
+			this.dados.add(new Dado());
+		}
+	}
+	
 	public void matar() {
-		for(Carta_Supervivientes personaje : mazoSuperviviente) {
-			if(personaje.estaMuerto()) {
-				mazoSuperviviente.remove(personaje);
+		for (int i = 0; i < this.mazoSuperviviente.size(); i++) {
+			if (this.mazoSuperviviente.get(i).estaMuerto()) {
+				this.mazoSuperviviente.remove(i);
 			}
 		}
 	}
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
-	public boolean hayDado(int valor) {
+	public boolean hayValorDisponible(int valor) {
 		int id = -1, dado = 1, i = 0;
 		
 		for (Dado d : dados) {
-			if (d.getValor() >= valor && dado <= d.getValor()) {
+			if (d.getHaSidoTirado() && d.getValor() >= valor && dado <= d.getValor()) {
 				dado = d.getValor();
 				id = i;
 			}
@@ -177,7 +191,7 @@ public class Jugador {
 	//ESTE METODO ELIMINA UN ZOMBIE O SUPERVIVIENTE DE LA LOCALIZACION DONDE SE ENCUENTRA EL SUPERVIVIENTE
 	public void atacar(Carta_Supervivientes personaje, Carta_Supervivientes objetivo, Jugador enemigo) throws matarException, dadoException {
 		if(objetivo == null) {	//ATACAR ZOMBIES
-			if(hayDado(personaje.getAtaque())) {
+			if(hayValorDisponible(personaje.getAtaque())) {
 				this.localizacion(personaje).matarZombie();
 				this.tiradaRiesgo(personaje);
 			} else {
@@ -185,7 +199,7 @@ public class Jugador {
 			}
 		} else {
 			
-			if (hayDado(personaje.getAtaque())) {
+			if (hayValorDisponible(personaje.getAtaque())) {
 				Dado tirada = new Dado();
 				tirada.tirarDado();
 				
@@ -206,7 +220,7 @@ public class Jugador {
 	
 	public void buscar(Localizacion l) {
 		Carta_Supervivientes personaje = comprobarLocalizacion(l);
-		if(hayDado(personaje.getBusqueda()) && personaje != null) {
+		if(hayValorDisponible(personaje.getBusqueda()) && personaje != null) {
 			mazoObjeto.add(l.cogerCarta());
 		}
 	}

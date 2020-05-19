@@ -143,7 +143,7 @@ public class Localizacion {
 	public void ponerBarricada() throws barricadaException {
 		int i = 0;
 		boolean barricadaPuesta = false;
-		while (i < this.casillasZombie.size() && !barricadaPuesta) {
+		while (i < this.casillasZombie.size() && barricadaPuesta == false) {
 			if (!this.casillasZombie.get(i).getHayBarricada() && !this.casillasZombie.get(i).getHayZombie()) {
 				this.casillasZombie.get(i).setHayBarricada(true);
 				barricadaPuesta = true;

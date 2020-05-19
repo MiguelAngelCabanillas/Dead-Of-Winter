@@ -42,9 +42,5 @@ public class Dado {
 	public boolean getHaSidoTirado() {
 		return this.haSidoTirado;
 	}
-
-	public void setHaSidoTirado(boolean t) {
-		this.haSidoTirado = t;
-	}
 	
 }
