@@ -1,10 +1,12 @@
-1. Ordenar el código.
-2. Llamada a constructor Colonia desde Tablero.java (definir cómo vamos a pasarle la carta objetivo principal).
-3. Terminar de concretar la clase Partida.java (qué recibe como parámetros, cómo va a funcionar el bucle).
-4. Método menorInfluencia de la clase Localizacion.java (debería devolver los índices de los "num" elementos de la lista. Si se te ocurre una mejor manera de hacerlo,
-ten en cuenta el cambio en el resto de métodos que lo referencian).
-5. votacion, darCarta, pedirCarta y usarObjeto de la clase Jugador.java
-6. Método actualizarCasillasZombiePasoDeRonda de Colonia.java (recuerdo que conjuntoCasillasZombie es una lista de listas de casillas zombie).
+He programado algunos tests y he modificado algunos métodos en función de lo que iba necesitando.
 
-Yo me pongo esta tarde con el JUnit y esta noche empiezo a testear las clases con JUnit y terminar las cosas de esta lista
-que a ti no te dé tiempo ;)
+Cosas que quedan por hacer:
+1. Terminar los tests de Jugador (en concreto los métodos de acción, el resto está comprobado).
+2. Terminar los tests de Colonia (ni siquiera he empezado, pero al ser heredera de Localizacion entiendo que no llevará mucho).
+3. Me he dado cuenta de que, cuando se mata a un superviviente, primero hay que eliminarlo de la localización en la que se encuentra (irse()) y luego borrarlo del mazo del jugador que lo posee. Quizá sería interesante crear un método que haga las dos.
+4. La localización de Superviviente no se inicia, ¿el superviviente no aparece por defecto en ningún sitio? Entiendo que es la colonia, pero no lo he programado por si me equivoco.
+5. Tener en cuenta a cada ronda qué número de superviviente tiene el jugador para controlar el número de dados es un poco cansino. Sugiero crear un método que, cada turno, añada el número de dados necesarios.
+
+Aunque esto no compete a nuestro código, no nos podemos olvidar de los diagramas UML ni de la lista de requisitos. Ya nos organizaremos mañana.
+
+¡Nosotros podemos!
