@@ -7,12 +7,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Server.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Image;
@@ -21,6 +25,7 @@ public class FrameUnirse extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldUnirse;
+	private static Usuario usuario;
 
 	/**
 	 * Launch the application.
@@ -29,7 +34,7 @@ public class FrameUnirse extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameUnirse frame = new FrameUnirse();
+					FrameUnirse frame = new FrameUnirse(usuario);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,8 +45,12 @@ public class FrameUnirse extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param usuario 
 	 */
-	public FrameUnirse() {
+	public FrameUnirse(Usuario usuario) {
+		
+		this.usuario = usuario;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 580, 381);
 		contentPane = new JPanel();
@@ -65,8 +74,13 @@ public class FrameUnirse extends JFrame {
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					
 					int partidarequest;
 					partidarequest = Integer.parseInt(textFieldUnirse.getText());
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + partidarequest);
+					FrameSala fCrear = new FrameSala(usuario);
+					fCrear.setVisible(true);
+					dispose();
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Introduzca un código de partida válido");
@@ -80,10 +94,17 @@ public class FrameUnirse extends JFrame {
 		btnNewButtonVolver.setFont(new Font("Arial", Font.PLAIN, 10));
 		btnNewButtonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FrameSeleccion fseleccion = new FrameSeleccion(); 
-				dispose();
-				fseleccion.setVisible(true);
-				
+				try {
+					
+					FrameSeleccion fseleccion;
+					fseleccion = new FrameSeleccion(usuario);
+					dispose();
+					fseleccion.setVisible(true);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			}
 		});
 		btnNewButtonVolver.setBounds(466, 315, 90, 19);

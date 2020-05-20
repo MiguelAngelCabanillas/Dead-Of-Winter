@@ -1,6 +1,9 @@
 package seminarioCancelado;
 
 import BD.*;
+import Server.ClientReader;
+import Server.Usuario;
+
 import java.awt.EventQueue;
 import javax.swing.*;
 
@@ -8,6 +11,7 @@ import javax.swing.JFrame;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -100,14 +104,18 @@ public class Login {
 					boolean correcto = iS.InicioSesion(user, passw);
 					if(correcto) {
 						frame.dispose();
-						FrameSeleccion SalaSeleccion = new FrameSeleccion();
+						Socket peticion = new Socket("25.66.43.164", 12975);
+						ClientReader cr = new ClientReader(peticion);
+						cr.hacerPeticionAlServidor(user);
+						Usuario usuario = new Usuario(user, cr);
+						FrameSeleccion SalaSeleccion = new FrameSeleccion(usuario);
 						SalaSeleccion.setVisible(true);
 					}
 					
 					
 				} catch (Exception e2) {
 					
-					JOptionPane.showMessageDialog(null, e2);
+					JOptionPane.showMessageDialog(null, "Conexion Fallida");
 				}
 			}
 		});

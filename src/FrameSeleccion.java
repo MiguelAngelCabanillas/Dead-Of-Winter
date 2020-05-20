@@ -7,6 +7,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Server.ClientReader;
+import Server.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -17,11 +21,15 @@ import java.awt.Label;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.awt.event.ActionEvent;
 
 public class FrameSeleccion extends JFrame {
 
 	private JPanel contentPane;
+	private static Usuario usuario;
 	JLabel lblNewLabel_1;
 
 	/**
@@ -31,7 +39,7 @@ public class FrameSeleccion extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameSeleccion frame = new FrameSeleccion();
+					FrameSeleccion frame = new FrameSeleccion(usuario);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,8 +50,13 @@ public class FrameSeleccion extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param usuario 
+	 * @throws IOException 
 	 */
-	public FrameSeleccion() {
+	public FrameSeleccion(Usuario usuario) throws IOException {
+		
+		this.usuario = usuario;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -64,7 +77,9 @@ public class FrameSeleccion extends JFrame {
 		btnNewButtonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					FrameCrear fCrear = new FrameCrear();
+					
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|-1");
+					FrameSala fCrear = new FrameSala(usuario);
 					fCrear.setVisible(true);
 					dispose();
 					
@@ -81,9 +96,11 @@ public class FrameSeleccion extends JFrame {
 		btnNewButtonUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					FrameUnirse fUnirse = new FrameUnirse();
+					
+					FrameUnirse fUnirse = new FrameUnirse(usuario);
 					fUnirse.setVisible(true);
 					dispose();
+					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error");
 				}
