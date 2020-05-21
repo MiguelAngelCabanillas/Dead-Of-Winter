@@ -1,4 +1,4 @@
-package seminarioCancelado;
+package src;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -50,27 +50,43 @@ public class FrameUnirse extends JFrame {
 	public FrameUnirse(Usuario usuario) {
 		
 		this.usuario = usuario;
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
+		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 580, 381);
+		setBounds(100, 100, 1234, 821);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblIntroduzcaElCodigo = new JLabel("Introduzca el codigo de la partida:");
-		lblIntroduzcaElCodigo.setBackground(new Color(255, 255, 255));
-		lblIntroduzcaElCodigo.setForeground(new Color(255, 255, 255));
-		lblIntroduzcaElCodigo.setBounds(10, 49, 240, 70);
+		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
+		userName.setForeground(Color.WHITE);
+		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setBackground(Color.WHITE);
+		userName.setBounds(136, 34, 410, 26);
+		contentPane.add(userName);
+		
+		JLabel GenericUser = new JLabel("");
+		GenericUser.setBounds(10, 11, 116, 110);
+		GenericUser.setIcon(new ImageIcon(img2));
+		contentPane.add(GenericUser);
+		
+		JLabel lblIntroduzcaElCodigo = new JLabel("Introduzca la sala a la que quiera unirse:");
+		lblIntroduzcaElCodigo.setForeground(Color.WHITE);
+		lblIntroduzcaElCodigo.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblIntroduzcaElCodigo.setBackground(Color.WHITE);
+		lblIntroduzcaElCodigo.setBounds(173, 240, 448, 70);
 		contentPane.add(lblIntroduzcaElCodigo);
 		
 		textFieldUnirse = new JTextField();
-		textFieldUnirse.setBounds(209, 75, 96, 19);
+		textFieldUnirse.setBounds(631, 262, 168, 33);
 		contentPane.add(textFieldUnirse);
 		textFieldUnirse.setColumns(10);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -87,11 +103,11 @@ public class FrameUnirse extends JFrame {
 				}
 			}
 		});
-		btnConfirmar.setBounds(327, 75, 96, 19);
+		btnConfirmar.setBounds(858, 262, 130, 33);
 		contentPane.add(btnConfirmar);
 		
-		JButton btnNewButtonVolver = new JButton("Volver");
-		btnNewButtonVolver.setFont(new Font("Arial", Font.PLAIN, 10));
+		JButton btnNewButtonVolver = new JButton("Volver a inicio");
+		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -107,15 +123,15 @@ public class FrameUnirse extends JFrame {
 				} 
 			}
 		});
-		btnNewButtonVolver.setBounds(466, 315, 90, 19);
+		btnNewButtonVolver.setBounds(10, 732, 234, 42);
 		contentPane.add(btnNewButtonVolver);
 		
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/seleccionimg.jpg"));
-		Image img = ima.getImage().getScaledInstance(566, 344, java.awt.Image.SCALE_SMOOTH); 
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));
+		Image img = ima.getImage().getScaledInstance(1234, 821, java.awt.Image.SCALE_SMOOTH); 
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 566, 344);
+		label.setBounds(0, 0, 1234, 821);
 		contentPane.add(label);
 	}
 }

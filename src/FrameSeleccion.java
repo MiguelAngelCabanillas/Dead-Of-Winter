@@ -1,4 +1,4 @@
-package seminarioCancelado;
+package src;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -56,9 +56,12 @@ public class FrameSeleccion extends JFrame {
 	public FrameSeleccion(Usuario usuario) throws IOException {
 		
 		this.usuario = usuario;
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
+		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
+
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 1234, 821);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -69,11 +72,23 @@ public class FrameSeleccion extends JFrame {
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		lblNewLabel.setBounds(110, 10, 624, 57);
+		lblNewLabel.setBounds(391, 107, 624, 57);
 		contentPane.add(lblNewLabel);
 		
+		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
+		userName.setForeground(Color.WHITE);
+		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setBackground(Color.WHITE);
+		userName.setBounds(136, 34, 410, 26);
+		contentPane.add(userName);
+		
+		JLabel GenericUser = new JLabel("");
+		GenericUser.setBounds(10, 11, 116, 110);
+		GenericUser.setIcon(new ImageIcon(img2));
+		contentPane.add(GenericUser);
+		
 		JButton btnNewButtonCrear = new JButton("Crear Sala");
-		btnNewButtonCrear.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnNewButtonCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -88,11 +103,11 @@ public class FrameSeleccion extends JFrame {
 				}
 			}
 		});
-		btnNewButtonCrear.setBounds(283, 110, 212, 93);
+		btnNewButtonCrear.setBounds(449, 263, 212, 93);
 		contentPane.add(btnNewButtonCrear);
 		
 		JButton btnNewButtonUnirse = new JButton("Unirse a una Sala");
-		btnNewButtonUnirse.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnNewButtonUnirse.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -106,15 +121,15 @@ public class FrameSeleccion extends JFrame {
 				}
 			}
 		});
-		btnNewButtonUnirse.setBounds(283, 251, 212, 93);
+		btnNewButtonUnirse.setBounds(449, 476, 212, 93);
 		contentPane.add(btnNewButtonUnirse);
 		
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/seleccionimg.jpg"));
-		Image img = ima.getImage().getScaledInstance(786, 573, java.awt.Image.SCALE_SMOOTH); 
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));
+		Image img = ima.getImage().getScaledInstance(1218, 782, java.awt.Image.SCALE_SMOOTH); 
 		
 		lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(img));
-		lblNewLabel_1.setBounds(0, 0, 786, 573);
+		lblNewLabel_1.setBounds(0, 0, 1218, 782);
 		contentPane.add(lblNewLabel_1);
 		
 		
