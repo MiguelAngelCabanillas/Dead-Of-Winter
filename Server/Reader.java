@@ -50,16 +50,24 @@ private BufferedReader buffer;
 				
 				usuario = split[0];
 				user = buscarUsuarioConectado(usuario);
-				idSala = Integer.parseInt(split[1]);
+					idSala = Integer.parseInt(split[1]);
+				if(idSala == -1) {
+					idSala = getIdSalaLibre();
+					
+				}
 				sala = buscarSala(idSala);
 				if(sala == null){ //Si la sala no esta creada se crea
 					sala = new Sala(user, idSala);
 					user.setSala(sala);
+					salas.add(sala);
+					System.out.println("Creada sala " + idSala + " con " + user.getNombre() + " como host");
 				} else if(sala != null && user.getSala() == null){ //Si la sala esta creada y el jugador no pertenece a la sala
 					user.setSala(sala);
 					sala.anyadirUsuario(user);
+					System.out.println("Unido " + user.getNombre() + " a " + idSala);
 				}
 				
+				if(split.length >= 3) {
 				switch(split[2]) { // Comando
 				case "msg": // Nombre|NumeroDeSala|msg|"Mensaje"
 					for(PrintWriter pw : ls ) {
@@ -79,10 +87,11 @@ private BufferedReader buffer;
 				}
 					System.out.println(user.getNombre() + ": " + split[3]);
 					break;
-				case "null":
-					break;
+				case "exitsala":
+					 salirDeSala(user, user.getSala());
+					
 				}
-				
+			 }
 				
 			System.out.println("Usuario: " + usuario + ", " + "Sala: " + idSala);
 			} else {
@@ -110,7 +119,11 @@ private BufferedReader buffer;
 				 if(index > -1) {
 				 sl.remove(index);
 				 ls.remove(index);
+				 if(us.get(index).getSala() != null) {
+				 salirDeSala(us.get(index), us.get(index).getSala());
+				 }
 				 us.remove(index);
+				 
 				 System.out.println("Desconectado:" + socket.getInetAddress());
 				
 				 
@@ -155,4 +168,35 @@ private BufferedReader buffer;
 		return null;
 	}
 	
+	public int getIdSalaLibre() {
+	 if(!salas.isEmpty()) {
+		int anterior = salas.get(0).getId();
+		if(anterior == 1) {
+		for(Sala sala : salas) {
+			if(sala.getId() - anterior > 1) {
+					return anterior + 1;
+			}
+			anterior = sala.getId();
+		}
+	  return anterior + 1;
+	  } 
+	 }
+	 return 1;
+	}
+	
+	public void salirDeSala(Usuario usuario, Sala sala) {
+	if(sala.getUsuarios().size() == 1) {
+		salas.remove(sala);
+		usuario.setSala(null);
+		sala.getUsuarios().remove(0);
+		System.out.println("La sala " + sala.getId() + " ha sido borrada");
+	} else if (sala.getUsuarios().size() > 1 && sala.getHost().getNombre().equals(usuario.getNombre())){
+		sala.getUsuarios().remove(usuario);
+		sala.setHost(sala.getUsuarios().get(0));
+		System.out.println("El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
+	} else {
+		sala.getUsuarios().remove(usuario);
+	}
+	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
+  }
 }

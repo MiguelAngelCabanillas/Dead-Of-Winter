@@ -27,6 +27,10 @@ public class Sala {
 	public Usuario getHost() {
 		return host;
 	}
+	
+	public void setHost(Usuario host) {
+		this.host = host;
+	}
 
 	public int getId() {
 		return id;

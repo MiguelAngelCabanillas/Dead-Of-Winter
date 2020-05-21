@@ -38,6 +38,10 @@ public class ClientReader implements Runnable {
 		out.flush();
 	}
 	
+//	public String recibirMensaje() {
+//		
+//	}
+	
 	public void close() throws IOException {
 		socket.close();
 		out.close();

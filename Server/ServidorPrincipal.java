@@ -63,7 +63,9 @@ public class ServidorPrincipal {
 		//Recibir mensajes del cliente
 		
 		Reader reader = new Reader(peticion, envioAUsuarios, peticiones, usuarios, salas); // Crea un Reader (Clase que procesa los mensajes via servidor)
-		Usuario usuario = new Usuario(reader.recibirMensaje(), new ClientReader(peticion));
+		String usuarioNombre = reader.recibirMensaje();
+		System.out.println(usuarioNombre);
+		Usuario usuario = new Usuario(usuarioNombre, new ClientReader(peticion));
 		usuarios.add(usuario);
 		reader.setUsuario(usuario);
 		Thread thread = new Thread(reader); // Crea un hilo para ese reader específico
