@@ -84,7 +84,7 @@ public class FrameSeleccion extends JFrame {
 					dispose();
 					
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error");
+					e1.printStackTrace();
 				}
 			}
 		});

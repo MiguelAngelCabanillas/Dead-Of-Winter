@@ -20,6 +20,7 @@ import java.awt.Font;
 import java.awt.Image;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class FrameSala extends JFrame {
 
@@ -46,54 +47,81 @@ public class FrameSala extends JFrame {
 	/**
 	 * Create the frame.
 	 * @param usuario 
+	 * @throws IOException 
 	 */
-	public FrameSala(Usuario usuario) {
+	public FrameSala(Usuario usuario) throws IOException {
 		
 		this.usuario = usuario;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 617, 439);
+		setBounds(100, 100, 1234, 821);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		int codigo;
 		int numJugadores;
-		numJugadores =  1;
-		codigo = 3342;
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios"); //Peticion del numero de usuarios
+		numJugadores =  Integer.parseInt(usuario.recibirMensajeDelServidor().split("\\|")[1]);
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala"); //Peticion de la sala
+		codigo = Integer.parseInt(usuario.recibirMensajeDelServidor());
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
+		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
+		
+		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
+		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		ObjetivoPrincipal.setBounds(270, 356, 313, 45);
+		contentPane.add(ObjetivoPrincipal);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(749, 118, 459, 585);
+		contentPane.add(scrollPane);
+		
+		JTextArea ChatArea = new JTextArea();
+		scrollPane.setViewportView(ChatArea);
+		
+		
+		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
+		userName.setForeground(Color.WHITE);
+		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setBackground(Color.WHITE);
+		userName.setBounds(136, 34, 410, 26);
+		contentPane.add(userName);
+		
+		JLabel GenericUser = new JLabel("");
+		GenericUser.setBounds(10, 11, 116, 110);
+		GenericUser.setIcon(new ImageIcon(img2));
+		contentPane.add(GenericUser);
 		
 		JButton Enviar = new JButton("Enviar\r\n");
-		Enviar.setBounds(385, 336, 89, 23);
+		Enviar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		Enviar.setBounds(1105, 714, 103, 33);
 		contentPane.add(Enviar);
 		
-		JTextArea Chat = new JTextArea();
-		Chat.setBounds(10, 240, 222, 152);
-		contentPane.add(Chat);
-		
 		EscribirChat = new JTextField();
-		EscribirChat.setBounds(252, 370, 222, 21);
+		EscribirChat.setBounds(749, 712, 331, 33);
 		contentPane.add(EscribirChat);
 		EscribirChat.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("El codigo de la partida es " + codigo + ", espere a que se unan los jugadores");
+		JLabel lblNewLabel = new JLabel("El numero de sala es: " + codigo);
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 10));
-		lblNewLabel.setBounds(10, -16, 406, 133);
+		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNewLabel.setBounds(860, 47, 229, 26);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
-		btnNewButton.setFont(new Font("Arial", Font.PLAIN, 10));
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 			}
 		});
-		btnNewButton.setBounds(152, 153, 322, 68);
+		btnNewButton.setBounds(174, 449, 512, 51);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButtonVolver = new JButton("Salir");
-		btnNewButtonVolver.setFont(new Font("Arial", Font.PLAIN, 10));
+		JButton btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
+		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
 				try {
@@ -113,22 +141,37 @@ public class FrameSala extends JFrame {
 				
 			}
 		});
-		btnNewButtonVolver.setBounds(503, 371, 90, 21);
+		btnNewButtonVolver.setBounds(31, 702, 209, 45);
 		contentPane.add(btnNewButtonVolver);
 		
 		JLabel lblNDeJugadores = new JLabel("N\u00BA de jugadores:    " + numJugadores);
 		lblNDeJugadores.setBackground(new Color(255, 255, 255));
 		lblNDeJugadores.setForeground(new Color(255, 255, 255));
-		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 10));
-		lblNDeJugadores.setBounds(447, 27, 202, 49);
+		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblNDeJugadores.setBounds(136, 71, 197, 26);
 		contentPane.add(lblNDeJugadores);
 		
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/seleccionimg.jpg"));
-		Image img = ima.getImage().getScaledInstance(603, 402, java.awt.Image.SCALE_SMOOTH); 
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));
+		Image img = ima.getImage().getScaledInstance(1218, 782, java.awt.Image.SCALE_SMOOTH); 
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(img));
-		label.setBounds(0, 0, 603, 402);
+		label.setBounds(0, 0, 1218, 782);
 		contentPane.add(label);
+		
+//		while (true) {
+//			
+//			String msgllegada = usuario.recibirMensajeDelServidor();
+//			String[] splitedmsg = msgllegada.split("\\|");
+//			switch (splitedmsg[0]) {
+//			case "chat":
+//				ChatArea.setText(ChatArea.getText().trim() + "\n" + splitedmsg[1]);
+//				break;
+//
+//			default:
+//				break;
+//			}
+//			
+//		}
 	}
 }
