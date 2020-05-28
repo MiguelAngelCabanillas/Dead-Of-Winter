@@ -1,6 +1,6 @@
-package dow.Partida;
+package Partida;
 
-import dow.Cartas.Carta_Objetivo_Principal;
+import Cartas.Carta_Objetivo_Principal;
 
 public class Tablero {
 	

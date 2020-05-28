@@ -1,8 +1,9 @@
 package tests;
 import static org.junit.Assert.*;
 import org.junit.*;
-import dow.Cartas.*;
-import dow.Excepciones.*;
+import Cartas.*;
+import Excepciones.*;
+import Partida.*;
 
 public class VerificacionYPruebas {
 	

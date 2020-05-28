@@ -1,4 +1,4 @@
-package dow.Cartas;
+package Cartas;
 
 public class Carta_Objetivo_Principal extends Carta {
 

@@ -1,7 +1,7 @@
-package dow.Partida;
+package Partida;
 
 import java.util.Stack;
-import dow.Cartas.Carta_Objeto;
+import Cartas.Carta_Objeto;
 
 public class Mazo {
 	

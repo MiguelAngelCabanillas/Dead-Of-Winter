@@ -1,4 +1,4 @@
-package dow.Excepciones;
+package Excepciones;
 
 public class localizacionException extends Exception {
 	

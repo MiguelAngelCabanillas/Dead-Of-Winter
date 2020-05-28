@@ -1,4 +1,4 @@
-package dow.Partida;
+package Partida;
 
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -1,4 +1,4 @@
-package dow.Cartas;
+package Cartas;
 
 public class Carta_Encrucijada extends Carta {
 

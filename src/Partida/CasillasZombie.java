@@ -1,4 +1,4 @@
-package dow.Partida;
+package Partida;
 
 public class CasillasZombie {
 

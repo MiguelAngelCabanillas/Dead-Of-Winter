@@ -1,4 +1,4 @@
-package dow.Cartas;
+package Cartas;
 
 import java.util.ArrayList;
 import java.util.List;

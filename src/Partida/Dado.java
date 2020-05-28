@@ -1,8 +1,8 @@
-package dow.Partida;
+package Partida;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import dow.Excepciones.dadoException;
+import Excepciones.dadoException;
 
 public class Dado {
 	

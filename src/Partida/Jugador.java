@@ -1,13 +1,13 @@
-package dow.Partida;
+package Partida;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dow.Cartas.Carta_Objeto;
-import dow.Cartas.Carta_Supervivientes;
-import dow.Excepciones.dadoException;
-import dow.Excepciones.localizacionException;
-import dow.Excepciones.matarException;
+import Cartas.Carta_Objeto;
+import Cartas.Carta_Supervivientes;
+import Excepciones.dadoException;
+import Excepciones.localizacionException;
+import Excepciones.matarException;
 
 public class Jugador {
 	

@@ -1,9 +1,9 @@
-package dow.Partida;
+package Partida;
 
 import java.util.LinkedList;
 import java.util.List;
-import dow.Cartas.Carta_Objetivo_Principal;
-import dow.Cartas.Carta_Objeto;
+import Cartas.Carta_Objetivo_Principal;
+import Cartas.Carta_Objeto;
 
 public class Partida {
 	

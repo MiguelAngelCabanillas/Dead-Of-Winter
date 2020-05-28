@@ -1,12 +1,12 @@
-package dow.Partida;
+package Partida;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import dow.Cartas.Carta_Objeto;
-import dow.Cartas.Carta_Supervivientes;
-import dow.Excepciones.matarException;
+import Cartas.Carta_Objeto;
+import Cartas.Carta_Supervivientes;
+import Excepciones.matarException;
 
 
 public class Localizacion {

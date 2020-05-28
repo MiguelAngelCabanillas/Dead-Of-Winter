@@ -1,13 +1,13 @@
-package dow.Partida;
+package Partida;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dow.Cartas.Carta_Crisis;
-import dow.Cartas.Carta_Objetivo_Principal;
-import dow.Cartas.Carta_Objeto;
-import dow.Cartas.Carta_Supervivientes;
-import dow.Excepciones.matarException;
+import Cartas.Carta_Crisis;
+import Cartas.Carta_Objetivo_Principal;
+import Cartas.Carta_Objeto;
+import Cartas.Carta_Supervivientes;
+import Excepciones.matarException;
 
 public class Colonia extends Localizacion {
 	
