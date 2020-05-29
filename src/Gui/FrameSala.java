@@ -31,7 +31,8 @@ public class FrameSala extends JFrame {
 	private static Usuario usuario;
 	private JTextField EscribirChat;
 	private JTextArea ChatArea;
-	private JLabel lblNDeJugadores;
+	private JLabel lblNDeJugadores = new JLabel();
+	private JLabel lblNewLabel = new JLabel();
 	/**
 	 * Launch the application.
 	 */
@@ -64,12 +65,17 @@ public class FrameSala extends JFrame {
 		int codigo;
 		int numJugadores;
 		
+//		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
+//		numJugadores =  Integer.parseInt(usuario.recibirMensajeDelServidor().split("\\|")[1]);
+//		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala");
+//		codigo = Integer.parseInt(usuario.recibirMensajeDelServidor());
+		
+		usuario.getClientReader().setSala(this);
+		Thread HebraChat = new Thread(usuario.getClientReader());
+		HebraChat.start();
+		
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
-		numJugadores =  Integer.parseInt(usuario.recibirMensajeDelServidor().split("\\|")[1]);
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala");
-		codigo = Integer.parseInt(usuario.recibirMensajeDelServidor());
-		
-		
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1234, 821);
@@ -111,7 +117,7 @@ public class FrameSala extends JFrame {
 				try {
 					String msg = EscribirChat.getText().trim();
 					if(!msg.equals("")) {
-						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + codigo + "|msgsala|" + msg);
+						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
 						EscribirChat.setText("");
 					}
 				} catch (IOException e) {
@@ -129,7 +135,7 @@ public class FrameSala extends JFrame {
 		contentPane.add(EscribirChat);
 		EscribirChat.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("El numero de sala es: " + codigo);
+		lblNewLabel = new JLabel();
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
@@ -170,7 +176,7 @@ public class FrameSala extends JFrame {
 		btnNewButtonVolver.setBounds(31, 702, 209, 45);
 		contentPane.add(btnNewButtonVolver);
 		
-		lblNDeJugadores = new JLabel("N\u00BA de jugadores:    " + numJugadores);
+		lblNDeJugadores = new JLabel();
 		lblNDeJugadores.setBackground(new Color(255, 255, 255));
 		lblNDeJugadores.setForeground(new Color(255, 255, 255));
 		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 18));
@@ -186,9 +192,8 @@ public class FrameSala extends JFrame {
 		contentPane.add(label);
 
 
-//		usuario.getClientReader().setSala(this);
-//		Thread HebraChat = new Thread(usuario.getClientReader());
-//		HebraChat.start();
+		
+
 		
 		
 //		while (true) {
@@ -210,7 +215,10 @@ public class FrameSala extends JFrame {
 	public void actualizaChat(String mensaje) {
 		ChatArea.setText(ChatArea.getText().trim() + "\n" + mensaje);
 	}
-	public void enviarNumJugadores(int numJugadores) {
+	public void actNumJugadores(int numJugadores) {
 		lblNDeJugadores.setText("N\u00BA de jugadores:    " + numJugadores);
+	}
+	public void actIdSala(int idSala) {
+		lblNewLabel.setText("El numero de sala es: " + idSala);
 	}
 }

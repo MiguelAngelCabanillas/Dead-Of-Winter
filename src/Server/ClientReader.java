@@ -26,21 +26,27 @@ public class ClientReader implements Runnable {
 
     public void run() {
         try {
-    		while (true) {
-				String msgllegada = in.readLine();
-				if(msgllegada == null) {
-					continue;
-				}
-				String[] splitedmsg = msgllegada.split("\\|");
-				switch (splitedmsg[0]) {
-				case "chat":
-					sala.actualizaChat(splitedmsg[1]);
-					break;
+            while (true) {
+                String msgllegada = in.readLine();
+                if(msgllegada == null) {
+                    continue;
+                }
+                String[] splitedmsg = msgllegada.split("\\|");
+                switch (splitedmsg[0]) {
+                case "idsala":
+                    sala.actIdSala(Integer.parseInt(splitedmsg[1]));
+                    break;
+                case "nusuarios":
+                    sala.actNumJugadores(Integer.parseInt(splitedmsg[1]));
+                    break;
+                case "chat":
+                    sala.actualizaChat(splitedmsg[1]);
+                    break;
 
-				default:
-					break;
-				}
-			}
+                default:
+                    break;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -61,7 +67,7 @@ public class ClientReader implements Runnable {
         in.close();
     }
     public void setSala(FrameSala sala) {
-    	this.sala = sala;
+        this.sala = sala;
     }
 
 }

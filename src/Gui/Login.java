@@ -113,7 +113,7 @@ public class Login {
 						boolean correcto = iS.InicioSesion(user, passw);
 						if(correcto) {
 							frmDeadOfWinter.dispose();
-							Socket peticion = new Socket("25.66.43.164", 12975);
+							Socket peticion = new Socket("25.50.90.56", 12975);
 							ClientReader cr = new ClientReader(peticion);
 							cr.hacerPeticionAlServidor(user);
 							Usuario usuario = new Usuario(user, cr);
