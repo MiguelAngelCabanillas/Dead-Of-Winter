@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="images"/>
-	<classpathentry kind="lib" path="C:/Users/xdmrg/Desktop/mysql-connector-java-5.1.49.jar"/>
+	<classpathentry kind="lib" path="C:/Users/danij/Desktop/DeadOfWinter/Dead-Of-Winter/lib/mysql-connector-java-5.1.49/mysql-connector-java-5.1.49.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
