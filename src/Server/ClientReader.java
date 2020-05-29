@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.concurrent.Semaphore;
 
 import Gui.*;
 
@@ -17,6 +18,7 @@ public class ClientReader implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private FrameSala sala;
+    private Semaphore acceso = new Semaphore(0);
 
     public ClientReader (Socket s) throws IOException {
         socket = s;
@@ -42,6 +44,13 @@ public class ClientReader implements Runnable {
                 case "chat":
                     sala.actualizaChat(splitedmsg[1]);
                     break;
+                case "exitsala":
+                	try {
+						acceso.acquire();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+                	break;
 
                 default:
                     break;
@@ -68,6 +77,9 @@ public class ClientReader implements Runnable {
     }
     public void setSala(FrameSala sala) {
         this.sala = sala;
+    }
+    public Semaphore getSemaphore() {
+    	return acceso;
     }
 
 }

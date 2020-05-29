@@ -29,6 +29,7 @@ public class FrameSala extends JFrame {
 
 	private JPanel contentPane;
 	private static Usuario usuario;
+	private static Thread HebraChat;
 	private JTextField EscribirChat;
 	private JTextArea ChatArea;
 	private JLabel lblNDeJugadores = new JLabel();
@@ -70,9 +71,17 @@ public class FrameSala extends JFrame {
 //		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala");
 //		codigo = Integer.parseInt(usuario.recibirMensajeDelServidor());
 		
-		usuario.getClientReader().setSala(this);
-		Thread HebraChat = new Thread(usuario.getClientReader());
-		HebraChat.start();
+		
+		if(HebraChat != null) {
+			usuario.getClientReader().setSala(this);
+			usuario.getClientReader().getSemaphore().release();
+		}else {
+			HebraChat = new Thread(usuario.getClientReader());
+			usuario.getClientReader().setSala(this);
+			HebraChat.start();
+		}
+		
+		
 		
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala");
@@ -135,7 +144,6 @@ public class FrameSala extends JFrame {
 		contentPane.add(EscribirChat);
 		EscribirChat.setColumns(10);
 		
-		lblNewLabel = new JLabel();
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
@@ -176,7 +184,7 @@ public class FrameSala extends JFrame {
 		btnNewButtonVolver.setBounds(31, 702, 209, 45);
 		contentPane.add(btnNewButtonVolver);
 		
-		lblNDeJugadores = new JLabel();
+		
 		lblNDeJugadores.setBackground(new Color(255, 255, 255));
 		lblNDeJugadores.setForeground(new Color(255, 255, 255));
 		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 18));

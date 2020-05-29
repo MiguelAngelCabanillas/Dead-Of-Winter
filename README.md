@@ -1,20 +1,14 @@
 # Dead-Of-Winter
 
-1 Iteración:
+//Login , FrameSala y ClientReader modificado pero no funciona todavia las salas con el chat
+//El classpath no se soluciona metiendo una carpeta con la libreria
 
-Base de datos:
+2� Iteracion:
 
-- Sistema de inicio de sesión
-- Registro de usuario.
-- Habilitar servidor.
+	Implementar el Chat y las Salas correctamente
+	
+3� Iteracion:
 
-GUI:
-
-- Parte BÁSICA visual: Tablero, Menús, y Vista de la GUI.
-
-Programación General:
-
-- Clases básicas
-
+	Implementar la conexion con el codigo del juego(Inicio de partida y el juego en si)
 
 
