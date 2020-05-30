@@ -130,22 +130,6 @@ public class FrameTablero extends JFrame {
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		fichZColegio1 = new JLabel("");
-		fichZColegio1.setBounds(568, 836, 36, 34);
-		contentPane.add(fichZColegio1);
-		
-		JLabel fichZColegio3 = new JLabel("");
-		fichZColegio3.setBounds(664, 836, 36, 34);
-		contentPane.add(fichZColegio3);
-		
-		JLabel fichZColegio4 = new JLabel("");
-		fichZColegio4.setBounds(712, 836, 36, 34);
-		contentPane.add(fichZColegio4);
-		
-		JLabel fichZColegio2 = new JLabel("");
-		fichZColegio2.setBounds(616, 835, 36, 34);
-		contentPane.add(fichZColegio2);
-		
 		JLabel fichZSuperm4 = new JLabel("");
 		fichZSuperm4.setBounds(712, 530, 36, 34);
 		contentPane.add(fichZSuperm4);
@@ -399,6 +383,30 @@ public class FrameTablero extends JFrame {
 		//LABELS SUPERMERCADO
 		
 		//LABELS COLEGIO
+		
+		fichZColegio1 = new JLabel("");
+		fichZColegio1.setBounds(568, 836, 36, 34);
+		fichZColegio1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZColegio1.setVisible(false);
+		contentPane.add(fichZColegio1);
+		
+		fichZColegio3 = new JLabel("");
+		fichZColegio3.setBounds(664, 836, 36, 34);
+		fichZColegio3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZColegio3.setVisible(false);
+		contentPane.add(fichZColegio3);
+		
+		fichZColegio4 = new JLabel("");
+		fichZColegio4.setBounds(712, 836, 36, 34);
+		fichZColegio4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZColegio4.setVisible(false);
+		contentPane.add(fichZColegio4);
+		
+		fichZColegio2 = new JLabel("");
+		fichZColegio2.setBounds(616, 835, 36, 34);
+		fichZColegio2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZColegio2.setVisible(false);
+		contentPane.add(fichZColegio2);
 		
 		//LABELS GASOLINERA
 		
