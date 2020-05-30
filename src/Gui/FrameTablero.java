@@ -66,6 +66,7 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZBiblioteca2;
 	private JLabel fichZBiblioteca3;
 
+
 	/**
 	 * Launch the application.
 	 */
@@ -621,9 +622,9 @@ public class FrameTablero extends JFrame {
 		contentPane.add(separator_2);
 		lblTablero.setIcon(new ImageIcon(aux2));
 		contentPane.add(lblTablero);
-		
-		weNeedMoreSamples();
-		
+		if(objetivo == 1) {
+			weNeedMoreSamples();
+		}
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
 	}

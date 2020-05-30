@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 public class ObjetivosPrincipales extends JFrame {
 
 	private JPanel contentPane;
+	private int ObjetivoElegido;
 
 	/**
 	 * Launch the application.
@@ -66,6 +67,8 @@ public class ObjetivosPrincipales extends JFrame {
 		JButton SelecMasEjemplares = new JButton("");
 		SelecMasEjemplares.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ObjetivoElegido = 1;
+				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
 				dispose();
 			}
 		});
