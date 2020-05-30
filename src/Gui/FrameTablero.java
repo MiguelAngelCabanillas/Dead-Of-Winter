@@ -16,55 +16,19 @@ public class FrameTablero extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtChat;
 	
-	private JLabel fichMoral1;
-	private JLabel fichMoral2;
-	private JLabel fichMoral3;
-	private JLabel fichMoral4;
-	private JLabel fichMoral5;
-	private JLabel fichMoral6;
-	private JLabel fichMoral7;
-	private JLabel fichMoral8;
-	private JLabel fichMoral9;
-	private JLabel fichMoral10;
+	private JLabel fichMoral1,fichMoral2,fichMoral3,fichMoral4,fichMoral5,fichMoral6,fichMoral7,fichMoral8,fichMoral9,fichMoral10;
+	private JLabel fichRonda1,fichRonda2,fichRonda3,fichRonda4,fichRonda5,fichRonda6,fichRonda7,fichRonda8,fichRonda9,fichRonda10;
+
+	private JLabel fichZ1ColoniaZona1,fichZ2ColoniaZona1,fichZ3ColoniaZona1,fichZ1ColoniaZona2,fichZ2ColoniaZona2,fichZ3ColoniaZona2,
+	fichZ1ColoniaZona3,fichZ2ColoniaZona3,fichZ3ColoniaZona3,fichZ1ColoniaZona4,fichZ2ColoniaZona4,fichZ3ColoniaZona4,
+	fichZ1ColoniaZona5,fichZ2ColoniaZona5,fichZ3ColoniaZona5,fichZ1ColoniaZona6,fichZ2ColoniaZona6,fichZ3ColoniaZona6;
 	
-	private JLabel fichRonda1;
-	private JLabel fichRonda2;
-	private JLabel fichRonda3;
-	private JLabel fichRonda4;
-	private JLabel fichRonda5;
-	private JLabel fichRonda6;
-	private JLabel fichRonda7;
-	private JLabel fichRonda8;
-	private JLabel fichRonda9;
-	private JLabel fichRonda10;
-	
-	private JLabel fichZComisaria1;
-	private JLabel fichZComisaria2;
-	private JLabel fichZComisaria3;
-	private JLabel fichZComisaria4;
-	
-	private JLabel fichZSuperm1;
-	private JLabel fichZSuperm2;
-	private JLabel fichZSuperm3;
-	private JLabel fichZSuperm4;
-	
-	private JLabel fichZColegio1;
-	private JLabel fichZColegio2;
-	private JLabel fichZColegio3;
-	private JLabel fichZColegio4;
-	
-	private JLabel fichZGasolinera1;
-	private JLabel fichZGasolinera2;
-	private JLabel fichZGasolinera3;
-	
-	private JLabel fichZHospital1;
-	private JLabel fichZHospital2;
-	private JLabel fichZHospital3;
-	private JLabel fichZHospital4;
-	
-	private JLabel fichZBiblioteca1;
-	private JLabel fichZBiblioteca2;
-	private JLabel fichZBiblioteca3;
+	private JLabel fichZComisaria1,fichZComisaria2,fichZComisaria3,fichZComisaria4;
+	private JLabel fichZSuperm1,fichZSuperm2,fichZSuperm3,fichZSuperm4;
+	private JLabel fichZColegio1,fichZColegio2,fichZColegio3,fichZColegio4;
+	private JLabel fichZGasolinera1,fichZGasolinera2,fichZGasolinera3;
+	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
+	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 
 
 	/**
@@ -97,7 +61,7 @@ public class FrameTablero extends JFrame {
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		this.objetivo = objetivo;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -129,45 +93,13 @@ public class FrameTablero extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
 	
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		JLabel fichZSuperm4 = new JLabel("");
-		fichZSuperm4.setBounds(712, 530, 36, 34);
-		contentPane.add(fichZSuperm4);
-		
-		fichZSuperm1 = new JLabel("");
-		fichZSuperm1.setBounds(568, 530, 36, 34);
-		contentPane.add(fichZSuperm1);
-		
-		JLabel fichZSuperm2 = new JLabel("");
-		fichZSuperm2.setBounds(616, 529, 36, 34);
-		contentPane.add(fichZSuperm2);
-		
-		JLabel fichZSuperm3 = new JLabel("");
-		fichZSuperm3.setBounds(664, 530, 36, 34);
-		contentPane.add(fichZSuperm3);
-		
-		JButton btnSendChat = new JButton(">");
-		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(257, 906, 41, 56);
-		contentPane.add(btnSendChat);
-		
-		JButton btnInfoJugador = new JButton("INFO JUGADOR");
-		btnInfoJugador.setToolTipText("Muestra información sobre el jugador actual");
-		btnInfoJugador.setBounds(1267, 73, 140, 41);
-		contentPane.add(btnInfoJugador);
-		
-		JButton btnInfoTablero = new JButton("INFO TABLERO");
-		btnInfoTablero.setToolTipText("Muestra información sobre el estado actual del tablero");
-		btnInfoTablero.setBounds(847, 73, 128, 41);
-		contentPane.add(btnInfoTablero);
+///////////////////////////////////////////////////////////////////////////////////////TODO: LABELS MORAL, RONDAS
 		
 		///LABELS MORAL
 		fichMoral1 = new JLabel("");
 		fichMoral1.setBounds(1144, 914, 36, 33);
 		fichMoral1.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral1.setVisible(false);
-		contentPane.add(fichMoral1);
 		
 		fichMoral2 = new JLabel("");
 		fichMoral2.setBounds(1187, 914, 36, 33);
@@ -188,7 +120,7 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichMoral4);
 		
 		fichMoral5 = new JLabel("");
-		fichMoral5.setBounds(1317, 914, 36, 33);
+		fichMoral5.setBounds(1315, 914, 36, 33);
 		fichMoral5.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral5.setVisible(false);
 		contentPane.add(fichMoral5);
@@ -284,22 +216,119 @@ public class FrameTablero extends JFrame {
 		fichRonda10.setVisible(false);
 		contentPane.add(fichRonda10);
 		
-		
-		
-		JLabel AccReqDice = new JLabel("Necesitan Dado\r\n");
-		AccReqDice.setForeground(Color.WHITE);
-		AccReqDice.setFont(new Font("Arial", Font.PLAIN, 18));
-		AccReqDice.setBounds(12, 59, 128, 22);
-		contentPane.add(AccReqDice);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(12, 37, 286, 2);
-		contentPane.add(separator);
-		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
-		///LABELS LOCALIZACIONES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS LOCALIZACIONES
 		
 		///LABELS COLONIA
+		
+		//LABELS ZOMBIES
+		fichZ1ColoniaZona3 = new JLabel("");
+		fichZ1ColoniaZona3.setBounds(872, 592, 36, 34);
+		fichZ1ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona3.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona3);
+		
+		fichZ2ColoniaZona5 = new JLabel("");
+		fichZ2ColoniaZona5.setBounds(1303, 460, 36, 34);
+		fichZ2ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona5.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona5);
+		
+		fichZ3ColoniaZona5 = new JLabel("");
+		fichZ3ColoniaZona5.setBounds(1304, 501, 36, 34);
+		fichZ3ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona5.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona5);
+		
+		fichZ2ColoniaZona1 = new JLabel("");
+		fichZ2ColoniaZona1.setBounds(911, 347, 36, 34);
+		fichZ2ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona1.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona1);
+		
+		fichZ3ColoniaZona3 = new JLabel("");
+		fichZ3ColoniaZona3.setBounds(910, 612, 36, 34);
+		fichZ3ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona3.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona3);
+		
+		fichZ3ColoniaZona6 = new JLabel("");
+		fichZ3ColoniaZona6.setBounds(1304, 388, 36, 34);
+		fichZ3ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona6.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona6);
+		
+		fichZ2ColoniaZona3 = new JLabel("");
+		fichZ2ColoniaZona3.setBounds(910, 571, 36, 34);
+		fichZ2ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona3.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona3);
+		
+		fichZ1ColoniaZona6 = new JLabel("");
+		fichZ1ColoniaZona6.setBounds(1341, 368, 36, 34);
+		fichZ1ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona6.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona6);
+		
+		fichZ1ColoniaZona5 = new JLabel("");
+		fichZ1ColoniaZona5.setBounds(1341, 481, 36, 34);
+		fichZ1ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona5.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona5);
+		
+		fichZ3ColoniaZona4 = new JLabel("");
+		fichZ3ColoniaZona4.setBounds(1304, 612, 36, 34);
+		fichZ3ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona4.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona4);
+		
+		fichZ1ColoniaZona4 = new JLabel("");
+		fichZ1ColoniaZona4.setBounds(1341, 592, 36, 34);
+		fichZ1ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona4.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona4);
+		
+		fichZ3ColoniaZona2 = new JLabel("");
+		fichZ3ColoniaZona2.setBounds(910, 501, 36, 34);
+		fichZ3ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona2.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona2);
+		
+		fichZ1ColoniaZona1 = new JLabel("");
+		fichZ1ColoniaZona1.setBounds(872, 367, 36, 34);
+		fichZ1ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona1.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona1);
+		
+		fichZ3ColoniaZona1 = new JLabel("");
+		fichZ3ColoniaZona1.setBounds(910, 388, 36, 34);
+		fichZ3ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ3ColoniaZona1.setVisible(false);
+		contentPane.add(fichZ3ColoniaZona1);
+		
+		fichZ1ColoniaZona2 = new JLabel("");
+		fichZ1ColoniaZona2.setBounds(872, 480, 36, 34);
+		fichZ1ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ1ColoniaZona2.setVisible(false);
+		contentPane.add(fichZ1ColoniaZona2);
+		
+		fichZ2ColoniaZona4 = new JLabel("");
+		fichZ2ColoniaZona4.setBounds(1303, 571, 36, 34);
+		fichZ2ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona4.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona4);
+		
+		fichZ2ColoniaZona6 = new JLabel("");
+		fichZ2ColoniaZona6.setBounds(1303, 347, 36, 34);
+		fichZ2ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona6.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona6);
+		
+		fichZ2ColoniaZona2 = new JLabel("");
+		fichZ2ColoniaZona2.setBounds(911, 460, 36, 34);
+		fichZ2ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZ2ColoniaZona2.setVisible(false);
+		contentPane.add(fichZ2ColoniaZona2);
+		contentPane.add(fichMoral1);
 		
 		///LABELS SUPERVIVIENTES
 		JLabel fichSColonia2 = new JLabel("");
@@ -383,6 +412,30 @@ public class FrameTablero extends JFrame {
 		
 		//LABELS SUPERMERCADO
 		
+		fichZSuperm4 = new JLabel("");
+		fichZSuperm4.setBounds(712, 530, 36, 34);
+		fichZSuperm4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZSuperm4.setVisible(false);
+		contentPane.add(fichZSuperm4);
+		
+		fichZSuperm1 = new JLabel("");
+		fichZSuperm1.setBounds(568, 530, 36, 34);
+		fichZSuperm1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZSuperm1.setVisible(false);
+		contentPane.add(fichZSuperm1);
+		
+		fichZSuperm2 = new JLabel("");
+		fichZSuperm2.setBounds(616, 529, 36, 34);
+		fichZSuperm2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZSuperm2.setVisible(false);
+		contentPane.add(fichZSuperm2);
+		
+		fichZSuperm3 = new JLabel("");
+		fichZSuperm3.setBounds(664, 530, 36, 34);
+		fichZSuperm3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZSuperm3.setVisible(false);
+		contentPane.add(fichZSuperm3);	
+		
 		//LABELS COLEGIO
 		
 		fichZColegio1 = new JLabel("");
@@ -433,18 +486,26 @@ public class FrameTablero extends JFrame {
 		
 		fichZHospital3 = new JLabel("");
 		fichZHospital3.setBounds(1596, 530, 36, 34);
+		fichZHospital3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZHospital3.setVisible(false);
 		contentPane.add(fichZHospital3);
 		
 		fichZHospital1 = new JLabel("");
 		fichZHospital1.setBounds(1500, 530, 36, 34);
+		fichZHospital1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZHospital1.setVisible(false);
 		contentPane.add(fichZHospital1);
 		
 		fichZHospital2 = new JLabel("");
 		fichZHospital2.setBounds(1548, 529, 36, 34);
+		fichZHospital2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZHospital2.setVisible(false);
 		contentPane.add(fichZHospital2);
 		
 		fichZHospital4 = new JLabel("");
 		fichZHospital4.setBounds(1644, 530, 36, 34);
+		fichZHospital4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZHospital4.setVisible(false);
 		contentPane.add(fichZHospital4);
 
 		//LABELS BIBLIOTECA
@@ -467,7 +528,7 @@ public class FrameTablero extends JFrame {
 		fichZBiblioteca2.setVisible(false);
 		contentPane.add(fichZBiblioteca2);
 		
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
+//////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS AUXILIARES		
 		
 		///LABELS CARTAS DE BÚSQUEDA DE OBJETOS
 		JLabel lblBusquedaObj_4 = new JLabel("");
@@ -506,7 +567,7 @@ public class FrameTablero extends JFrame {
 		lblEncrucijada.setIcon(reSizeImg("images/reverso_encrucijada.jpg",173,114));
 		contentPane.add(lblEncrucijada);
 		
-		///LABELS BOTONES Y TEXTO
+		///////////////////////////////////////////////////TODO: LABELS BOTONES Y TEXTO
 		JLabel lblAcciones = new JLabel("ACCIONES");
 		lblAcciones.setForeground(Color.WHITE);
 		lblAcciones.setFont(new Font("Arial Black", Font.PLAIN, 18));
@@ -579,6 +640,21 @@ public class FrameTablero extends JFrame {
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
 		
+		JButton btnInfoJugador = new JButton("INFO JUGADOR");
+		btnInfoJugador.setToolTipText("Muestra información sobre el jugador actual");
+		btnInfoJugador.setBounds(1267, 73, 140, 41);
+		contentPane.add(btnInfoJugador);
+		
+		JButton btnInfoTablero = new JButton("INFO TABLERO");
+		btnInfoTablero.setToolTipText("Muestra información sobre el estado actual del tablero");
+		btnInfoTablero.setBounds(847, 73, 128, 41);
+		contentPane.add(btnInfoTablero);
+		
+		JButton btnSendChat = new JButton(">");
+		btnSendChat.setToolTipText("Envia un mensaje al chat");
+		btnSendChat.setBounds(257, 906, 41, 56);
+		contentPane.add(btnSendChat);
+		
 		JLabel lblHistorial = new JLabel("HISTORIAL MENSAJES");
 		lblHistorial.setForeground(Color.WHITE);
 		lblHistorial.setHorizontalAlignment(SwingConstants.CENTER);
@@ -622,9 +698,26 @@ public class FrameTablero extends JFrame {
 		contentPane.add(separator_2);
 		lblTablero.setIcon(new ImageIcon(aux2));
 		contentPane.add(lblTablero);
-		if(objetivo == 1) {
-			weNeedMoreSamples();
+		
+		JLabel AccReqDice = new JLabel("Necesitan Dado\r\n");
+		AccReqDice.setForeground(Color.WHITE);
+		AccReqDice.setFont(new Font("Arial", Font.PLAIN, 18));
+		AccReqDice.setBounds(12, 59, 128, 22);
+		contentPane.add(AccReqDice);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(12, 37, 286, 2);
+		contentPane.add(separator);
+		
+		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
+		//objetivo = 2;
+		switch(objetivo){
+			case 1: weNeedMoreSamples();
+			break;
+			case 2: raidingParty();
+			break;
 		}
+		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
 	}
@@ -681,15 +774,44 @@ public class FrameTablero extends JFrame {
 	}
 	
 	//SET UP OBJETIVOS PRINCIPALES
-	public void weNeedMoreSamples() {
+	private void weNeedMoreSamples() {
 		fichMoral6.setVisible(true);
 		fichRonda6.setVisible(true);
 		fichZBiblioteca1.setVisible(true);
 		fichZGasolinera1.setVisible(true);
-		fichZColegio1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZHospital1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZSuperm1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZComisaria1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		fichZColegio1.setVisible(true);
+		fichZHospital1.setVisible(true);
+		fichZSuperm1.setVisible(true);
+		fichZComisaria1.setVisible(true);
+	}
+	
+	private void raidingParty() {
+		fichMoral5.setVisible(true);
+		fichRonda6.setVisible(true);
+		fichZBiblioteca1.setVisible(true);
+		fichZBiblioteca2.setVisible(true);
+		fichZGasolinera1.setVisible(true);
+		fichZGasolinera2.setVisible(true);
+		fichZColegio1.setVisible(true);
+		fichZColegio2.setVisible(true);
+		fichZHospital1.setVisible(true);
+		fichZHospital2.setVisible(true);
+		fichZSuperm1.setVisible(true);
+		fichZSuperm2.setVisible(true);
+		fichZComisaria1.setVisible(true);
+		fichZComisaria2.setVisible(true);
+		fichZ1ColoniaZona1.setVisible(true);
+		//fichZ2ColoniaZona1.setVisible(true);
+		fichZ1ColoniaZona2.setVisible(true);
+		/*fichZ2ColoniaZona2.setVisible(true);
+		fichZ1ColoniaZona3.setVisible(true);
+		fichZ2ColoniaZona3.setVisible(true);
+		fichZ1ColoniaZona4.setVisible(true);
+		fichZ2ColoniaZona4.setVisible(true);
+		fichZ1ColoniaZona5.setVisible(true);
+		fichZ2ColoniaZona5.setVisible(true);
+		fichZ1ColoniaZona6.setVisible(true);
+		fichZ2ColoniaZona6.setVisible(true);*/
 	}
 	
 }
