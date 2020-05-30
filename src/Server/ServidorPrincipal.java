@@ -54,16 +54,15 @@ public class ServidorPrincipal {
 		// Mandar mensajes al cliente
 		PrintWriter pw = new PrintWriter(peticion.getOutputStream(), true); // Crea el output de la conexión (para mandar mensajes al cliente)
 		envioAUsuarios.add(pw); // Se añade a la lista el PrintWriter (para luego poder enviar output a todos)
-		pw.println("Conectado al Servidor"); // Se envia el mensaje al usuario de Conectado al Servidor 
-		pw.flush();
-		
 		
 		
 		System.out.println("Servidor conectado a " + peticion.getInetAddress());
 		//Recibir mensajes del cliente
 		
 		Reader reader = new Reader(peticion, envioAUsuarios, peticiones, usuarios, salas); // Crea un Reader (Clase que procesa los mensajes via servidor)
-		Usuario usuario = new Usuario(reader.recibirMensaje(), new ClientReader(peticion));
+		String usuarioNombre = reader.recibirMensaje();
+		System.out.println(usuarioNombre);
+		Usuario usuario = new Usuario(usuarioNombre, new ClientReader(peticion));
 		usuarios.add(usuario);
 		reader.setUsuario(usuario);
 		Thread thread = new Thread(reader); // Crea un hilo para ese reader específico

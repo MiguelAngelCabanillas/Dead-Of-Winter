@@ -24,6 +24,7 @@ public class Cliente {
 		}
 	}
 	
+	
 	public Socket getSocket() {
 		return socket;
 	}

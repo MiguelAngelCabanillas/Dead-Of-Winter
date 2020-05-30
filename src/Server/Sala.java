@@ -27,6 +27,10 @@ public class Sala {
 	public Usuario getHost() {
 		return host;
 	}
+	
+	public void setHost(Usuario host) {
+		this.host = host;
+	}
 
 	public int getId() {
 		return id;
@@ -46,7 +50,7 @@ public class Sala {
 	
 	public void enviarAUsuariosDeLaSala(String peticion) throws IOException {
 		for(Usuario usuario : usuarios) {
-			
+			usuario.hacerPeticionAlServidor(peticion);
 		}
 	}
 	

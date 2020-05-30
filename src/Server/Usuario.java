@@ -31,20 +31,19 @@ public class Usuario{
 		return sala;
 	}
 	
+	public ClientReader getClientReader() {
+		return conector;
+	}
+	
 	public void hacerPeticionAlServidor(String peticion) throws IOException {
 		conector.hacerPeticionAlServidor(peticion);
+	}
+	
+	public String recibirMensajeDelServidor() throws IOException {
+		return conector.recibirMensaje();
 	}
 	
 	public void enviarALaSala(String peticion) throws IOException {
 		sala.enviarAUsuariosDeLaSala(peticion);
 	}
-	
-	public String recibirMensajeDelServidor() throws IOException {
-        return conector.recibirMensaje();
-    }
-	
-	public ClientReader getClientReader() {
-		return conector;
-	}
-	
 }
