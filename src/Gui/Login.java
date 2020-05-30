@@ -15,6 +15,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -69,6 +70,7 @@ public class Login {
 		frmDeadOfWinter.getContentPane().setBounds(0, 0, 1024, 728);
 		frmDeadOfWinter.getContentPane().setLayout(null);
 		frmDeadOfWinter.getContentPane().setFocusable(true);
+		ajustarAPantalla();
 		
 		
 		
@@ -165,5 +167,13 @@ public class Login {
 		Image img = icon.getImage(); //Para poner la imagen sin modificar
 		Image modifiedImage = img.getScaledInstance(1218, 782, java.awt.Image.SCALE_SMOOTH); //Imagen Modificada
 		label.setIcon(new ImageIcon(modifiedImage)); //Pues la meto donde quiera
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      frmDeadOfWinter.setSize(1234, 821);
+
+	      frmDeadOfWinter.setLocationRelativeTo(null);
 	}
 }

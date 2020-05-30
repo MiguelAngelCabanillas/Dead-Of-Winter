@@ -2,6 +2,7 @@ package Gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -62,6 +63,7 @@ public class FrameUnirse extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		ajustarAPantalla();
 		contentPane.setLayout(null);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
@@ -137,5 +139,13 @@ public class FrameUnirse extends JFrame {
 		label.setIcon(new ImageIcon(img));
 		label.setBounds(0, 0, 1234, 821);
 		contentPane.add(label);
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      setSize(1234, 821);
+
+	      setLocationRelativeTo(null);
 	}
 }
