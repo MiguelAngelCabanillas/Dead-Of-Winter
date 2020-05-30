@@ -61,13 +61,18 @@ private BufferedReader buffer;
 					user.setSala(sala);
 					salas.add(sala);
 					System.out.println("Creada sala " + idSala + " con " + user.getNombre() + " como host");
+					sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
+					user.hacerPeticionAlServidor("chat|" + user.getNombre() + " ha entrado a la sala.");
 				} else if(sala != null && user.getSala() == null){ //Si la sala esta creada y el jugador no pertenece a la sala
 //					user.hacerPeticionAlServidor("nusuarios|" + sala.getUsuarios().size());
 //					user.hacerPeticionAlServidor("id|" + sala.getId());
 					user.setSala(sala);
 					sala.anyadirUsuario(user);
-					user.enviarALaSala("Unido " + user.getNombre() + " a " + idSala);
-					System.out.println("Unido " + user.getNombre() + " a " + idSala);
+					
+					user.getSala().enviarAUsuariosDeLaSala("nusuarios|" + user.getSala().getUsuarios().size());
+					System.out.println("Enviado numero de usuarios de sala a " + user.getNombre() + " porque se acaba de unir.");
+					user.getSala().enviarAUsuariosDeLaSala("chat|" + user.getNombre() + " ha entrado a la sala.");
+					System.out.println("Enviado que acaba de entrar a " + user.getNombre() + " porque se acaba de unir");
 				}
 				
 				if(split.length >= 3) {
@@ -135,7 +140,12 @@ private BufferedReader buffer;
 				 sl.remove(index);
 				 ls.remove(index);
 				 if(us.get(index).getSala() != null) {
-				 salirDeSala(us.get(index), us.get(index).getSala());
+				 try {
+					salirDeSala(us.get(index), us.get(index).getSala());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				 }
 				 us.remove(index);
 				 
@@ -208,7 +218,7 @@ private BufferedReader buffer;
 //	return 1;
 	}
 	
-	public void salirDeSala(Usuario usuario, Sala sala) {
+	public void salirDeSala(Usuario usuario, Sala sala) throws IOException {
 	if(sala.getUsuarios().size() == 1) {
 		sala.getUsuarios().remove(0);
 		salas.remove(sala);
@@ -216,11 +226,16 @@ private BufferedReader buffer;
 		System.out.println("La sala " + sala.getId() + " ha sido borrada");
 	} else if (sala.getUsuarios().size() > 1 && sala.getHost().getNombre().equals(usuario.getNombre())){
 		sala.getUsuarios().remove(usuario);
+		usuario.enviarALaSala("chat|El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
+		sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
 		usuario.setSala(null);
 		sala.setHost(sala.getUsuarios().get(0));
+		
 		System.out.println("El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
 	} else {
 		sala.getUsuarios().remove(usuario);
+		usuario.enviarALaSala("chat|" + usuario.getNombre() + " ha salido de la sala " + sala.getId());
+		sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
 		usuario.setSala(null);
 	}
 	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
