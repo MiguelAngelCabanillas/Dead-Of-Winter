@@ -94,9 +94,10 @@ public class FrameUnirse extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					
-					String partidarequest;
+					String partidarequest, trim;
 					partidarequest = textFieldUnirse.getText();
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + partidarequest);
+					trim = partidarequest.trim();
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
 					FrameSala fCrear = new FrameSala(usuario);
 					fCrear.setVisible(true);
 					dispose();
