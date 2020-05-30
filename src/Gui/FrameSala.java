@@ -3,6 +3,7 @@ package Gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -88,6 +89,7 @@ public class FrameSala extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1234, 821);
+		ajustarAPantalla();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,6 +99,12 @@ public class FrameSala extends JFrame {
 		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
 		
 		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
+		ObjetivoPrincipal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ObjetivosPrincipales obj = new ObjetivosPrincipales();
+				obj.setVisible(true);
+			}
+		});
 		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		ObjetivoPrincipal.setBounds(270, 356, 313, 45);
 		contentPane.add(ObjetivoPrincipal);
@@ -230,5 +238,13 @@ public class FrameSala extends JFrame {
 	}
 	public void actIdSala(int idSala) {
 		lblNewLabel.setText("El numero de sala es: " + idSala);
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      setSize(1238, 806);
+
+	      setLocationRelativeTo(null);
 	}
 }
