@@ -106,7 +106,9 @@ public class FrameSala extends JFrame {
 		contentPane.add(scrollPane);
 		
 		ChatArea = new JTextArea();
+		ChatArea.setFont(new Font("Monospaced", Font.PLAIN, 17));
 		scrollPane.setViewportView(ChatArea);
+		ChatArea.setEditable(false);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
