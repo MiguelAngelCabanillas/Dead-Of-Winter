@@ -1,5 +1,5 @@
 package Server;
-import java.awt.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,10 +10,49 @@ import java.io.Serializable;
 import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
-import Gui.*;
-
-
 public class ClientReader implements Runnable {
+<<<<<<< HEAD
+	private Socket socket;
+	private PrintWriter out;
+	private BufferedReader in;
+	
+	public ClientReader (Socket s) throws IOException {
+		socket = s;
+		out = new PrintWriter(socket.getOutputStream(), true);
+		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	}
+	
+	public void run() {
+		try {
+			while (true) {
+				String recibido = in.readLine();
+				if(recibido == null) {
+					continue;
+				}
+				System.out.println("Mensaje del servidor: "+recibido);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void hacerPeticionAlServidor(String peticion) throws IOException {
+		out.println(peticion);
+		out.flush();
+	}
+	
+	public String recibirMensaje() throws IOException {
+		return in.readLine();
+	}
+	
+	public void close() throws IOException {
+		socket.close();
+		out.close();
+		in.close();
+	}
+
+}
+=======
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -83,3 +122,4 @@ public class ClientReader implements Runnable {
     }
 
 }
+>>>>>>> bda90ce4c82f69ff17738fb2e910b1ff9a328a9f
