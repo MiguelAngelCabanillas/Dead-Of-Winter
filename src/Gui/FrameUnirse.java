@@ -68,7 +68,7 @@ public class FrameUnirse extends JFrame {
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
-		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		userName.setBackground(Color.WHITE);
 		userName.setBounds(136, 34, 410, 26);
 		contentPane.add(userName);
@@ -80,9 +80,9 @@ public class FrameUnirse extends JFrame {
 		
 		JLabel lblIntroduzcaElCodigo = new JLabel("Introduzca la sala a la que quiera unirse:");
 		lblIntroduzcaElCodigo.setForeground(Color.WHITE);
-		lblIntroduzcaElCodigo.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblIntroduzcaElCodigo.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		lblIntroduzcaElCodigo.setBackground(Color.WHITE);
-		lblIntroduzcaElCodigo.setBounds(173, 240, 448, 70);
+		lblIntroduzcaElCodigo.setBounds(136, 268, 462, 27);
 		contentPane.add(lblIntroduzcaElCodigo);
 		
 		textFieldUnirse = new JTextField();

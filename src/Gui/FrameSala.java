@@ -31,6 +31,7 @@ public class FrameSala extends JFrame {
 	private JPanel contentPane;
 	private static Usuario usuario;
 	private static Thread HebraChat;
+	private static int ObjetivoElegido;
 	private JTextField EscribirChat;
 	private JTextArea ChatArea;
 	private JLabel lblNDeJugadores = new JLabel();
@@ -66,6 +67,7 @@ public class FrameSala extends JFrame {
 		
 		int codigo;
 		int numJugadores;
+		
 		
 //		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
 //		numJugadores =  Integer.parseInt(usuario.recibirMensajeDelServidor().split("\\|")[1]);
@@ -114,13 +116,13 @@ public class FrameSala extends JFrame {
 		contentPane.add(scrollPane);
 		
 		ChatArea = new JTextArea();
-		ChatArea.setFont(new Font("Monospaced", Font.PLAIN, 17));
+		ChatArea.setFont(new Font("Consolas", Font.PLAIN, 17));
 		scrollPane.setViewportView(ChatArea);
 		ChatArea.setEditable(false);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
-		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		userName.setBackground(Color.WHITE);
 		userName.setBounds(136, 34, 410, 26);
 		contentPane.add(userName);
@@ -156,8 +158,8 @@ public class FrameSala extends JFrame {
 		
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblNewLabel.setBounds(860, 47, 229, 26);
+		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
+		lblNewLabel.setBounds(860, 47, 348, 26);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
@@ -165,6 +167,7 @@ public class FrameSala extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
+				
 			}
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
@@ -197,8 +200,8 @@ public class FrameSala extends JFrame {
 		
 		lblNDeJugadores.setBackground(new Color(255, 255, 255));
 		lblNDeJugadores.setForeground(new Color(255, 255, 255));
-		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblNDeJugadores.setBounds(136, 71, 197, 26);
+		lblNDeJugadores.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
+		lblNDeJugadores.setBounds(136, 71, 313, 26);
 		contentPane.add(lblNDeJugadores);
 		
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));
@@ -246,5 +249,8 @@ public class FrameSala extends JFrame {
 	      setSize(1238, 806);
 
 	      setLocationRelativeTo(null);
+	}
+	public static void setObjetivoPrincipal(int obj) {
+		ObjetivoElegido = obj;
 	}
 }

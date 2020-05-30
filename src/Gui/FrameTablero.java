@@ -14,6 +14,7 @@ public class FrameTablero extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtChat;
+	
 
 	/**
 	 * Launch the application.
