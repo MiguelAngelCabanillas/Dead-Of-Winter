@@ -167,7 +167,9 @@ public class FrameSala extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
-				
+				FrameTablero tablero = new FrameTablero(ObjetivoElegido);
+				tablero.setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
@@ -212,25 +214,6 @@ public class FrameSala extends JFrame {
 		label.setBounds(0, 0, 1218, 782);
 		contentPane.add(label);
 
-
-		
-
-		
-		
-//		while (true) {
-//			
-//			String msgllegada = usuario.recibirMensajeDelServidor();
-//			String[] splitedmsg = msgllegada.split("\\|");
-//			switch (splitedmsg[0]) {
-//			case "chat":
-//				ChatArea.setText(ChatArea.getText().trim() + "\n" + splitedmsg[1]);
-//				break;
-//
-//			default:
-//				break;
-//			}
-//			
-//		}
 	}
 	
 	public void actualizaChat(String mensaje) {
