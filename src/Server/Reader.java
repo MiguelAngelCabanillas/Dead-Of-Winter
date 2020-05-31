@@ -96,9 +96,9 @@ private BufferedReader buffer;
 //						}
 //						i++;
 //					  }
-				case "exit":	
+				case "exit":	 // usuario|sala|exit|partida o usuario|sala|exit|sala
 					 user.hacerPeticionAlServidor("exit|");
-					  if(split[2].equalsIgnoreCase("sala")) {
+					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  }
 					 break;
