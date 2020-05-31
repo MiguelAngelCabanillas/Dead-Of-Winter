@@ -41,7 +41,7 @@ public class ClientReader implements Runnable {
                 case "chat":
                     sala.actualizaChat(splitedmsg[1]);
                     break;
-                case "exitsala":
+                case "exit":
                 	try {
 						acceso.acquire();
 					} catch (InterruptedException e) {

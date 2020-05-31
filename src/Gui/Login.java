@@ -5,14 +5,18 @@ import Server.ClientReader;
 import Server.Usuario;
 
 import java.awt.EventQueue;
+
+import javax.sound.sampled.*;
 import javax.swing.*;
 
 import javax.swing.JFrame;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Toolkit;
@@ -53,8 +57,10 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
+		
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
+		
 	}
 
 	/**
@@ -166,4 +172,14 @@ public class Login {
 		Image modifiedImage = img.getScaledInstance(1218, 782, java.awt.Image.SCALE_SMOOTH); //Imagen Modificada
 		label.setIcon(new ImageIcon(modifiedImage)); //Pues la meto donde quiera
 	}
+	
+	public static void music() throws LineUnavailableException, UnsupportedAudioFileException, IOException 
+    {       
+		URL url = new URL("http://pscode.org/media/leftright.wav");
+        Clip clip = AudioSystem.getClip();
+        // getAudioInputStream() also accepts a File or InputStream
+        AudioInputStream ais = AudioSystem.getAudioInputStream(url);
+        clip.open(ais);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
 }

@@ -96,10 +96,13 @@ private BufferedReader buffer;
 //						}
 //						i++;
 //					  }
-				case "exitsala":	
-					 user.hacerPeticionAlServidor("exitsala|");
-					 salirDeSala(user, user.getSala());
+				case "exit":	
+					 user.hacerPeticionAlServidor("exit|");
+					  if(split[2].equalsIgnoreCase("sala")) {
+						 salirDeSala(user, user.getSala());
+					  }
 					 break;
+					
 				case "idsala":
 					 user.hacerPeticionAlServidor("idsala|" + user.getSala().getId());
 					 System.out.println("Enviado id de sala a " + user.getNombre());
