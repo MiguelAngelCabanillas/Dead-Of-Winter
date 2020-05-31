@@ -182,9 +182,14 @@ public class FrameSala extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
-				FrameTablero tablero = new FrameTablero(ObjetivoElegido, usuario);
-				tablero.setVisible(true);
-				dispose();
+				try {
+					
+					avanzarATablero();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
@@ -257,5 +262,11 @@ public class FrameSala extends JFrame {
 			usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
 			EscribirChat.setText("");
 		}
+	}
+	private void avanzarATablero() throws IOException {
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero" );
+		FrameTablero tablero = new FrameTablero(ObjetivoElegido, usuario);
+		tablero.setVisible(true);
+		dispose();
 	}
 }
