@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
 import Gui.FrameSala;
+import Gui.FrameTablero;
 
 public class ClientReader implements Runnable {
 
@@ -15,6 +16,7 @@ public class ClientReader implements Runnable {
     private PrintWriter out;
     private BufferedReader in;
     private FrameSala sala;
+    private FrameTablero tablero;
     private Semaphore acceso = new Semaphore(0);
 
     public ClientReader (Socket s) throws IOException {
@@ -75,6 +77,11 @@ public class ClientReader implements Runnable {
     public void setSala(FrameSala sala) {
         this.sala = sala;
     }
+    
+    public void setTablero(FrameTablero tablero) {
+    	this.tablero = tablero;
+    }
+    
     public Semaphore getSemaphore() {
     	return acceso;
     }

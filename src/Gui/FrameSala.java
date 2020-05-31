@@ -182,6 +182,7 @@ public class FrameSala extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
+				
 				FrameTablero tablero = new FrameTablero(ObjetivoElegido, usuario);
 				tablero.setVisible(true);
 				dispose();
