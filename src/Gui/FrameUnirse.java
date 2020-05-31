@@ -2,6 +2,7 @@ package Gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,6 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrameUnirse extends JFrame {
 
@@ -62,11 +65,12 @@ public class FrameUnirse extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		ajustarAPantalla();
 		contentPane.setLayout(null);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
-		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		userName.setBackground(Color.WHITE);
 		userName.setBounds(136, 34, 410, 26);
 		contentPane.add(userName);
@@ -78,12 +82,26 @@ public class FrameUnirse extends JFrame {
 		
 		JLabel lblIntroduzcaElCodigo = new JLabel("Introduzca la sala a la que quiera unirse:");
 		lblIntroduzcaElCodigo.setForeground(Color.WHITE);
-		lblIntroduzcaElCodigo.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblIntroduzcaElCodigo.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		lblIntroduzcaElCodigo.setBackground(Color.WHITE);
-		lblIntroduzcaElCodigo.setBounds(173, 240, 448, 70);
+		lblIntroduzcaElCodigo.setBounds(136, 268, 462, 27);
 		contentPane.add(lblIntroduzcaElCodigo);
 		
 		textFieldUnirse = new JTextField();
+		textFieldUnirse.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						
+						confirmarSala();
+						
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		textFieldUnirse.setBounds(631, 262, 168, 33);
 		contentPane.add(textFieldUnirse);
 		textFieldUnirse.setColumns(10);
@@ -94,13 +112,7 @@ public class FrameUnirse extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					
-					String partidarequest, trim;
-					partidarequest = textFieldUnirse.getText();
-					trim = partidarequest.trim();
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
-					FrameSala fCrear = new FrameSala(usuario);
-					fCrear.setVisible(true);
-					dispose();
+					confirmarSala();
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Introduzca un código de partida válido");
@@ -137,5 +149,22 @@ public class FrameUnirse extends JFrame {
 		label.setIcon(new ImageIcon(img));
 		label.setBounds(0, 0, 1234, 821);
 		contentPane.add(label);
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      setSize(1234, 821);
+
+	      setLocationRelativeTo(null);
+	}
+	private void confirmarSala() throws IOException {
+		String partidarequest, trim;
+		partidarequest = textFieldUnirse.getText();
+		trim = partidarequest.trim();
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
+		FrameSala fCrear = new FrameSala(usuario);
+		fCrear.setVisible(true);
+		dispose();
 	}
 }

@@ -3,6 +3,7 @@ package Gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -24,12 +25,15 @@ import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrameSala extends JFrame {
 
 	private JPanel contentPane;
 	private static Usuario usuario;
 	private static Thread HebraChat;
+	private static int ObjetivoElegido;
 	private JTextField EscribirChat;
 	private JTextArea ChatArea;
 	private JLabel lblNDeJugadores = new JLabel();
@@ -66,6 +70,7 @@ public class FrameSala extends JFrame {
 		int codigo;
 		int numJugadores;
 		
+		
 //		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
 //		numJugadores =  Integer.parseInt(usuario.recibirMensajeDelServidor().split("\\|")[1]);
 //		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|idsala");
@@ -88,6 +93,7 @@ public class FrameSala extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1234, 821);
+		ajustarAPantalla();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,6 +103,12 @@ public class FrameSala extends JFrame {
 		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
 		
 		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
+		ObjetivoPrincipal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ObjetivosPrincipales obj = new ObjetivosPrincipales();
+				obj.setVisible(true);
+			}
+		});
 		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		ObjetivoPrincipal.setBounds(270, 356, 313, 45);
 		contentPane.add(ObjetivoPrincipal);
@@ -106,13 +118,13 @@ public class FrameSala extends JFrame {
 		contentPane.add(scrollPane);
 		
 		ChatArea = new JTextArea();
-		ChatArea.setFont(new Font("Monospaced", Font.PLAIN, 17));
+		ChatArea.setFont(new Font("Consolas", Font.PLAIN, 17));
 		scrollPane.setViewportView(ChatArea);
 		ChatArea.setEditable(false);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
-		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		userName.setBackground(Color.WHITE);
 		userName.setBounds(136, 34, 410, 26);
 		contentPane.add(userName);
@@ -126,11 +138,9 @@ public class FrameSala extends JFrame {
 		Enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String msg = EscribirChat.getText().trim();
-					if(!msg.equals("")) {
-						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
-						EscribirChat.setText("");
-					}
+					
+					mandarMensaje();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -142,14 +152,29 @@ public class FrameSala extends JFrame {
 		contentPane.add(Enviar);
 		
 		EscribirChat = new JTextField();
+		EscribirChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						
+						mandarMensaje();
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		EscribirChat.setBounds(749, 712, 331, 33);
 		contentPane.add(EscribirChat);
 		EscribirChat.setColumns(10);
 		
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblNewLabel.setBounds(860, 47, 229, 26);
+		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
+		lblNewLabel.setBounds(860, 47, 348, 26);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
@@ -157,6 +182,9 @@ public class FrameSala extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
+				FrameTablero tablero = new FrameTablero(ObjetivoElegido);
+				tablero.setVisible(true);
+				dispose();
 			}
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
@@ -189,8 +217,8 @@ public class FrameSala extends JFrame {
 		
 		lblNDeJugadores.setBackground(new Color(255, 255, 255));
 		lblNDeJugadores.setForeground(new Color(255, 255, 255));
-		lblNDeJugadores.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblNDeJugadores.setBounds(136, 71, 197, 26);
+		lblNDeJugadores.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
+		lblNDeJugadores.setBounds(136, 71, 313, 26);
 		contentPane.add(lblNDeJugadores);
 		
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));
@@ -201,25 +229,6 @@ public class FrameSala extends JFrame {
 		label.setBounds(0, 0, 1218, 782);
 		contentPane.add(label);
 
-
-		
-
-		
-		
-//		while (true) {
-//			
-//			String msgllegada = usuario.recibirMensajeDelServidor();
-//			String[] splitedmsg = msgllegada.split("\\|");
-//			switch (splitedmsg[0]) {
-//			case "chat":
-//				ChatArea.setText(ChatArea.getText().trim() + "\n" + splitedmsg[1]);
-//				break;
-//
-//			default:
-//				break;
-//			}
-//			
-//		}
 	}
 	
 	public void actualizaChat(String mensaje) {
@@ -230,5 +239,23 @@ public class FrameSala extends JFrame {
 	}
 	public void actIdSala(int idSala) {
 		lblNewLabel.setText("El numero de sala es: " + idSala);
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      setSize(1238, 806);
+
+	      setLocationRelativeTo(null);
+	}
+	public static void setObjetivoPrincipal(int obj) {
+		ObjetivoElegido = obj;
+	}
+	private void mandarMensaje() throws IOException {
+		String msg = EscribirChat.getText().trim();
+		if(!msg.equals("")) {
+			usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
+			EscribirChat.setText("");
+		}
 	}
 }

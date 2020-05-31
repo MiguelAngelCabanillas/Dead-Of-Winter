@@ -17,8 +17,10 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -75,6 +77,7 @@ public class Login {
 		frmDeadOfWinter.getContentPane().setBounds(0, 0, 1024, 728);
 		frmDeadOfWinter.getContentPane().setLayout(null);
 		frmDeadOfWinter.getContentPane().setFocusable(true);
+		ajustarAPantalla();
 		
 		
 		
@@ -91,17 +94,25 @@ public class Login {
 		JLabel lblNewLabel = new JLabel("Username");
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 40));
+		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
 		lblNewLabel.setBounds(350, 479, 223, 57);
 		frmDeadOfWinter.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
-		lblNewLabel_1.setFont(new Font("Arial Black", Font.PLAIN, 40));
+		lblNewLabel_1.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
 		lblNewLabel_1.setBounds(350, 568, 214, 57);
 		frmDeadOfWinter.getContentPane().add(lblNewLabel_1);
 		
 		textFieldUN = new JTextField();
+		textFieldUN.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_TAB) {
+					passwordField.requestFocus();
+				}
+			}
+		});
 		textFieldUN.setFont(new Font("Calibri", Font.PLAIN, 20));
 		textFieldUN.setBounds(627, 491, 223, 37);
 		frmDeadOfWinter.getContentPane().add(textFieldUN);
@@ -112,21 +123,7 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 					try {
 						
-						String user = textFieldUN.getText();
-						String passw = passwordField.getText();
-						
-						
-						boolean correcto = iS.InicioSesion(user, passw);
-						if(correcto) {
-							frmDeadOfWinter.dispose();
-							Socket peticion = new Socket("25.66.43.164", 12975);
-							ClientReader cr = new ClientReader(peticion);
-							cr.hacerPeticionAlServidor(user);
-							Usuario usuario = new Usuario(user, cr);
-							FrameSeleccion SalaSeleccion = new FrameSeleccion(usuario);
-							SalaSeleccion.setVisible(true);
-						}
-						
+						inicioSesion();
 						
 					} catch (IOException e2) {
 						
@@ -139,6 +136,22 @@ public class Login {
 		frmDeadOfWinter.getContentPane().add(LoginButton);
 		
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						
+						inicioSesion();
+							
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		passwordField.setFont(new Font("Calibri", Font.PLAIN, 20));
 		passwordField.setEchoChar('*');
 		passwordField.setBounds(627, 580, 223, 37);
@@ -152,6 +165,9 @@ public class Login {
 					String passw = passwordField.getText();
 					
 					rIS.registrarUsuario(user, passw);
+					
+					textFieldUN.setText("");
+					passwordField.setText("");
 					
 				} catch (Exception e3) {
 					JOptionPane.showMessageDialog(null, e3);
@@ -172,14 +188,29 @@ public class Login {
 		Image modifiedImage = img.getScaledInstance(1218, 782, java.awt.Image.SCALE_SMOOTH); //Imagen Modificada
 		label.setIcon(new ImageIcon(modifiedImage)); //Pues la meto donde quiera
 	}
-	
-	public static void music() throws LineUnavailableException, UnsupportedAudioFileException, IOException 
-    {       
-		URL url = new URL("http://pscode.org/media/leftright.wav");
-        Clip clip = AudioSystem.getClip();
-        // getAudioInputStream() also accepts a File or InputStream
-        AudioInputStream ais = AudioSystem.getAudioInputStream(url);
-        clip.open(ais);
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
+
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      frmDeadOfWinter.setSize(1234, 821);
+
+	      frmDeadOfWinter.setLocationRelativeTo(null);
+	}
+	private void inicioSesion() throws UnknownHostException, IOException {
+		String user = textFieldUN.getText();
+		String passw = passwordField.getText();
+		
+		
+		boolean correcto = iS.InicioSesion(user, passw);
+		if(correcto) {
+			frmDeadOfWinter.dispose();
+			Socket peticion = new Socket("25.66.43.164", 12975);
+			ClientReader cr = new ClientReader(peticion);
+			cr.hacerPeticionAlServidor(user);
+			Usuario usuario = new Usuario(user, cr);
+			FrameSeleccion SalaSeleccion = new FrameSeleccion(usuario);
+			SalaSeleccion.setVisible(true);
+		}
+	}
 }

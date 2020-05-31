@@ -2,6 +2,7 @@ package Gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -70,17 +71,18 @@ public class FrameSeleccion extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.getBackground();
+		ajustarAPantalla();
 		
 		JLabel lblNewLabel = new JLabel("Elecci\u00F3n de Sala");
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 40));
-		lblNewLabel.setBounds(433, 108, 366, 57);
+		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
+		lblNewLabel.setBounds(450, 158, 338, 49);
 		contentPane.add(lblNewLabel);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
 		userName.setForeground(Color.WHITE);
-		userName.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		userName.setFont(new Font("Century Schoolbook", Font.BOLD, 22));
 		userName.setBackground(Color.WHITE);
 		userName.setBounds(136, 34, 410, 26);
 		contentPane.add(userName);
@@ -152,6 +154,14 @@ public class FrameSeleccion extends JFrame {
 		});
 		btnNewButtonContinuar.setBounds(173, 240, 130, 38);
 		contentPane.add(btnNewButtonContinuar);*/
+	}
+	private void ajustarAPantalla() {
+		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+	      int height = pantalla.height;
+	      int width = pantalla.width;
+	      setSize(1234, 821);
+
+	      setLocationRelativeTo(null);
 	}
 
 }
