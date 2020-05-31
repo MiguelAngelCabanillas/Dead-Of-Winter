@@ -728,7 +728,7 @@ public class FrameTablero extends JFrame {
 		contentPane.add(scrollPane);
 		
 		txtrHistorial = new JTextArea();
-		txtrHistorial.setFont(new Font("Consolas", Font.PLAIN, 17));
+		txtrHistorial.setFont(new Font("Consolas", Font.PLAIN, 15));
 		scrollPane.setViewportView(txtrHistorial);
 		txtrHistorial.setText("");
 		txtrHistorial.setEditable(false);
