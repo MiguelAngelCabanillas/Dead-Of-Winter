@@ -77,8 +77,9 @@ public class FrameSala extends JFrame {
 //		codigo = Integer.parseInt(usuario.recibirMensajeDelServidor());
 		
 		
+		usuario.getClientReader().setSala(this);
+		usuario.getClientReader().setTablero(null);
 		if(HebraChat != null) {
-			usuario.getClientReader().setSala(this);
 			usuario.getClientReader().getSemaphore().release();
 		}else {
 			HebraChat = new Thread(usuario.getClientReader());

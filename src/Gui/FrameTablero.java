@@ -752,8 +752,9 @@ public class FrameTablero extends JFrame {
 		}
 		
 		usuario.getClientReader().setTablero(this);
+		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
-		hilo.run();
+		hilo.start();
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
