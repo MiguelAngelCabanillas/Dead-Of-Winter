@@ -196,8 +196,8 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0){
 				try {
 					
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exitsala" );
-					
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|sala" );
+					//
 					FrameSeleccion fseleccion;
 					fseleccion = new FrameSeleccion(usuario);
 					fseleccion.setVisible(true);
