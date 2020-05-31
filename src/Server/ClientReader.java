@@ -46,7 +46,7 @@ public class ClientReader implements Runnable {
                 case "exit":
                 	try {
 						if(splitedmsg[1] != null) {
-							sala.avanzarATablero();
+							sala.avanzarATablero(Integer.parseInt(splitedmsg[2]));
 						}
 						acceso.acquire();
 					} catch (InterruptedException e) {

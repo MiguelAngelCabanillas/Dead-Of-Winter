@@ -96,11 +96,11 @@ private BufferedReader buffer;
 //						}
 //						i++;
 //					  }
-				case "exit":	 // usuario|sala|exit|partida o usuario|sala|exit|sala
+				case "exit":	 // usuario|sala|exit|tablero|objetivo o usuario|sala|exit|sala
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) {
-						  user.enviarALaSala("exit|tablero");
+						  user.enviarALaSala("exit|tablero|" + split[4]);
 						  
 					  }
 					 break;

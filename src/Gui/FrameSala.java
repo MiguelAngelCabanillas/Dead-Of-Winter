@@ -177,13 +177,14 @@ public class FrameSala extends JFrame {
 		lblNewLabel.setBounds(860, 47, 348, 26);
 		contentPane.add(lblNewLabel);
 		
+		
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 				try {
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero" );
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -261,8 +262,8 @@ public class FrameSala extends JFrame {
 			EscribirChat.setText("");
 		}
 	}
-	public void avanzarATablero() throws IOException {
-		FrameTablero tablero = new FrameTablero(ObjetivoElegido, usuario);
+	public void avanzarATablero(int objetivo) throws IOException {
+		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();
 	}
