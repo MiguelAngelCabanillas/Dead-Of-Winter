@@ -2,6 +2,7 @@ package Gui;
 
 import BD.*;
 import Server.ClientReader;
+import Server.ServidorPrincipal;
 import Server.Usuario;
 
 import java.awt.EventQueue;
@@ -205,7 +206,7 @@ public class Login {
 		boolean correcto = iS.InicioSesion(user, passw);
 		if(correcto) {
 			frmDeadOfWinter.dispose();
-			Socket peticion = new Socket("25.66.43.164", 12975);
+			Socket peticion = new Socket(ServidorPrincipal.IP_SERVER,ServidorPrincipal.PUERTO_SERVER);
 			ClientReader cr = new ClientReader(peticion);
 			cr.hacerPeticionAlServidor(user);
 			Usuario usuario = new Usuario(user, cr);
