@@ -77,6 +77,13 @@ public class ObjetivosPrincipales extends JFrame {
 		contentPane.add(SelecMasEjemplares);
 		
 		JButton SelecRaidingParty = new JButton("");
+		SelecRaidingParty.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ObjetivoElegido = 2;
+				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+				dispose();
+			}
+		});
 		SelecRaidingParty.setBounds(364, 11, 300, 420);
 		SelecRaidingParty.setIcon(new ImageIcon(img3));
 		contentPane.add(SelecRaidingParty);
