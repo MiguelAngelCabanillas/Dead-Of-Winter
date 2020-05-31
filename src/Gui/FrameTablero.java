@@ -7,14 +7,19 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import Server.Usuario;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class FrameTablero extends JFrame {
 
 	private static int objetivo;
+	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
+	private JTextArea txtrHistorial;
 	
 	private JLabel fichMoral1,fichMoral2,fichMoral3,fichMoral4,fichMoral5,fichMoral6,fichMoral7,fichMoral8,fichMoral9,fichMoral10;
 	private JLabel fichRonda1,fichRonda2,fichRonda3,fichRonda4,fichRonda5,fichRonda6,fichRonda7,fichRonda8,fichRonda9,fichRonda10;
@@ -38,7 +43,7 @@ public class FrameTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTablero frame = new FrameTablero(objetivo);
+					FrameTablero frame = new FrameTablero(objetivo, usuario);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +55,7 @@ public class FrameTablero extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameTablero(int objetivo) {
+	public FrameTablero(int objetivo, Usuario user) {
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -60,7 +65,7 @@ public class FrameTablero extends JFrame {
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		this.objetivo = objetivo;
-
+		this.usuario = user;
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -595,11 +600,6 @@ public class FrameTablero extends JFrame {
 		btnBarricada.setToolTipText("Construir una barricada protegiendo un espacio para Zombies");
 		contentPane.add(btnBarricada);
 		
-		JTextArea txtrHistorial = new JTextArea();
-		txtrHistorial.setText("MENSAJES SERVIDOR AQUI:");
-		txtrHistorial.setBounds(12, 497, 286, 362);
-		contentPane.add(txtrHistorial);
-		
 		JButton btnContribuir = new JButton("CONTRIBUIR");
 		btnContribuir.setBounds(183, 144, 115, 41);
 		btnContribuir.setToolTipText("Aportar un objeto a la crisis");
@@ -652,7 +652,7 @@ public class FrameTablero extends JFrame {
 		
 		JButton btnSendChat = new JButton(">");
 		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(257, 906, 41, 56);
+		btnSendChat.setBounds(257, 909, 41, 53);
 		contentPane.add(btnSendChat);
 		
 		JLabel lblHistorial = new JLabel("HISTORIAL MENSAJES");
@@ -708,6 +708,14 @@ public class FrameTablero extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(12, 37, 286, 2);
 		contentPane.add(separator);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 497, 286, 362);
+		contentPane.add(scrollPane);
+		
+		txtrHistorial = new JTextArea();
+		scrollPane.setViewportView(txtrHistorial);
+		txtrHistorial.setText("MENSAJES SERVIDOR AQUI:");
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
@@ -813,5 +821,14 @@ public class FrameTablero extends JFrame {
 		fichZ1ColoniaZona6.setVisible(true);
 		fichZ2ColoniaZona6.setVisible(true);*/
 	}
-	
+	public void actualizaChat(String mensaje) {
+		txtrHistorial.setText(txtrHistorial.getText().trim() + "\n" + mensaje);
+	}
+	private void mandarMensaje() throws IOException {
+		String msg = txtChat.getText().trim();
+		if(!msg.equals("")) {
+			usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
+			txtChat.setText("");
+		}
+	}
 }
