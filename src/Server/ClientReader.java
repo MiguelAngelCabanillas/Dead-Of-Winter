@@ -41,7 +41,11 @@ public class ClientReader implements Runnable {
                     sala.actNumJugadores(Integer.parseInt(splitedmsg[1]));
                     break;
                 case "chat":
+                	if(sala != null) {
                     sala.actualizaChat(splitedmsg[1]);
+                	} else {
+                	tablero.actualizaChat(splitedmsg[1]);
+                	}
                     break;
                 case "exit":
                 	try {

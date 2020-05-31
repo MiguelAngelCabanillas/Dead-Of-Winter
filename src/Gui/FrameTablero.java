@@ -34,6 +34,8 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZGasolinera1,fichZGasolinera2,fichZGasolinera3;
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
+	
+	private static Thread hilo;
 
 
 	/**
@@ -725,6 +727,10 @@ public class FrameTablero extends JFrame {
 			case 2: raidingParty();
 			break;
 		}
+		
+		usuario.getClientReader().setTablero(this);
+		hilo = new Thread(usuario.getClientReader());
+		hilo.run();
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
