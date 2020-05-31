@@ -183,7 +183,7 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 				try {
-					avanzarATablero();
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero" );
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -261,8 +261,7 @@ public class FrameSala extends JFrame {
 			EscribirChat.setText("");
 		}
 	}
-	private void avanzarATablero() throws IOException {
-		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero" );
+	public void avanzarATablero() throws IOException {
 		FrameTablero tablero = new FrameTablero(ObjetivoElegido, usuario);
 		tablero.setVisible(true);
 		dispose();
