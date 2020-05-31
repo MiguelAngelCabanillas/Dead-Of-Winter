@@ -12,6 +12,8 @@ import Server.Usuario;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrameTablero extends JFrame {
 
@@ -651,27 +653,35 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnInfoTablero);
 		
 		JButton btnSendChat = new JButton(">");
+		btnSendChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						mandarMensaje();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		btnSendChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					
+					mandarMensaje();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(257, 909, 41, 53);
+		btnSendChat.setBounds(257, 910, 41, 31);
 		contentPane.add(btnSendChat);
 		
-		JLabel lblHistorial = new JLabel("HISTORIAL MENSAJES");
-		lblHistorial.setForeground(Color.WHITE);
-		lblHistorial.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHistorial.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblHistorial.setBounds(12, 460, 287, 26);
-		contentPane.add(lblHistorial);
-		
-		JLabel lblChat = new JLabel("CHAT");
-		lblChat.setForeground(Color.WHITE);
-		lblChat.setHorizontalAlignment(SwingConstants.CENTER);
-		lblChat.setFont(new Font("Arial Black", Font.PLAIN, 18));
-		lblChat.setBounds(11, 872, 287, 26);
-		contentPane.add(lblChat);
-		
 		txtChat = new JTextField();
-		txtChat.setText("INSERTAR MENSAJES AQUI:");
-		txtChat.setBounds(11, 909, 287, 53);
+		txtChat.setBounds(11, 909, 287, 33);
 		contentPane.add(txtChat);
 		txtChat.setColumns(10);
 		
@@ -714,8 +724,21 @@ public class FrameTablero extends JFrame {
 		contentPane.add(scrollPane);
 		
 		txtrHistorial = new JTextArea();
+		txtrHistorial.setFont(new Font("Consolas", Font.PLAIN, 17));
 		scrollPane.setViewportView(txtrHistorial);
-		txtrHistorial.setText("MENSAJES SERVIDOR AQUI:");
+		txtrHistorial.setText("");
+		txtrHistorial.setEditable(false);
+		
+		JLabel lblChat = new JLabel("CHAT\r\n");
+		lblChat.setHorizontalAlignment(SwingConstants.CENTER);
+		lblChat.setForeground(Color.WHITE);
+		lblChat.setFont(new Font("Arial Black", Font.PLAIN, 18));
+		lblChat.setBounds(103, 457, 105, 26);
+		contentPane.add(lblChat);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setBounds(12, 481, 286, 2);
+		contentPane.add(separator_3);
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
