@@ -25,6 +25,8 @@ import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrameSala extends JFrame {
 
@@ -136,11 +138,9 @@ public class FrameSala extends JFrame {
 		Enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String msg = EscribirChat.getText().trim();
-					if(!msg.equals("")) {
-						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
-						EscribirChat.setText("");
-					}
+					
+					mandarMensaje();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -152,6 +152,21 @@ public class FrameSala extends JFrame {
 		contentPane.add(Enviar);
 		
 		EscribirChat = new JTextField();
+		EscribirChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						
+						mandarMensaje();
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 		EscribirChat.setBounds(749, 712, 331, 33);
 		contentPane.add(EscribirChat);
 		EscribirChat.setColumns(10);
@@ -235,5 +250,12 @@ public class FrameSala extends JFrame {
 	}
 	public static void setObjetivoPrincipal(int obj) {
 		ObjetivoElegido = obj;
+	}
+	private void mandarMensaje() throws IOException {
+		String msg = EscribirChat.getText().trim();
+		if(!msg.equals("")) {
+			usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
+			EscribirChat.setText("");
+		}
 	}
 }

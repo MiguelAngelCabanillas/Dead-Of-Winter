@@ -22,6 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrameUnirse extends JFrame {
 
@@ -86,6 +88,20 @@ public class FrameUnirse extends JFrame {
 		contentPane.add(lblIntroduzcaElCodigo);
 		
 		textFieldUnirse = new JTextField();
+		textFieldUnirse.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					try {
+						
+						confirmarSala();
+						
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		textFieldUnirse.setBounds(631, 262, 168, 33);
 		contentPane.add(textFieldUnirse);
 		textFieldUnirse.setColumns(10);
@@ -96,13 +112,7 @@ public class FrameUnirse extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					
-					String partidarequest, trim;
-					partidarequest = textFieldUnirse.getText();
-					trim = partidarequest.trim();
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
-					FrameSala fCrear = new FrameSala(usuario);
-					fCrear.setVisible(true);
-					dispose();
+					confirmarSala();
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Introduzca un código de partida válido");
@@ -147,5 +157,14 @@ public class FrameUnirse extends JFrame {
 	      setSize(1234, 821);
 
 	      setLocationRelativeTo(null);
+	}
+	private void confirmarSala() throws IOException {
+		String partidarequest, trim;
+		partidarequest = textFieldUnirse.getText();
+		trim = partidarequest.trim();
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
+		FrameSala fCrear = new FrameSala(usuario);
+		fCrear.setVisible(true);
+		dispose();
 	}
 }
