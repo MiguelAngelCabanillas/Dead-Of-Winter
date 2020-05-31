@@ -114,6 +114,22 @@ public class FrameTablero extends JFrame {
 		fichMoral2.setBounds(1187, 914, 36, 33);
 		fichMoral2.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral2.setVisible(false);
+		
+		JButton btnSendChat = new JButton(">");
+		btnSendChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					
+					mandarMensaje();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnSendChat.setToolTipText("Envia un mensaje al chat");
+		btnSendChat.setBounds(262, 910, 41, 33);
+		contentPane.add(btnSendChat);
 		contentPane.add(fichMoral2);
 		
 		fichMoral3 = new JLabel("");
@@ -654,36 +670,22 @@ public class FrameTablero extends JFrame {
 		btnInfoTablero.setBounds(847, 73, 128, 41);
 		contentPane.add(btnInfoTablero);
 		
-		JButton btnSendChat = new JButton(">");
-		btnSendChat.addKeyListener(new KeyAdapter() {
+		txtChat = new JTextField();
+		txtChat.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
+						
 						mandarMensaje();
+						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		});
-		btnSendChat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					
-					mandarMensaje();
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(257, 910, 41, 31);
-		contentPane.add(btnSendChat);
-		
-		txtChat = new JTextField();
-		txtChat.setBounds(11, 909, 287, 33);
+		txtChat.setBounds(11, 909, 241, 33);
 		contentPane.add(txtChat);
 		txtChat.setColumns(10);
 		
@@ -752,8 +754,9 @@ public class FrameTablero extends JFrame {
 		}
 		
 		usuario.getClientReader().setTablero(this);
+		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
-		hilo.run();
+		hilo.start();
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
