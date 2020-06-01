@@ -26,6 +26,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 
 public class Login {
@@ -61,8 +62,10 @@ public class Login {
 	public Login() {
 		initialize();
 		
+		
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
+		playSound();
 		
 	}
 
@@ -213,5 +216,20 @@ public class Login {
 			FrameSeleccion SalaSeleccion = new FrameSeleccion(usuario);
 			SalaSeleccion.setVisible(true);
 		}
+	}
+	
+	public void playSound() {
+	    try {
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("music/intro.wav").getAbsoluteFile());
+	        Clip clip = AudioSystem.getClip();
+	        clip.open(audioInputStream);
+	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	        //clip.start();
+	       
+	     
+	    } catch(Exception ex) {
+	        System.out.println("Error with playing sound.");
+	        ex.printStackTrace();
+	    }
 	}
 }

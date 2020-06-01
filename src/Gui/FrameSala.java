@@ -42,7 +42,9 @@ public class FrameSala extends JFrame {
 	private JLabel lblNDeJugadores = new JLabel();
 	private JLabel lblNewLabel = new JLabel();
 	private boolean host = false;
+	private static String[] objetivos = {"Más ejemplares", "Raiding Party"};
 	private int numJugadores;
+
 	/**
 	 * Launch the application.
 	 */
@@ -284,7 +286,8 @@ public class FrameSala extends JFrame {
 
 	      setLocationRelativeTo(null);
 	}
-	public static void setObjetivoPrincipal(int obj) {
+	public static void setObjetivoPrincipal(int obj) throws IOException {
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|msgsala|Objetivo seleccionado -> " + objetivos[obj-1]);
 		ObjetivoElegido = obj;
 	}
 	private void mandarMensaje() throws IOException {
