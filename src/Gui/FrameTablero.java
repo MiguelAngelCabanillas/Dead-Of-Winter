@@ -127,6 +127,18 @@ public class FrameTablero extends JFrame {
 				}
 			}
 		});
+		
+		JButton ObjetivoPrin = new JButton("");
+		ObjetivoPrin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ObjPrincipal aux = new ObjPrincipal(objetivo);
+				aux.setVisible(true);
+				
+			}
+		});
+		ObjetivoPrin.setBounds(911, 699, 123, 158);
+		contentPane.add(ObjetivoPrin);
 		btnSendChat.setToolTipText("Envia un mensaje al chat");
 		btnSendChat.setBounds(262, 910, 41, 33);
 		contentPane.add(btnSendChat);
@@ -744,12 +756,19 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/NecesitamosEjemplares.png"));
+		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
+		
+		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/RaidingParty.png"));
+		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
+		
+		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
 		switch(objetivo){
-			case 1: weNeedMoreSamples();
+			case 1: weNeedMoreSamples(); ObjetivoPrin.setIcon(new ImageIcon(img2));
 			break;
-			case 2: raidingParty();
+			case 2: raidingParty(); ObjetivoPrin.setIcon(new ImageIcon(img3));
 			break;
 		}
 		
@@ -759,6 +778,8 @@ public class FrameTablero extends JFrame {
 		hilo = new Thread(usuario.getClientReader());
 		hilo.start();
 		}
+		
+		
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
