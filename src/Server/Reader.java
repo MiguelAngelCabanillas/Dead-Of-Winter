@@ -106,7 +106,11 @@ private BufferedReader buffer;
 						  
 					  }
 					 break;
-					
+				case "host":
+					if(user.getSala().getHost().equals(user)) {
+						user.hacerPeticionAlServidor("host|");
+					}
+					break;	
 				case "idsala":
 					 user.hacerPeticionAlServidor("idsala|" + user.getSala().getId());
 					 System.out.println("Enviado id de sala a " + user.getNombre());
