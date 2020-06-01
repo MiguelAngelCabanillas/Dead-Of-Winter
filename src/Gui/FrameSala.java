@@ -40,6 +40,7 @@ public class FrameSala extends JFrame {
 	private JLabel lblNDeJugadores = new JLabel();
 	private JLabel lblNewLabel = new JLabel();
 	private boolean host = false;
+	private int numJugadores;
 	/**
 	 * Launch the application.
 	 */
@@ -69,8 +70,8 @@ public class FrameSala extends JFrame {
 		
 		this.usuario = usuario;
 		
-		int codigo;
-		int numJugadores;
+//		int codigo;
+//		int numJugadores;
 		
 		
 //		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|nusuarios");
@@ -268,6 +269,7 @@ public class FrameSala extends JFrame {
 	}
 	public void actNumJugadores(int numJugadores) {
 		lblNDeJugadores.setText("N\u00BA de jugadores:    " + numJugadores);
+		this.numJugadores = numJugadores;
 	}
 	public void actIdSala(int idSala) {
 		lblNewLabel.setText("El numero de sala es: " + idSala);
@@ -291,7 +293,7 @@ public class FrameSala extends JFrame {
 		}
 	}
 	public void avanzarATablero(int objetivo) throws IOException {
-		FrameTablero tablero = new FrameTablero(objetivo, usuario);
+		FrameTablero tablero = new FrameTablero(objetivo, usuario, this.numJugadores);
 		tablero.setVisible(true);
 		dispose();
 	}
