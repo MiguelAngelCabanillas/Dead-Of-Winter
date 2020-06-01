@@ -16,7 +16,6 @@ public class Conexion extends ConexionConBasedeDatos {
 	}
 	
 	
-	
 	public Connection conectar() {
 		Connection conexion = null;
 		try {
