@@ -59,7 +59,12 @@ public class ClientReader implements Runnable {
 						e.printStackTrace();
 					}
                 	break;
+                case "unirse":
+                	sala.setVisible(true);
                 case "error":
+                	if(splitedmsg[1].equals("La sala no existe") || splitedmsg[1].equals("Ha habido un error con la sala. Código 001")) {
+                		sala.dispose();
+                	}
                 	JOptionPane.showMessageDialog(null, splitedmsg[1]);
 
                 default:

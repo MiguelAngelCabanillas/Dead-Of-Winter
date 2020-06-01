@@ -99,6 +99,9 @@ public class FrameUnirse extends JFrame {
 						
 					} catch (IOException e1) {
 						e1.printStackTrace();
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}
@@ -159,14 +162,16 @@ public class FrameUnirse extends JFrame {
 
 	      setLocationRelativeTo(null);
 	}
-	private void confirmarSala() throws IOException {
+	private void confirmarSala() throws IOException, InterruptedException {
 		String partidarequest, trim;
 		partidarequest = textFieldUnirse.getText();
 		trim = partidarequest.trim();
 		usuario.setSala(new Sala(null, Integer.parseInt(trim)));
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim + "|unirse");
 		FrameSala fCrear = new FrameSala(usuario);
-		fCrear.setVisible(true);
-		dispose();
-	}
+		wait(1000);
+		if(fCrear != null){
+			dispose();
+		}
+}
 }
