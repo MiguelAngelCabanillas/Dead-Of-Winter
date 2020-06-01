@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import Server.Usuario;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -104,18 +105,31 @@ public class FrameSala extends JFrame {
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
 		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
 		
-		if(host) {
 		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
 		ObjetivoPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ObjetivosPrincipales obj = new ObjetivosPrincipales();
-				obj.setVisible(true);
+				try {
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
+					Thread.sleep(50);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(host) {
+					ObjetivosPrincipales obj = new ObjetivosPrincipales();
+					obj.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Solo el host puede seleccionar el objetivo principal");
+				}
+				
 			}
 		});
 		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		ObjetivoPrincipal.setBounds(270, 356, 313, 45);
 		contentPane.add(ObjetivoPrincipal);
-		}
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(749, 118, 459, 585);
@@ -182,15 +196,24 @@ public class FrameSala extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		
-		if(host) {
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 				try {
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
+					Thread.sleep(50);
+					if(host) {
+						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+					} else {
+						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
+					}
+					
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -198,7 +221,6 @@ public class FrameSala extends JFrame {
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
 		contentPane.add(btnNewButton);
-		}
 		
 		JButton btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
 		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));
