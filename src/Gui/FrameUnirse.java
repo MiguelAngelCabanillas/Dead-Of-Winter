@@ -169,8 +169,8 @@ public class FrameUnirse extends JFrame {
 		usuario.setSala(new Sala(null, Integer.parseInt(trim)));
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim + "|unirse");
 		FrameSala fCrear = new FrameSala(usuario);
-		wait(1000);
-		if(fCrear != null){
+
+		if(fCrear.isVisible()){
 			dispose();
 		}
 }

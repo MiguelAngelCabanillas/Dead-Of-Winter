@@ -65,7 +65,7 @@ private BufferedReader buffer;
 					sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
 					user.hacerPeticionAlServidor("chat|" + user.getNombre() + " ha entrado a la sala.");
 				 } else {
-						//user.hacerPeticionAlServidor("error|La sala no existe");
+						user.hacerPeticionAlServidor("error|La sala no existe");
 						continue;
 				 }
 				} else if(sala != null && user.getSala() == null){ //Si la sala esta creada y el jugador no pertenece a la sala
@@ -78,6 +78,7 @@ private BufferedReader buffer;
 					System.out.println("Enviado numero de usuarios de sala a " + user.getNombre() + " porque se acaba de unir.");
 					user.getSala().enviarAUsuariosDeLaSala("chat|" + user.getNombre() + " ha entrado a la sala.");
 					System.out.println("Enviado que acaba de entrar a " + user.getNombre() + " porque se acaba de unir");
+					user.hacerPeticionAlServidor("unirse|");
 				}
 				
 				if(split.length >= 3) {
