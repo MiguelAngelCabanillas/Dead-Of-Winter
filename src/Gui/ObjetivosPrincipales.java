@@ -55,6 +55,7 @@ public class ObjetivosPrincipales extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(0, 0, 0, 10));
 		setContentPane(contentPane);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		contentPane.setLayout(null);
 		
 		
