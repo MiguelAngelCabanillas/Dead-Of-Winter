@@ -32,31 +32,43 @@ public class ClientReader implements Runnable {
                 if(msgllegada == null) {
                     continue;
                 }
-                String[] splitedmsg = msgllegada.split("\\|");
-                switch (splitedmsg[0]) {
+                String[] split = msgllegada.split("\\|");
+                switch (split[0]) {
                 case "idsala":
-                    sala.actIdSala(Integer.parseInt(splitedmsg[1]));
+                    sala.actIdSala(Integer.parseInt(split[1]));
                     break;
                 case "nusuarios":
-                    sala.actNumJugadores(Integer.parseInt(splitedmsg[1]));
+                    sala.actNumJugadores(Integer.parseInt(split[1]));
                     break;
                 case "chat":
                 	if(sala != null) {
-                    sala.actualizaChat(splitedmsg[1]);
+                    sala.actualizaChat(split[1]);
                 	} else {
-                	tablero.actualizaChat(splitedmsg[1]);
+                	tablero.actualizaChat(split[1]);
                 	}
                     break;
                 case "exit":
                 	try {
-						if(splitedmsg[1] != null) {
-							sala.avanzarATablero(Integer.parseInt(splitedmsg[2]));
+						if(split[1] != null) {
+							sala.avanzarATablero(Integer.parseInt(split[2]));
 						}
 						acceso.acquire();
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
                 	break;
+                case "host" :
+                	sala.setIsHost(true);
+                	break;
+                case "asignar": // asignar|id|id|id|id...
+                	int i = 0;
+                	while(split[i] != null) {
+                	 tablero.añadirPersonaje(Integer.parseInt(split[i]));
+                	}
+                	break;
+                	
+                case "mover": // mover|superviviente|origen|destino --- Superviviente es una ID única para cada tipo de superviviente
+                	
 
                 default:
                     break;

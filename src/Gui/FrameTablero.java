@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo;
+	private static int objetivo = 1;
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
@@ -753,10 +753,12 @@ public class FrameTablero extends JFrame {
 			break;
 		}
 		
+		if(usuario != null) {
 		usuario.getClientReader().setTablero(this);
 		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
 		hilo.start();
+		}
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
@@ -841,17 +843,7 @@ public class FrameTablero extends JFrame {
 		fichZComisaria1.setVisible(true);
 		fichZComisaria2.setVisible(true);
 		fichZ1ColoniaZona1.setVisible(true);
-		//fichZ2ColoniaZona1.setVisible(true);
 		fichZ1ColoniaZona2.setVisible(true);
-		/*fichZ2ColoniaZona2.setVisible(true);
-		fichZ1ColoniaZona3.setVisible(true);
-		fichZ2ColoniaZona3.setVisible(true);
-		fichZ1ColoniaZona4.setVisible(true);
-		fichZ2ColoniaZona4.setVisible(true);
-		fichZ1ColoniaZona5.setVisible(true);
-		fichZ2ColoniaZona5.setVisible(true);
-		fichZ1ColoniaZona6.setVisible(true);
-		fichZ2ColoniaZona6.setVisible(true);*/
 	}
 	public void actualizaChat(String mensaje) {
 		txtrHistorial.setText(txtrHistorial.getText().trim() + "\n" + mensaje);
@@ -862,5 +854,9 @@ public class FrameTablero extends JFrame {
 			usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|" + msg);
 			txtChat.setText("");
 		}
+	}
+	
+	public void añadirPersonaje(int id) {
+		//usuario.getJugador().addSuperviviente(id);
 	}
 }

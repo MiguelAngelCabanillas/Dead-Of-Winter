@@ -92,7 +92,7 @@ public class FrameSeleccion extends JFrame {
 		GenericUser.setIcon(new ImageIcon(img2));
 		contentPane.add(GenericUser);
 		
-		JButton btnNewButtonCrear = new JButton("Crear Sala");
+		JButton btnNewButtonCrear = new JButton("Crear primera Sala disponible");
 		btnNewButtonCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -112,7 +112,7 @@ public class FrameSeleccion extends JFrame {
 		btnNewButtonCrear.setBounds(514, 289, 212, 66);
 		contentPane.add(btnNewButtonCrear);
 		
-		JButton btnNewButtonUnirse = new JButton("Unirse a una Sala");
+		JButton btnNewButtonUnirse = new JButton("Crear o unirse a una Sala por ID");
 		btnNewButtonUnirse.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

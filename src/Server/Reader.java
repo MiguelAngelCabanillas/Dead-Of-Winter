@@ -104,6 +104,11 @@ private BufferedReader buffer;
 						  
 					  }
 					 break;
+				case "host":
+					if(user.getSala().getHost().equals(user)) {
+						user.hacerPeticionAlServidor("host|");
+					}
+					break;
 					
 				case "idsala":
 					 user.hacerPeticionAlServidor("idsala|" + user.getSala().getId());

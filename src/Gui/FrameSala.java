@@ -38,6 +38,7 @@ public class FrameSala extends JFrame {
 	private JTextArea ChatArea;
 	private JLabel lblNDeJugadores = new JLabel();
 	private JLabel lblNewLabel = new JLabel();
+	private boolean host = false;
 	/**
 	 * Launch the application.
 	 */
@@ -103,6 +104,7 @@ public class FrameSala extends JFrame {
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
 		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
 		
+		if(host) {
 		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
 		ObjetivoPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -113,6 +115,7 @@ public class FrameSala extends JFrame {
 		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		ObjetivoPrincipal.setBounds(270, 356, 313, 45);
 		contentPane.add(ObjetivoPrincipal);
+		}
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(749, 118, 459, 585);
@@ -179,6 +182,7 @@ public class FrameSala extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		
+		if(host) {
 		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
@@ -194,6 +198,7 @@ public class FrameSala extends JFrame {
 		});
 		btnNewButton.setBounds(174, 449, 512, 51);
 		contentPane.add(btnNewButton);
+		}
 		
 		JButton btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
 		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -267,5 +272,9 @@ public class FrameSala extends JFrame {
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();
+	}
+	
+	public void setIsHost(boolean h) {
+		this.host = h;
 	}
 }
