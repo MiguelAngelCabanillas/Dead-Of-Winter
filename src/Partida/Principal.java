@@ -35,7 +35,7 @@ public class Principal {
 	
 	public Principal(int numJugadores, int objetivo) {
 		inicTablero(numJugadores);
-		inicMazos();
+		//inicMazos();
 		inicJugadores(numJugadores);
 		inicSupervivientes();
 	}

@@ -49,7 +49,7 @@ public class FrameTablero extends JFrame {
 	
 	private HashMap<Integer,JLabel> supMap = new HashMap<>(); 
 	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
-	private Principal principal;
+	private static Principal principal;
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -72,7 +72,7 @@ public class FrameTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTablero frame = new FrameTablero(objetivo, usuario,numJug);
+					FrameTablero frame = new FrameTablero(objetivo, usuario, principal);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,7 +84,7 @@ public class FrameTablero extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameTablero(int objetivo, Usuario user, int nJug) {
+	public FrameTablero(int objetivo, Usuario user, Principal princ) {
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -95,8 +95,7 @@ public class FrameTablero extends JFrame {
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		this.objetivo = objetivo;
 		this.usuario = user;
-		numJug = nJug;
-		principal = new Principal(numJug,objetivo);
+		principal = princ;
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -625,7 +624,7 @@ public class FrameTablero extends JFrame {
 		JButton btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				moverSuperviviente(0,0);
+				//moverSuperviviente
 			}
 		});
 		btnMoverse.setBounds(183, 196, 115, 41);
@@ -943,6 +942,8 @@ public class FrameTablero extends JFrame {
 			case 4 : p = locHospital[pos];
 			break;
 			case 5 : p = locBiblioteca[pos];
+			break;
+			case 6 : p = locColonia[pos];
 			break;
 		}
 		aux.setLocation(p);
