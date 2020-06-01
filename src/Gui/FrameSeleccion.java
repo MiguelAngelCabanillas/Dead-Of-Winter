@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Server.ClientReader;
+import Server.Sala;
 import Server.Usuario;
 
 import javax.swing.JLabel;
@@ -98,7 +99,8 @@ public class FrameSeleccion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|-1");
+					usuario.setSala(new Sala(usuario, 0));
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|-1|crear");
 					FrameSala fCrear = new FrameSala(usuario);
 					fCrear.setVisible(true);
 					dispose();

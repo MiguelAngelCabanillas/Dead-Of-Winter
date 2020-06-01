@@ -35,7 +35,7 @@ public class ServidorPrincipal {
 			//peticion.setSoTimeout(30000);
 			int j = 0;
 			while(j < peticiones.size()){
-				if(peticiones.get(j).getInetAddress().equals(peticion.getInetAddress())) {
+				if(peticiones.get(j).getInetAddress().equals(peticion.getInetAddress()) ) {
 				//envioAUsuarios.get(j).println("Error: Sesión duplicada");
 				envioAUsuarios.get(j).close();
 				envioAUsuarios.remove(j);
@@ -64,6 +64,17 @@ public class ServidorPrincipal {
 			
 			Reader reader = new Reader(peticion, envioAUsuarios, peticiones, usuarios, salas); // Crea un Reader (Clase que procesa los mensajes via servidor)
 			String usuarioNombre = reader.recibirMensaje();
+			for(Usuario usuario : usuarios) {
+				if(usuarioNombre.equals(usuario.getNombre())) {
+					peticiones.remove(peticion);
+					peticion.close();
+					envioAUsuarios.remove(pw);
+					pw.println("Error: conexión duplicada");
+					pw.close();
+					System.out.println("Error: conexión duplicada");
+					continue;
+				}
+			}
 			System.out.println(usuarioNombre);
 			Usuario usuario = new Usuario(usuarioNombre, new ClientReader(peticion));
 			usuarios.add(usuario);
@@ -78,5 +89,6 @@ public class ServidorPrincipal {
 	public static void main(String[] args) {
 		ServidorPrincipal server = new ServidorPrincipal();
 	}
+	
 }
 

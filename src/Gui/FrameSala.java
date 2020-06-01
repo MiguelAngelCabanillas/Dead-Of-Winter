@@ -233,6 +233,11 @@ public class FrameSala extends JFrame {
 		label.setIcon(new ImageIcon(img));
 		label.setBounds(0, 0, 1218, 782);
 		contentPane.add(label);
+		
+		if(usuario.getSala() == null){
+			btnNewButton.setVisible(false);
+			ObjetivoPrincipal.setVisible(false);
+		}
 
 	}
 	
@@ -253,8 +258,18 @@ public class FrameSala extends JFrame {
 
 	      setLocationRelativeTo(null);
 	}
-	public static void setObjetivoPrincipal(int obj) {
+	public static void setObjetivoPrincipal(int obj) throws IOException {
 		ObjetivoElegido = obj;
+		String msg = "";
+		switch(obj) {
+		case 1: msg = "Mas ejemplares";
+			break;
+		case 2: msg = "Raiding Party";
+			break;
+		default:
+			
+		}
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|msgsala|Se ha seleccionado el objetivo " + msg);
 	}
 	private void mandarMensaje() throws IOException {
 		String msg = EscribirChat.getText().trim();

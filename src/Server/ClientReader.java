@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
+import javax.swing.JOptionPane;
+
 import Gui.FrameSala;
 import Gui.FrameTablero;
 
@@ -57,6 +59,8 @@ public class ClientReader implements Runnable {
 						e.printStackTrace();
 					}
                 	break;
+                case "error":
+                	JOptionPane.showMessageDialog(null, splitedmsg[1]);
 
                 default:
                     break;

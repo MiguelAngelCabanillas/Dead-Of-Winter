@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Server.Sala;
 import Server.Usuario;
 
 import javax.swing.JLabel;
@@ -162,7 +163,8 @@ public class FrameUnirse extends JFrame {
 		String partidarequest, trim;
 		partidarequest = textFieldUnirse.getText();
 		trim = partidarequest.trim();
-		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
+		usuario.setSala(new Sala(null, Integer.parseInt(trim)));
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim + "|unirse");
 		FrameSala fCrear = new FrameSala(usuario);
 		fCrear.setVisible(true);
 		dispose();
