@@ -55,8 +55,10 @@ private BufferedReader buffer;
 					idSala = getIdSalaLibre();
 					
 				}
+				
+				
 				sala = buscarSala(idSala);
-				if(sala == null){ //Si la sala no esta creada se crea
+				if(sala == null && user.getSala() == null){ //Si la sala no esta creada y el usuario no esta en ninguna se crea
 					sala = new Sala(user, idSala);
 					user.setSala(sala);
 					salas.add(sala);
@@ -104,11 +106,6 @@ private BufferedReader buffer;
 						  
 					  }
 					 break;
-				case "host":
-					if(user.getSala().getHost().equals(user)) {
-						user.hacerPeticionAlServidor("host|");
-					}
-					break;
 					
 				case "idsala":
 					 user.hacerPeticionAlServidor("idsala|" + user.getSala().getId());
