@@ -50,6 +50,7 @@ public class FrameTablero extends JFrame {
 	private HashMap<Integer,JLabel> supMap = new HashMap<>(); 
 	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
 	private static Principal principal;
+	private ObjPrincipal auxObj;
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -147,9 +148,11 @@ public class FrameTablero extends JFrame {
 		JButton ObjetivoPrin = new JButton("");
 		ObjetivoPrin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				ObjPrincipal aux = new ObjPrincipal(objetivo);
-				aux.setVisible(true);
+				if(auxObj != null) {
+					auxObj.dispose();
+				}
+				auxObj = new ObjPrincipal(objetivo);
+				auxObj.setVisible(true);
 				
 			}
 		});
