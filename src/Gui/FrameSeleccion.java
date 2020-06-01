@@ -77,7 +77,7 @@ public class FrameSeleccion extends JFrame {
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
-		lblNewLabel.setBounds(450, 158, 338, 49);
+		lblNewLabel.setBounds(460, 159, 338, 49);
 		contentPane.add(lblNewLabel);
 		
 		JLabel userName = new JLabel("Nombre de usuario: " + usuario.getNombre());
@@ -92,7 +92,7 @@ public class FrameSeleccion extends JFrame {
 		GenericUser.setIcon(new ImageIcon(img2));
 		contentPane.add(GenericUser);
 		
-		JButton btnNewButtonCrear = new JButton("Crear Sala");
+		JButton btnNewButtonCrear = new JButton("Crear primera Sala disponible");
 		btnNewButtonCrear.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -109,10 +109,10 @@ public class FrameSeleccion extends JFrame {
 				}
 			}
 		});
-		btnNewButtonCrear.setBounds(514, 289, 212, 66);
+		btnNewButtonCrear.setBounds(483, 264, 300, 66);
 		contentPane.add(btnNewButtonCrear);
 		
-		JButton btnNewButtonUnirse = new JButton("Unirse a una Sala");
+		JButton btnNewButtonUnirse = new JButton("Crear o unirse a una Sala por ID");
 		btnNewButtonUnirse.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -127,7 +127,7 @@ public class FrameSeleccion extends JFrame {
 				}
 			}
 		});
-		btnNewButtonUnirse.setBounds(514, 477, 212, 66);
+		btnNewButtonUnirse.setBounds(460, 392, 338, 66);
 		contentPane.add(btnNewButtonUnirse);
 		
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));

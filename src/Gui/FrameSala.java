@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import Server.Usuario;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -38,6 +39,7 @@ public class FrameSala extends JFrame {
 	private JTextArea ChatArea;
 	private JLabel lblNDeJugadores = new JLabel();
 	private JLabel lblNewLabel = new JLabel();
+	private boolean host = false;
 	/**
 	 * Launch the application.
 	 */
@@ -106,8 +108,23 @@ public class FrameSala extends JFrame {
 		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
 		ObjetivoPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ObjetivosPrincipales obj = new ObjetivosPrincipales();
-				obj.setVisible(true);
+				try {
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
+					Thread.sleep(50);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(host) {
+					ObjetivosPrincipales obj = new ObjetivosPrincipales();
+					obj.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Solo el host puede seleccionar el objetivo principal");
+				}
+				
 			}
 		});
 		ObjetivoPrincipal.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -185,8 +202,18 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 				try {
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
+					Thread.sleep(50);
+					if(host) {
+						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+					} else {
+						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
+					}
+					
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -267,5 +294,9 @@ public class FrameSala extends JFrame {
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();
+	}
+	
+	public void setIsHost(boolean h) {
+		this.host = h;
 	}
 }

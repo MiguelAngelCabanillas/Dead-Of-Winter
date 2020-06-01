@@ -4,27 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-
-
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ObjetivosPrincipales extends JFrame {
+public class ObjPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	private int ObjetivoElegido;
+	private static int objetivo;
 
 	/**
 	 * Launch the application.
@@ -33,7 +28,7 @@ public class ObjetivosPrincipales extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ObjetivosPrincipales frame = new ObjetivosPrincipales();
+					ObjPrincipal frame = new ObjPrincipal(objetivo);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,18 +40,22 @@ public class ObjetivosPrincipales extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ObjetivosPrincipales() {
+	public ObjPrincipal(int objetivo) {
+		
+		this.objetivo = objetivo;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
+		setBounds(100, 100, 450, 300);
 		setBackground(new Color(0, 0, 0, 10));
-		setBounds(100, 100, 766, 441);
 		ajustarAPantalla();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(0, 0, 0, 10));
 		setContentPane(contentPane);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		contentPane.setLayout(null);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		
 		
 		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/NecesitamosEjemplares.png"));
@@ -65,29 +64,26 @@ public class ObjetivosPrincipales extends JFrame {
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/RaidingParty.png"));
 		Image img3 = ima3.getImage().getScaledInstance(300, 420, java.awt.Image.SCALE_SMOOTH);
 		
-		JButton SelecMasEjemplares = new JButton("");
-		SelecMasEjemplares.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ObjetivoElegido = 1;
-				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
-				dispose();
-			}
-		});
-		SelecMasEjemplares.setBounds(10, 11, 300, 420);
-		SelecMasEjemplares.setIcon(new ImageIcon(img2));
-		contentPane.add(SelecMasEjemplares);
 		
-		JButton SelecRaidingParty = new JButton("");
-		SelecRaidingParty.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ObjetivoElegido = 2;
-				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(10, 11, 300, 420);
+		if(objetivo == 1) {
+			lblNewLabel.setIcon(new ImageIcon(img2));
+		}else if (objetivo == 2) {
+			lblNewLabel.setIcon(new ImageIcon(img3));
+		}
+		
+		JButton btnNewButton = new JButton("OK\r\n");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		SelecRaidingParty.setBounds(364, 11, 300, 420);
-		SelecRaidingParty.setIcon(new ImageIcon(img3));
-		contentPane.add(SelecRaidingParty);
+		btnNewButton.setBounds(115, 442, 89, 34);
+		contentPane.add(btnNewButton);
+		
+		
+		contentPane.add(lblNewLabel);
 		
 		
 	}
@@ -95,7 +91,7 @@ public class ObjetivosPrincipales extends JFrame {
 		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 	      int height = pantalla.height;
 	      int width = pantalla.width;
-	      setSize(677, 445);
+	      setSize(326, 486);
 
 	      setLocationRelativeTo(null);
 	}

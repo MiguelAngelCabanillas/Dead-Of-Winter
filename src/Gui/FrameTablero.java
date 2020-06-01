@@ -68,23 +68,6 @@ public class FrameTablero extends JFrame {
 			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
 	
 	private static Thread hilo;
-	/*private JLabel fichSSupermercado3;
-	private JLabel fichSSupermercado1;
-	private JLabel fichSSupermercado2;
-	private JLabel fichSBiblioteca3;
-	private JLabel fichSBiblioteca1;
-	private JLabel fichSBiblioteca2;
-	private JLabel fichSGasolinera1;
-	private JLabel fichSGasolinera2;
-	private JLabel fichSColegio4;
-	private JLabel fichSColegio2;
-	private JLabel fichSColegio3;
-	private JLabel fichSColegio1;
-	private JLabel fichSHospital4;
-	private JLabel fichSHospital2;
-	private JLabel fichSHospital3;
-	private JLabel fichSHospital1;*/
-
 
 	/**
 	 * Launch the application.
@@ -166,6 +149,18 @@ public class FrameTablero extends JFrame {
 		fichMoral2.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral2.setVisible(false);
 		contentPane.add(fichMoral2);
+		
+		JButton ObjetivoPrin = new JButton("");
+		ObjetivoPrin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ObjPrincipal aux = new ObjPrincipal(objetivo);
+				aux.setVisible(true);
+				
+			}
+		});
+		ObjetivoPrin.setBounds(911, 699, 123, 158);
+		contentPane.add(ObjetivoPrin);
 		
 		fichMoral3 = new JLabel("");
 		fichMoral3.setBounds(1229, 914, 36, 33);
@@ -878,79 +873,23 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
-		/*
-		fichSSupermercado3 = new JLabel("");
-		fichSSupermercado3.setBounds(686, 471, 36, 34);
-		contentPane.add(fichSSupermercado3);
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/NecesitamosEjemplares.png"));
+		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
-		fichSSupermercado1 = new JLabel("");
-		fichSSupermercado1.setBounds(593, 471, 36, 34);
-		contentPane.add(fichSSupermercado1);
+		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/RaidingParty.png"));
+		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
-		fichSSupermercado2 = new JLabel("");
-		fichSSupermercado2.setBounds(640, 471, 36, 34);
-		contentPane.add(fichSSupermercado2);
-		
-		fichSBiblioteca3 = new JLabel("");
-		fichSBiblioteca3.setBounds(1617, 779, 36, 34);
-		contentPane.add(fichSBiblioteca3);
-		
-		fichSBiblioteca1 = new JLabel("");
-		fichSBiblioteca1.setBounds(1524, 779, 36, 34);
-		contentPane.add(fichSBiblioteca1);
-		
-		fichSBiblioteca2 = new JLabel("");
-		fichSBiblioteca2.setBounds(1571, 779, 36, 34);
-		contentPane.add(fichSBiblioteca2);
-		
-		fichSGasolinera1 = new JLabel("");
-		fichSGasolinera1.setBounds(1547, 163, 36, 34);
-		contentPane.add(fichSGasolinera1);
-		
-		fichSGasolinera2 = new JLabel("");
-		fichSGasolinera2.setBounds(1594, 163, 36, 34);
-		contentPane.add(fichSGasolinera2);
-		
-		fichSColegio4 = new JLabel("");
-		fichSColegio4.setBounds(709, 779, 36, 34);
-		contentPane.add(fichSColegio4);
-		
-		fichSColegio2 = new JLabel("");
-		fichSColegio2.setBounds(616, 779, 36, 34);
-		contentPane.add(fichSColegio2);
-		
-		fichSColegio3 = new JLabel("");
-		fichSColegio3.setBounds(662, 779, 36, 34);
-		contentPane.add(fichSColegio3);
-		
-		fichSColegio1 = new JLabel("");
-		fichSColegio1.setBounds(568, 779, 36, 34);
-		contentPane.add(fichSColegio1);
-		
-		fichSHospital4 = new JLabel("");
-		fichSHospital4.setBounds(1641, 472, 36, 34);
-		contentPane.add(fichSHospital4);
-		
-		fichSHospital2 = new JLabel("");
-		fichSHospital2.setBounds(1548, 472, 36, 34);
-		contentPane.add(fichSHospital2);
-		
-		fichSHospital3 = new JLabel("");
-		fichSHospital3.setBounds(1594, 472, 36, 34);
-		contentPane.add(fichSHospital3);
-		
-		fichSHospital1 = new JLabel("");
-		fichSHospital1.setBounds(1500, 472, 36, 34);
-		contentPane.add(fichSHospital1);*/
+
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
 		switch(objetivo){
-			case 1: weNeedMoreSamples();
+			case 1: weNeedMoreSamples(); ObjetivoPrin.setIcon(new ImageIcon(img2));
 			break;
-			case 2: raidingParty();
+			case 2: raidingParty(); ObjetivoPrin.setIcon(new ImageIcon(img3));
 			break;
 		}
+
 		if(usuario != null) {//TODO: CAMBIAR
 			usuario.getClientReader().setTablero(this);
 			usuario.getClientReader().setSala(null);
@@ -1056,6 +995,7 @@ public class FrameTablero extends JFrame {
 		}
 	}
 	
+
 	//SOLO PASAMOS EL ID DEL SUPERVIVIENTE
 	private void anyadirSuperviviente(int id) {
 		//int pos = listJ.get(0).getTablero().getColonia().anyadirSupervivientes(id); //devuelve la primera posicion vacia en la colonia
