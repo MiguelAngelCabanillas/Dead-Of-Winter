@@ -16,7 +16,6 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//DATOS PARA LA INTERFAZ
-	private String nombre;
 	private int id;
 	
 	//DATOS DEL JUGADOR
@@ -32,8 +31,7 @@ public class Jugador {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Jugador(String n, int id, List<Carta_Objeto> mazo, Tablero t) {
-		nombre = n;
+	public Jugador(int id, List<Carta_Objeto> mazo, Tablero t) {
 		this.id = id;
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
@@ -49,16 +47,8 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//GETTERS Y SETTERS
-	public String getNombre() {
-		return this.nombre;
-	}
-	
 	public List<Dado> getDados() {
 		return this.dados;
-	}
-	
-	public void setNombre(String n) {
-		this.nombre = n;
 	}
 	
 	public int getId () {
@@ -67,6 +57,10 @@ public class Jugador {
 	
 	public void setId (int i) {
 		this.id = i;
+	}
+	
+	public Tablero getTablero() {
+		return tablero;
 	}
 	
 	public List<Carta_Supervivientes> getMazoSuperviviente() {
@@ -154,6 +148,11 @@ public class Jugador {
 		return l;
 	}
 	
+	//AÑADE UN SUPERVIVIENTE AL JUGADOR
+	public void addSuperviviente(int id) {
+	
+	}
+	
 	//DEVUELVE EL SUPERVIVIENTE QUE EL JUGADOR TIENE EN LA LOCALIZACION
 	public Carta_Supervivientes comprobarLocalizacion(Localizacion l) {
 		boolean esta = false;
@@ -170,6 +169,27 @@ public class Jugador {
 		}
 		
 		return personaje;
+	}
+	
+	public Localizacion getLocalizacion(int id) {
+		Localizacion sitio = null;
+		
+		switch(id) {
+		case 0 : sitio = tablero.getComisaria();
+			break;
+		case 1 : sitio = tablero.getSupermercado();
+			break;
+		case 2 : sitio = tablero.getColegio();
+			break;
+		case 3 : sitio = tablero.getGasolinera();
+			break;
+		case 4 : sitio = tablero.getHospital();
+			break;
+		case 5 : sitio = tablero.getBiblioteca();
+			break;
+		}
+		
+		return sitio;
 	}
 	 
 	//REALIZA UNA TIRADA DEL DADO DE RIESGO Y REGULA LAS ACCIONES POSTERIORES A ESTA
@@ -224,13 +244,18 @@ public class Jugador {
 		}
 	}
 	
-	public void mover(Carta_Supervivientes personaje, Localizacion lugar) {
+	public int mover(Carta_Supervivientes personaje, int l) {
+		Localizacion lugar = getLocalizacion(l);
+		int posicion = lugar.getPimeraValida();
+		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(lugar.llegar(personaje) && !lugar.getSupervivientes().contains(personaje)) {
+		if(lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
 			localizacion(personaje).irse(personaje);;
 			lugar.llegar(personaje);
 			this.tiradaRiesgo(personaje);
 		}
+		
+		return posicion;
 	}
 	
 	public void votacion() {

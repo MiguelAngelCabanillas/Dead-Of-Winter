@@ -61,10 +61,10 @@ public class ClientReader implements Runnable {
                 	sala.setIsHost(true);
                 	break;
                 case "asignar": // asignar|id|id|id|id...
-                	int i = 0;
+                	/*int i = 0;
                 	while(split[i] != null) {
                 	 tablero.añadirPersonaje(Integer.parseInt(split[i]));
-                	}
+                	}*/
                 	break;
                 	
                 case "mover": // mover|superviviente|origen|destino --- Superviviente es una ID única para cada tipo de superviviente

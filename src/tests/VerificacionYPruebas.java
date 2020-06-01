@@ -15,8 +15,8 @@ public class VerificacionYPruebas {
 	@Before
 	public void inicializarLocalizacion() {
 		this.l = new Localizacion("Prueba.", null, 3, 3);
-		this.j = new Jugador("Jugador de prueba.", 0, null, new Tablero(1, null, null, null,
-				null, null, null, null));
+	/*	this.j = new Jugador("Jugador de prueba.", 0, null, new Tablero(1, null, null, null,
+				null, null, null, null));*/
 		this.superviviente = new Carta_Supervivientes(0, "Superviviente de prueba.", "Descripción.",
 				0,0,"Habilidad.",0);
 		this.c = new Colonia(null, 10, 10, 3);
@@ -48,7 +48,7 @@ public class VerificacionYPruebas {
 			l.ponerBarricada();
 				
 			//Añadimos un superviviente.
-			l.getSupervivientes().add(this.superviviente);
+			//l.getSupervivientes().add(this.superviviente);
 				
 			//Invocamos al método que actualiza las casillas zombie.
 			l.actualizarCasillasZombiePasoDeRonda();
@@ -79,9 +79,9 @@ public class VerificacionYPruebas {
 		l.ponerBarricada();
 				
 		//Añadimos tres supervivientes.
-		for (int i = 0; i < l.getMaximo(); i++) {
+		/*for (int i = 0; i < l.getMaximo(); i++) {
 			l.getSupervivientes().add(superviviente);
-		}
+		}*/
 			
 		//Invocamos al método que actualiza las casillas zombie.
 		l.actualizarCasillasZombiePasoDeRonda();
@@ -115,9 +115,9 @@ public class VerificacionYPruebas {
 	@Test
 	public void testCasillasZombieCuartoCaso() throws barricadaException {
 		//Añadimos tres supervivientes.
-		for (int i = 0; i < l.getMaximo(); i++) {
+		/*for (int i = 0; i < l.getMaximo(); i++) {
 			l.getSupervivientes().add(superviviente);
-		}
+		}*/
 		//Actualizamos las casillas zombies, de manera que quedan las tres casillas llenas de zombies.
 		l.actualizarCasillasZombiePasoDeRonda();
 		
@@ -134,9 +134,9 @@ public class VerificacionYPruebas {
 		}
 		
 		//Comprobamos que todos los supervivientes están muertos
-		for (Carta_Supervivientes superviviente : l.getSupervivientes()) {
+		/*for (Carta_Supervivientes superviviente : l.getSupervivientes()) {
 			assertEquals(true, superviviente.estaMuerto());
-		}
+		}*/
 	}
 	
 	@Test

@@ -34,7 +34,7 @@ public class Partida {
 				mazoSupermercado, mazoGasolinera, mazoBiblioteca, objetivoPrincipal);
 		
 		for (int i = 0; i < nombres.length; ++i) {
-			jugadores.add(new Jugador(nombres[i], i, mazoObjetosJugadores[i], tablero));
+			jugadores.add(new Jugador(i, mazoObjetosJugadores[i], tablero));
 		}
 		
 		int current = 0;

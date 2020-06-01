@@ -2,7 +2,8 @@ package Partida;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Map;
+import java.util.TreeMap;
 
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
@@ -20,7 +21,7 @@ public class Localizacion {
 	
 	//DATOS PARA EL MOVIMIENTO
 	private List<CasillasZombie> casillasZombie;
-	private PriorityQueue <Carta_Supervivientes> supervivientes;
+	private Map<Integer, Carta_Supervivientes> supervivientes;
 	private int maximoNumSupervivientes;
 	
 	//DATOS PARA LA BUSQUEDA
@@ -35,7 +36,7 @@ public class Localizacion {
 		this.nombre = n;
 		
 		inicCasillasZombie(numCasillasZombie);
-		this.supervivientes = new PriorityQueue<Carta_Supervivientes>();
+		this.supervivientes = new TreeMap<Integer, Carta_Supervivientes>();
 		this.maximoNumSupervivientes = max;
 		
 		this.mazo = m;
@@ -64,7 +65,7 @@ public class Localizacion {
 		return this.casillasZombie;
 	}
 
-	public PriorityQueue<Carta_Supervivientes> getSupervivientes() {
+	public Map<Integer, Carta_Supervivientes> getSupervivientes() {
 		return supervivientes;
 	}
 	
@@ -80,7 +81,7 @@ public class Localizacion {
 		return tokensDeRuido;
 	}
 	
-	public void setSupervivientes(PriorityQueue<Carta_Supervivientes> supervivientes) {
+	public void setSupervivientes(Map<Integer, Carta_Supervivientes> supervivientes) {
 		this.supervivientes = supervivientes;
 	}
 
@@ -112,7 +113,7 @@ public class Localizacion {
 		
 		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
 		while(numZombies > 0) {
-			Carta_Supervivientes muerto = this.supervivientes.poll();;
+			Carta_Supervivientes muerto = this.supervivientes.get(getPosicion(menorInfluencia()));
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
@@ -122,7 +123,50 @@ public class Localizacion {
 	
 	//METODOS DE CONTROL
 	public boolean esta(Carta_Supervivientes personaje) {
-		return supervivientes.contains(personaje);
+		return supervivientes.containsValue(personaje);
+	}
+	
+	public int getPimeraValida() {
+		int i = 0;
+		boolean encontrado = false;
+		
+		while(i < supervivientes.size() && !encontrado) {
+			if(supervivientes.containsKey(i)) {
+				encontrado = true;
+			}else {
+				i++;
+			}
+		}
+		
+		return i;
+	}
+	
+	public int getPosicion(Carta_Supervivientes personaje) {
+		int i = 0;
+		boolean encontrado = false;
+		
+		while(!encontrado && i < supervivientes.size()) {
+			if(supervivientes.get(i).equals(personaje)) {
+				encontrado = true;
+			}else {
+				i++;
+			}
+		}
+		
+		return i;
+	}
+	
+	//METODO PARA BUSCAR AL SUPERVIVIENTE CON MENOS INFLUENCIA
+	public Carta_Supervivientes menorInfluencia() {
+		Carta_Supervivientes aux = supervivientes.get(0);
+		
+		for(int i = 0; i < supervivientes.size(); i++) {
+			if(aux.compareTo(supervivientes.get(i)) > 1) {
+				aux = supervivientes.get(i);
+			}
+		}
+		
+		return aux;
 	}
 	
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
@@ -160,7 +204,7 @@ public class Localizacion {
 		boolean mover = false;
 		
 		if (supervivientes.size() < maximoNumSupervivientes) {
-			supervivientes.add(personaje);
+			supervivientes.put(getPimeraValida(), personaje);
 			mover = true;
 		}
 		
@@ -168,7 +212,7 @@ public class Localizacion {
 	}
 	
 	public void irse(Carta_Supervivientes personaje) {
-		supervivientes.remove(personaje);
+		supervivientes.remove(getPosicion(personaje));
 	}
 	
 	//METODOS DE CLASE

@@ -15,13 +15,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+
+import Partida.*;
+
 public class FrameTablero extends JFrame {
 
-	private static int objetivo = 1;
+	private static int objetivo,numJug;//TODO: CAMBIADO
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
+	private JLabel aux;
+	private Point p;
+	private int pos = 0,posF = 23;
 	
 	private JLabel fichMoral1,fichMoral2,fichMoral3,fichMoral4,fichMoral5,fichMoral6,fichMoral7,fichMoral8,fichMoral9,fichMoral10;
 	private JLabel fichRonda1,fichRonda2,fichRonda3,fichRonda4,fichRonda5,fichRonda6,fichRonda7,fichRonda8,fichRonda9,fichRonda10;
@@ -37,8 +47,23 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
+	private HashMap<Integer,JLabel> supMap = new HashMap<>(); 
+	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
+	private Principal principal;
+	
+	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
+									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
+									new Point(974,440),new Point(1026,440), new Point(1080,440),new Point(1132,440),new Point(1185,440),new Point(1238,440),
+									new Point(974,490),new Point(1026,490), new Point(1080,490),new Point(1132,490),new Point(1185,490),new Point(1238,490)};
+	
+	private Point locComisaria[] = {new Point(593,163),new Point(640,164),new Point(686,163)},
+			locSupermercado[] = {new Point(593,471),new Point(640,471),new Point(686,471)},
+			locColegio[] = {new Point(568,779),new Point(616,779),new Point(662,779),new Point(709,779)},
+			locGasolinera[] = {new Point(1547,163),new Point(1594,163)},
+			locHospital[] = {new Point(1500,472),new Point(1548,472),new Point(1594,472),new Point(1641,472)},
+			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
+	
 	private static Thread hilo;
-
 
 	/**
 	 * Launch the application.
@@ -47,7 +72,7 @@ public class FrameTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTablero frame = new FrameTablero(objetivo, usuario);
+					FrameTablero frame = new FrameTablero(objetivo, usuario,numJug);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +84,7 @@ public class FrameTablero extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameTablero(int objetivo, Usuario user) {
+	public FrameTablero(int objetivo, Usuario user, int nJug) {
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -70,37 +95,40 @@ public class FrameTablero extends JFrame {
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		this.objetivo = objetivo;
 		this.usuario = user;
+		numJug = nJug;
+		principal = new Principal(numJug,objetivo);
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnFile = new JMenu("File");
-		mnFile.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		menuBar.add(mnFile);
+		JMenu mnInfo = new JMenu("Info");
+		mnInfo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mnInfo.setToolTipText("Informacion relevante sobre la partida");
+		menuBar.add(mnInfo);
 		
-		JMenu mnAsda = new JMenu("asda");
-		mnFile.add(mnAsda);
+		JMenuItem mntmInfojugador = new JMenuItem("InfoJugador");
+		mntmInfojugador.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInfojugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
+		mnInfo.add(mntmInfojugador);
 		
-		JMenuItem mntmXedwa = new JMenuItem("xedwa");
-		mnAsda.add(mntmXedwa);
+		JMenuItem mntmInfoTablero = new JMenuItem("InfoTablero");
+		mntmInfoTablero.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInfoTablero.setToolTipText("Muestra informacion sobre el estado actual del tablero");
+		mnInfo.add(mntmInfoTablero);
 		
-		JMenu mnView = new JMenu("View");
-		mnView.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		menuBar.add(mnView);
-		
-		JMenu mnTools = new JMenu("Tools");
-		mnTools.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		menuBar.add(mnTools);
-		
-		JMenu mnOptions = new JMenu("Options");
-		mnOptions.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		menuBar.add(mnOptions);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
+		
+		int idSup[] = principal.inicPartida(numJug);
+		int i = 0;
+		for (int s : idSup) {
+			inicializarSuperviviente(s,i);
+			i++;
+		}
 	
 ///////////////////////////////////////////////////////////////////////////////////////TODO: LABELS MORAL, RONDAS
 		
@@ -109,24 +137,13 @@ public class FrameTablero extends JFrame {
 		fichMoral1.setBounds(1144, 914, 36, 33);
 		fichMoral1.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral1.setVisible(false);
+		contentPane.add(fichMoral1);
 		
 		fichMoral2 = new JLabel("");
 		fichMoral2.setBounds(1187, 914, 36, 33);
 		fichMoral2.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral2.setVisible(false);
-		
-		JButton btnSendChat = new JButton(">");
-		btnSendChat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					
-					mandarMensaje();
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		contentPane.add(fichMoral2);
 		
 		JButton ObjetivoPrin = new JButton("");
 		ObjetivoPrin.addActionListener(new ActionListener() {
@@ -139,10 +156,6 @@ public class FrameTablero extends JFrame {
 		});
 		ObjetivoPrin.setBounds(911, 699, 123, 158);
 		contentPane.add(ObjetivoPrin);
-		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(262, 910, 41, 33);
-		contentPane.add(btnSendChat);
-		contentPane.add(fichMoral2);
 		
 		fichMoral3 = new JLabel("");
 		fichMoral3.setBounds(1229, 914, 36, 33);
@@ -365,18 +378,6 @@ public class FrameTablero extends JFrame {
 		fichZ2ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
 		fichZ2ColoniaZona2.setVisible(false);
 		contentPane.add(fichZ2ColoniaZona2);
-		contentPane.add(fichMoral1);
-		
-		///LABELS SUPERVIVIENTES
-		JLabel fichSColonia2 = new JLabel("");
-		fichSColonia2.setBounds(1026, 339, 36, 34);
-		//fichSColonia2.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
-		contentPane.add(fichSColonia2);
-		
-		JLabel fichSColonia1 = new JLabel("");
-		fichSColonia1.setBounds(977, 339, 36, 34);
-		//fichSColonia1.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
-		contentPane.add(fichSColonia1);
 		
 		///LABELS AUXILIARES
 		JLabel fichAlimento3 = new JLabel("");
@@ -433,19 +434,19 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichZComisaria1);
 		
 		///LABELS SUPERVIVIENTES
-		JLabel fichSComisaria3 = new JLabel("");
+		/*JLabel fichSComisaria3 = new JLabel("");
 		fichSComisaria3.setBounds(686, 163, 36, 34);
 		contentPane.add(fichSComisaria3);
 		
 		JLabel fichSComisaria2 = new JLabel("");
 		fichSComisaria2.setBounds(640, 164, 36, 34);
-		//fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
+		fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
 		contentPane.add(fichSComisaria2);
 		
 		JLabel fichSComisaria1 = new JLabel("");
 		fichSComisaria1.setBounds(593, 163, 36, 34);
-		//fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
-		contentPane.add(fichSComisaria1);
+		fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
+		contentPane.add(fichSComisaria1);*/
 		
 		//LABELS SUPERMERCADO
 		
@@ -613,11 +614,20 @@ public class FrameTablero extends JFrame {
 		contentPane.add(lblAcciones);
 		
 		JButton btnAtacar = new JButton("ATACAR");
+		btnAtacar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnAtacar.setBounds(12, 92, 115, 41);
 		btnAtacar.setToolTipText("Atacar a un zombie o superviviente");
 		contentPane.add(btnAtacar);
 		
 		JButton btnMoverse = new JButton("MOVERSE");
+		btnMoverse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				moverSuperviviente(0,0);
+			}
+		});
 		btnMoverse.setBounds(183, 196, 115, 41);
 		btnMoverse.setToolTipText("Desplazar un superviviente a otra localización");
 		contentPane.add(btnMoverse);
@@ -672,15 +682,19 @@ public class FrameTablero extends JFrame {
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
 		
-		JButton btnInfoJugador = new JButton("INFO JUGADOR");
-		btnInfoJugador.setToolTipText("Muestra información sobre el jugador actual");
-		btnInfoJugador.setBounds(1267, 73, 140, 41);
-		contentPane.add(btnInfoJugador);
-		
-		JButton btnInfoTablero = new JButton("INFO TABLERO");
-		btnInfoTablero.setToolTipText("Muestra información sobre el estado actual del tablero");
-		btnInfoTablero.setBounds(847, 73, 128, 41);
-		contentPane.add(btnInfoTablero);
+		JButton btnSendChat = new JButton(">");
+		btnSendChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					mandarMensaje();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnSendChat.setToolTipText("Envia un mensaje al chat");
+		btnSendChat.setBounds(262, 910, 41, 33);
+		contentPane.add(btnSendChat);
 		
 		txtChat = new JTextField();
 		txtChat.addKeyListener(new KeyAdapter() {
@@ -688,9 +702,7 @@ public class FrameTablero extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
-						
 						mandarMensaje();
-						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -762,6 +774,7 @@ public class FrameTablero extends JFrame {
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/RaidingParty.png"));
 		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
+
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
@@ -771,15 +784,13 @@ public class FrameTablero extends JFrame {
 			case 2: raidingParty(); ObjetivoPrin.setIcon(new ImageIcon(img3));
 			break;
 		}
-		
-		if(usuario != null) {
-		usuario.getClientReader().setTablero(this);
-		usuario.getClientReader().setSala(null);
-		hilo = new Thread(usuario.getClientReader());
-		hilo.start();
-		}
-		
-		
+
+		//if(usuario != null) {//TODO: CAMBIAR
+			usuario.getClientReader().setTablero(this);
+			usuario.getClientReader().setSala(null);
+			hilo = new Thread(usuario.getClientReader());
+			hilo.start();
+		//}
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
@@ -866,9 +877,11 @@ public class FrameTablero extends JFrame {
 		fichZ1ColoniaZona1.setVisible(true);
 		fichZ1ColoniaZona2.setVisible(true);
 	}
+	
 	public void actualizaChat(String mensaje) {
 		txtrHistorial.setText(txtrHistorial.getText().trim() + "\n" + mensaje);
 	}
+	
 	private void mandarMensaje() throws IOException {
 		String msg = txtChat.getText().trim();
 		if(!msg.equals("")) {
@@ -877,7 +890,63 @@ public class FrameTablero extends JFrame {
 		}
 	}
 	
-	public void añadirPersonaje(int id) {
-		//usuario.getJugador().addSuperviviente(id);
+
+	//INICIALIZAMOS LOS SUPERVIVIENTES EN EL TABLERO INICIAL
+	private void inicializarSuperviviente(int id,int posI) {
+		aux = new JLabel("");
+		p = locColonia[posI];
+		aux.setBounds(p.x, p.y, 36, 34);
+		aux.setIcon(imgCircular("images/sup"+id+".png",36,34));
+		contentPane.add(aux);
+		supMap.put(id, aux);
+	}
+	
+	//SOLO PASAMOS EL ID DEL SUPERVIVIENTE
+	private void anyadirSuperviviente(int id) {
+		//int pos = principal.getJugador(0).get(0).getTablero().getColonia().anyadirSupervivientes(id); //devuelve la primera posicion vacia en la colonia
+		
+		aux = new JLabel("");
+		p = locColonia[pos];
+		pos++;
+		aux.setBounds(p.x, p.y, 36, 34);
+		//aux.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		aux.setIcon(imgCircular("images/sup"+id+".png",36,34));
+		contentPane.add(aux);
+		supMap.put(id, aux);
+	}
+	
+	//PASAMOS Nº SUPERVIVIENTES INDEFENSOS PARA PODER DIFERENCIAR JLABELS
+	private void anyadirSupIndef(int nSupInd) { //deberiamos de pasarle algun id que lo identifique nSupInd, podriamos crear otro diccionario
+		//int pos = posicionValidaColoniaReversa(); //devuelve la ultima posicion vacia en la colonia
+		aux = new JLabel("");
+		p = locColonia[posF];
+		posF--;
+		aux.setBounds((int) p.getX(),(int) p.getY(), 36, 34);
+		aux.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
+		contentPane.add(aux);
+		supIndMap.put(nSupInd,aux);
+	}
+	
+	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER
+	private void moverSuperviviente(int id, int loc) {
+		//int pos = posicionValida(loc);
+		aux = supMap.get(id);
+		switch(loc) {
+			case 0 : p = locComisaria[pos];
+			break;
+			case 1 : p = locSupermercado[pos];
+			break;
+			case 2 : p = locColegio[pos];
+			break;
+			case 3 : p = locGasolinera[pos];
+			break;
+			case 4 : p = locHospital[pos];
+			break;
+			case 5 : p = locBiblioteca[pos];
+			break;
+		}
+		aux.setLocation(p);
 	}
 }
+
+
