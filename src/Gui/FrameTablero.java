@@ -24,7 +24,7 @@ import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo = 1;//TODO: CAMBIADO
+	private static int objetivo;//TODO: CAMBIADO
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
@@ -890,12 +890,12 @@ public class FrameTablero extends JFrame {
 			break;
 		}
 
-		if(usuario != null) {//TODO: CAMBIAR
+		//if(usuario != null) {//TODO: CAMBIAR
 			usuario.getClientReader().setTablero(this);
 			usuario.getClientReader().setSala(null);
 			hilo = new Thread(usuario.getClientReader());
 			hilo.start();
-		}
+		//}
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
