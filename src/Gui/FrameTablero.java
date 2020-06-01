@@ -15,13 +15,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+
+import Partida.*;
+
 public class FrameTablero extends JFrame {
 
-	private static int objetivo;
+	private static int objetivo = 1;//TODO: CAMBIADO
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
+	private JLabel aux;
+	private Point p;
+	private int pos = 0,posF = 23;
 	
 	private JLabel fichMoral1,fichMoral2,fichMoral3,fichMoral4,fichMoral5,fichMoral6,fichMoral7,fichMoral8,fichMoral9,fichMoral10;
 	private JLabel fichRonda1,fichRonda2,fichRonda3,fichRonda4,fichRonda5,fichRonda6,fichRonda7,fichRonda8,fichRonda9,fichRonda10;
@@ -30,6 +40,10 @@ public class FrameTablero extends JFrame {
 	fichZ1ColoniaZona3,fichZ2ColoniaZona3,fichZ3ColoniaZona3,fichZ1ColoniaZona4,fichZ2ColoniaZona4,fichZ3ColoniaZona4,
 	fichZ1ColoniaZona5,fichZ2ColoniaZona5,fichZ3ColoniaZona5,fichZ1ColoniaZona6,fichZ2ColoniaZona6,fichZ3ColoniaZona6;
 	
+	/*private JLabel fichSColonia1,fichSColonia2,fichSColonia3,fichSColonia4,fichSColonia5,fichSColonia6,fichSColonia7,fichSColonia8,
+	fichSColonia9,fichSColonia10,fichSColonia11,fichSColonia12,fichSColonia13,fichSColonia14,fichSColonia15,fichSColonia16,
+	fichSColonia17,fichSColonia18,fichSColonia19,fichSColonia20,fichSColonia21,fichSColonia22,fichSColonia23,fichSColonia24;*/
+	
 	private JLabel fichZComisaria1,fichZComisaria2,fichZComisaria3,fichZComisaria4;
 	private JLabel fichZSuperm1,fichZSuperm2,fichZSuperm3,fichZSuperm4;
 	private JLabel fichZColegio1,fichZColegio2,fichZColegio3,fichZColegio4;
@@ -37,7 +51,39 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
+	private HashMap<Integer,JLabel> supMap = new HashMap<>(); 
+	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
+	//private List<Jugador> listJ = new LinkedList<>();
+	
+	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
+									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
+									new Point(974,440),new Point(1026,440), new Point(1080,440),new Point(1132,440),new Point(1185,440),new Point(1238,440),
+									new Point(974,490),new Point(1026,490), new Point(1080,490),new Point(1132,490),new Point(1185,490),new Point(1238,490)};
+	
+	private Point locComisaria[] = {new Point(593,163),new Point(640,164),new Point(686,163)},
+			locSupermercado[] = {new Point(593,471),new Point(640,471),new Point(686,471)},
+			locColegio[] = {new Point(568,779),new Point(616,779),new Point(662,779),new Point(709,779)},
+			locGasolinera[] = {new Point(1547,163),new Point(1594,163)},
+			locHospital[] = {new Point(1500,472),new Point(1548,472),new Point(1594,472),new Point(1641,472)},
+			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
+	
 	private static Thread hilo;
+	/*private JLabel fichSSupermercado3;
+	private JLabel fichSSupermercado1;
+	private JLabel fichSSupermercado2;
+	private JLabel fichSBiblioteca3;
+	private JLabel fichSBiblioteca1;
+	private JLabel fichSBiblioteca2;
+	private JLabel fichSGasolinera1;
+	private JLabel fichSGasolinera2;
+	private JLabel fichSColegio4;
+	private JLabel fichSColegio2;
+	private JLabel fichSColegio3;
+	private JLabel fichSColegio1;
+	private JLabel fichSHospital4;
+	private JLabel fichSHospital2;
+	private JLabel fichSHospital3;
+	private JLabel fichSHospital1;*/
 
 
 	/**
@@ -75,32 +121,36 @@ public class FrameTablero extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnFile = new JMenu("File");
-		mnFile.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		menuBar.add(mnFile);
+		JMenu mnInfo = new JMenu("Info");
+		mnInfo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mnInfo.setToolTipText("Informacion relevante sobre la partida");
+		menuBar.add(mnInfo);
 		
-		JMenu mnAsda = new JMenu("asda");
-		mnFile.add(mnAsda);
+		JMenuItem mntmInfojugador = new JMenuItem("InfoJugador");
+		mntmInfojugador.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInfojugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
+		mnInfo.add(mntmInfojugador);
 		
-		JMenuItem mntmXedwa = new JMenuItem("xedwa");
-		mnAsda.add(mntmXedwa);
+		JMenuItem mntmInfoTablero = new JMenuItem("InfoTablero");
+		mntmInfoTablero.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmInfoTablero.setToolTipText("Muestra informacion sobre el estado actual del tablero");
+		mnInfo.add(mntmInfoTablero);
 		
-		JMenu mnView = new JMenu("View");
-		mnView.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		menuBar.add(mnView);
-		
-		JMenu mnTools = new JMenu("Tools");
-		mnTools.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		menuBar.add(mnTools);
-		
-		JMenu mnOptions = new JMenu("Options");
-		mnOptions.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		menuBar.add(mnOptions);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
+		
+		anyadirSuperviviente(0);
+		anyadirSuperviviente(1);
+		anyadirSupIndef(0);
+		anyadirSupIndef(1);
+		anyadirSupIndef(2);
+		anyadirSupIndef(3);
+		anyadirSupIndef(4);
+		anyadirSupIndef(5);
+		anyadirSupIndef(6);
 	
 ///////////////////////////////////////////////////////////////////////////////////////TODO: LABELS MORAL, RONDAS
 		
@@ -109,27 +159,12 @@ public class FrameTablero extends JFrame {
 		fichMoral1.setBounds(1144, 914, 36, 33);
 		fichMoral1.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral1.setVisible(false);
+		contentPane.add(fichMoral1);
 		
 		fichMoral2 = new JLabel("");
 		fichMoral2.setBounds(1187, 914, 36, 33);
 		fichMoral2.setIcon(imgCircular("images/MoralDef.png",36,33));
 		fichMoral2.setVisible(false);
-		
-		JButton btnSendChat = new JButton(">");
-		btnSendChat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					
-					mandarMensaje();
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		btnSendChat.setToolTipText("Envia un mensaje al chat");
-		btnSendChat.setBounds(262, 910, 41, 33);
-		contentPane.add(btnSendChat);
 		contentPane.add(fichMoral2);
 		
 		fichMoral3 = new JLabel("");
@@ -356,15 +391,103 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichMoral1);
 		
 		///LABELS SUPERVIVIENTES
-		JLabel fichSColonia2 = new JLabel("");
+		/*fichSColonia2 = new JLabel("");
 		fichSColonia2.setBounds(1026, 339, 36, 34);
 		//fichSColonia2.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
 		contentPane.add(fichSColonia2);
 		
-		JLabel fichSColonia1 = new JLabel("");
-		fichSColonia1.setBounds(977, 339, 36, 34);
+		fichSColonia1 = new JLabel("");
+		fichSColonia1.setBounds(974, 340, 36, 34);
 		//fichSColonia1.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
 		contentPane.add(fichSColonia1);
+		
+		fichSColonia22 = new JLabel("");
+		fichSColonia22.setBounds(1132, 490, 36, 34);
+		contentPane.add(fichSColonia22);
+		
+		fichSColonia12 = new JLabel("");
+		fichSColonia12.setBounds(1238, 390, 36, 34);
+		contentPane.add(fichSColonia12);
+		
+		fichSColonia4 = new JLabel("");
+		fichSColonia4.setBounds(1132, 339, 36, 34);
+		contentPane.add(fichSColonia4);
+		
+		fichSColonia24 = new JLabel("");
+		fichSColonia24.setBounds(1237, 490, 36, 34);
+		contentPane.add(fichSColonia24);
+		
+		fichSColonia17 = new JLabel("");
+		fichSColonia17.setBounds(1184, 439, 36, 34);
+		contentPane.add(fichSColonia17);
+		
+		fichSColonia11 = new JLabel("");
+		fichSColonia11.setBounds(1185, 389, 36, 34);
+		contentPane.add(fichSColonia11);
+		
+		fichSColonia6 = new JLabel("");
+		fichSColonia6.setBounds(1237, 339, 36, 34);
+		contentPane.add(fichSColonia6);
+		
+		fichSColonia16 = new JLabel("");
+		fichSColonia16.setBounds(1132, 439, 36, 34);
+		contentPane.add(fichSColonia16);
+		
+		fichSColonia23 = new JLabel("");
+		fichSColonia23.setBounds(1184, 490, 36, 34);
+		contentPane.add(fichSColonia23);
+		
+		fichSColonia8 = new JLabel("");
+		fichSColonia8.setBounds(1027, 390, 36, 34);
+		contentPane.add(fichSColonia8);
+		
+		fichSColonia7 = new JLabel("");
+		fichSColonia7.setBounds(974, 390, 36, 34);
+		contentPane.add(fichSColonia7);
+		
+		fichSColonia13 = new JLabel("");
+		fichSColonia13.setBounds(974, 440, 36, 34);
+		contentPane.add(fichSColonia13);
+		
+		fichSColonia15 = new JLabel("");
+		fichSColonia15.setBounds(1079, 440, 36, 34);
+		contentPane.add(fichSColonia15);
+		
+		fichSColonia20 = new JLabel("");
+		fichSColonia20.setBounds(1027, 490, 36, 34);
+		contentPane.add(fichSColonia20);
+		
+		fichSColonia14 = new JLabel("");
+		fichSColonia14.setBounds(1027, 439, 36, 34);
+		contentPane.add(fichSColonia14);
+		
+		fichSColonia10 = new JLabel("");
+		fichSColonia10.setBounds(1132, 390, 36, 34);
+		contentPane.add(fichSColonia10);
+		
+		fichSColonia18 = new JLabel("");
+		fichSColonia18.setBounds(1237, 440, 36, 34);
+		contentPane.add(fichSColonia18);
+		
+		fichSColonia9 = new JLabel("");
+		fichSColonia9.setBounds(1080, 389, 36, 34);
+		contentPane.add(fichSColonia9);
+		
+		fichSColonia21 = new JLabel("");
+		fichSColonia21.setBounds(1079, 490, 36, 34);
+		contentPane.add(fichSColonia21);
+		
+		fichSColonia3 = new JLabel("");
+		fichSColonia3.setBounds(1080, 340, 36, 34);
+		contentPane.add(fichSColonia3);
+		
+		fichSColonia5 = new JLabel("");
+		fichSColonia5.setBounds(1185, 340, 36, 34);
+		contentPane.add(fichSColonia5);
+		
+		fichSColonia19 = new JLabel("");
+		fichSColonia19.setBounds(974, 490, 36, 34);
+		contentPane.add(fichSColonia19);*/
 		
 		///LABELS AUXILIARES
 		JLabel fichAlimento3 = new JLabel("");
@@ -421,19 +544,19 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichZComisaria1);
 		
 		///LABELS SUPERVIVIENTES
-		JLabel fichSComisaria3 = new JLabel("");
+		/*JLabel fichSComisaria3 = new JLabel("");
 		fichSComisaria3.setBounds(686, 163, 36, 34);
 		contentPane.add(fichSComisaria3);
 		
 		JLabel fichSComisaria2 = new JLabel("");
 		fichSComisaria2.setBounds(640, 164, 36, 34);
-		//fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
+		fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
 		contentPane.add(fichSComisaria2);
 		
 		JLabel fichSComisaria1 = new JLabel("");
 		fichSComisaria1.setBounds(593, 163, 36, 34);
-		//fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
-		contentPane.add(fichSComisaria1);
+		fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
+		contentPane.add(fichSComisaria1);*/
 		
 		//LABELS SUPERMERCADO
 		
@@ -601,11 +724,20 @@ public class FrameTablero extends JFrame {
 		contentPane.add(lblAcciones);
 		
 		JButton btnAtacar = new JButton("ATACAR");
+		btnAtacar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnAtacar.setBounds(12, 92, 115, 41);
 		btnAtacar.setToolTipText("Atacar a un zombie o superviviente");
 		contentPane.add(btnAtacar);
 		
 		JButton btnMoverse = new JButton("MOVERSE");
+		btnMoverse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				moverSuperviviente(0,0);
+			}
+		});
 		btnMoverse.setBounds(183, 196, 115, 41);
 		btnMoverse.setToolTipText("Desplazar un superviviente a otra localización");
 		contentPane.add(btnMoverse);
@@ -660,15 +792,19 @@ public class FrameTablero extends JFrame {
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
 		
-		JButton btnInfoJugador = new JButton("INFO JUGADOR");
-		btnInfoJugador.setToolTipText("Muestra información sobre el jugador actual");
-		btnInfoJugador.setBounds(1267, 73, 140, 41);
-		contentPane.add(btnInfoJugador);
-		
-		JButton btnInfoTablero = new JButton("INFO TABLERO");
-		btnInfoTablero.setToolTipText("Muestra información sobre el estado actual del tablero");
-		btnInfoTablero.setBounds(847, 73, 128, 41);
-		contentPane.add(btnInfoTablero);
+		JButton btnSendChat = new JButton(">");
+		btnSendChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					mandarMensaje();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnSendChat.setToolTipText("Envia un mensaje al chat");
+		btnSendChat.setBounds(262, 910, 41, 33);
+		contentPane.add(btnSendChat);
 		
 		txtChat = new JTextField();
 		txtChat.addKeyListener(new KeyAdapter() {
@@ -676,9 +812,7 @@ public class FrameTablero extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
-						
 						mandarMensaje();
-						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -744,6 +878,71 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
+		/*
+		fichSSupermercado3 = new JLabel("");
+		fichSSupermercado3.setBounds(686, 471, 36, 34);
+		contentPane.add(fichSSupermercado3);
+		
+		fichSSupermercado1 = new JLabel("");
+		fichSSupermercado1.setBounds(593, 471, 36, 34);
+		contentPane.add(fichSSupermercado1);
+		
+		fichSSupermercado2 = new JLabel("");
+		fichSSupermercado2.setBounds(640, 471, 36, 34);
+		contentPane.add(fichSSupermercado2);
+		
+		fichSBiblioteca3 = new JLabel("");
+		fichSBiblioteca3.setBounds(1617, 779, 36, 34);
+		contentPane.add(fichSBiblioteca3);
+		
+		fichSBiblioteca1 = new JLabel("");
+		fichSBiblioteca1.setBounds(1524, 779, 36, 34);
+		contentPane.add(fichSBiblioteca1);
+		
+		fichSBiblioteca2 = new JLabel("");
+		fichSBiblioteca2.setBounds(1571, 779, 36, 34);
+		contentPane.add(fichSBiblioteca2);
+		
+		fichSGasolinera1 = new JLabel("");
+		fichSGasolinera1.setBounds(1547, 163, 36, 34);
+		contentPane.add(fichSGasolinera1);
+		
+		fichSGasolinera2 = new JLabel("");
+		fichSGasolinera2.setBounds(1594, 163, 36, 34);
+		contentPane.add(fichSGasolinera2);
+		
+		fichSColegio4 = new JLabel("");
+		fichSColegio4.setBounds(709, 779, 36, 34);
+		contentPane.add(fichSColegio4);
+		
+		fichSColegio2 = new JLabel("");
+		fichSColegio2.setBounds(616, 779, 36, 34);
+		contentPane.add(fichSColegio2);
+		
+		fichSColegio3 = new JLabel("");
+		fichSColegio3.setBounds(662, 779, 36, 34);
+		contentPane.add(fichSColegio3);
+		
+		fichSColegio1 = new JLabel("");
+		fichSColegio1.setBounds(568, 779, 36, 34);
+		contentPane.add(fichSColegio1);
+		
+		fichSHospital4 = new JLabel("");
+		fichSHospital4.setBounds(1641, 472, 36, 34);
+		contentPane.add(fichSHospital4);
+		
+		fichSHospital2 = new JLabel("");
+		fichSHospital2.setBounds(1548, 472, 36, 34);
+		contentPane.add(fichSHospital2);
+		
+		fichSHospital3 = new JLabel("");
+		fichSHospital3.setBounds(1594, 472, 36, 34);
+		contentPane.add(fichSHospital3);
+		
+		fichSHospital1 = new JLabel("");
+		fichSHospital1.setBounds(1500, 472, 36, 34);
+		contentPane.add(fichSHospital1);*/
+		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		//objetivo = 2;
 		switch(objetivo){
@@ -752,11 +951,12 @@ public class FrameTablero extends JFrame {
 			case 2: raidingParty();
 			break;
 		}
-		
-		usuario.getClientReader().setTablero(this);
-		usuario.getClientReader().setSala(null);
-		hilo = new Thread(usuario.getClientReader());
-		hilo.start();
+		if(usuario != null) {//TODO: CAMBIAR
+			usuario.getClientReader().setTablero(this);
+			usuario.getClientReader().setSala(null);
+			hilo = new Thread(usuario.getClientReader());
+			hilo.start();
+		}
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
@@ -841,21 +1041,13 @@ public class FrameTablero extends JFrame {
 		fichZComisaria1.setVisible(true);
 		fichZComisaria2.setVisible(true);
 		fichZ1ColoniaZona1.setVisible(true);
-		//fichZ2ColoniaZona1.setVisible(true);
 		fichZ1ColoniaZona2.setVisible(true);
-		/*fichZ2ColoniaZona2.setVisible(true);
-		fichZ1ColoniaZona3.setVisible(true);
-		fichZ2ColoniaZona3.setVisible(true);
-		fichZ1ColoniaZona4.setVisible(true);
-		fichZ2ColoniaZona4.setVisible(true);
-		fichZ1ColoniaZona5.setVisible(true);
-		fichZ2ColoniaZona5.setVisible(true);
-		fichZ1ColoniaZona6.setVisible(true);
-		fichZ2ColoniaZona6.setVisible(true);*/
 	}
+	
 	public void actualizaChat(String mensaje) {
 		txtrHistorial.setText(txtrHistorial.getText().trim() + "\n" + mensaje);
 	}
+	
 	private void mandarMensaje() throws IOException {
 		String msg = txtChat.getText().trim();
 		if(!msg.equals("")) {
@@ -863,4 +1055,52 @@ public class FrameTablero extends JFrame {
 			txtChat.setText("");
 		}
 	}
+	
+	//SOLO PASAMOS EL ID DEL SUPERVIVIENTE
+	private void anyadirSuperviviente(int id) {
+		//int pos = listJ.get(0).getTablero().getColonia().anyadirSupervivientes(id); //devuelve la primera posicion vacia en la colonia
+		aux = new JLabel("");
+		p = locColonia[pos];
+		pos++;
+		aux.setBounds(p.x, p.y, 36, 34);
+		//aux.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+		aux.setIcon(imgCircular("images/sup"+id+".png",36,34));
+		contentPane.add(aux);
+		supMap.put(id, aux);
+	}
+	
+	//PASAMOS Nº SUPERVIVIENTES INDEFENSOS PARA PODER DIFERENCIAR JLABELS
+	private void anyadirSupIndef(int nSupInd) { //deberiamos de pasarle algun id que lo identifique nSupInd, podriamos crear otro diccionario
+		//int pos = posicionValidaColoniaReversa(); //devuelve la ultima posicion vacia en la colonia
+		aux = new JLabel("");
+		p = locColonia[posF];
+		posF--;
+		aux.setBounds((int) p.getX(),(int) p.getY(), 36, 34);
+		aux.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
+		contentPane.add(aux);
+		supIndMap.put(nSupInd,aux);
+	}
+	
+	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER
+	private void moverSuperviviente(int id, int loc) {
+		//int pos = posicionValida(loc);
+		aux = supMap.get(id);
+		switch(loc) {
+			case 0 : p = /*locComisaria[pos]*/ locComisaria[0];
+			break;
+			case 1 : p = locSupermercado[pos];
+			break;
+			case 2 : p = locColegio[pos];
+			break;
+			case 3 : p = locGasolinera[pos];
+			break;
+			case 4 : p = locHospital[pos];
+			break;
+			case 5 : p = locBiblioteca[pos];
+			break;
+		}
+		aux.setLocation(p);
+	}
 }
+
+

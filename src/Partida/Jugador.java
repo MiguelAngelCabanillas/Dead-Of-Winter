@@ -73,6 +73,10 @@ public class Jugador {
 		return this.mazoSuperviviente;
 	}
 	
+	public Tablero getTablero() {
+		return tablero; 
+	}
+	
 	//METODOS DE RONDA
 	public void anyadirDados() {
 		for (int i = 0; i < this.mazoSuperviviente.size(); ++i) {
@@ -226,7 +230,7 @@ public class Jugador {
 	
 	public void mover(Carta_Supervivientes personaje, Localizacion lugar) {
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(lugar.llegar(personaje) && !lugar.getSupervivientes().contains(personaje)) {
+		if(lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
 			localizacion(personaje).irse(personaje);;
 			lugar.llegar(personaje);
 			this.tiradaRiesgo(personaje);
