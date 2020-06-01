@@ -8,11 +8,11 @@ public class Tablero {
 	////ATRIBUTOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Localizacion hospital;
-	private Localizacion colegio;
 	private Localizacion comisaria;
 	private Localizacion supermercado;
+	private Localizacion colegio;
 	private Localizacion gasolinera;
+	private Localizacion hospital;
 	private Localizacion biblioteca;
 	private Colonia colonia;
 	
@@ -20,8 +20,8 @@ public class Tablero {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Tablero(int jugadores, Mazo mHospital, Mazo mColegio, Mazo mComisaria, Mazo mSupermercado,
-			Mazo mGasolinera, Mazo mBiblioteca, Carta_Objetivo_Principal objetivoPrincipal) {
+	public Tablero(int jugadores, Mazo mComisaria, Mazo mSupermercado, Mazo mColegio, Mazo mGasolinera,
+			Mazo mHospital, Mazo mBiblioteca, Carta_Objetivo_Principal objetivoPrincipal) {
 		hospital = new Localizacion("Hospital.", mHospital, 4, 4);
 		colegio = new Localizacion("Colegio", mColegio, 4, 4);
 		comisaria = new Localizacion("Comisaría.", mComisaria, 3, 4);

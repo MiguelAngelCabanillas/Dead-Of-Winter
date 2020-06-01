@@ -50,7 +50,7 @@ public class Colonia extends Localizacion {
 		
 		inicCasillasZombie();
 		
-		this.inutiles = 0;
+		this.inutiles = 23;
 		this.numJugadores = jugadores;
 	}
 	
@@ -77,6 +77,13 @@ public class Colonia extends Localizacion {
 		int aux = super.getPimeraValida();
 		//super.getSupervivientes().put(aux, new Carta_Supervivientes(i));
 		return aux;
+	}
+	
+	public int anyadirInutiles() {
+		super.getSupervivientes().put(inutiles, null);
+		inutiles--;
+		
+		return inutiles + 1;
 	}
 	
 	//METODOS DE INTERFAZ ENTRE EL USUARIO Y CASILLASZOMBIE
@@ -237,5 +244,4 @@ public class Colonia extends Localizacion {
 	public List<List<CasillasZombie>> getPuertas() {
 		return this.puertas;
 	}
-	
 }
