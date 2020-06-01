@@ -49,6 +49,7 @@ private BufferedReader buffer;
 				split = mensaje.split("\\|"); // Nombre|NumeroDeSala
 				
 				usuario = split[0];
+				
 				user = buscarUsuarioConectado(usuario);
 					idSala = Integer.parseInt(split[1]);
 				if(idSala == -1) {
@@ -86,9 +87,11 @@ private BufferedReader buffer;
 					System.out.println(split[3]);
 					break;
 				case "msgsala": // Nombre|NumeroDeSala|msgsala|"Mensaje"
+					if(user.getSala() != null) {
 					user.enviarALaSala("chat|" + user.getNombre() + ": " + split[3]);
 					System.out.println("Enviado mensaje a " + user.getNombre());
 					System.out.println(user.getNombre() + ": " + split[3].trim());
+					}
 					break;
 //					i = 0;
 //					for(PrintWriter pw: ls ) {
