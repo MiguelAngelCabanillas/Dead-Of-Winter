@@ -24,7 +24,7 @@ import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo,numJug;//TODO: CAMBIADO
+	private static int objetivo,numJug,superviviente;//TODO: CAMBIADO
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
@@ -627,7 +627,8 @@ public class FrameTablero extends JFrame {
 		JButton btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//moverSuperviviente
+				String msg;
+				
 			}
 		});
 		btnMoverse.setBounds(183, 196, 115, 41);
@@ -950,6 +951,10 @@ public class FrameTablero extends JFrame {
 			break;
 		}
 		aux.setLocation(p);
+	}
+	
+	public static void setSuperviviente(int id) {
+		superviviente = id;
 	}
 }
 
