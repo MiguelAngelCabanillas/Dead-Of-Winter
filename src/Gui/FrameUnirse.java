@@ -139,7 +139,7 @@ public class FrameUnirse extends JFrame {
 				} 
 			}
 		});
-		btnNewButtonVolver.setBounds(10, 732, 234, 42);
+		btnNewButtonVolver.setBounds(10, 719, 234, 42);
 		contentPane.add(btnNewButtonVolver);
 		
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/sala.jpg"));

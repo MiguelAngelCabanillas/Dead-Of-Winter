@@ -19,6 +19,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class ObjetivosPrincipales extends JFrame {
@@ -68,8 +69,14 @@ public class ObjetivosPrincipales extends JFrame {
 		JButton SelecMasEjemplares = new JButton("");
 		SelecMasEjemplares.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				ObjetivoElegido = 1;
-				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+				try {
+					FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				dispose();
 			}
 		});
@@ -81,7 +88,12 @@ public class ObjetivosPrincipales extends JFrame {
 		SelecRaidingParty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ObjetivoElegido = 2;
-				FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+				try {
+					FrameSala.setObjetivoPrincipal(ObjetivoElegido);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				dispose();
 			}
 		});

@@ -34,10 +34,10 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Principal(int numJugadores, int objetivo) {
-		inicTablero(numJugadores);
-		inicMazos();
-		inicJugadores(numJugadores);
-		inicSupervivientes();
+		//inicTablero(numJugadores);
+		//inicMazos();
+		//inicJugadores(numJugadores);
+		//inicSupervivientes();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

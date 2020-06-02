@@ -29,6 +29,8 @@ import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import Partida.Principal;
+
 public class FrameSala extends JFrame {
 
 	private JPanel contentPane;
@@ -40,7 +42,9 @@ public class FrameSala extends JFrame {
 	private JLabel lblNDeJugadores = new JLabel();
 	private JLabel lblNewLabel = new JLabel();
 	private boolean host = false;
+	private static String[] objetivos = {"Más ejemplares", "Raiding Party"};
 	private int numJugadores;
+
 	/**
 	 * Launch the application.
 	 */
@@ -282,7 +286,8 @@ public class FrameSala extends JFrame {
 
 	      setLocationRelativeTo(null);
 	}
-	public static void setObjetivoPrincipal(int obj) {
+	public static void setObjetivoPrincipal(int obj) throws IOException {
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|msgsala|Objetivo seleccionado -> " + objetivos[obj-1]);
 		ObjetivoElegido = obj;
 	}
 	private void mandarMensaje() throws IOException {
@@ -293,7 +298,8 @@ public class FrameSala extends JFrame {
 		}
 	}
 	public void avanzarATablero(int objetivo) throws IOException {
-		FrameTablero tablero = new FrameTablero(objetivo, usuario, this.numJugadores);
+		Principal p = new Principal(objetivo,numJugadores);
+		FrameTablero tablero = new FrameTablero(objetivo, usuario,p);
 		tablero.setVisible(true);
 		dispose();
 	}
