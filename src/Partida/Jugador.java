@@ -240,7 +240,7 @@ public class Jugador {
 	public void buscar(Localizacion l) {
 		Carta_Supervivientes personaje = comprobarLocalizacion(l);
 		if(hayValorDisponible(personaje.getBusqueda()) && personaje != null) {
-			mazoObjeto.add(l.cogerCarta());
+			mazoObjeto.add((Carta_Objeto) l.cogerCarta());
 		}
 	}
 	
@@ -290,13 +290,7 @@ public class Jugador {
 	//POR IMPLEMENTAR. HABLAR SOBRE ESTO MAÑANA
 	public void usarObjeto(Carta_Objeto carta) {
 		
-		if(carta.getTipo().contentEquals("COMIDA")) {
-			//POR IMPLEMENTAR
-		}else if(carta.getTipo().contentEquals("GASOLINA")) {
-			
-		}else {
-			
-		}
+	
 		
 		mazoObjeto.remove(carta);
 	}

@@ -72,6 +72,7 @@ public class Principal {
 		gasolinera = new Mazo(inicGasolinera());
 		hospital = new Mazo(inicHospital());
 		biblioteca = new Mazo(inicBiblioteca());
+		mazoInicial = inicInicial();
 	}
 	
 	private void inicSupervivientes() {
@@ -83,6 +84,32 @@ public class Principal {
 	}
 	
 	//METODOS DE INICIO DE LA PARTIDA
+	
+	//INICIA EL MAZO INICIAL
+	private List<Carta_Objeto> inicInicial() {
+		List<Carta_Objeto> mazo = new Stack<>();
+		int [] cartas = {0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5};
+		/*comida = 4;
+		medicina = 2;
+		trastos = 6;
+		gasolina = 8;
+		supervivientes = 2;
+		equipables = 8;
+		 */
+		 
+		int i = 0;
+		
+		while(i < 25){
+			int aux = r.nextInt(30);
+			if(cartas[aux] != -1) {
+				mazo.add(new Carta_Objeto(0, cartas[aux], r.nextInt(3) + 1)); 
+				cartas[aux] = -1; 
+				i++;
+			}
+		}
+		
+		return mazo;
+	}
 	
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {

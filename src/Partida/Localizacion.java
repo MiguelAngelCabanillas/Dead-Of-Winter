@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Cartas.Carta_Objeto;
+import Cartas.Carta;
 import Cartas.Carta_Supervivientes;
 import Excepciones.matarException;
 
@@ -195,7 +195,7 @@ public class Localizacion {
 	}
 	
 	//METODOS DE BUSQUEDA
-	public Carta_Objeto cogerCarta() {
+	public Carta cogerCarta() {
 		return mazo.getCarta();
 	}
 	

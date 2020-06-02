@@ -27,6 +27,10 @@ public class Carta_Objeto extends Carta {
 		return cantidad;
 	}
 	
+	public int getTipo() {
+		return tipo;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		boolean res = false;

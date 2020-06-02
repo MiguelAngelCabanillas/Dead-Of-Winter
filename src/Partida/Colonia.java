@@ -183,7 +183,7 @@ public class Colonia extends Localizacion {
 		Carta_Objeto objeto = ronda.getObjeto();
 		
 		for (Carta_Objeto carta : crisis) {
-			if (objeto.getTipo().equals(carta.getTipo())) {
+			if (objeto.getTipo() == (carta.getTipo())) {
 				contador++;
 			} else {
 				contador--;
