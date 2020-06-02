@@ -12,8 +12,8 @@ public class Carta_Objetivo_Principal extends Carta {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Objetivo_Principal(int id, String nombre, String desc, String objetivo) {
-		super(id, nombre, desc);
+	public Carta_Objetivo_Principal(int id, String objetivo) {
+		super(id);
 		this.objetivo = objetivo;
 	}
 	

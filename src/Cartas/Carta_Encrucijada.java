@@ -14,8 +14,8 @@ public class Carta_Encrucijada extends Carta {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Encrucijada(int id, String nombre, String desc, String condicion, String efecto, boolean votacion) {
-		super(id, nombre, desc);
+	public Carta_Encrucijada(int id, String condicion, String efecto, boolean votacion) {
+		super(id);
 		this.condicion = condicion;
 		this.efecto = efecto;
 		this.votacion = votacion;

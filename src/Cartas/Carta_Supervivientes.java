@@ -22,8 +22,8 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Supervivientes(int id, String nombre, String desc, int ataque, int busqueda, String habilidad, int influencia) {
-		super(id, nombre, desc);
+	public Carta_Supervivientes(int id, int ataque, int busqueda, String habilidad, int influencia) {
+		super(id);
 		this.ataque = ataque;
 		this.busqueda = busqueda;
 		this.habilidad = habilidad;
@@ -94,12 +94,12 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	//METODOS DE CLASE
 	@Override
 	public boolean equals(Object arg0) {
-		return (arg0 instanceof Carta_Supervivientes) && (this.getNombre() == ((Carta_Supervivientes) arg0).getNombre()) && this.hashCode() == ((Carta_Supervivientes)arg0).hashCode();
+		return (arg0 instanceof Carta_Supervivientes) && (this.getId() == ((Carta_Supervivientes) arg0).getId()) && this.hashCode() == ((Carta_Supervivientes)arg0).hashCode();
 	}
 	
 	@Override
 	public int hashCode() {
-		return getNombre().hashCode();
+		return Integer.hashCode(super.getId());
 	}
 
 	@Override

@@ -14,8 +14,8 @@ public class Carta_Crisis extends Carta{
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Crisis(int id, String nombre, String desc, Carta_Objeto objeto, String efecto, String op) {
-		super(id, nombre, desc);
+	public Carta_Crisis(int id, Carta_Objeto objeto, String efecto, String op) {
+		super(id);
 		this.objeto = objeto;
 		this.efecto = efecto;
 		this.opcional = op;
