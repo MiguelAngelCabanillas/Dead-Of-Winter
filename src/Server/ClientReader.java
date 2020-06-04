@@ -35,10 +35,10 @@ public class ClientReader implements Runnable {
                 String[] split = msgllegada.split("\\|");
                 switch (split[0]) {
                 case "idsala":
-                    sala.actIdSala(Integer.parseInt(split[1]));
+                    if(sala != null) sala.actIdSala(Integer.parseInt(split[1]));
                     break;
                 case "nusuarios":
-                    sala.actNumJugadores(Integer.parseInt(split[1]));
+                    if(sala != null) sala.actNumJugadores(Integer.parseInt(split[1]));
                     break;
                 case "chat":
                 	if(sala != null) {

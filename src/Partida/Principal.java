@@ -100,7 +100,7 @@ public class Principal {
 		int i = 0;
 		
 		while(i < 25){
-			int aux = r.nextInt(30);
+			int aux = r.nextInt(25);
 			if(cartas[aux] != -1) {
 				mazo.add(new Carta_Objeto(0, cartas[aux], r.nextInt(3) + 1)); 
 				cartas[aux] = -1; 
