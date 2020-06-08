@@ -1,6 +1,8 @@
 package Server;
 
 import BD.*;
+import Partida.Principal;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -107,7 +109,12 @@ private BufferedReader buffer;
 				case "exit":	 // usuario|sala|exit|tablero|objetivo o usuario|sala|exit|sala
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
-					  } else if(split[3].equalsIgnoreCase("tablero")) {
+					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
+						  
+						  user.getSala().setPartida(new Principal(user.getSala().getUsuarios().size(), Integer.parseInt(split[4])));
+						  
+						  
+						  
 						  user.enviarALaSala("exit|tablero|" + split[4]);
 						  
 					  }
