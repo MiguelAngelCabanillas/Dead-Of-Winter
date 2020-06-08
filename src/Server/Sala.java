@@ -4,20 +4,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import Partida.Principal;
+
 public class Sala {
 	private int id;
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	Usuario host;
-	String passw;
+	Principal partida;
+	boolean puedeEntrar;
 	
 	public Sala(Usuario usuario, int id) {
 		usuarios.add(usuario);
 		host = usuario;
 		this.id = id;
+		puedeEntrar = true;
 	}
-	
-	public void anyadirUsuario(Usuario usuario) {
+	// Devuelve true si se ha añadido el usuario y false si no se ha podido añadir
+	public boolean anyadirUsuario(Usuario usuario) {
+		if(puedeEntrar) {
 		usuarios.add(usuario);
+			if(usuarios.size() == 5) {
+				puedeEntrar = false;
+			}
+			return true;
+		} 
+		return false;
 	}
 	
 	public void iniciarPartida() throws IOException {
@@ -39,14 +50,11 @@ public class Sala {
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
-
-	public String getPassw() {
-		return passw;
+	
+	public void setPartida(Principal p) {
+		this.partida = p;
 	}
 
-	public void setPassw(String passw) {
-		this.passw = passw;
-	}
 	
 	public void enviarAUsuariosDeLaSala(String peticion) throws IOException {
 		for(Usuario usuario : usuarios) {

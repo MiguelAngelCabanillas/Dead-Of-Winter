@@ -35,10 +35,10 @@ public class ClientReader implements Runnable {
                 String[] split = msgllegada.split("\\|");
                 switch (split[0]) {
                 case "idsala":
-                    sala.actIdSala(Integer.parseInt(split[1]));
+                    if(sala != null) sala.actIdSala(Integer.parseInt(split[1]));
                     break;
                 case "nusuarios":
-                    sala.actNumJugadores(Integer.parseInt(split[1]));
+                    if(sala != null) sala.actNumJugadores(Integer.parseInt(split[1]));
                     break;
                 case "chat":
                 	if(sala != null) {
@@ -49,7 +49,9 @@ public class ClientReader implements Runnable {
                     break;
                 case "exit":
                 	try {
-						if(split[1] != null) {
+						if(split[1] != null) { // Inicializar
+							
+							
 							sala.avanzarATablero(Integer.parseInt(split[2]));
 						}
 						acceso.acquire();
@@ -61,9 +63,9 @@ public class ClientReader implements Runnable {
                 	sala.setIsHost(true);
                 	break;
                 case "asignar": // asignar|id|id|id|id...
-                	/*int i = 0;
+                	/*int i = 1;
                 	while(split[i] != null) {
-                	 tablero.añadirPersonaje(Integer.parseInt(split[i]));
+                	 principal.asignarpersonajespolla();
                 	}*/
                 	break;
                 	

@@ -46,7 +46,7 @@ public class Principal {
 	//METODOS DEL CONSTRUCTOR
 	private void inicJugadores(int numJugadores) {
 		
-		int cartas = 25 / numJugadores;
+		int cartas = numJugadores * 5;
 		List<Carta_Objeto> mazoJugador;
 		
 		for(int i = 0; i < numJugadores; i++) {
@@ -85,7 +85,7 @@ public class Principal {
 	//INICIA EL MAZO INICIAL
 	private List<Carta_Objeto> inicInicial() {
 		List<Carta_Objeto> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5};
+		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
 		/*comida = 4;
 		medicina = 2;
 		trastos = 6;
