@@ -38,7 +38,7 @@ public class Partida {
 		}
 		
 		int current = 0;
-		while (tablero.getColonia().getMoral() != 0 ) {
+		//while (tablero.getColonia().getMoral() != 0 ) {
 			//Jugador jugador = jugadores.get(current);
 			/*switch donde se llame a los métodos de la instancia jugador en función del botón presionado.*/
 			
@@ -47,7 +47,7 @@ public class Partida {
 			} else {
 				++current;
 			}
-		}
+		//}
 
 	}
 }

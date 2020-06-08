@@ -15,9 +15,12 @@ public class Principal {
 	////ATRIBUTOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
+	private int moral;
+	private int rondasRestantes;
+	
 	private List<Jugador> jugadores = new ArrayList<>();
 	private Tablero tablero;
-	private Carta_Objetivo_Principal objetivo;
+	private int objetivo;
 	private List<Integer> supervivientes;
 	
 	private Random r = new Random();
@@ -35,8 +38,8 @@ public class Principal {
 	////CONSTRUCTOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Principal(int numJugadores, int objetivo) {
-		
+	public Principal(int objetivo) {
+		inicObjetivo();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +47,21 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//METODOS DEL CONSTRUCTOR
+	private void inicObjetivo() {
+		switch(objetivo) {
+		case 0 : {
+			//moral = 
+			//ronda = 
+		}
+		break;
+		case 1 : {
+			//moral = 
+			//ronda = 
+		}
+		break;
+		}
+	}
+	
 	private void inicJugadores(int numJugadores) {
 		
 		int cartas = numJugadores * 5;
@@ -81,6 +99,15 @@ public class Principal {
 	}
 	
 	//METODOS DE INICIO DE LA PARTIDA
+	
+	/*
+	 * comida -> 0
+	 * medicina -> 1
+	 * trastos -> 2
+	 * gasolina -> 3
+	 * supervivientes -> 4
+	 * equipables -> 5
+	 */
 	
 	//INICIA EL MAZO INICIAL
 	private List<Carta_Objeto> inicInicial() {
@@ -289,4 +316,15 @@ public class Principal {
 	public Jugador getJugador(int id) {
 		return jugadores.get(id);
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	////METODOS DE JUGADOR
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
+	
+	
+	
 }
