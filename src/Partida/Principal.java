@@ -36,10 +36,7 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Principal(int numJugadores, int objetivo) {
-		inicMazos();
-		inicJugadores(numJugadores);
-		inicSupervivientes();
-		inicTablero(numJugadores);
+		
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +97,7 @@ public class Principal {
 		int i = 0;
 		
 		while(i < 25){
-			int aux = r.nextInt(30);
+			int aux = r.nextInt(25);
 			if(cartas[aux] != -1) {
 				mazo.add(new Carta_Objeto(0, cartas[aux], r.nextInt(3) + 1)); 
 				cartas[aux] = -1; 
@@ -269,9 +266,14 @@ public class Principal {
 	
 	//INICIA LOS JUGADORES
 	public int[] inicPartida(int numJugadores) {
+		inicMazos();
+		inicJugadores(numJugadores);
+		inicSupervivientes();
+		inicTablero(numJugadores);
+		
 		int[] sup = new int[numJugadores * 2];
 		
-		for(int i = 0; i < numJugadores; i+=2) {
+		for(int i = 0; i < numJugadores * 2; i+=2) {
 			sup[i] = r.nextInt(supervivientes.size());
 			supervivientes.remove(sup[i]);
 			jugadores.get(i%numJugadores).addSuperviviente(sup[i]);

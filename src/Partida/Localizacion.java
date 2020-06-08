@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import Cartas.Carta;
+import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
 import Excepciones.matarException;
 
