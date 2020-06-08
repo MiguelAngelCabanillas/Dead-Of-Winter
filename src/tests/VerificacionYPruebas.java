@@ -17,8 +17,7 @@ public class VerificacionYPruebas {
 		this.l = new Localizacion("Prueba.", null, 3, 3);
 	/*	this.j = new Jugador("Jugador de prueba.", 0, null, new Tablero(1, null, null, null,
 				null, null, null, null));*/
-		this.superviviente = new Carta_Supervivientes(0, "Superviviente de prueba.", "Descripción.",
-				0,0,"Habilidad.",0);
+		this.superviviente = new Carta_Supervivientes(3,3,3,"Habilidad genérica",3);
 		this.c = new Colonia(null, 10, 10, 3);
 	}
 
