@@ -249,7 +249,7 @@ public class Jugador {
 		int posicion = lugar.getPimeraValida();
 		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
+		if(posicion != -1 && lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
 			localizacion(personaje).irse(personaje);;
 			lugar.llegar(personaje);
 			this.tiradaRiesgo(personaje);

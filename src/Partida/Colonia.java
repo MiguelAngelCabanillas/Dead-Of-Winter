@@ -16,8 +16,6 @@ public class Colonia extends Localizacion {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//CONTADORES DE INTERFAZ
-	private int moral;
-	private int rondasRestantes;
 	private int tokensDeHambre;
 	private int vertedero;
 	
@@ -37,11 +35,9 @@ public class Colonia extends Localizacion {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Colonia(Carta_Objetivo_Principal c, int rondas, int moral, int jugadores) {
+	public Colonia(Carta_Objetivo_Principal c, int jugadores) {
 		super("Colonia.", null, 24, 3);	
 		
-		this.moral = moral;
-		this.rondasRestantes = rondas;
 		this.tokensDeHambre = 0;		
 		this.vertedero = 0;
 		
@@ -197,28 +193,12 @@ public class Colonia extends Localizacion {
 	}
 	
 	//GETTERS Y SETTERS
-	public int getMoral() {
-		return moral;
-	}
-
-	public void setMoral(int moral) {
-		this.moral = moral;
-	}
-
 	public Carta_Objetivo_Principal getCartaObjetivoPrincipal() {
 		return cartaObjetivoPrincipal;
 	}
 
 	public void setCartaObjetivoPrincipal(Carta_Objetivo_Principal cartaObjetivoPrincipal) {
 		this.cartaObjetivoPrincipal = cartaObjetivoPrincipal;
-	}
-
-	public int getRondasRestantes() {
-		return rondasRestantes;
-	}
-
-	public void setRondasRestantes(int rondasRestantes) {
-		this.rondasRestantes = rondasRestantes;
 	}
 	
 	public void setCrisis(Carta_Crisis crisis) {
