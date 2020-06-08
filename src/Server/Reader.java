@@ -9,10 +9,13 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Reader implements Runnable {
-private int i;
+
 private Usuario user;
 private List <Usuario> us;
 
@@ -25,6 +28,8 @@ private List<Sala> salas;
 
 private InputStreamReader reader;
 private BufferedReader buffer;
+
+
 	
 	public Reader (Socket s, List<PrintWriter> ls, List<Socket> sl, List<Usuario> us, List<Sala> salas) throws IOException {
 		socket = s;
@@ -32,6 +37,7 @@ private BufferedReader buffer;
 		this.ls = ls;
 		this.sl = sl;
 		this.us = us;
+
 		reader = new InputStreamReader(socket.getInputStream());
 		buffer = new BufferedReader(reader);
 	}
@@ -92,11 +98,51 @@ private BufferedReader buffer;
 					System.out.println(split[3]);
 					break;
 				case "msgsala": // Nombre|NumeroDeSala|msgsala|"Mensaje"
-					if(user.getSala() != null) {
+				 if(user.getSala() != null) {
+					 if(!user.getSala().getMuteados().contains(user)) {
+						if(split[3].equalsIgnoreCase("gg ez")) {
+							Random rand = new Random();
+							String msgTonto = "";
+							switch(rand.nextInt(5)) {
+							case 0: msgTonto = "¡Mamá no quiero irme a dormir todavia! Ups, chat equivocado.";
+									break;
+							case 1: msgTonto = "¡Ha sido una partida maravillosa! ¡Amor para todos!";
+									break;
+							case 2: msgTonto = "Me gusta rascarme el culo por las mañanas.";
+									break;
+							case 3: msgTonto = "Hacer pipi sentado es muuucho más satisfactorio.";
+									break;
+							case 4: msgTonto = "Yo... Te amo, cásate conmigo porfa...";
+							}
+							System.out.println(user.getNombre() + ": " + msgTonto);
+							user.enviarALaSala("chat|" + user.getNombre() + ": " + msgTonto);
+							break;
+						} else if(split[3].charAt(0) == '/') { // Comandos
+							String[] splitSplit = split[3].split(" ");
+							switch(splitSplit[0].substring(1)) {
+							case "secreto" : 
+								if(splitSplit[1] != null) {user.hacerPeticionAlServidor("secreto|" + splitSplit[1]);
+									System.out.println(user.getNombre() + " ha cambiado su objetivo secreto a " + splitSplit[1]);
+								}
+									break;
+							case "mute" : 
+								if(splitSplit[1] != null) {
+									Usuario usuarioMute = buscarUsuarioConectado(splitSplit[1]);
+									if(usuarioMute != null) {
+										user.getSala().mutear(usuarioMute);
+										System.out.println(splitSplit[1] + " ha sido muteado " + splitSplit[1]);
+									}
+							}
+							default:
+								
+							}
+							break;
+						}
 					user.enviarALaSala("chat|" + user.getNombre() + ": " + split[3]);
 					System.out.println("Enviado mensaje a " + user.getNombre());
 					System.out.println(user.getNombre() + ": " + split[3].trim());
 					}
+				 }
 					break;
 //					i = 0;
 //					for(PrintWriter pw: ls ) {
@@ -112,6 +158,51 @@ private BufferedReader buffer;
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
 						  
 						  user.getSala().setPartida(new Principal(user.getSala().getUsuarios().size(), Integer.parseInt(split[4])));
+						  
+						  List<Integer> objetivosSecretos = new ArrayList<>(); 
+						  for(int i = 200; i < 213; i++) {
+							  objetivosSecretos.add(i);
+						  }
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
+						  /// Objetivos secretos
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
+						  
+						  Random rand = new Random();
+						  int n;
+						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++){
+							  n = rand.nextInt(12-i);
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("secreto|" + objetivosSecretos.get(n));
+							  System.out.println("Enviado al usuario " + user.getNombre() + " el objetivo secreto " + objetivosSecretos.get(n));
+							  objetivosSecretos.remove(n);
+						  }
+						  
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
+						  /// Supervivientes
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
+						  
+						  List<Integer> sups = new ArrayList<>();
+						  for(int i = 100; i < 125; i++) {
+							  sups.add(i);
+						  }
+						  
+						  Collections.shuffle(sups);
+						  
+						  String mensInit = "init";
+						  
+						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
+							  mensInit += "|" + sups.get(i);
+							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
+							  System.out.println((int)i/2 + ", " + sups.get(i));
+						  }
+						  
+						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {  
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
+							  System.out.println(mensInit);
+						  }
+						  
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
+						  /// Cartas iniciales
+						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  
 						  

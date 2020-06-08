@@ -271,7 +271,7 @@ public class Principal {
 	public int[] inicPartida(int numJugadores) {
 		int[] sup = new int[numJugadores * 2];
 		
-		for(int i = 0; i < numJugadores; i+=2) {
+		for(int i = 0; i < numJugadores*2; i+=2) {
 			sup[i] = r.nextInt(supervivientes.size());
 			supervivientes.remove(sup[i]);
 			jugadores.get(i%numJugadores).addSuperviviente(sup[i]);
