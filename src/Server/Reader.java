@@ -126,15 +126,73 @@ private BufferedReader buffer;
 								}
 									break;
 							case "mute" : 
+								if(user.getSala().getHost().equals(user)) {
 								if(splitSplit[1] != null) {
 									Usuario usuarioMute = buscarUsuarioConectado(splitSplit[1]);
 									if(usuarioMute != null) {
+										if(user.getSala().getId() == usuarioMute.getSala().getId()) {
 										user.getSala().mutear(usuarioMute);
 										System.out.println(splitSplit[1] + " ha sido muteado " + splitSplit[1]);
+										user.enviarALaSala("chat|" + splitSplit[1] + " ha sido muteado " + splitSplit[1]);
+										}
+									}
+								}
+							} else {
+								user.hacerPeticionAlServidor("chat|Solo el host puede realizar esta acción");
+							}
+							break;
+							case "unmute":
+								if(user.getSala().getHost().equals(user)) {
+								if(splitSplit[1] != null) {
+									Usuario usuarioMute = buscarUsuarioConectado(splitSplit[1]);
+									if(usuarioMute != null) {
+										if(user.getSala().getId() == usuarioMute.getSala().getId()) {
+										user.getSala().desmutear(usuarioMute);
+										System.out.println(splitSplit[1] + " ha sido desmuteado.");
+										user.enviarALaSala("chat|" + splitSplit[1] + " ha sido desmuteado.");
+										}
+									}
+								}
+							} else {
+								user.hacerPeticionAlServidor("chat|Solo el host puede realizar esta acción");
+							}
+							break;
+							case "kick":
+								if(user.getSala().getHost().equals(user)) {
+								if(splitSplit[1] != null) {
+									Usuario usuarioKick = buscarUsuarioConectado(splitSplit[1]);
+									if(usuarioKick != null) {
+										if(usuarioKick != null) {
+										if(user.getSala().getId() == usuarioKick.getSala().getId()) {
+										usuarioKick.hacerPeticionAlServidor("exit|sala");
+										System.out.println(splitSplit[1] + " ha sido kickeado.");
+										user.enviarALaSala("chat|" + splitSplit[1] + " ha sido kickeado.");
+										}
+										}
 									}
 							}
+							} else {
+								user.hacerPeticionAlServidor("chat|Solo el host puede realizar esta acción");
+							}
+							break;
+							case "list":
+								if(user.getSala() != null) {
+								String a = "[";
+								for(int i = 0; i < user.getSala().getUsuarios().size()-1; i++) {
+									a += user.getSala().getUsuarios().get(i).getNombre() + ", ";
+								}
+								a += user.getSala().getUsuarios().get(user.getSala().getUsuarios().size()-1).getNombre() + "]";
+								user.hacerPeticionAlServidor("chat|" + a);
+								System.out.println(a);
+								}
+							break;
 							default:
-								
+								user.hacerPeticionAlServidor("\nchat|/mute jugador --> Mutea al jugador proporcionado");
+								user.hacerPeticionAlServidor("chat|/unmute jugador --> Desmutea al jugador proporcionado");
+								user.hacerPeticionAlServidor("chat|/secreto id --> Te pone el objetivo secreto id");
+								user.hacerPeticionAlServidor("chat|/list --> Muestra los usuarios conectados");
+								user.hacerPeticionAlServidor("chat|----------------------------------------------");
+							
 							}
 							break;
 						}
@@ -157,7 +215,7 @@ private BufferedReader buffer;
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
 						  
-						  user.getSala().setPartida(new Principal(user.getSala().getUsuarios().size(), Integer.parseInt(split[4])));
+						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
 						  
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {

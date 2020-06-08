@@ -41,18 +41,22 @@ public class ClientReader implements Runnable {
                     if(sala != null) sala.actNumJugadores(Integer.parseInt(split[1]));
                     break;
                 case "chat":
-                	if(sala != null) {
-                    sala.actualizaChat(split[1]);
-                	} else {
-                	tablero.actualizaChat(split[1]);
-                	}
+                	if(split[1] != null)
+	                	if(sala != null) {
+	                    sala.actualizaChat(split[1]);
+	                	} else  if (tablero != null){
+	                	tablero.actualizaChat(split[1]);
+	                	}
                     break;
                 case "exit":
                 	try {
-						if(split[1] != null) { // Inicializar
+						if(split[1].equals("tablero")) { // Inicializar
 							
 							
 							sala.avanzarATablero(Integer.parseInt(split[2]));
+						} else {
+							sala.salirSala();
+							sala = null;
 						}
 						acceso.acquire();
 					} catch (InterruptedException e) {
@@ -71,7 +75,15 @@ public class ClientReader implements Runnable {
                 	
                 case "mover": // mover|superviviente|origen|destino --- Superviviente es una ID única para cada tipo de superviviente
                 	
-
+                	break;
+                case "secreto": // secreto|id -- ID única para cada objetivo secreto
+                	System.out.println("Objetivo Secreto: " + split[1]);
+                	break;
+                case "init": //init|sup1|sup2|...idJug
+                	for(int id = 0; id < split.length/2 - 1; id++) {
+                		System.out.println("Jugador " + id +": " + split[2*id+1] + " " + split[2*id+2]);
+                	}
+                	break;
                 default:
                     break;
                 }

@@ -233,12 +233,7 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0){
 				try {
 					
-					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|sala" );
-					//
-					FrameSeleccion fseleccion;
-					fseleccion = new FrameSeleccion(usuario);
-					fseleccion.setVisible(true);
-					dispose();
+					salirSala();
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -269,7 +264,9 @@ public class FrameSala extends JFrame {
 	}
 	
 	public void actualizaChat(String mensaje) {
+		if(ChatArea != null) {
 		ChatArea.setText(ChatArea.getText().trim() + "\n" + mensaje);
+		}
 	}
 	public void actNumJugadores(int numJugadores) {
 		lblNDeJugadores.setText("N\u00BA de jugadores:    " + numJugadores);
@@ -298,7 +295,7 @@ public class FrameSala extends JFrame {
 		}
 	}
 	public void avanzarATablero(int objetivo) throws IOException {
-		Principal p = new Principal(objetivo,numJugadores);
+		Principal p = new Principal(objetivo);
 		FrameTablero tablero = new FrameTablero(objetivo, usuario,p);
 		tablero.setVisible(true);
 		dispose();
@@ -306,5 +303,14 @@ public class FrameSala extends JFrame {
 	
 	public void setIsHost(boolean h) {
 		this.host = h;
+	}
+	
+	public void salirSala() throws IOException {
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|sala" );
+		//
+		FrameSeleccion fseleccion;
+		fseleccion = new FrameSeleccion(usuario);
+		fseleccion.setVisible(true);
+		dispose();
 	}
 }
