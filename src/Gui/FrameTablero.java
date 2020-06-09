@@ -23,7 +23,7 @@ import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo,objetivoSecreto,numJug,superviviente;//TODO: CAMBIADO
+	private static int objetivo,objetivoSecreto;//TODO: CAMBIADO
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
@@ -98,13 +98,13 @@ public class FrameTablero extends JFrame {
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		
-		
 		this.objetivo = objetivo;
 		this.usuario = user;
 		usuario.getClientReader().setTablero(this);
 		usuario.getClientReader().setSala(null);
 		aso = new Asociaciones();
 		supMap = aso.getSupMap();
+		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -422,21 +422,6 @@ public class FrameTablero extends JFrame {
 		fichZComisaria1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
 		fichZComisaria1.setVisible(false);
 		contentPane.add(fichZComisaria1);
-		
-		///LABELS SUPERVIVIENTES
-		/*JLabel fichSComisaria3 = new JLabel("");
-		fichSComisaria3.setBounds(686, 163, 36, 34);
-		contentPane.add(fichSComisaria3);
-		
-		JLabel fichSComisaria2 = new JLabel("");
-		fichSComisaria2.setBounds(640, 164, 36, 34);
-		fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
-		contentPane.add(fichSComisaria2);
-		
-		JLabel fichSComisaria1 = new JLabel("");
-		fichSComisaria1.setBounds(593, 163, 36, 34);
-		fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
-		contentPane.add(fichSComisaria1);*/
 		
 		//LABELS SUPERMERCADO
 		

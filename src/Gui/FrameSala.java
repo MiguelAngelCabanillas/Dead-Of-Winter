@@ -210,7 +210,7 @@ public class FrameSala extends JFrame {
 					Thread.sleep(50);
 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
-						Thread.sleep(50);
+						btnNewButton.setEnabled(false);
 					} else {
 						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
 					}
