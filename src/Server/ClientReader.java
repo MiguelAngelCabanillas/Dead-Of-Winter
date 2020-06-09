@@ -109,7 +109,6 @@ public class ClientReader implements Runnable {
                 		sup1 = Integer.parseInt(split[2*id+1]);
                 		sup2 = Integer.parseInt(split[2*id+2]);
                 		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
-                		System.out.println(tablero.toString());
                 		//IMPRESION EN JFRAME
                 		tablero.anyadirSuperviviente(sup1, pos);pos++;
                 		tablero.anyadirSuperviviente(sup2, pos);pos++;

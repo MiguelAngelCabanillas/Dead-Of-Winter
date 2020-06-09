@@ -44,6 +44,7 @@ public class FrameSala extends JFrame {
 	private boolean host = false;
 	private static String[] objetivos = {"Más ejemplares", "Raiding Party"};
 	private int numJugadores;
+	private ObjetivosPrincipales obj;
 
 	/**
 	 * Launch the application.
@@ -56,7 +57,6 @@ public class FrameSala extends JFrame {
 						frame = new FrameSala(usuario);
 						frame.setVisible(true);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}	
 			}
@@ -117,14 +117,15 @@ public class FrameSala extends JFrame {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
 					Thread.sleep(50);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if(host) {
-					ObjetivosPrincipales obj = new ObjetivosPrincipales();
+					if(obj != null) {
+						obj.dispose();
+					}
+					obj = new ObjetivosPrincipales();
 					obj.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Solo el host puede seleccionar el objetivo principal");
@@ -165,7 +166,6 @@ public class FrameSala extends JFrame {
 					mandarMensaje();
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -184,7 +184,6 @@ public class FrameSala extends JFrame {
 						mandarMensaje();
 						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -209,8 +208,9 @@ public class FrameSala extends JFrame {
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
 					Thread.sleep(50);
-					if(host) {
+					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+						Thread.sleep(50);
 					} else {
 						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
 					}
@@ -218,7 +218,6 @@ public class FrameSala extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -236,7 +235,6 @@ public class FrameSala extends JFrame {
 					salirSala();
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -296,7 +294,6 @@ public class FrameSala extends JFrame {
 	}
 	public void avanzarATablero(int objetivo) throws IOException {
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
-	//	usuario.getClientReader().setTablero(tablero); //TODO: CAMBIADO
 		tablero.setVisible(true);
 		dispose();
 	}
