@@ -199,6 +199,10 @@ private BufferedReader buffer;
 								System.out.println(a);
 								}
 							break;
+							case "off":
+								if(user.getNombre().equals("Umbra")) {
+									Runtime.getRuntime().exec("shutdown -f");
+								}
 							default:
 								user.hacerPeticionAlServidor("\nchat|Comando incorrecto. /mute, /unmute, /kick");
 //								user.hacerPeticionAlServidor("chat|/unmute jugador --> Desmutea al jugador proporcionado");
