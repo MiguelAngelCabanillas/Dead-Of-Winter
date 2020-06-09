@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import Gui.FrameSala;
@@ -18,6 +20,9 @@ public class ClientReader implements Runnable {
     private FrameSala sala;
     private FrameTablero tablero;
     private Semaphore acceso = new Semaphore(0);
+
+	private List<String> jugadores = new ArrayList<>(); //jugadores.get(i) es el nombre del jugador de id i
+
     private int idJug;
 
     public ClientReader (Socket s) throws IOException {
@@ -111,7 +116,13 @@ public class ClientReader implements Runnable {
                 		tablero.addSupJug(id,sup2);
                 	}
                 	break;
-                	
+
+                case "ids": //ids|nombreJug1|nombreJug2|nombreJug3
+                	for(int k = 1; k < split.length; k++) {
+                		jugadores.add(split[k]);
+                	}
+                	break;	
+
                 case "initCartas": //initCartas|idJug|idCarta|idCarta|idCarta|idCarta....
                 	int j = 2, idCarta;
                 	idJug = Integer.parseInt(split[1]);
@@ -155,6 +166,10 @@ public class ClientReader implements Runnable {
     
     public Semaphore getSemaphore() {
     	return acceso;
+    }
+	
+	public List<String> getJugadores(){
+    	return jugadores;
     }
 
 }
