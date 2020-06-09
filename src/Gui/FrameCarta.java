@@ -84,7 +84,7 @@ public class FrameCarta extends JFrame {
 		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 	      int height = pantalla.height;
 	      int width = pantalla.width;
-	      setSize(438, 599);
+	      setSize(431, 599);
 
 	      setLocationRelativeTo(null);
 	}

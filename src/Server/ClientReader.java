@@ -104,10 +104,12 @@ public class ClientReader implements Runnable {
                 case "initSup": //initSup|sup1Jug1|sup2Jug1|sup1Jug2|sup2Jug2|...
                 	int sup1,sup2;
                 	int pos = 0;
-                	for(int id = 0; id < split.length/2; id++) {
+                	FrameTablero.setId(Integer.parseInt(split[split.length-1]));
+                	for(int id = 0; id < (split.length/2) - 1; id++) {
                 		sup1 = Integer.parseInt(split[2*id+1]);
                 		sup2 = Integer.parseInt(split[2*id+2]);
                 		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
+                		System.out.println(tablero.toString());
                 		//IMPRESION EN JFRAME
                 		tablero.anyadirSuperviviente(sup1, pos);pos++;
                 		tablero.anyadirSuperviviente(sup2, pos);pos++;
@@ -116,7 +118,8 @@ public class ClientReader implements Runnable {
                 		tablero.addSupJug(id,sup2);
                 	}
                 	break;
-
+                	
+                //PASAR NOMBRES ASIGNADOS A IDs	
                 case "ids": //ids|nombreJug1|nombreJug2|nombreJug3
                 	for(int k = 1; k < split.length; k++) {
                 		jugadores.add(split[k]);
@@ -160,8 +163,8 @@ public class ClientReader implements Runnable {
         this.sala = sala;
     }
     
-    public void setTablero(FrameTablero tablero) {
-    	this.tablero = tablero;
+    public  void setTablero(FrameTablero t) {
+    	this.tablero = t;
     }
     
     public Semaphore getSemaphore() {

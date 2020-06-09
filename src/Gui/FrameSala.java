@@ -295,8 +295,8 @@ public class FrameSala extends JFrame {
 		}
 	}
 	public void avanzarATablero(int objetivo) throws IOException {
-		Principal p = new Principal(objetivo);
-		FrameTablero tablero = new FrameTablero(objetivo, usuario,p);
+		FrameTablero tablero = new FrameTablero(objetivo, usuario);
+	//	usuario.getClientReader().setTablero(tablero); //TODO: CAMBIADO
 		tablero.setVisible(true);
 		dispose();
 	}

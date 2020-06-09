@@ -42,7 +42,7 @@ public class IniciarSesion {
 				if (!encontrado) {
 					JOptionPane.showMessageDialog(null, "Error, usuario y/o contraseña incorrecto");
 				}else {
-					JOptionPane.showMessageDialog(null, "Bienvenido a la Colonia " + usuarioBD);
+					JOptionPane.showMessageDialog(null, "Bienvenido a la Colonia, " + usuarioBD);
 				}
 			sc.close();
 		} catch (SQLException e) {

@@ -16,7 +16,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -31,6 +30,7 @@ public class FrameTablero extends JFrame {
 	private JTextArea txtrHistorial;
 	private JLabel aux;
 	private Point p;
+	private JLabel lblTablero;
 	
 	private JLabel fichMoral1,fichMoral2,fichMoral3,fichMoral4,fichMoral5,fichMoral6,fichMoral7,fichMoral8,fichMoral9,fichMoral10;
 	private JLabel fichRonda1,fichRonda2,fichRonda3,fichRonda4,fichRonda5,fichRonda6,fichRonda7,fichRonda8,fichRonda9,fichRonda10;
@@ -46,12 +46,14 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
-	private HashMap<Integer,JLabel[]> supMap /*= getSupMap()*/; //TODO
+	private HashMap<Integer,JLabel[]> supMap;
 	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
 	private HashMap<Integer,List<Integer>> supJugadores = new HashMap<>(); //mapa<jug,listaSup>
 	private HashMap<Integer,List<Integer>> cartasJugador = new HashMap<>(); //mapa<jug,listaCartas>
-	private static Principal principal;
 	private ObjPrincipal auxObj;
+	private Asociaciones aso;
+	private InfoJugador infoJug;
+	private static int idJug;
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -74,7 +76,7 @@ public class FrameTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTablero frame = new FrameTablero(objetivo, usuario, principal);
+					FrameTablero frame = new FrameTablero(objetivo, usuario);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,7 +88,7 @@ public class FrameTablero extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameTablero(int objetivo, Usuario user, Principal princ) {
+	public FrameTablero(int objetivo, Usuario user) {
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -95,9 +97,14 @@ public class FrameTablero extends JFrame {
 		setBounds(100, 100, 1940, 1048);
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
+		
+		
 		this.objetivo = objetivo;
 		this.usuario = user;
-		principal = princ;
+		usuario.getClientReader().setTablero(this);
+		usuario.getClientReader().setSala(null);
+		aso = new Asociaciones();
+		supMap = aso.getSupMap();
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -664,6 +671,34 @@ public class FrameTablero extends JFrame {
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
 		
+		JButton btnInfoJugador = new JButton("INFO JUGADOR");
+//		btnInfoJugador.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				if(infoJug != null) {
+//					infoJug.dispose();
+//				}
+//				//infoJug = new InfoJugador(listaSupJug, listaCartasJug,objetivoSecreto,supMap/*dados*/); //TODO: DADOS
+//				infoJug.setVisible(true);
+//			}
+//		});
+		btnInfoJugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
+		btnInfoJugador.setBounds(840, 71, 129, 41);
+		contentPane.add(btnInfoJugador);
+		
+		JButton btnInfoTablero = new JButton("INFO TABLERO");
+//		btnInfoTablero.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				if(infoTab != null) {
+//					infoTab.dispose();
+//				}
+//				infoTab = new InfoTablero();
+//				infoTab.setVisible(true);
+//			}
+//		});
+		btnInfoTablero.setToolTipText("Muestra informacion sobre el estado actual del tablero");
+		btnInfoTablero.setBounds(1270, 71, 129, 41);
+		contentPane.add(btnInfoTablero);
+		
 		JButton ObjetivoPrin = new JButton("");
 		ObjetivoPrin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -710,12 +745,13 @@ public class FrameTablero extends JFrame {
 		txtChat.setColumns(10);
 		
 		///LABEL PRINCIPAL DEL TABLERO
-		JLabel lblTablero = new JLabel("");
+		lblTablero = new JLabel("");
 		lblTablero.setBounds(324, 0, 1598, 975);
 		//DEJAR EL PATH ACTUAL DEL TABLERO PARA PODER VER SU VISTA PREVIA EN DESIGN
 		ImageIcon tableroIcon = new ImageIcon(this.getClass().getResource("/TableroOriginal.png"));
 		Image aux = tableroIcon.getImage();
 		Image aux2 = aux.getScaledInstance(1598,975, java.awt.Image.SCALE_SMOOTH);
+		//lblTablero.setVisible(false);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(12, 79, 128, 2);
@@ -780,8 +816,8 @@ public class FrameTablero extends JFrame {
 			break;
 		}
 
-		usuario.getClientReader().setTablero(this);
-		usuario.getClientReader().setSala(null);
+//		usuario.getClientReader().setTablero(this);
+//		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
 		hilo.start();
 		
@@ -887,8 +923,9 @@ public class FrameTablero extends JFrame {
 	public void anyadirSuperviviente(int id,int posI) {
 		p = locColonia[posI];
 		aux = supMap.get(id)[0];
-		aux.setBounds(p.x, p.y, 36, 34);
+		aux.setBounds(p.x,p.y, 36, 34);
 		contentPane.add(aux);
+		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
 	}
 	
 	//AÑADIR SUUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
@@ -944,6 +981,10 @@ public class FrameTablero extends JFrame {
 			cartasJugador.put(idJug, listaVacia);
 		}
 		cartasJugador.get(idJug).add(idCarta);
+	}
+	
+	public static void setId(int id) {
+		idJug = id;
 	}
 }
 

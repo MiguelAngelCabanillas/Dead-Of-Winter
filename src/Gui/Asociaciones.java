@@ -134,50 +134,51 @@ public class Asociaciones {
 				, BrianLee, BuddyDavis, CarlaThompson, DanielSmith, DavidGarcia, EdwardWhite, ThomasHeart, TaliaJones, Sparky,
 				SophieRobinson, RodMiller, OliviaBrown, MikeCho, MariaLopez, LorettaClay, KodiakColby, JohnPrice, JennyClark, JanetTaylor,
 				JamesMeyers, HarmanBrooks, GrayBeard, GabrielDiaz, ForestPlum);
+		
 		//Alexis Grey -> 0
-		aux.put(0, AlexisGrey);
+		aux.put(100, AlexisGrey);
 		//Andrew Evans -> 1
-		aux.put(1, AndreEvans);
+		aux.put(101, AndreEvans);
 		//Annaleigh Chan -> 2
-		aux.put(2, AnnaleighChan);
+		aux.put(102, AnnaleighChan);
 		//Arthur Thurston -> 3
-		aux.put(3, ArthurThurston);
+		aux.put(103, ArthurThurston);
 		//Ashley Ross -> 4
-		aux.put(4, AshleyRoss);
+		aux.put(104, AshleyRoss);
 		//Bev Russell -> 5
-		aux.put(5, BevRussell);
+		aux.put(105, BevRussell);
 		//Brandon Kane -> 6
-		aux.put(6, BrandonKane);
+		aux.put(106, BrandonKane);
 		//Brian Lee -> 7
-		aux.put(7, BrianLee);
+		aux.put(107, BrianLee);
 		//Buddy Davis -> 8
-		aux.put(8, BuddyDavis);
+		aux.put(108, BuddyDavis);
 		//Carla Thompson -> 8
-		aux.put(9, CarlaThompson);
+		aux.put(109, CarlaThompson);
 		//Daniel Smith -> 9
-		aux.put(10, DanielSmith);
+		aux.put(110, DanielSmith);
 		//David Garcia -> 10
-		aux.put(11, DavidGarcia);
+		aux.put(111, DavidGarcia);
 		//Edward White -> 11
-		aux.put(12, EdwardWhite);
-		aux.put(13, ForestPlum);
-		aux.put(14, GabrielDiaz);
-		aux.put(15,GrayBeard);
-		aux.put(16, HarmanBrooks);
-		aux.put(17, JamesMeyers);
-		aux.put(18, JanetTaylor);
-		aux.put(19,JennyClark);
-		aux.put(20, JohnPrice);
-		aux.put(21, KodiakColby);
-		aux.put(22, LorettaClay);
-		aux.put(23,MariaLopez);
-		aux.put(24, MikeCho);
-		aux.put(25, OliviaBrown);
-		aux.put(26, RodMiller);
-		aux.put(27,SophieRobinson);
-		aux.put(28, Sparky);
-		aux.put(29,TaliaJones);
-		aux.put(30, ThomasHeart);
+		aux.put(112, EdwardWhite);
+		aux.put(113, ForestPlum);
+		aux.put(114, GabrielDiaz);
+		aux.put(115,GrayBeard);
+		aux.put(116, HarmanBrooks);
+		aux.put(117, JamesMeyers);
+		aux.put(118, JanetTaylor);
+		aux.put(119,JennyClark);
+		aux.put(120, JohnPrice);
+		aux.put(121, KodiakColby);
+		aux.put(122, LorettaClay);
+		aux.put(123,MariaLopez);
+		aux.put(124, MikeCho);
+		aux.put(125, OliviaBrown);
+		aux.put(126, RodMiller);
+		aux.put(127,SophieRobinson);
+		aux.put(128, Sparky);
+		aux.put(129,TaliaJones);
+		aux.put(130, ThomasHeart);
 		return aux;
 	}
 	//TODO: IniciarSupervivientes
@@ -585,8 +586,9 @@ public class Asociaciones {
 		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
 		JLabel ganasVivir = new JLabel("");
 		IniciarObjetivoSecretos(ganasVivir);
+		//TODO: A partir de 200
 		//Ganas de Vivir -> 0
-		aux.put(0, ganasVivir);
+		aux.put(200, ganasVivir);
 		return aux;
 	}
 	//TODO: IniciarObjetivoSecretos
