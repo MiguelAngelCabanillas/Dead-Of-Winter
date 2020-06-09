@@ -103,16 +103,29 @@ private BufferedReader buffer;
 						if(split[3].equalsIgnoreCase("gg ez")) {
 							Random rand = new Random();
 							String msgTonto = "";
-							switch(rand.nextInt(5)) {
+							switch(rand.nextInt(11)) {
 							case 0: msgTonto = "¡Mamá no quiero irme a dormir todavia! Ups, chat equivocado.";
 									break;
 							case 1: msgTonto = "¡Ha sido una partida maravillosa! ¡Amor para todos!";
 									break;
-							case 2: msgTonto = "Me gusta rascarme el culo por las mañanas.";
+							case 2: msgTonto = "Me gusta meterme el dedo en la nariz.";
 									break;
-							case 3: msgTonto = "Hacer pipi sentado es muuucho más satisfactorio.";
+							case 3: msgTonto = "Hacer pipi en la ducha es maravilloso.";
 									break;
 							case 4: msgTonto = "Yo... Te amo, cásate conmigo porfa...";
+									break;
+							case 5: msgTonto = "Mi mamá dice que la gente de mi edad no debería chuparse el dedo.";
+									break;
+							case 6: msgTonto = "Soy muy, muy pequeño...Abrazadme...";
+									break;
+							case 7: msgTonto = "Ahora mismo estoy intentando superar un problemilla de inseguridad, pero gracias a todos por jugar conmigo.";
+									break;
+							case 8: msgTonto = "¡Por el honor y la gloria! ¡Hurra, compañeros!";
+									break;
+							case 9: msgTonto = "Ya debería estar en la cama, no se lo digáis a mi mamá.";
+									break;
+							case 10: msgTonto ="Os deseo lo mejor.";
+									break;
 							}
 							System.out.println(user.getNombre() + ": " + msgTonto);
 							user.enviarALaSala("chat|" + user.getNombre() + ": " + msgTonto);
@@ -187,11 +200,11 @@ private BufferedReader buffer;
 								}
 							break;
 							default:
-								user.hacerPeticionAlServidor("\nchat|/mute jugador --> Mutea al jugador proporcionado");
-								user.hacerPeticionAlServidor("chat|/unmute jugador --> Desmutea al jugador proporcionado");
-								user.hacerPeticionAlServidor("chat|/secreto id --> Te pone el objetivo secreto id");
-								user.hacerPeticionAlServidor("chat|/list --> Muestra los usuarios conectados");
-								user.hacerPeticionAlServidor("chat|----------------------------------------------");
+								user.hacerPeticionAlServidor("\nchat|Comando incorrecto. /mute, /unmute, /kick");
+//								user.hacerPeticionAlServidor("chat|/unmute jugador --> Desmutea al jugador proporcionado");
+//								//user.hacerPeticionAlServidor("chat|/secreto id --> Te pone el objetivo secreto id");
+//								user.hacerPeticionAlServidor("chat|/list --> Muestra los usuarios conectados");
+//								user.hacerPeticionAlServidor("chat|----------------------------------------------");
 							
 							}
 							break;
