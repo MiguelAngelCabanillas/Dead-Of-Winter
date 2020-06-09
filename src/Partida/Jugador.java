@@ -253,12 +253,22 @@ public class Jugador {
 		}
 	}
 	
-	public void buscar(int id) {
+	public String buscar(int id) {
 		Carta_Supervivientes personaje = getSupConId(id);
+		Dado dado = valorDado(personaje.getAtaque());
+		String salida = "";
 		
-		if(hayValorDisponible(personaje.getBusqueda()) && personaje != null) {
-			mazoObjeto.add((Carta_Objeto) l.cogerCarta());
+		//SI HAY DADO Y EL SUPERVIVIENTE NO ESTA EN LA COLONIA
+		if(dado != null && !getLocalizacion(6).equals(localizacion(personaje))) {
+			salida += localizacion(personaje).cogerCarta().getId();
+			
+			//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
+			if(getLocalizacion(personaje.doble()).equals(localizacion(personaje))) {
+				salida += "|" + localizacion(personaje).cogerCarta().getId();
+			}
 		}
+		
+		return salida;
 	}
 	
 	public int mover(int id, int l) {
