@@ -8,7 +8,7 @@ public class Objetivo_Principal {
 	private boolean estado = false;
 	private Random r = new Random();
 	
-	private int contadorObjetivo;	//SERÁ UN CONTADOR DE ZOMBIES O DE MAZOS VACÍOS
+	private int contadorObjetivo = 0;	//SERÁ UN CONTADOR DE ZOMBIES O DE MAZOS VACÍOS
 	
 	public Objetivo_Principal(int objetivo) {
 		this.objetivo = objetivo;
@@ -30,7 +30,11 @@ public class Objetivo_Principal {
 		}
 		break;
 		case 1 : {	//MISIÓN DE VACIAR 2 MAZOS
-			
+			contadorObjetivo++;
+
+			if(contadorObjetivo >= 2) {
+				estado = true;
+			}
 		}
 		break;
 		}
