@@ -66,7 +66,6 @@ public class Principal {
 		idCartas[3] = "";
 		idCartas[4] = "";
 		
-		
 		for(int i = 0; i < numJugadores; i++) {
 			mazoJugador = new ArrayList<>();
 			for(int j = 0; j < 5; j++) {
