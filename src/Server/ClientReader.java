@@ -18,6 +18,7 @@ public class ClientReader implements Runnable {
     private FrameSala sala;
     private FrameTablero tablero;
     private Semaphore acceso = new Semaphore(0);
+    private int idJug;
 
     public ClientReader (Socket s) throws IOException {
         socket = s;
@@ -34,12 +35,15 @@ public class ClientReader implements Runnable {
                 }
                 String[] split = msgllegada.split("\\|");
                 switch (split[0]) {
+                
                 case "idsala":
                     if(sala != null) sala.actIdSala(Integer.parseInt(split[1]));
                     break;
+                    
                 case "nusuarios":
                     if(sala != null) sala.actNumJugadores(Integer.parseInt(split[1]));
                     break;
+                    
                 case "chat":
                 	if(split[1] != null)
 	                	if(sala != null) {
@@ -48,6 +52,7 @@ public class ClientReader implements Runnable {
 	                	tablero.actualizaChat(split[1]);
 	                	}
                     break;
+                    
                 case "exit":
                 	try {
 						if(split[1].equals("tablero")) { // Inicializar
@@ -63,27 +68,60 @@ public class ClientReader implements Runnable {
 						e.printStackTrace();
 					}
                 	break;
+                	
                 case "host" :
                 	sala.setIsHost(true);
                 	break;
-                case "asignar": // asignar|id|id|id|id...
-                	/*int i = 1;
+                	
+                case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
+                	int i = 2;
+                	idJug = Integer.parseInt(split[1]);
+                	int idSup,posValCol;
                 	while(split[i] != null) {
-                	 principal.asignarpersonajespolla();
-                	}*/
-                	break;
-                	
-                case "mover": // mover|superviviente|origen|destino --- Superviviente es una ID única para cada tipo de superviviente
-                	
-                	break;
-                case "secreto": // secreto|id -- ID única para cada objetivo secreto
-                	System.out.println("Objetivo Secreto: " + split[1]);
-                	break;
-                case "init": //init|sup1|sup2|...idJug
-                	for(int id = 0; id < split.length/2 - 1; id++) {
-                		System.out.println("Jugador " + id +": " + split[2*id+1] + " " + split[2*id+2]);
+                		idSup = Integer.parseInt(split[i]);
+                		posValCol = Integer.parseInt(split[i+1]);
+                		tablero.addSupJug(idJug,idSup); //añadimos superviviente a la lista del jugador al que se le asigna
+                		tablero.anyadirSuperviviente(idSup, posValCol); //añadimos superviviente al tablero
+                		i = i+2;
                 	}
                 	break;
+                	
+                case "mover": // mover|superviviente|destino|posicionValida --- Superviviente es una ID única para cada tipo de superviviente
+                	System.out.println("Mover superviviente " + split[1] + " a la localizacion " + split[2] + ", posicion " + split[3]);
+                	tablero.moverSuperviviente(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+                	break;
+                	
+                case "secreto": // secreto|id -- ID única para cada objetivo secreto
+                	System.out.println("Objetivo Secreto: " + split[1]);
+                	FrameTablero.setObjetivoSecreto(Integer.parseInt(split[1]));
+                	break;
+                	
+                case "initSup": //initSup|sup1Jug1|sup2Jug1|sup1Jug2|sup2Jug2|...
+                	int sup1,sup2;
+                	int pos = 0;
+                	for(int id = 0; id < split.length/2 - 1; id++) {
+                		sup1 = Integer.parseInt(split[2*id+1]);
+                		sup2 = Integer.parseInt(split[2*id+2]);
+                		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
+                		//IMPRESION EN JFRAME
+                		tablero.anyadirSuperviviente(sup1, pos);pos++;
+                		tablero.anyadirSuperviviente(sup2, pos);pos++;
+                		//AÑADIMOS SUPERVIVIENTES A LA LISTA
+                		tablero.addSupJug(id,sup1);
+                		tablero.addSupJug(id,sup2);
+                	}
+                	break;
+                	
+                case "initCartas": //initCartas|idJug|idCarta|idCarta|idCarta|idCarta....
+                	int j = 2, idCarta;
+                	idJug = Integer.parseInt(split[1]);
+                	while(split[j] != null) {
+                		idCarta = Integer.parseInt(split[j]);
+                		tablero.addCartaJug(idJug,idCarta); //añadimos cartas a la lista del jugador al que se le asigna
+                		j++;
+                	}
+                	break;
+                	
                 default:
                     break;
                 }
