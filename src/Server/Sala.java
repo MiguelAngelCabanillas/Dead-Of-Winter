@@ -56,6 +56,10 @@ public class Sala {
 	public void setPartida(Principal p) {
 		this.partida = p;
 	}
+	
+	public Principal getPartida() {
+		return partida;
+	}
 
 	public void mutear(Usuario user) {
 		muted.add(user);

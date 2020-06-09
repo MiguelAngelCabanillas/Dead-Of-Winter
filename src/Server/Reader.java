@@ -229,7 +229,7 @@ private BufferedReader buffer;
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
 						  
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
-						  
+						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {
 							  objetivosSecretos.add(i);
@@ -258,15 +258,24 @@ private BufferedReader buffer;
 						  
 						  Collections.shuffle(sups);
 						  
-						  String mensInit = "init";
+						  String mensInit = "initSup";
+						  String mensIds = "ids";
 						  
-						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
+						  Collections.shuffle(user.getSala().getUsuarios()); 
+						  for(int i = 0; i < (user.getSala().getUsuarios().size()); i++) {
 							  mensInit += "|" + sups.get(i);
+							  
+							  if(i%2 == 0) {
+								  mensIds += "|" + user.getSala().getUsuarios().get(i/2).getNombre(); // ids|FranMJ|Umbra|zunk|NiemaJ|Miguel1995
+							  }
+							 
 							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
 						  
 						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {  
+						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
 							  System.out.println(mensInit);
 						  }
@@ -275,6 +284,9 @@ private BufferedReader buffer;
 						  /// Cartas iniciales
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
+						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++){
+							  user.hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
+						  }
 						  
 						  
 						  user.enviarALaSala("exit|tablero|" + split[4]);
