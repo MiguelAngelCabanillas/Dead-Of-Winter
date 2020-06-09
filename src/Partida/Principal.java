@@ -60,6 +60,12 @@ public class Principal {
 		int cartas = numJugadores * 5;
 		List<Carta_Objeto> mazoJugador;
 		idCartas = new String[cartas];
+		idCartas[0] = "";
+		idCartas[1] = "";
+		idCartas[2] = "";
+		idCartas[3] = "";
+		idCartas[4] = "";
+		
 		
 		for(int i = 0; i < numJugadores * 2; i++) {
 			mazoJugador = new ArrayList<>();
