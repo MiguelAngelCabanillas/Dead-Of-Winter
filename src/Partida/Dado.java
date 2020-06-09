@@ -2,8 +2,6 @@ package Partida;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import Excepciones.dadoException;
-
 public class Dado {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,35 +10,36 @@ public class Dado {
 	
 	private final int caras = 6;
 	private int valor;
-	private boolean haSidoTirado;
+	private boolean usado;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Dado() {
-		this.haSidoTirado = false;
+		
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void tirarDado() throws dadoException {
-		if (this.haSidoTirado == true) {
-			throw new dadoException("Este dado ya ha sido utilizado.");
-		} else {
-			this.haSidoTirado = true;
-			this.valor = ThreadLocalRandom.current().nextInt(1,this.caras + 1);
-		}
+	public void tirarDado() {
+		usado = false;
+		this.valor = ThreadLocalRandom.current().nextInt(1,this.caras + 1);
 	}
 	
 	public int getValor() {
 		return valor;
 	}
 	
-	public boolean getHaSidoTirado() {
-		return this.haSidoTirado;
+	public int usar() {
+		usado = true;
+		return valor;
+	}
+	
+	public boolean usado() {
+		return usado;
 	}
 	
 }
