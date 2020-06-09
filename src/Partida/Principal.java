@@ -60,13 +60,21 @@ public class Principal {
 		int cartas = numJugadores * 5;
 		List<Carta_Objeto> mazoJugador;
 		idCartas = new String[cartas];
+		idCartas[0] = "";
+		idCartas[1] = "";
+		idCartas[2] = "";
+		idCartas[3] = "";
+		idCartas[4] = "";
 		
-		for(int i = 0; i < numJugadores * 2; i++) {
+		
+		for(int i = 0; i < numJugadores; i++) {
 			mazoJugador = new ArrayList<>();
-			for(int j = 0; j < cartas; j++) {
+			for(int j = 0; j < 5; j++) {
 				if(j != 0) {
 					idCartas[i] += "|";
 				}
+				
+				System.out.println(mazoInicial.size());
 				Carta_Objeto aux = mazoInicial.remove(r.nextInt(mazoInicial.size()));
 				
 				idCartas[i] += aux.getId();
@@ -120,7 +128,7 @@ public class Principal {
 		while(i < 25){
 			int aux = r.nextInt(25);
 			if(cartas[aux] != -1) {
-				mazo.add(new Carta_Objeto(0, cartas[aux], r.nextInt(3) + 1)); 
+				mazo.add(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -139,7 +147,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -158,7 +166,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -177,7 +185,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -196,7 +204,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -215,7 +223,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -234,7 +242,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
