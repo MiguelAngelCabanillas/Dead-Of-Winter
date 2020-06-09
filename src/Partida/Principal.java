@@ -126,7 +126,7 @@ public class Principal {
 		while(i < 25){
 			int aux = r.nextInt(25);
 			if(cartas[aux] != -1) {
-				mazo.add(new Carta_Objeto(0, cartas[aux], r.nextInt(3) + 1)); 
+				mazo.add(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -145,7 +145,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -164,7 +164,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -183,7 +183,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -202,7 +202,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -221,7 +221,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
@@ -240,7 +240,7 @@ public class Principal {
 		while(i < 30){
 			int aux = r.nextInt(30);
 			if(cartas[aux] != -1) {
-				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], r.nextInt(3) + 1)); 
+				mazo.push(new Carta_Objeto(cartas[aux], cartas[aux], cartas[aux])); 
 				cartas[aux] = -1; 
 				i++;
 			}
