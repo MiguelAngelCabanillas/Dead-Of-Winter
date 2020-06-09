@@ -23,7 +23,7 @@ import java.awt.Font;
 public class InfoJugador extends JFrame {
 
 	private JPanel contentPane;
-	private Asociaciones asociaciones;
+//	private Asociaciones asociaciones;
 	private JButton [] botonesCarta;
 	private HashMap<Integer, JLabel> obj;
 	private HashMap<Integer, JLabel> objetivoSecretos;
@@ -56,10 +56,10 @@ public class InfoJugador extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		asociaciones = new Asociaciones(); //Asociaciones de las cartas
-		
-		obj = asociaciones.getCartasObjetos();
-		objetivoSecretos = asociaciones.getObjSecretos();
+//		asociaciones = new Asociaciones(); //Asociaciones de las cartas
+//		
+//		obj = asociaciones.getCartasObjetos();
+//		objetivoSecretos = asociaciones.getObjSecretos();
 		
 		DerHandler handler = new DerHandler();
 			
