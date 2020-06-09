@@ -15,13 +15,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 public class FrameCarta extends JFrame {
 
 	private JPanel contentPane;
-	private static String carta;
-	private Asociaciones asociaciones;
+	private static HashMap<Integer, JLabel> carta;
+	private static String id;
+//	private Asociaciones asociaciones;
 	/**
 	 * Launch the application.
 	 */
@@ -29,7 +31,8 @@ public class FrameCarta extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCarta frame = new FrameCarta(carta);
+//					FrameCarta frame = new FrameCarta(carta);
+					FrameCarta frame = new FrameCarta(carta, id);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,9 +44,9 @@ public class FrameCarta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameCarta(String carta) {
+	public FrameCarta(HashMap<Integer, JLabel> carta, String id) {
 		
-		asociaciones = new Asociaciones();
+//		asociaciones = new Asociaciones();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,8 +62,11 @@ public class FrameCarta extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(10, 11,  416, 528);
-		lblNewLabel.setIcon(asociaciones.getCartasObjetos().get(Integer.parseInt(carta)).getIcon());
+		lblNewLabel.setBounds(10, 11,  406, 517);
+//		ImageIcon icon = (ImageIcon) carta;
+//		Image img = icon.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH);
+		lblNewLabel.setIcon(carta.get(Integer.parseInt(id)).getIcon());
+//		lblNewLabel.setIcon(new ImageIcon(img));
 		
 		JButton btnNewButton = new JButton("OK\r\n");
 		btnNewButton.addActionListener(new ActionListener() {

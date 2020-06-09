@@ -25,6 +25,8 @@ public class Prueba extends JFrame {
 	private JPanel contentPane;
 	private Asociaciones asociaciones;
 	private JButton [] botonesCarta;
+	private HashMap<Integer, JLabel> obj;
+	private HashMap<Integer, JLabel> objetivoSecretos;
 	private FrameCarta auxCarta;
 	/**
 	 * Launch the application.
@@ -52,12 +54,12 @@ public class Prueba extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 		asociaciones = new Asociaciones(); //Asociaciones de las cartas
 		
-		
-		
-		HashMap<Integer, JLabel> obj = asociaciones.getCartasObjetos();
-		HashMap<Integer, JLabel> objetivoSecretos = asociaciones.getObjSecretos();
+		obj = asociaciones.getCartasObjetos();
+		objetivoSecretos = asociaciones.getObjSecretos();
 		
 		DerHandler handler = new DerHandler();
 			
@@ -128,7 +130,8 @@ public class Prueba extends JFrame {
 				if(auxCarta != null) {
 					auxCarta.dispose();
 				}
-				auxCarta = new FrameCarta(botonesCarta[0].getText()); 
+//				auxCarta = new FrameCarta(botonesCarta[0].getText()); 
+				auxCarta = new FrameCarta(obj, botonesCarta[0].getText());
 				auxCarta.setVisible(true);
 				break;
 
