@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Cartas.Carta_Crisis;
-import Cartas.Carta_Objetivo_Principal;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
-import Excepciones.matarException;
 
 public class Colonia extends Localizacion {
 	
@@ -20,7 +18,7 @@ public class Colonia extends Localizacion {
 	private int vertedero;
 	
 	//OBJETIVOS
-	private Carta_Objetivo_Principal cartaObjetivoPrincipal;
+	private Objetivo_Principal ObjetivoPrincipal;			//es posible que esto sea eliminado
 	private List<Carta_Objeto> crisis;
 	private Carta_Crisis ronda;		
 	
@@ -35,13 +33,13 @@ public class Colonia extends Localizacion {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Colonia(Carta_Objetivo_Principal c, int jugadores) {
+	public Colonia(Objetivo_Principal c, int jugadores) {
 		super("Colonia.", null, 24, 3);	
 		
 		this.tokensDeHambre = 0;		
 		this.vertedero = 0;
 		
-		this.cartaObjetivoPrincipal = c;
+		this.ObjetivoPrincipal = c;
 		this.crisis = new ArrayList<>();
 		
 		inicCasillasZombie();
@@ -83,7 +81,7 @@ public class Colonia extends Localizacion {
 	}
 	
 	//METODOS DE INTERFAZ ENTRE EL USUARIO Y CASILLASZOMBIE
-	public void matar(int puerta) throws matarException {
+	public void matar(int puerta) {
 		int i = 0;
 		boolean muerto = false;
 		while (i < 3 && !muerto) {
@@ -115,13 +113,14 @@ public class Colonia extends Localizacion {
 	}
 	
 	@Override
-	public void actualizarCasillasZombiePasoDeRonda() {
+	public String [] actualizarCasillasZombiePasoDeRonda() {
 		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + inutiles) / 2);
-		System.out.println(numZombies);
 		int noColocados = 0;
+		int [] colocados = new int[6];
 		
 		for(int j = 0; j < numZombies; j++) {
-			List<CasillasZombie> puerta = puertas.get(j % 6);
+			int puertaActual = j % 6;
+			List<CasillasZombie> puerta = puertas.get(puertaActual);
 			boolean colocado = false;
 			int i = 0;
 			
@@ -131,6 +130,7 @@ public class Colonia extends Localizacion {
 				if (!aux.getHayZombie()) {
 					aux.setHayZombie(true);
 					colocado = true;
+					colocados[puertaActual]++;
 				} else {
 					i++;
 				}
@@ -154,6 +154,7 @@ public class Colonia extends Localizacion {
 				if (!aux.getHayZombie()) {
 					aux.setHayZombie(true);
 					colocado = true;
+					colocados[puertaActual]++;
 				} else {
 					i++;
 				}
@@ -164,6 +165,8 @@ public class Colonia extends Localizacion {
 			}
 		}
 		
+		int muertos = noColocados;
+		
 		//MATAMOS A LOS JUGADORES NECESARIOS
 		while(noColocados > 0) {
 			Carta_Supervivientes muerto = super.getSupervivientes().get(getPosicion(menorInfluencia()));
@@ -172,6 +175,19 @@ public class Colonia extends Localizacion {
 			muerto.recibirHerida(false);
 			noColocados--;
 		}
+		
+		//DEVOLVEMOS EL NUMERO DE ZOMBIES COLOCADOS
+		String [] aux = new String[2];
+		for(int i = 0; i < colocados.length; i++) {
+			if(i != 0) {
+				aux[0] += "|";
+			}
+			aux[0] += colocados[i]; 
+		}
+		
+		aux [1] = Integer.toString(muertos);
+		
+		return aux;
 	}
 	
 	public int pasarCrisis() {
@@ -193,14 +209,6 @@ public class Colonia extends Localizacion {
 	}
 	
 	//GETTERS Y SETTERS
-	public Carta_Objetivo_Principal getCartaObjetivoPrincipal() {
-		return cartaObjetivoPrincipal;
-	}
-
-	public void setCartaObjetivoPrincipal(Carta_Objetivo_Principal cartaObjetivoPrincipal) {
-		this.cartaObjetivoPrincipal = cartaObjetivoPrincipal;
-	}
-	
 	public void setCrisis(Carta_Crisis crisis) {
 		this.ronda = crisis;
 	}
