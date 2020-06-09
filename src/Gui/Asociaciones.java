@@ -8,11 +8,31 @@ import javax.swing.JLabel;
 
 public class Asociaciones {
 	private HashMap<Integer,JLabel> CartasObjetos;
+	private HashMap<Integer,JLabel> ObjetivoSecreto;
 	
 	public Asociaciones() {
 		CartasObjetos = AsocObjetos();
+		ObjetivoSecreto = AsocObjSecreto();
 	}
 	
+	private HashMap<Integer, JLabel> AsocObjSecreto(){
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel ganasVivir = new JLabel("");
+		IniciarObjetivoSecretos(ganasVivir);
+		//Ganas de Vivir -> 0
+		aux.put(0, ganasVivir);
+		return aux;
+	}
+	
+	private void IniciarObjetivoSecretos(JLabel ganasVivir) {
+		//Ganas de Vivir
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Ganas-de-vivir.jpg"));
+		Image img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		ganasVivir.setIcon(new ImageIcon(img));
+		ganasVivir.setBounds(0, 0, 567, 305);	
+	}
+
 	private HashMap<Integer, JLabel> AsocObjetos() {
 		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
 		JLabel comida1 = new JLabel(""), comida2 = new JLabel(""), comida3 = new JLabel(""), medicina = new JLabel("")
@@ -206,5 +226,8 @@ public class Asociaciones {
 	}
 	public HashMap<Integer,JLabel> getCartasObjetos(){
 		return CartasObjetos;
+	}
+	public HashMap<Integer,JLabel> getObjSecretos(){
+		return ObjetivoSecreto;
 	}
 }

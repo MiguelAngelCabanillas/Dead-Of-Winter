@@ -57,11 +57,10 @@ public class Prueba extends JFrame {
 		
 		
 		HashMap<Integer, JLabel> obj = asociaciones.getCartasObjetos();
+		HashMap<Integer, JLabel> objetivoSecretos = asociaciones.getObjSecretos();
+		
 		DerHandler handler = new DerHandler();
-		
-		contentPane.add(obj.get(1));
-		
-		
+			
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.BLACK);
 		separator.setBackground(Color.BLACK);
@@ -74,89 +73,27 @@ public class Prueba extends JFrame {
 		ManoCartas.setBounds(1389, 11, 139, 25);
 		contentPane.add(ManoCartas);
 		
-//		JSeparator separator_1 = new JSeparator();
-//		separator_1.setBounds(969, 47, 955, 2);
-//		contentPane.add(separator_1);
-//		
-//		JButton btnNewButton_1 = new JButton("New button");
-//		btnNewButton_1.setBounds(1167, 11, 157, 205);
-//		contentPane.add(btnNewButton_1);
-//		
-//		JButton btnNewButton_2 = new JButton("New button");
-//		btnNewButton_2.setBounds(1360, 11, 157, 205);
-//		contentPane.add(btnNewButton_2);
-//		
-//		JButton btnNewButton_3 = new JButton("New button");
-//		btnNewButton_3.setBounds(1549, 11, 157, 205);
-//		contentPane.add(btnNewButton_3);
-//		
-//		JButton btnNewButton_4 = new JButton("New button");
-//		btnNewButton_4.setBounds(1743, 11, 157, 205);
-//		contentPane.add(btnNewButton_4);
-//		
-//		JButton btnNewButton_5 = new JButton("New button");
-//		btnNewButton_5.setBounds(981, 253, 157, 205);
-//		contentPane.add(btnNewButton_5);
-//		
-//		JButton btnNewButton_5_1 = new JButton("New button");
-//		btnNewButton_5_1.setBounds(981, 504, 157, 205);
-//		contentPane.add(btnNewButton_5_1);
-//		
-//		JButton btnNewButton_5_2 = new JButton("New button");
-//		btnNewButton_5_2.setBounds(981, 765, 157, 205);
-//		contentPane.add(btnNewButton_5_2);
-//		
-//		JButton btnNewButton_5_3 = new JButton("New button");
-//		btnNewButton_5_3.setBounds(1167, 253, 157, 205);
-//		contentPane.add(btnNewButton_5_3);
-//		
-//		JButton btnNewButton_5_4 = new JButton("New button");
-//		btnNewButton_5_4.setBounds(1360, 253, 157, 205);
-//		contentPane.add(btnNewButton_5_4);
-//		
-//		JButton btnNewButton_5_5 = new JButton("New button");
-//		btnNewButton_5_5.setBounds(1549, 253, 157, 205);
-//		contentPane.add(btnNewButton_5_5);
-//		
-//		JButton btnNewButton_5_6 = new JButton("New button");
-//		btnNewButton_5_6.setBounds(1743, 253, 157, 205);
-//		contentPane.add(btnNewButton_5_6);
-//		
-//		JButton btnNewButton_5_7 = new JButton("New button");
-//		btnNewButton_5_7.setBounds(1167, 504, 157, 205);
-//		contentPane.add(btnNewButton_5_7);
-//		
-//		JButton btnNewButton_5_8 = new JButton("New button");
-//		btnNewButton_5_8.setBounds(1360, 504, 157, 205);
-//		contentPane.add(btnNewButton_5_8);
-//		
-//		JButton btnNewButton_5_9 = new JButton("New button");
-//		btnNewButton_5_9.setBounds(1549, 504, 157, 205);
-//		contentPane.add(btnNewButton_5_9);
-//		
-//		JButton btnNewButton_5_10 = new JButton("New button");
-//		btnNewButton_5_10.setBounds(1743, 504, 157, 205);
-//		contentPane.add(btnNewButton_5_10);
-//		
-//		JButton btnNewButton_5_11 = new JButton("New button");
-//		btnNewButton_5_11.setBounds(1167, 765, 157, 205);
-//		contentPane.add(btnNewButton_5_11);
-//		
-//		JButton btnNewButton_5_12 = new JButton("New button");
-//		btnNewButton_5_12.setBounds(1360, 765, 157, 205);
-//		contentPane.add(btnNewButton_5_12);
-//		
-//		JButton btnNewButton_5_13 = new JButton("New button");
-//		btnNewButton_5_13.setBounds(1549, 765, 157, 205);
-//		contentPane.add(btnNewButton_5_13);
-//		
-//		JButton btnNewButton_5_14 = new JButton("New button");
-//		btnNewButton_5_14.setBounds(1743, 765, 157, 205);
-//		contentPane.add(btnNewButton_5_14);
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(0, 40, 1924, 2);
+		contentPane.add(separator_1);
+		
+		JLabel lblObjetivoSecreto = new JLabel("Objetivo Secreto\r\n");
+		lblObjetivoSecreto.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblObjetivoSecreto.setBounds(379, 11, 148, 25);
+		contentPane.add(lblObjetivoSecreto);
+		
+//		JLabel lblNewLabel = new JLabel("New label");
+//		lblNewLabel.setBounds(171, 53, 567, 405);
+//		contentPane.add(lblNewLabel);
 		
 		
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador
 		
+		//Añado el objetivo Secreto
+		
+		JLabel aux = objetivoSecretos.get(0);
+		aux.setBounds(171, 53, aux.getWidth(), aux.getHeight());
+		contentPane.add(aux);
 		
 		int x = 979;
 		int y = 57;
