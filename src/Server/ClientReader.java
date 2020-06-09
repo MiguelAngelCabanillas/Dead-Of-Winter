@@ -104,7 +104,7 @@ public class ClientReader implements Runnable {
                 case "initSup": //initSup|sup1Jug1|sup2Jug1|sup1Jug2|sup2Jug2|...
                 	int sup1,sup2;
                 	int pos = 0;
-                	for(int id = 0; id < split.length/2 - 1; id++) {
+                	for(int id = 0; id < split.length/2; id++) {
                 		sup1 = Integer.parseInt(split[2*id+1]);
                 		sup2 = Integer.parseInt(split[2*id+2]);
                 		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
@@ -123,7 +123,7 @@ public class ClientReader implements Runnable {
                 	}
                 	break;	
 
-                case "initCartas": //initCartas|idJug|idCarta|idCarta|idCarta|idCarta....
+                case "initCartas": //initCartas|idCarta|idCarta|idCarta|idCarta....|idCarta
                 	int j = 2, idCarta;
                 	idJug = Integer.parseInt(split[1]);
                 	while(split[j] != null) {
