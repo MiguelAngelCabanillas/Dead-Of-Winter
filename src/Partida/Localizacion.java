@@ -138,7 +138,7 @@ public class Localizacion {
 		boolean encontrado = false;
 		
 		while(i < supervivientes.size() && !encontrado) {
-			if(supervivientes.containsKey(i)) {
+			if(!supervivientes.containsKey(i)) {
 				encontrado = true;
 			}else {
 				i++;
@@ -177,16 +177,20 @@ public class Localizacion {
 	}
 	
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
-	public void matarZombie() {
-		int i = 0;
+	public int matarZombie() {
+		int i = casillasZombie.size();
 		boolean zombieMuerto = false;
-		while (i < this.casillasZombie.size() && !zombieMuerto) {
+		
+		while (!zombieMuerto && i >= 0) {
 			if (this.casillasZombie.get(i).getHayZombie()) {
 				this.casillasZombie.get(i).setHayZombie(false);
 				zombieMuerto = true;
+			}else {
+				i++;
 			}
-			i++;
 		}
+		
+		return i;
 	}
 	
 	public void ponerBarricada() {
@@ -207,12 +211,12 @@ public class Localizacion {
 	}
 	
 	//METODOS DE MOVIMIENTO
-	public boolean llegar(Carta_Supervivientes personaje) {
-		boolean mover = false;
+	public int llegar(Carta_Supervivientes personaje) {
+		int mover = -1;
 		
 		if (supervivientes.size() < maximoNumSupervivientes) {
-			supervivientes.put(getPimeraValida(), personaje);
-			mover = true;
+			mover = getPimeraValida();
+			supervivientes.put(mover, personaje);
 		}
 		
 		return mover;
