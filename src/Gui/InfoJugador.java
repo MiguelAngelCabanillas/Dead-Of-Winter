@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
 
-public class Prueba extends JFrame {
+public class InfoJugador extends JFrame {
 
 	private JPanel contentPane;
 	private Asociaciones asociaciones;
@@ -35,7 +35,7 @@ public class Prueba extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Prueba frame = new Prueba();
+					InfoJugador frame = new InfoJugador();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,7 +47,7 @@ public class Prueba extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Prueba() {
+	public InfoJugador() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -93,7 +93,7 @@ public class Prueba extends JFrame {
 		
 		//Añado el objetivo Secreto
 		
-		JLabel aux = objetivoSecretos.get(0);
+		JLabel aux = objetivoSecretos.get(200);
 		aux.setBounds(171, 53, aux.getWidth(), aux.getHeight());
 		contentPane.add(aux);
 		
