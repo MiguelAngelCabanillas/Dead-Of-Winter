@@ -12,9 +12,19 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private int influencia;
 	private int ataque;
 	private int busqueda;
-	private String habilidad;
 	
-	private List<Carta_Objeto> equipamiento;
+	//HABILIDADES PASIVAS
+	private boolean tirarAlMover;
+	private boolean tirarAlMatar;
+	
+	private int buscarDoble;
+	/*
+	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
+	 * PARA SUPERVIVIENTES SIN HABILIDAD DE BÚSQUEDA ESTE VALOR VALE -1
+	 * PARA EL RESTO, TENDRÁ UN NÚMERO ENTRE 0 Y 5 QUE INDICA LA LOCALIZACION
+	 */
+	
+	private List<Carta_Objeto> equipamiento;	//puede que no sea necesario despues
 	private int heridas;
 	private boolean congelamiento;
 	
@@ -22,11 +32,10 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Supervivientes(int id, int ataque, int busqueda, String habilidad, int influencia) {
+	public Carta_Supervivientes(int id, int ataque, int busqueda, int influencia) {
 		super(id);
 		this.ataque = ataque;
 		this.busqueda = busqueda;
-		this.habilidad = habilidad;
 		this.heridas = 0;
 		this.congelamiento = false;
 		this.influencia = influencia;
@@ -48,6 +57,17 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	//GETTERS Y SETTERS	
+	public int doble() {
+		return buscarDoble;
+	}
+	
+	public boolean tiraAlAtacar() {
+		return tirarAlMatar;
+	}
+	
+	public boolean tiraAlMoverse() {
+		return tirarAlMover;
+	}
 	
 	public int getInfluencia() {
 		return influencia;
@@ -59,10 +79,6 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	public int getBusqueda() {
 		return busqueda;
-	}
-
-	public String getHabilidad() {
-		return habilidad;
 	}
 	
 	public int getHeridas() {

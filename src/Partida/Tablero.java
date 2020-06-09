@@ -1,7 +1,5 @@
 package Partida;
 
-import Cartas.Carta_Objetivo_Principal;
-
 public class Tablero {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,14 +19,18 @@ public class Tablero {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Tablero(int jugadores, Mazo mComisaria, Mazo mSupermercado, Mazo mColegio, Mazo mGasolinera,
-			Mazo mHospital, Mazo mBiblioteca, Carta_Objetivo_Principal objetivoPrincipal) {
+			Mazo mHospital, Mazo mBiblioteca, Objetivo_Principal objetivoPrincipal) {
 		hospital = new Localizacion("Hospital.", mHospital, 4, 4);
 		colegio = new Localizacion("Colegio", mColegio, 4, 4);
 		comisaria = new Localizacion("Comisaría.", mComisaria, 3, 4);
 		supermercado= new Localizacion("Supermercado.", mSupermercado, 3, 4);
 		gasolinera = new Localizacion("Gasolinera.", mGasolinera, 2, 4);
 		biblioteca = new Localizacion("Biblioteca.", mBiblioteca, 3, 4);
+<<<<<<< HEAD
+		colonia = new Colonia(objetivoPrincipal, jugadores);
+=======
 		//colonia = new Colonia(objetivoPrincipal, 5, 5, jugadores);
+>>>>>>> 5b1a42dda16576593fbeac20856aa88163c3ef90
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
