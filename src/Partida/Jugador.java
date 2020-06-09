@@ -86,22 +86,20 @@ public class Jugador {
 	}
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
-	public boolean hayValorDisponible(int valor) {
-		int id = -1, dado = 1, i = 0;
+	private Dado valorDado(int valor) {
+		Dado menor = null;
 		
-		for (Dado d : dados) {
-			if (!d.usado() && d.getValor() >= valor && dado <= d.getValor()) {
-				dado = d.getValor();
-				id = i;
+		for(Dado d : dados) {
+			if(!d.usado() && d.getValor() >= valor && menor.getValor() > d.getValor()) {
+				menor = d;
 			}
-			i++;
 		}
 		
-		return id != -1;
+		return menor;
 	}
 	
 	//METODO PARA SABER EL INDICE DE UN SUPERVIVIENTE
-	public int indice(Carta_Supervivientes carta) {
+	private int indice(Carta_Supervivientes carta) {
 		int indice = -1;
 		int i = 0;
 		
@@ -116,13 +114,32 @@ public class Jugador {
 		return indice;
 	}
 	
+	//DEVUELVE LA CARTA DE SUPERVIVIENTE CORRESPONDIENTE A LA ID
+	private Carta_Supervivientes getSupConId(int id) {
+		Carta_Supervivientes salida = null;
+		boolean encontrado = false;
+		int i = 0;
+		
+		while(!encontrado && i < mazoSuperviviente.size()) {
+			Carta_Supervivientes aux = mazoSuperviviente.get(i);
+			if(aux.getId() == id) {
+				salida = aux;
+				encontrado = true;
+			}else {
+				i++;
+			}
+		}
+		
+		return salida;
+	}
+	
 	//METODO PARA APLICAR UNA HERIDA
 	public void herir(Carta_Supervivientes carta) {
 		mazoSuperviviente.get(indice(carta)).recibirHerida(false);
 	}
 	
 	//DEVUELVE LA LOCALIZACION DEL PERSONAJE
-	public Localizacion localizacion(Carta_Supervivientes personaje) {
+	private Localizacion localizacion(Carta_Supervivientes personaje) {
 		Localizacion l = null;
 		
 		if (tablero.getBiblioteca().esta(personaje)) {
@@ -157,7 +174,7 @@ public class Jugador {
 	}
 	
 	//DEVUELVE EL SUPERVIVIENTE QUE EL JUGADOR TIENE EN LA LOCALIZACION
-	public Carta_Supervivientes comprobarLocalizacion(Localizacion l) {
+	private Carta_Supervivientes comprobarLocalizacion(Localizacion l) {
 		boolean esta = false;
 		Carta_Supervivientes personaje = null;
 		int i = 0;
@@ -174,7 +191,8 @@ public class Jugador {
 		return personaje;
 	}
 	
-	public Localizacion getLocalizacion(int id) {
+	//TRADUCCIÓN DE LA ID DE LOCALIZACION
+	private Localizacion getLocalizacion(int id) {
 		Localizacion sitio = null;
 		
 		switch(id) {
@@ -196,7 +214,7 @@ public class Jugador {
 	}
 	 
 	//REALIZA UNA TIRADA DEL DADO DE RIESGO Y REGULA LAS ACCIONES POSTERIORES A ESTA
-	public void tiradaRiesgo(Carta_Supervivientes personaje) {
+	private void tiradaRiesgo(Carta_Supervivientes personaje) {
 		int dado = riesgo.tirarDado();
 		
 		if (dado > 5 && dado <= 8) {
@@ -213,29 +231,21 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//ESTE METODO ELIMINA UN ZOMBIE O SUPERVIVIENTE DE LA LOCALIZACION DONDE SE ENCUENTRA EL SUPERVIVIENTE
-	public boolean atacar(int personaje, int objetivo) {
-		boolean atacado = false;
-//		
-//		
-//		if(objetivo == -1) {	//ATACAR ZOMBIES
-//			if(hayValorDisponible(personaje.getAtaque())) {
-//				this.localizacion(personaje).matarZombie();
-//				this.tiradaRiesgo(personaje);
-//			}
-//		} else {
-//			
-//			if (hayValorDisponible(personaje.getAtaque())) {
-//				Dado tirada = new Dado();
-//				tirada.tirarDado();
-//				
-//				if (tirada.getValor() >= objetivo.getAtaque()) {
-//					enemigo.herir(objetivo);
-//				}
-//			}
-//		}
-//		
-		return atacado;
+	public int atacar(int personaje) {
+		Carta_Supervivientes superviviente = getSupConId(personaje);
+		
+		//USAMOS EL MENOR DADO POSIBLE
+		valorDado(superviviente.getAtaque()).usar();
+		if(superviviente.tiraAlAtacar()) {
+			tiradaRiesgo(superviviente);
+		}
+		
+		return localizacion(superviviente).matarZombie();
 	}
+	
+//	public int atacarPersona(int personaje) {
+//		return valorDado(getSupConId(personaje).getAtaque()).usar();
+//	}
 	
 	public void barricada(Localizacion l) {
 		if(comprobarLocalizacion(l) != null) {
@@ -243,22 +253,27 @@ public class Jugador {
 		}
 	}
 	
-	public void buscar(Localizacion l) {
-		Carta_Supervivientes personaje = comprobarLocalizacion(l);
+	public void buscar(int id) {
+		Carta_Supervivientes personaje = getSupConId(id);
+		
 		if(hayValorDisponible(personaje.getBusqueda()) && personaje != null) {
 			mazoObjeto.add((Carta_Objeto) l.cogerCarta());
 		}
 	}
 	
-	public int mover(Carta_Supervivientes personaje, int l) {
+	public int mover(int id, int l) {
+		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion lugar = getLocalizacion(l);
-		int posicion = lugar.getPimeraValida();
+		int posicion = lugar.llegar(personaje);
 		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(posicion != -1 && lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
+		if(posicion != -1 && !lugar.getSupervivientes().containsValue(personaje)) {
 			localizacion(personaje).irse(personaje);;
-			lugar.llegar(personaje);
-			this.tiradaRiesgo(personaje);
+			posicion = lugar.llegar(personaje);
+			
+			if(personaje.tiraAlMoverse()) {
+				tiradaRiesgo(personaje);
+			}
 		}
 		
 		return posicion;

@@ -36,7 +36,7 @@ public class Principal {
 	
 	//DATOS PARA EL SERVIDOR
 	private String [] idCartas;
-	private int jugadorActual;
+	private Jugador jugadorActual;
 	private boolean finalBueno = false;
 	private int muertos = 0;
 	
@@ -245,25 +245,16 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS DE JUGADOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	public boolean atacar(int idSuperviviente, int localizacion, int idAtacado) {
-		if(idAtacado == -1) {	//SE ATACA A UN ZOMBIE
-			jugadores.get(jugadorActual).atacar(idSuperviviente, idAtacado);
-		}else {//SE ATACA A UN JUGADOR
-			
-		}
-		
-		
-		
-		
-		return true;
+	public int atacar(int idSuperviviente) {
+		return jugadorActual.atacar(idSuperviviente);
 	}
 	
-	public void mover() {
-		
+	public int mover(int idSuperviviente, int localizacion) {	
+		return jugadorActual.mover(idSuperviviente, localizacion);
 	}
 	
-	public String buscar() {
-		return null;
+	public String buscar(int idJugador) {
+		return jugadorActual.buscar(idJugador);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,7 +269,7 @@ public class Principal {
 	}
 	
 	public void pasaTurno(int id) {
-		jugadorActual = id;
+		jugadorActual = jugadores.get(id);
 	}
 	
 	public String pasaRonda() {
@@ -344,7 +335,7 @@ public class Principal {
 	
 	private String actualizarSupervivientesActual() {
 		String muertos = "";
-		List<Carta_Supervivientes> aux = jugadores.get(jugadorActual).getMazoSuperviviente();
+		List<Carta_Supervivientes> aux = jugadorActual.getMazoSuperviviente();
 		
 		//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
 		for(Carta_Supervivientes personaje : aux) {

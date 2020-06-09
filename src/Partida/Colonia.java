@@ -114,14 +114,17 @@ public class Colonia extends Localizacion {
 	
 	@Override
 	public String [] actualizarCasillasZombiePasoDeRonda() {
-		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + inutiles) / 2);
+		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2);
 		int noColocados = 0;
 		int [] colocados = new int[6];
+		boolean colocado;
+		List<CasillasZombie> puerta;
+		int puertaActual;
 		
 		for(int j = 0; j < numZombies; j++) {
-			int puertaActual = j % 6;
-			List<CasillasZombie> puerta = puertas.get(puertaActual);
-			boolean colocado = false;
+			puertaActual = j % 6;
+			puerta = puertas.get(puertaActual);
+			colocado = false;
 			int i = 0;
 			
 			//INTENTA COLOCAR EN CASILLAS VACÍAS
@@ -178,6 +181,9 @@ public class Colonia extends Localizacion {
 		
 		//DEVOLVEMOS EL NUMERO DE ZOMBIES COLOCADOS
 		String [] aux = new String[2];
+		aux[0] = "";
+		aux[1] = "";
+		
 		for(int i = 0; i < colocados.length; i++) {
 			if(i != 0) {
 				aux[0] += "|";
