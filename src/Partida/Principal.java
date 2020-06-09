@@ -73,7 +73,6 @@ public class Principal {
 					idCartas[i] += "|";
 				}
 				
-				System.out.println(mazoInicial.size());
 				Carta_Objeto aux = mazoInicial.remove(r.nextInt(mazoInicial.size()));
 				
 				idCartas[i] += aux.getId();
