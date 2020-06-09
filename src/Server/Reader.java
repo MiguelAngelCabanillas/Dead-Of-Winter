@@ -277,6 +277,7 @@ private BufferedReader buffer;
 						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
+							  user.hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  System.out.println(mensInit);
 						  }
 						  
@@ -284,9 +285,6 @@ private BufferedReader buffer;
 						  /// Cartas iniciales
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
-						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++){
-							  user.hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-						  }
 						  
 						  
 						  user.enviarALaSala("exit|tablero|" + split[4]);
