@@ -124,12 +124,6 @@ public class FrameTablero extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
 		
-		/*int idSup[] = principal.inicPartida(numJug);
-		int i = 0;
-		for (int s : idSup) {
-			inicializarSuperviviente(s,i);
-			i++;
-		}*/
 	
 ///////////////////////////////////////////////////////////////////////////////////////TODO: LABELS MORAL, RONDAS
 		

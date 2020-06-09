@@ -60,11 +60,11 @@ public class ObjetivosPrincipales extends JFrame {
 		contentPane.setLayout(null);
 		
 		
-		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/NecesitamosEjemplares.png"));
-		Image img2 = ima2.getImage().getScaledInstance(300, 420, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
+		Image img2 = ima2.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH);
 		
-		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/RaidingParty.png"));
-		Image img3 = ima3.getImage().getScaledInstance(300, 420, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/PartidaDeSaqueo.jpg"));
+		Image img3 = ima3.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH);
 		
 		JButton SelecMasEjemplares = new JButton("");
 		SelecMasEjemplares.addActionListener(new ActionListener() {
@@ -80,7 +80,7 @@ public class ObjetivosPrincipales extends JFrame {
 				dispose();
 			}
 		});
-		SelecMasEjemplares.setBounds(10, 11, 300, 420);
+		SelecMasEjemplares.setBounds(10, 11, 406, 517);
 		SelecMasEjemplares.setIcon(new ImageIcon(img2));
 		contentPane.add(SelecMasEjemplares);
 		
@@ -97,7 +97,7 @@ public class ObjetivosPrincipales extends JFrame {
 				dispose();
 			}
 		});
-		SelecRaidingParty.setBounds(364, 11, 300, 420);
+		SelecRaidingParty.setBounds(450, 11, 406, 517);
 		SelecRaidingParty.setIcon(new ImageIcon(img3));
 		contentPane.add(SelecRaidingParty);
 		
@@ -107,7 +107,7 @@ public class ObjetivosPrincipales extends JFrame {
 		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 	      int height = pantalla.height;
 	      int width = pantalla.width;
-	      setSize(677, 445);
+	      setSize(868, 540);
 
 	      setLocationRelativeTo(null);
 	}
