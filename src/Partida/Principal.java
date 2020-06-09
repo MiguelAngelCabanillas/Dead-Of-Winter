@@ -270,8 +270,7 @@ public class Principal {
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	//INICIA LOS JUGADORES
-	public int[] inicPartida(int numJugadores, int inicial) {
-		jugadorActual = inicial;
+	public int[] inicPartida(int numJugadores) {
 		
 		inicMazos();
 		inicJugadores(numJugadores);
