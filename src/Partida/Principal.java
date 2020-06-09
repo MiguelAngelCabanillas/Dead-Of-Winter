@@ -66,13 +66,13 @@ public class Principal {
 		idCartas[3] = "";
 		idCartas[4] = "";
 		
-		
-		for(int i = 0; i < numJugadores * 2; i++) {
+		for(int i = 0; i < numJugadores; i++) {
 			mazoJugador = new ArrayList<>();
-			for(int j = 0; j < cartas; j++) {
+			for(int j = 0; j < 5; j++) {
 				if(j != 0) {
 					idCartas[i] += "|";
 				}
+				
 				Carta_Objeto aux = mazoInicial.remove(r.nextInt(mazoInicial.size()));
 				
 				idCartas[i] += aux.getId();
