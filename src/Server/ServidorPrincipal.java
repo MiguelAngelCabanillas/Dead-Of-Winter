@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServidorPrincipal {
+<<<<<<< HEAD
 	public static final String IP_SERVER = "25.66.43.164";
+=======
+
+	public static final String IP_SERVER = "25.66.43.164";
+
+>>>>>>> 1b39a7aa5e7a3b2d9763f9f42b003145f582ada3
 	public static final int PUERTO_SERVER = 12975;
 	
 	public ServidorPrincipal( ){
