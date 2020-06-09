@@ -227,7 +227,9 @@ private BufferedReader buffer;
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
-						  user.enviarALaSala("exit|tablero|" + split[4]);
+						 
+						  String mensInit = "initSup";
+						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
 						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
@@ -259,8 +261,7 @@ private BufferedReader buffer;
 						  
 						  Collections.shuffle(sups);
 						  
-						  String mensInit = "initSup";
-						  String mensIds = "ids";
+						  
 						  
 						  user.getSala().shuffleUsuarios();
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
@@ -274,7 +275,10 @@ private BufferedReader buffer;
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
 						  System.out.println(mensIds);
-						  
+					   }
+					   user.enviarALaSala("exit|tablero|" + split[4]);
+					   
+					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {					   
 						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {  
 						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);
@@ -283,6 +287,7 @@ private BufferedReader buffer;
 							  System.out.println(mensInit);
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 						  }
+					   }
 						  
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  /// Cartas iniciales
@@ -293,7 +298,7 @@ private BufferedReader buffer;
 						  
 						  
 						  
-					  }
+					  
 					 break;
 				case "host":
 					if(user.getSala().getHost().equals(user)) {
