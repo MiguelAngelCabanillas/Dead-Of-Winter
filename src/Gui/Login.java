@@ -19,6 +19,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -61,7 +62,6 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
-		
 		
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
