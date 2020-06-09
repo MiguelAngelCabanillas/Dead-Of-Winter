@@ -2,7 +2,6 @@ package Partida;
 
 import java.util.LinkedList;
 import java.util.List;
-import Cartas.Carta_Objetivo_Principal;
 import Cartas.Carta_Objeto;
 
 public class Partida {
@@ -21,7 +20,6 @@ public class Partida {
 	public static Mazo mazoSupermercado;
 	public static Mazo mazoGasolinera;
 	public static Mazo mazoBiblioteca;
-	public static Carta_Objetivo_Principal objetivoPrincipal;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////MAIN
@@ -30,15 +28,15 @@ public class Partida {
 	public static void main(String [] args) {
 		LinkedList<Jugador> jugadores = new LinkedList<Jugador>();
 		
-		Tablero tablero = new Tablero(nombres.length, mazoHospital, mazoColegio, mazoComisaria,
-				mazoSupermercado, mazoGasolinera, mazoBiblioteca, objetivoPrincipal);
+//		Tablero tablero = new Tablero(nombres.length, mazoHospital, mazoColegio, mazoComisaria,
+//				mazoSupermercado, mazoGasolinera, mazoBiblioteca);
 		
 		for (int i = 0; i < nombres.length; ++i) {
-			jugadores.add(new Jugador(i, mazoObjetosJugadores[i], tablero));
+			//jugadores.add(new Jugador(i, mazoObjetosJugadores[i], tablero));
 		}
 		
 		int current = 0;
-		while (tablero.getColonia().getMoral() != 0 ) {
+		//while (tablero.getColonia().getMoral() != 0 ) {
 			//Jugador jugador = jugadores.get(current);
 			/*switch donde se llame a los métodos de la instancia jugador en función del botón presionado.*/
 			
@@ -47,7 +45,7 @@ public class Partida {
 			} else {
 				++current;
 			}
-		}
+		//}
 
 	}
 }

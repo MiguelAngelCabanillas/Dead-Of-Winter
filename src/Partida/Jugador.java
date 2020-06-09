@@ -5,9 +5,6 @@ import java.util.List;
 
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
-import Excepciones.dadoException;
-import Excepciones.localizacionException;
-import Excepciones.matarException;
 
 public class Jugador {
 	
@@ -68,6 +65,12 @@ public class Jugador {
 	}
 	
 	//METODOS DE RONDA
+	public void tirarDados() {
+		for(Dado d : dados) {
+			d.tirarDado();
+		}
+	}
+	
 	public void anyadirDados() {
 		for (int i = 0; i < this.mazoSuperviviente.size(); ++i) {
 			this.dados.add(new Dado());
@@ -87,7 +90,7 @@ public class Jugador {
 		int id = -1, dado = 1, i = 0;
 		
 		for (Dado d : dados) {
-			if (d.getHaSidoTirado() && d.getValor() >= valor && dado <= d.getValor()) {
+			if (!d.usado() && d.getValor() >= valor && dado <= d.getValor()) {
 				dado = d.getValor();
 				id = i;
 			}
@@ -205,35 +208,38 @@ public class Jugador {
 		}
 	}
 	
-	//METODOS DEL TURNO DEL JUGADOR
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	////METODOS DEL TURNO DEL JUGADOR
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//ESTE METODO ELIMINA UN ZOMBIE O SUPERVIVIENTE DE LA LOCALIZACION DONDE SE ENCUENTRA EL SUPERVIVIENTE
-	public void atacar(Carta_Supervivientes personaje, Carta_Supervivientes objetivo, Jugador enemigo) throws matarException, dadoException {
-		if(objetivo == null) {	//ATACAR ZOMBIES
-			if(hayValorDisponible(personaje.getAtaque())) {
-				this.localizacion(personaje).matarZombie();
-				this.tiradaRiesgo(personaje);
-			} else {
-				throw new dadoException();
-			}
-		} else {
-			
-			if (hayValorDisponible(personaje.getAtaque())) {
-				Dado tirada = new Dado();
-				tirada.tirarDado();
-				
-				if (tirada.getValor() >= objetivo.getAtaque()) {
-					enemigo.herir(objetivo);
-				}
-			}
-		}
+	public boolean atacar(int personaje, int objetivo) {
+		boolean atacado = false;
+//		
+//		
+//		if(objetivo == -1) {	//ATACAR ZOMBIES
+//			if(hayValorDisponible(personaje.getAtaque())) {
+//				this.localizacion(personaje).matarZombie();
+//				this.tiradaRiesgo(personaje);
+//			}
+//		} else {
+//			
+//			if (hayValorDisponible(personaje.getAtaque())) {
+//				Dado tirada = new Dado();
+//				tirada.tirarDado();
+//				
+//				if (tirada.getValor() >= objetivo.getAtaque()) {
+//					enemigo.herir(objetivo);
+//				}
+//			}
+//		}
+//		
+		return atacado;
 	}
 	
-	public void barricada(Localizacion l) throws localizacionException {
+	public void barricada(Localizacion l) {
 		if(comprobarLocalizacion(l) != null) {
 			l.ponerBarricada();
-		}else {
-			throw new localizacionException("No estas en la localizacion");
 		}
 	}
 	
@@ -249,7 +255,7 @@ public class Jugador {
 		int posicion = lugar.getPimeraValida();
 		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
+		if(posicion != -1 && lugar.llegar(personaje) && !lugar.getSupervivientes().containsValue(personaje)) {
 			localizacion(personaje).irse(personaje);;
 			lugar.llegar(personaje);
 			this.tiradaRiesgo(personaje);

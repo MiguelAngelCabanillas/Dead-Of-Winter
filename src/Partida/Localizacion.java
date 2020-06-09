@@ -6,9 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import Cartas.Carta;
+import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
-import Excepciones.matarException;
-
 
 public class Localizacion {
 	
@@ -94,7 +93,7 @@ public class Localizacion {
 	}
 	
 	//METODOS DE RONDA
-	public void actualizarCasillasZombiePasoDeRonda() {
+	public String [] actualizarCasillasZombiePasoDeRonda() {
 		int numZombies = this.supervivientes.size();
 
 		for(CasillasZombie hueco : casillasZombie) {
@@ -111,6 +110,7 @@ public class Localizacion {
 			}
 		}
 		
+		int muertos = numZombies;
 		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
 		while(numZombies > 0) {
 			Carta_Supervivientes muerto = this.supervivientes.get(getPosicion(menorInfluencia()));
@@ -119,6 +119,13 @@ public class Localizacion {
 			muerto.recibirHerida(false);
 			numZombies--;
 		}
+		
+		//DEVOLVEMOS EL NÚMERO DE ZOMBIES COLOCADOS
+		String [] aux = new String[2];
+		aux[0] = Integer.toString(this.supervivientes.size());
+		aux[1] = Integer.toString(muertos);
+		
+		return aux;
 	}
 	
 	//METODOS DE CONTROL
@@ -170,7 +177,7 @@ public class Localizacion {
 	}
 	
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
-	public void matarZombie() throws matarException {
+	public void matarZombie() {
 		int i = 0;
 		boolean zombieMuerto = false;
 		while (i < this.casillasZombie.size() && !zombieMuerto) {

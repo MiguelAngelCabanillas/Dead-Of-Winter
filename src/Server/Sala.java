@@ -11,11 +11,13 @@ public class Sala {
 	List<Usuario> usuarios = new ArrayList<Usuario>();
 	Usuario host;
 	Principal partida;
+	private List<Usuario> muted;
 	boolean puedeEntrar;
 	
 	public Sala(Usuario usuario, int id) {
 		usuarios.add(usuario);
 		host = usuario;
+		this.muted = new ArrayList<>();
 		this.id = id;
 		puedeEntrar = true;
 	}
@@ -55,6 +57,17 @@ public class Sala {
 		this.partida = p;
 	}
 
+	public void mutear(Usuario user) {
+		muted.add(user);
+	}
+	
+	public void desmutear(Usuario user) {
+		muted.remove(user);
+	}
+	
+	public List<Usuario> getMuteados(){
+		return muted;
+	}
 	
 	public void enviarAUsuariosDeLaSala(String peticion) throws IOException {
 		for(Usuario usuario : usuarios) {
