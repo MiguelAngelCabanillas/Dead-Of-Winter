@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
 
+import Partida.Jugador;
+
 public class Usuario{
 
 	private String nombre;
 	private ClientReader conector;
 	private Sala sala;
+	private Jugador jugador;
 	
 	public Usuario(String nombre, ClientReader conector) {
 		this.nombre = nombre;
@@ -19,6 +22,13 @@ public class Usuario{
 		return nombre;
 	}
 
+	public Jugador getJugador() {
+		return jugador;
+	}
+	
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
