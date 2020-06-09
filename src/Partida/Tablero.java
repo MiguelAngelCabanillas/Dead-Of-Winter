@@ -26,11 +26,7 @@ public class Tablero {
 		supermercado= new Localizacion("Supermercado.", mSupermercado, 3, 4);
 		gasolinera = new Localizacion("Gasolinera.", mGasolinera, 2, 4);
 		biblioteca = new Localizacion("Biblioteca.", mBiblioteca, 3, 4);
-<<<<<<< HEAD
 		colonia = new Colonia(objetivoPrincipal, jugadores);
-=======
-		//colonia = new Colonia(objetivoPrincipal, 5, 5, jugadores);
->>>>>>> 5b1a42dda16576593fbeac20856aa88163c3ef90
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
