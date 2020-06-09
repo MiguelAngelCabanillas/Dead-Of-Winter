@@ -16,7 +16,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -46,12 +45,13 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
-	private HashMap<Integer,JLabel[]> supMap /*= getSupMap()*/; //TODO
+	private HashMap<Integer,JLabel[]> supMap;
 	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
 	private HashMap<Integer,List<Integer>> supJugadores = new HashMap<>(); //mapa<jug,listaSup>
 	private HashMap<Integer,List<Integer>> cartasJugador = new HashMap<>(); //mapa<jug,listaCartas>
 	private static Principal principal;
 	private ObjPrincipal auxObj;
+	private Asociaciones aso;
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -98,6 +98,8 @@ public class FrameTablero extends JFrame {
 		this.objetivo = objetivo;
 		this.usuario = user;
 		principal = princ;
+		aso = new Asociaciones();
+		supMap = aso.getSupMap();
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -663,6 +665,27 @@ public class FrameTablero extends JFrame {
 		btnGastarComida.setBounds(183, 248, 115, 41);
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		contentPane.add(btnGastarComida);
+		
+		JButton btnInfoJugador = new JButton("INFO JUGADOR");
+		btnInfoJugador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FrameCarta
+				if(auxCarta != null) {
+					auxCarta.dispose();
+				}
+//				auxCarta = new FrameCarta(botonesCarta[0].getText()); 
+				auxCarta = new FrameCarta(obj, botonesCarta[0].getText());
+				auxCarta.setVisible(true);
+			}
+		});
+		btnInfoJugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
+		btnInfoJugador.setBounds(840, 71, 129, 41);
+		contentPane.add(btnInfoJugador);
+		
+		JButton btnInfoTablero = new JButton("INFO TABLERO");
+		btnInfoTablero.setToolTipText("Muestra informacion sobre el estado actual del tablero");
+		btnInfoTablero.setBounds(1270, 71, 129, 41);
+		contentPane.add(btnInfoTablero);
 		
 		JButton ObjetivoPrin = new JButton("");
 		ObjetivoPrin.addActionListener(new ActionListener() {
