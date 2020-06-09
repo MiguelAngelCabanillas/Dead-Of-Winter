@@ -270,26 +270,11 @@ public class Principal {
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	//INICIA LOS JUGADORES
-	public int[] inicPartida(int numJugadores) {
-		
+	public void inicPartida(int numJugadores) {
 		inicMazos();
 		inicJugadores(numJugadores);
 		inicSupervivientes();
 		inicTablero(numJugadores);
-		
-		int[] sup = new int[numJugadores * 2];
-		
-		for(int i = 0; i < numJugadores * 2; i+=2) {
-			sup[i] = r.nextInt(supervivientes.size());
-			supervivientes.remove(sup[i]);
-			jugadores.get(i%numJugadores).addSuperviviente(sup[i]);
-			
-			sup[i+1] = r.nextInt(supervivientes.size());
-			supervivientes.remove(sup[i+1]);
-			jugadores.get(i%numJugadores).addSuperviviente(sup[i+1]);
-		}
-		
-		return sup;
 	}
 	
 	public void pasaTurno(int id) {
