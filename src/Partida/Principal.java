@@ -112,7 +112,7 @@ public class Principal {
 	
 	//INICIA EL MAZO INICIAL
 	private List<Carta_Objeto> inicInicial() {
-		List<Carta_Objeto> mazo = new Stack<>();
+		List<Carta_Objeto> mazo = new ArrayList<>();
 		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
 		 
 		int i = 0;
