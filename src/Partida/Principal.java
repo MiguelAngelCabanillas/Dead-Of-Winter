@@ -39,6 +39,7 @@ public class Principal {
 	private Jugador jugadorActual;
 	private boolean finalBueno = false;
 	private int muertos = 0;
+	private String[] dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTOR
@@ -283,10 +284,13 @@ public class Principal {
 	public String pasaRonda() {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
 		String datos = actualizarTablero();
+		int i = 0;
 		
 		for(Jugador j : jugadores) {
 			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			j.matar();
+			dados[i] = j.tirarDados();
+			i++;
 		}
 		
 		return datos;
@@ -305,6 +309,10 @@ public class Principal {
 	
 	public String getIdCartas (int jugador) {
 		return idCartas[jugador];
+	}
+	
+	public String getDados (int jugador) {
+		return dados[jugador];
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
