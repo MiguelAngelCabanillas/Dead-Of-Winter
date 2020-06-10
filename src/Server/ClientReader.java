@@ -109,7 +109,6 @@ public class ClientReader implements Runnable {
                 		sup1 = Integer.parseInt(split[2*id+1]);
                 		sup2 = Integer.parseInt(split[2*id+2]);
                 		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
-                		System.out.println(tablero.toString());
                 		//IMPRESION EN JFRAME
                 		tablero.anyadirSuperviviente(sup1, pos);pos++;
                 		tablero.anyadirSuperviviente(sup2, pos);pos++;
@@ -127,11 +126,11 @@ public class ClientReader implements Runnable {
                 	break;	
 
                 case "initCartas": //initCartas|idCarta|idCarta|idCarta|idCarta....|idCarta
-                	int j = 2, idCarta;
+                	int j = 1, idCarta;
                 	idJug = Integer.parseInt(split[1]);
                 	while(split[j] != null) {
                 		idCarta = Integer.parseInt(split[j]);
-                		tablero.addCartaJug(idJug,idCarta); //añadimos cartas a la lista del jugador al que se le asigna
+                		tablero.addCartaJug(idCarta); //añadimos cartas a la lista del jugador al que se le asigna
                 		j++;
                 	}
                 	break;

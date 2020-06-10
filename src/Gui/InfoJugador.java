@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,11 +24,16 @@ import java.awt.Font;
 public class InfoJugador extends JFrame {
 
 	private JPanel contentPane;
-//	private Asociaciones asociaciones;
+	private static Asociaciones asociaciones;
 	private JButton [] botonesCarta;
 	private HashMap<Integer, JLabel> obj;
 	private HashMap<Integer, JLabel> objetivoSecretos;
 	private FrameCarta auxCarta;
+	private static List<Integer> dados;
+	private static int objetivoSecreto;
+	private static List<Integer> supJugadores;
+	private static List<Integer> cartasJugador;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -35,7 +41,7 @@ public class InfoJugador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoJugador frame = new InfoJugador();
+					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,22 +50,13 @@ public class InfoJugador extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public InfoJugador() {
+	public InfoJugador(List<Integer> supJugadores, List<Integer> cartasJugador, int objetivoSecreto, Asociaciones aso, List<Integer> dados) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		
-//		asociaciones = new Asociaciones(); //Asociaciones de las cartas
-//		
-//		obj = asociaciones.getCartasObjetos();
-//		objetivoSecretos = asociaciones.getObjSecretos();
 		
 		DerHandler handler = new DerHandler();
 			
@@ -83,12 +80,7 @@ public class InfoJugador extends JFrame {
 		lblObjetivoSecreto.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblObjetivoSecreto.setBounds(379, 11, 148, 25);
 		contentPane.add(lblObjetivoSecreto);
-		
-//		JLabel lblNewLabel = new JLabel("New label");
-//		lblNewLabel.setBounds(171, 53, 567, 405);
-//		contentPane.add(lblNewLabel);
-		
-		
+				
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador
 		
 		//Añado el objetivo Secreto

@@ -18,12 +18,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo,objetivoSecreto,numJug,superviviente;//TODO: CAMBIADO
+	private static int objetivo,objetivoSecreto;
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
@@ -47,13 +46,17 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
 	private HashMap<Integer,JLabel[]> supMap;
-	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
-	private HashMap<Integer,List<Integer>> supJugadores = new HashMap<>(); //mapa<jug,listaSup>
-	private HashMap<Integer,List<Integer>> cartasJugador = new HashMap<>(); //mapa<jug,listaCartas>
+	private HashMap<Integer, JLabel> cartMap;
+	private HashMap<Integer,JLabel[]> objMap;
+	private List<Integer> dados;
+	private HashMap<Integer,JLabel> supIndMap;
+	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
+	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private ObjPrincipal auxObj;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
 	private static int idJug;
+	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -98,13 +101,18 @@ public class FrameTablero extends JFrame {
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		
-		
 		this.objetivo = objetivo;
 		this.usuario = user;
 		usuario.getClientReader().setTablero(this);
 		usuario.getClientReader().setSala(null);
 		aso = new Asociaciones();
 		supMap = aso.getSupMap();
+		cartMap = aso.getCartasObjetos();
+		supJugadores = new HashMap<>();
+		cartasJugador = new ArrayList<>();
+		dados = new ArrayList<>();
+		supIndMap = new HashMap<>();
+		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -257,8 +265,6 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichRonda10);
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS LOCALIZACIONES
-		
-		///LABELS COLONIA
 		
 		//LABELS ZOMBIES
 		fichZ1ColoniaZona3 = new JLabel("");
@@ -422,21 +428,6 @@ public class FrameTablero extends JFrame {
 		fichZComisaria1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
 		fichZComisaria1.setVisible(false);
 		contentPane.add(fichZComisaria1);
-		
-		///LABELS SUPERVIVIENTES
-		/*JLabel fichSComisaria3 = new JLabel("");
-		fichSComisaria3.setBounds(686, 163, 36, 34);
-		contentPane.add(fichSComisaria3);
-		
-		JLabel fichSComisaria2 = new JLabel("");
-		fichSComisaria2.setBounds(640, 164, 36, 34);
-		fichSComisaria2.setIcon(imgCircular("images/SupThomasHeart.png",36,34));
-		contentPane.add(fichSComisaria2);
-		
-		JLabel fichSComisaria1 = new JLabel("");
-		fichSComisaria1.setBounds(593, 163, 36, 34);
-		fichSComisaria1.setIcon(imgCircular("images/SupLorettaClay.png",36,34));
-		contentPane.add(fichSComisaria1);*/
 		
 		//LABELS SUPERMERCADO
 		
@@ -672,15 +663,15 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnGastarComida);
 		
 		JButton btnInfoJugador = new JButton("INFO JUGADOR");
-//		btnInfoJugador.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				if(infoJug != null) {
-//					infoJug.dispose();
-//				}
-//				//infoJug = new InfoJugador(listaSupJug, listaCartasJug,objetivoSecreto,supMap/*dados*/); //TODO: DADOS
-//				infoJug.setVisible(true);
-//			}
-//		});
+		btnInfoJugador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(infoJug != null) {
+					infoJug.dispose();
+				}
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
+				infoJug.setVisible(true);
+			}
+		});
 		btnInfoJugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
 		btnInfoJugador.setBounds(840, 71, 129, 41);
 		contentPane.add(btnInfoJugador);
@@ -751,7 +742,6 @@ public class FrameTablero extends JFrame {
 		ImageIcon tableroIcon = new ImageIcon(this.getClass().getResource("/TableroOriginal.png"));
 		Image aux = tableroIcon.getImage();
 		Image aux2 = aux.getScaledInstance(1598,975, java.awt.Image.SCALE_SMOOTH);
-		//lblTablero.setVisible(false);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(12, 79, 128, 2);
@@ -967,20 +957,17 @@ public class FrameTablero extends JFrame {
 	
 	public void addSupJug(int idJug, int idSup) {
 		if(supJugadores.get(idJug) == null) {
-			List<Integer> listaVacia = supJugadores.get(idJug); 
-			listaVacia = new ArrayList<>();
+			List<Integer> listaVacia = new ArrayList<>();
 			supJugadores.put(idJug, listaVacia);
 		}
 		supJugadores.get(idJug).add(idSup);
 	}
 	
-	public void addCartaJug(int idJug, int idCarta) {
-		if(cartasJugador.get(idJug) == null) {
-			List<Integer> listaVacia = cartasJugador.get(idJug); 
-			listaVacia = new ArrayList<>();
-			cartasJugador.put(idJug, listaVacia);
+	public void addCartaJug(int idCarta) {
+		if(cartasJugador == null) {
+			List<Integer> listaVacia = new ArrayList<>();
 		}
-		cartasJugador.get(idJug).add(idCarta);
+		cartasJugador.add(idCarta);
 	}
 	
 	public static void setId(int id) {

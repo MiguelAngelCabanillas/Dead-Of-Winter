@@ -2,6 +2,7 @@ package Server;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import Partida.Principal;
@@ -71,6 +72,10 @@ public class Sala {
 	
 	public List<Usuario> getMuteados(){
 		return muted;
+	}
+	
+	public void shuffleUsuarios(){
+		Collections.shuffle(usuarios);
 	}
 	
 	public void enviarAUsuariosDeLaSala(String peticion) throws IOException {
