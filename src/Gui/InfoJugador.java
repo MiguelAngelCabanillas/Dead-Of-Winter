@@ -80,12 +80,7 @@ public class InfoJugador extends JFrame {
 		lblObjetivoSecreto.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblObjetivoSecreto.setBounds(379, 11, 148, 25);
 		contentPane.add(lblObjetivoSecreto);
-		
-//		JLabel lblNewLabel = new JLabel("New label");
-//		lblNewLabel.setBounds(171, 53, 567, 405);
-//		contentPane.add(lblNewLabel);
-		
-		
+				
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador
 		
 		//Añado el objetivo Secreto
