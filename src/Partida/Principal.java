@@ -82,6 +82,13 @@ public class Principal {
 			}
 			jugadores.add(new Jugador(i, mazoJugador, tablero));
 		}
+		int i = 0;
+		
+		for(Jugador j : jugadores) {
+			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
+			dados[i] = j.tirarDados();
+			i++;
+		}
 	}
 	
 	private void inicTablero(int numJugadores) {
