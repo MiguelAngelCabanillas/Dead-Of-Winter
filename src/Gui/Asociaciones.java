@@ -586,8 +586,7 @@ public class Asociaciones {
 		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
 		JLabel ganasVivir = new JLabel("");
 		IniciarObjetivoSecretos(ganasVivir);
-		//TODO: A partir de 200
-		//Ganas de Vivir -> 0
+		//Ganas de Vivir -> 200
 		aux.put(200, ganasVivir);
 		return aux;
 	}

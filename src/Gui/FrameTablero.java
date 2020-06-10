@@ -666,7 +666,8 @@ public class FrameTablero extends JFrame {
 				if(infoJug != null) {
 					infoJug.dispose();
 				}
-				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador.get(idJug),objetivoSecreto,aso,dados); //TODO: DADOS
+				System.out.println(cartasJugador.get(idJug).toString());
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador.get(idJug),200,aso,dados); //TODO: DADOS
 				infoJug.setVisible(true);
 			}
 		});
