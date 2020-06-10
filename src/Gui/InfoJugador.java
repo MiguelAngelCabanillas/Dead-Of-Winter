@@ -69,6 +69,8 @@ public class InfoJugador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		asociaciones = aso;
+		
 		DerHandler handler = new DerHandler();
 			
 		JSeparator separator = new JSeparator();
@@ -111,7 +113,7 @@ public class InfoJugador extends JFrame {
 		Point p;
 		for(int k = 0; k < tam; k++) {
 			p = posCarta[k];
-			botonesCarta[k] = new JButton(""+String.valueOf(cartasJugador.get(k)));
+			botonesCarta[k] = new JButton(String.valueOf(cartasJugador.get(k)));
 			icon = (ImageIcon) aso.getCartasObjetos().get(cartasJugador.get(k)).getIcon();
 			img = icon.getImage().getScaledInstance(157, 205, java.awt.Image.SCALE_SMOOTH);
 			botonesCarta[k].setIcon(new ImageIcon(img));
