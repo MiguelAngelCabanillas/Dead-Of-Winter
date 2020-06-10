@@ -851,6 +851,89 @@ public class Asociaciones {
 		libMasComida.setBounds(0, 0, 406, 517);
 		
 	}
+	
+	private HashMap<Integer, JLabel> AsocCrisis() {
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel agotamiento = new JLabel("");
+		JLabel despensaVacia = new JLabel("");
+		JLabel enfermedad = new JLabel("");
+		JLabel escasezDeGasolina= new JLabel("");
+		JLabel horrorNoche = new JLabel("");
+		JLabel nosEstanObservando = new JLabel("");
+		JLabel oleadaZombis = new JLabel("");
+		JLabel reorganizacion = new JLabel("");
+		iniciarLabelsCrisis(agotamiento, despensaVacia, enfermedad, escasezDeGasolina, horrorNoche, nosEstanObservando, oleadaZombis, reorganizacion);
+		//Comida 1 -> 0
+		aux.put(300, agotamiento);
+		//Comida 2 -> 1
+		aux.put(301, despensaVacia);
+		//Comida 3 -> 2
+		aux.put(302, enfermedad);
+		//Medicina -> 3
+		aux.put(303, escasezDeGasolina);
+		//Trastos -> 4
+		aux.put(304, horrorNoche);
+		//Gasolina -> 5
+		aux.put(305, nosEstanObservando);
+		//Superviviente 1 -> 6
+		aux.put(306, oleadaZombis);
+		//Superviviente 2 -> 7
+		aux.put(307, reorganizacion);
+
+		return aux;
+	}
+	
+	private void iniciarLabelsCrisis(JLabel agotamiento,JLabel despensaVacia,JLabel enfermedad,JLabel escasezDeGasolina,JLabel horrorNoche,JLabel nosEstanObservando,JLabel oleadaZombis,JLabel reorganizacion) {
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Crisis/Agotamiento.jpg"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		agotamiento.setIcon(new ImageIcon(img));
+		agotamiento.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Despensa-vacia.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		despensaVacia.setIcon(new ImageIcon(img));
+		despensaVacia.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Enfermedad.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		enfermedad.setIcon(new ImageIcon(img));
+		enfermedad.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/EscasezDeGasolina.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		escasezDeGasolina.setIcon(new ImageIcon(img));
+		escasezDeGasolina.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Horror-Noche.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		horrorNoche.setIcon(new ImageIcon(img));
+		horrorNoche.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Nos-Estan-Observando.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		nosEstanObservando.setIcon(new ImageIcon(img));
+		nosEstanObservando.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Oleada-Zombis.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		oleadaZombis.setIcon(new ImageIcon(img));
+		oleadaZombis.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Reorganizacion.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		reorganizacion.setIcon(new ImageIcon(img));
+		reorganizacion.setBounds(0, 0, 406, 517);
+				
+		
+	}
 	//TODO: Getters
 	public HashMap<Integer,JLabel> getCartasObjetos(){
 		return CartasObjetos;
