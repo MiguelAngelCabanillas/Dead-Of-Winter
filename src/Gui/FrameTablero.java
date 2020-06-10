@@ -51,7 +51,7 @@ public class FrameTablero extends JFrame {
 	private List<Integer> dados;
 	private HashMap<Integer,JLabel> supIndMap;
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
-	private HashMap<Integer,List<Integer>> cartasJugador; //mapa<jug,listaCartas>
+	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private ObjPrincipal auxObj;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
@@ -109,7 +109,7 @@ public class FrameTablero extends JFrame {
 		supMap = aso.getSupMap();
 		cartMap = aso.getCartasObjetos();
 		supJugadores = new HashMap<>();
-		cartasJugador = new HashMap<>();
+		cartasJugador = new ArrayList<>();
 		dados = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		
@@ -668,7 +668,7 @@ public class FrameTablero extends JFrame {
 				if(infoJug != null) {
 					infoJug.dispose();
 				}
-				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador.get(idJug),objetivoSecreto,aso,dados);
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
 				infoJug.setVisible(true);
 			}
 		});
@@ -963,12 +963,11 @@ public class FrameTablero extends JFrame {
 		supJugadores.get(idJug).add(idSup);
 	}
 	
-	public void addCartaJug(int idJug,int idCarta) {
-		if(cartasJugador.get(idJug) == null) {
+	public void addCartaJug(int idCarta) {
+		if(cartasJugador == null) {
 			List<Integer> listaVacia = new ArrayList<>();
-			cartasJugador.put(idJug, listaVacia);
 		}
-		cartasJugador.get(idJug).add(idCarta);
+		cartasJugador.add(idCarta);
 	}
 	
 	public static void setId(int id) {
