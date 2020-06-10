@@ -86,6 +86,8 @@ public class InfoJugador extends JFrame {
 		contentPane.add(ManoCartas);
 		
 		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(Color.BLACK);
+		separator_1.setBackground(Color.BLACK);
 		separator_1.setBounds(0, 40, 1924, 2);
 		contentPane.add(separator_1);
 		
@@ -102,6 +104,12 @@ public class InfoJugador extends JFrame {
 		JLabel aux = aso.getObjSecretos().get(objetivoSecreto);
 		aux.setBounds(171, 53, aux.getWidth(), aux.getHeight());
 		contentPane.add(aux);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBackground(Color.BLACK);
+		separator_2.setForeground(Color.BLACK);
+		separator_2.setBounds(0, 375, 971, 2);
+		contentPane.add(separator_2);
 		
 		//Añade los botones de las cartas en la mano del jugador
 		int tam2 = supJugadores.size();
