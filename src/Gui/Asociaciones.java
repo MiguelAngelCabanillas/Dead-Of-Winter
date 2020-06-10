@@ -11,12 +11,14 @@ public class Asociaciones {
 	private HashMap<Integer,JLabel> ObjetivoSecreto;
 	private HashMap<Integer,JLabel[]> Supervivientes;
 	private HashMap<Integer,JLabel> CartasCrisis;
+	private HashMap<Integer,JLabel> Dados;
 	
 	public Asociaciones() {
 		CartasObjetos = AsocObjetos();
 		ObjetivoSecreto = AsocObjSecreto();
 		Supervivientes = AsocSupervivientes();
 		CartasCrisis = AsocCrisis();
+		Dados = AsocDados();
 	}
 	//TODO: AsocSupervivientes
 	private HashMap<Integer,JLabel[]> AsocSupervivientes() {
@@ -1274,5 +1276,9 @@ public class Asociaciones {
 	}
 	public HashMap<Integer,JLabel> getCartasCrisis(){
 		return CartasCrisis;
+	}
+	
+	public HashMap<Integer,JLabel> getDados(){
+		return Dados;
 	}
 }

@@ -50,6 +50,7 @@ public class InfoJugador extends JFrame {
 			new Point(979, 785), new Point(1174, 785), new Point(1369 ,785), new Point(1564, 785), new Point(1759, 785)};
 	private Point posCartaSuperV[] = {new Point(30, 430), new Point(214, 430), new Point(398, 430), new Point(582, 430), new Point(766, 430)
 			, new Point(30, 646), new Point(214, 646), new Point(398, 646), new Point(582, 646), new Point(766, 646)};
+	private Point posDado[] = {new Point(138, 914), new Point(240, 914), new Point(344, 914), new Point(439, 914), new Point(533, 914), new Point(627, 914), new Point(722, 914), new Point(814, 914)};
 	/**
 	 * Launch the application.
 	 */
@@ -79,6 +80,38 @@ public class InfoJugador extends JFrame {
 		
 		DerHandler handler = new DerHandler();
 		SupDerHandler supervivientesHandler = new SupDerHandler();
+		
+		JLabel lblDado8 = new JLabel("New label");
+		lblDado8.setBounds(814, 914, 73, 68);
+		contentPane.add(lblDado8);
+		
+		JLabel lblDado7 = new JLabel("New label");
+		lblDado7.setBounds(722, 914, 73, 68);
+		contentPane.add(lblDado7);
+		
+		JLabel lblDado6 = new JLabel("New label");
+		lblDado6.setBounds(627, 914, 73, 68);
+		contentPane.add(lblDado6);
+		
+		JLabel lblDado5 = new JLabel("New label");
+		lblDado5.setBounds(533, 914, 73, 68);
+		contentPane.add(lblDado5);
+		
+		JLabel lblDado4 = new JLabel("New label");
+		lblDado4.setBounds(439, 914, 73, 68);
+		contentPane.add(lblDado4);
+		
+		JLabel lblDado3 = new JLabel("New label");
+		lblDado3.setBounds(344, 914, 73, 68);
+		contentPane.add(lblDado3);
+		
+		JLabel lblDado2 = new JLabel("New label");
+		lblDado2.setBounds(240, 914, 73, 68);
+		contentPane.add(lblDado2);
+		
+		JLabel lblDado1 = new JLabel("New label");
+		lblDado1.setBounds(138, 914, 73, 68);
+		contentPane.add(lblDado1);
 		
 		JLabel lblSupervivientes = new JLabel("Supervivientes");
 		lblSupervivientes.setForeground(Color.WHITE);
@@ -114,7 +147,7 @@ public class InfoJugador extends JFrame {
 		
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador (Todos los botones)
 		botoneSuperviviente = new JButton[10]; //Tamaño del total de supervivientes que puede tener
-		labelsDados = new JLabel[10]; //Tamaño del total de dados que puede tener el jugador
+		labelsDados = new JLabel[8]; //Tamaño del total de dados que puede tener el jugador
 		//Añado el objetivo Secreto
 		
 		JLabel aux = aso.getObjSecretos().get(objetivoSecreto);
@@ -133,6 +166,7 @@ public class InfoJugador extends JFrame {
 		ImageIcon icon;
 		Image img;
 		Point p;
+		
 		for(int k = 0; k < tam; k++) {
 			p = posCarta[k];
 			botonesCarta[k] = new JButton(String.valueOf(cartasJugador.get(k)));
@@ -155,6 +189,16 @@ public class InfoJugador extends JFrame {
 			botoneSuperviviente[z].addActionListener(supervivientesHandler);
 			botoneSuperviviente[z].setActionCommand(""+z);
 			contentPane.add(botoneSuperviviente[z]);
+		}
+		
+		for (int d = 0; d < dados.size(); d++) {
+			p = posDado[d];
+			labelsDados[d] = new JLabel(String.valueOf(dados.get(d)));
+			icon = (ImageIcon) aso.getDados().get(d).getIcon();
+			img = icon.getImage().getScaledInstance(73, 68, java.awt.Image.SCALE_SMOOTH);
+			labelsDados[d].setIcon(new ImageIcon(img));
+			labelsDados[d].setBounds(p.x, p.y, 73, 68);
+			contentPane.add(labelsDados[d]);
 		}
 		
 		JLabel lblFondoInfo = new JLabel("");
