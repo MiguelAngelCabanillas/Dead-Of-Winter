@@ -92,10 +92,6 @@ public class InfoJugador extends JFrame {
 		lblObjetivoSecreto.setBounds(379, 11, 148, 25);
 		contentPane.add(lblObjetivoSecreto);
 		
-//		JLabel lblNewLabel = new JLabel("New label");
-//		lblNewLabel.setBounds(171, 53, 567, 405);
-//		contentPane.add(lblNewLabel);
-		
 		
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador (Todos los botones)
 		
@@ -106,6 +102,7 @@ public class InfoJugador extends JFrame {
 		contentPane.add(aux);
 		
 		//Añade los botones de las cartas en la mano del jugador
+		int tam2 = supJugadores.size();
 		int tam = cartasJugador.size();
 		ImageIcon icon;
 		Image img;
