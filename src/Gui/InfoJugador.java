@@ -102,21 +102,22 @@ public class InfoJugador extends JFrame {
 		contentPane.add(aux);
 		
 		//Añade los botones de las cartas en la mano del jugador
-		int tam2 = supJugadores.size();
+//		int tam2 = supJugadores.size();
 		int tam = cartasJugador.size();
+		System.out.println(tam);
 		ImageIcon icon;
 		Image img;
 		Point p;
 		for(int k = 0; k < tam; k++) {
 			p = posCarta[k];
-			botonesCarta[k] = new JButton(String.valueOf(cartasJugador.get(k)));
-			botonesCarta[k].setBounds(p.x, p.y, 147, 205);
+			botonesCarta[k] = new JButton(""+String.valueOf(cartasJugador.get(k)));
 			icon = (ImageIcon) aso.getCartasObjetos().get(cartasJugador.get(k)).getIcon();
 			img = icon.getImage().getScaledInstance(157, 205, java.awt.Image.SCALE_SMOOTH);
 			botonesCarta[k].setIcon(new ImageIcon(img));
-			contentPane.add(botonesCarta[k]);
+			botonesCarta[k].setBounds(p.x, p.y, 147, 205);
 			botonesCarta[k].addActionListener(handler);
 			botonesCarta[k].setActionCommand(""+k);
+			contentPane.add(botonesCarta[k]);
 		}
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
