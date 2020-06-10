@@ -550,6 +550,10 @@ public class FrameTablero extends JFrame {
 				if(infoJug != null) {
 					infoJug.dispose();
 				}
+				dados = new ArrayList<Integer>();
+				dados.add(400);
+				dados.add(402);
+				dados.add(405);
 				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
 				infoJug.setVisible(true);
 			}

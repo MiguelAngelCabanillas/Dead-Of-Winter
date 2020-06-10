@@ -81,38 +81,6 @@ public class InfoJugador extends JFrame {
 		DerHandler handler = new DerHandler();
 		SupDerHandler supervivientesHandler = new SupDerHandler();
 		
-		JLabel lblDado8 = new JLabel("New label");
-		lblDado8.setBounds(814, 914, 73, 68);
-		contentPane.add(lblDado8);
-		
-		JLabel lblDado7 = new JLabel("New label");
-		lblDado7.setBounds(722, 914, 73, 68);
-		contentPane.add(lblDado7);
-		
-		JLabel lblDado6 = new JLabel("New label");
-		lblDado6.setBounds(627, 914, 73, 68);
-		contentPane.add(lblDado6);
-		
-		JLabel lblDado5 = new JLabel("New label");
-		lblDado5.setBounds(533, 914, 73, 68);
-		contentPane.add(lblDado5);
-		
-		JLabel lblDado4 = new JLabel("New label");
-		lblDado4.setBounds(439, 914, 73, 68);
-		contentPane.add(lblDado4);
-		
-		JLabel lblDado3 = new JLabel("New label");
-		lblDado3.setBounds(344, 914, 73, 68);
-		contentPane.add(lblDado3);
-		
-		JLabel lblDado2 = new JLabel("New label");
-		lblDado2.setBounds(240, 914, 73, 68);
-		contentPane.add(lblDado2);
-		
-		JLabel lblDado1 = new JLabel("New label");
-		lblDado1.setBounds(138, 914, 73, 68);
-		contentPane.add(lblDado1);
-		
 		JLabel lblSupervivientes = new JLabel("Supervivientes");
 		lblSupervivientes.setForeground(Color.WHITE);
 		lblSupervivientes.setFont(new Font("Castellar", Font.BOLD, 24));
@@ -194,16 +162,12 @@ public class InfoJugador extends JFrame {
 		for (int d = 0; d < dados.size(); d++) {
 			p = posDado[d];
 			labelsDados[d] = new JLabel(String.valueOf(dados.get(d)));
-			icon = (ImageIcon) aso.getDados().get(d).getIcon();
+			icon = (ImageIcon) aso.getDados().get(dados.get(d)).getIcon();
 			img = icon.getImage().getScaledInstance(73, 68, java.awt.Image.SCALE_SMOOTH);
 			labelsDados[d].setIcon(new ImageIcon(img));
 			labelsDados[d].setBounds(p.x, p.y, 73, 68);
 			contentPane.add(labelsDados[d]);
 		}
-		
-		JLabel lblFondoInfo = new JLabel("");
-		icon = new ImageIcon(this.getClass().getResource("/fondo-info.jpg"));
-		img = icon.getImage().getScaledInstance(1924, 1021, java.awt.Image.SCALE_SMOOTH);
 		
 		JLabel lblDados = new JLabel("Dados");
 		lblDados.setForeground(Color.WHITE);
@@ -226,6 +190,9 @@ public class InfoJugador extends JFrame {
 		btnNewButton.setFont(new Font("Castellar", Font.BOLD, 20));
 		btnNewButton.setBounds(861, 4, 218, 33);
 		contentPane.add(btnNewButton);
+		JLabel lblFondoInfo = new JLabel("");
+		icon = new ImageIcon(this.getClass().getResource("/fondo-info.jpg"));
+		img = icon.getImage().getScaledInstance(1924, 1021, java.awt.Image.SCALE_SMOOTH);
 		lblFondoInfo.setBounds(0, 0, 1924, 1021);
 		lblFondoInfo.setIcon(new ImageIcon(img));
 		contentPane.add(lblFondoInfo);
