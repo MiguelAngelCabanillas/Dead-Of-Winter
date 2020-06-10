@@ -43,6 +43,7 @@ public class InfoJugador extends JFrame {
 	private static List<Integer> cartasJugador;
 	private JButton botonesCarta[];
 	private JButton botoneSuperviviente[];
+	private JLabel labelsDados[];
 	private Point posCarta[] = {new Point(979, 59), new Point(1174, 57), new Point(1369, 57), new Point(1564, 57), new Point(1759, 57)
 			, new Point(979, 301), new Point(1174, 301), new Point(1369, 301), new Point(1564, 301), new Point(1759, 301),
 			new Point(979, 543), new Point(1174, 543), new Point(1369 ,543), new Point(1564, 543), new Point(1759, 543),
@@ -89,7 +90,7 @@ public class InfoJugador extends JFrame {
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.WHITE);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(969, 0, 2, 1021);
+		separator.setBounds(969, 40, 2, 981);
 		contentPane.add(separator);
 		
 		JLabel ManoCartas = new JLabel("Cartas en Mano");
@@ -113,6 +114,7 @@ public class InfoJugador extends JFrame {
 		
 		botonesCarta = new JButton[20]; //Tamañano de la mano del jugador (Todos los botones)
 		botoneSuperviviente = new JButton[10]; //Tamaño del total de supervivientes que puede tener
+		labelsDados = new JLabel[10]; //Tamaño del total de dados que puede tener el jugador
 		//Añado el objetivo Secreto
 		
 		JLabel aux = aso.getObjSecretos().get(objetivoSecreto);
@@ -170,6 +172,16 @@ public class InfoJugador extends JFrame {
 		separator_2_1.setBackground(Color.WHITE);
 		separator_2_1.setBounds(0, 862, 971, 2);
 		contentPane.add(separator_2_1);
+		
+		JButton btnNewButton = new JButton("Volver");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnNewButton.setFont(new Font("Castellar", Font.BOLD, 20));
+		btnNewButton.setBounds(861, 4, 218, 33);
+		contentPane.add(btnNewButton);
 		lblFondoInfo.setBounds(0, 0, 1924, 1021);
 		lblFondoInfo.setIcon(new ImageIcon(img));
 		contentPane.add(lblFondoInfo);
