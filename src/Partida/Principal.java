@@ -295,7 +295,7 @@ public class Principal {
 		for(Jugador j : jugadores) {
 			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			j.matar();
-			dados[i] = j.tirarDados();
+			//dados[i] = j.tirarDados();
 			i++;
 		}
 		

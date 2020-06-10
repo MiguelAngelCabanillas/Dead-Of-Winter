@@ -956,18 +956,22 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void addSupJug(int idJug, int idSup) {
+		List<Integer> aux = new ArrayList<>();
 		if(supJugadores.get(idJug) == null) {
 			List<Integer> listaVacia = new ArrayList<>();
 			supJugadores.put(idJug, listaVacia);
 		}
-		supJugadores.get(idJug).add(idSup);
+		aux = supJugadores.get(idJug);
+		aux.add(idSup);
+		supJugadores.put(idJug, aux);
 	}
 	
 	public void addCartaJug(int idCarta) {
 		if(cartasJugador == null) {
-			List<Integer> listaVacia = new ArrayList<>();
+			cartasJugador = new ArrayList<>();
 		}
 		cartasJugador.add(idCarta);
+
 	}
 	
 	public static void setId(int id) {
