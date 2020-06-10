@@ -82,6 +82,13 @@ public class Principal {
 			}
 			jugadores.add(new Jugador(i, mazoJugador, tablero));
 		}
+		int i = 0;
+		
+		for(Jugador j : jugadores) {
+			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
+			dados[i] = j.tirarDados();
+			i++;
+		}
 	}
 	
 	private void inicTablero(int numJugadores) {
@@ -288,7 +295,7 @@ public class Principal {
 		for(Jugador j : jugadores) {
 			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			j.matar();
-			//dados[i] = j.tirarDados();
+			dados[i] = j.tirarDados();
 			i++;
 		}
 		
@@ -312,6 +319,10 @@ public class Principal {
 	
 	public String getDados (int jugador) {
 		return dados[jugador];
+	}
+	
+	public int getRondasRestantes() {
+		return rondasRestantes;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

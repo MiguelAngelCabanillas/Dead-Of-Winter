@@ -1195,6 +1195,71 @@ public class Asociaciones {
 		trastos.setBounds(0, 0, 406, 517);
 		
 	}
+	
+	public HashMap<Integer, JLabel> AsocDados(){
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel dado1 = new JLabel("");
+		JLabel dado2 = new JLabel("");
+		JLabel dado3 = new JLabel("");
+		JLabel dado4 = new JLabel("");
+		JLabel dado5 = new JLabel("");
+		JLabel dado6 = new JLabel("");
+		iniciarDados(dado1, dado2, dado3, dado4,dado5, dado6);
+		//Dados > 400
+		aux.put(400,dado1);
+		aux.put(401,dado2);
+		aux.put(402,dado3);
+		aux.put(403,dado4);
+		aux.put(404,dado5);
+		aux.put(405,dado6);
+		
+		return aux;
+	}
+	
+	public void iniciarDados(JLabel dado1, JLabel dado2, JLabel dado3, JLabel dado4, JLabel dado5, JLabel dado6){
+		
+		//Dado 1
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Dados/Dado1.png"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado1.setIcon(new ImageIcon(img));
+		dado1.setBounds(0, 0, 165, 170);
+		
+		//Dado 2
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado2.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado2.setIcon(new ImageIcon(img));
+		dado2.setBounds(0, 0, 165, 170);
+		
+		//Dado 3
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado3.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado3.setIcon(new ImageIcon(img));
+		dado3.setBounds(0, 0, 165, 170);
+		
+		//Dado 4
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado4.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado4.setIcon(new ImageIcon(img));
+		dado4.setBounds(0, 0, 165, 170);
+		
+		//Dado 5
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado5.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado5.setIcon(new ImageIcon(img));
+		dado5.setBounds(0, 0, 165, 170);
+		
+		//Dado 6
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado6.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado6.setIcon(new ImageIcon(img));
+		dado6.setBounds(0, 0, 165, 170);
+	}
 
 	
 	//TODO: Getters
