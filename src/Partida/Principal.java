@@ -84,6 +84,8 @@ public class Principal {
 		}
 		int i = 0;
 		
+		dados = new String[numJugadores];
+		
 		for(Jugador j : jugadores) {
 			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			dados[i] = j.tirarDados();
