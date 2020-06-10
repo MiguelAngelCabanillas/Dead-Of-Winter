@@ -1069,6 +1069,133 @@ public class Asociaciones {
 				
 		
 	}
+	private HashMap<Integer, JLabel> AsocHerramientas(){
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel bateBeisbol = new JLabel(""), candado = new JLabel(""), carnePodrida = new JLabel(""), fregona = new JLabel("")
+				, gafasNocturnas = new JLabel(""), lamparaOficina = new JLabel(""), linterna = new JLabel(""), llaveInglesa = new JLabel(""), 
+				martillo = new JLabel(""), megafono = new JLabel(""), raquetasNieve = new JLabel(""), tijeras = new JLabel("")
+				, trastos = new JLabel("");
+		IniciarHerramientas(bateBeisbol, candado, carnePodrida, fregona, gafasNocturnas, lamparaOficina, linterna, llaveInglesa, martillo,
+				megafono, raquetasNieve, tijeras, trastos);
+		//BateBeisbol -> 23
+		aux.put(23, bateBeisbol);
+		//Candado-> 24
+		aux.put(24, candado);
+		//CarnePodrida-> 25
+		aux.put(25, carnePodrida);
+		//Fregona ->26
+		aux.put(26, fregona);
+		//GafasNocturnas-> 27
+		aux.put(27, gafasNocturnas);
+		//LamparaOficina > 28
+		aux.put(28, lamparaOficina);
+		//Linterna -> 29
+		aux.put(29, linterna);
+		//LlaveInglesa-> 30
+		aux.put(30, llaveInglesa);
+		//Martillo -> 31
+		aux.put(31, martillo);
+		//Megafono -> 31
+		aux.put(9, megafono);
+		//RaquetasNieve -> 32
+		aux.put(32, raquetasNieve);
+		//Tijeras -> 33
+		aux.put(33, tijeras);
+		//Trastos -> 34
+		aux.put(34, trastos);
+
+		return aux;
+	}
+	
+	private void IniciarHerramientas(JLabel bateBeisbol, JLabel candado, JLabel carnePodrida, JLabel fregona, JLabel gafasNocturnas, 
+			JLabel lamparaOficina, JLabel literna, JLabel llaveInglesa, JLabel martillo, JLabel megafono, JLabel raquetasNieve, 
+			JLabel tijeras, JLabel trastos) {
+		//Bate-Beisbol
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Herramientas/Bate-Beisbol.jpg"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		bateBeisbol.setIcon(new ImageIcon(img));
+		bateBeisbol.setBounds(0, 0, 406, 517);	
+		
+		//Candado
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Candado.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		candado.setIcon(new ImageIcon(img));
+		candado.setBounds(0, 0, 406, 517);
+		
+		//CarnePodrida
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/CarnePodrida.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		carnePodrida.setIcon(new ImageIcon(img));
+		carnePodrida.setBounds(0, 0, 406, 517);
+		
+		//Fregona
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Fregona.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		fregona.setIcon(new ImageIcon(img));
+		fregona.setBounds(0, 0, 406, 517);
+		
+		//GafasVisionNocturna
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Gafas-VisionNocturna.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		gafasNocturnas.setIcon(new ImageIcon(img));
+		gafasNocturnas.setBounds(0, 0, 406, 517);
+		
+		//LamparaOficina
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Lampara-Oficina.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		lamparaOficina.setIcon(new ImageIcon(img));
+		lamparaOficina.setBounds(0, 0, 406, 517);
+		
+		//Linterna
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Linterna.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		literna.setIcon(new ImageIcon(img));
+		literna.setBounds(0, 0, 406, 517);
+		
+		//LLaveInglesa
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/LLaveInglesa.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		llaveInglesa.setIcon(new ImageIcon(img));
+		llaveInglesa.setBounds(0, 0, 406, 517);
+		
+		//Megafono
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Megafono.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		megafono.setIcon(new ImageIcon(img));
+		megafono.setBounds(0, 0, 406, 517);
+		
+		//RaquetasNieve
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Raquetas-Nieve.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		raquetasNieve.setIcon(new ImageIcon(img));
+		raquetasNieve.setBounds(0, 0, 406, 517);
+		//Tijeras
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Tijeras.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		tijeras.setIcon(new ImageIcon(img));
+		tijeras.setBounds(0, 0, 406, 517);
+		
+		//Trastos
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Trastos.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		trastos.setIcon(new ImageIcon(img));
+		trastos.setBounds(0, 0, 406, 517);
+		
+	}
+
+	
 	//TODO: Getters
 	public HashMap<Integer,JLabel> getCartasObjetos(){
 		return CartasObjetos;
