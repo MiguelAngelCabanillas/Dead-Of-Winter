@@ -10,11 +10,13 @@ public class Asociaciones {
 	private HashMap<Integer,JLabel> CartasObjetos;
 	private HashMap<Integer,JLabel> ObjetivoSecreto;
 	private HashMap<Integer,JLabel[]> Supervivientes;
+	private HashMap<Integer,JLabel> CartasCrisis;
 	
 	public Asociaciones() {
 		CartasObjetos = AsocObjetos();
 		ObjetivoSecreto = AsocObjSecreto();
 		Supervivientes = AsocSupervivientes();
+		CartasCrisis = AsocCrisis();
 	}
 	//TODO: AsocSupervivientes
 	private HashMap<Integer,JLabel[]> AsocSupervivientes() {
@@ -599,10 +601,9 @@ public class Asociaciones {
 		JLabel UnNuevoDestino = new JLabel("");
 		JLabel RobotAsesino = new JLabel("");
 		JLabel Venganza = new JLabel("");
-		
 		IniciarObjetivoSecretos(AsEnSerie, Coleccionista, CaminoCasa, Farmaceutico, ganasVivir, 
-				GatilloFacil, Germofobia, Historiador, LiderSecta, Lider, QuemaloTodo, Solitario, UnNuevoDestino, RobotAsesino, Venganza);
-		
+				GatilloFacil, Germofobia, Historiador, LiderSecta, Lider, QuemaloTodo, Solitario,
+				UnNuevoDestino, RobotAsesino, Venganza);
 		//TODO: A partir de 200
 		aux.put(200, AsEnSerie);
 		aux.put(201, Coleccionista);
@@ -1205,5 +1206,8 @@ public class Asociaciones {
 	}
 	public HashMap<Integer,JLabel[]> getSupMap(){
 		return Supervivientes;
+	}
+	public HashMap<Integer,JLabel> getCartasCrisis(){
+		return CartasCrisis;
 	}
 }
