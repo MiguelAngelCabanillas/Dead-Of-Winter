@@ -129,6 +129,7 @@ public class ClientReader implements Runnable {
                 	int j = 1, idCarta;
                 	while(split[j] != null) {
                 		idCarta = Integer.parseInt(split[j]);
+                		System.out.println(idCarta);
                 		tablero.addCartaJug(idCarta); //añadimos cartas a la lista del jugador al que se le asigna
                 		j++;
                 	}

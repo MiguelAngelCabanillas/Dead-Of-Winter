@@ -968,7 +968,7 @@ public class FrameTablero extends JFrame {
 	
 	public void addCartaJug(int idCarta) {
 		if(cartasJugador == null) {
-			List<Integer> cartasJugador = new ArrayList<>();
+			cartasJugador = new ArrayList<>();
 		}
 		cartasJugador.add(idCarta);
 

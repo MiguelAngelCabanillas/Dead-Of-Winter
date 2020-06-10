@@ -102,9 +102,10 @@ public class InfoJugador extends JFrame {
 		contentPane.add(aux);
 		
 		//Añade los botones de las cartas en la mano del jugador
-//		int tam2 = supJugadores.size();
+		int tam2 = supJugadores.size();
 		int tam = cartasJugador.size();
-		System.out.println(tam);
+		System.out.println("tamaño lista cartas: " + tam);
+		System.out.println("tamaño lista supervivientes: " + tam2);
 		ImageIcon icon;
 		Image img;
 		Point p;
