@@ -47,6 +47,9 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
 	private HashMap<Integer,JLabel[]> supMap;
+	private HashMap<Integer, JLabel> cartMap;
+	private HashMap<Integer,JLabel[]> objMap;
+	private List<Integer> dados = new ArrayList<>();
 	private HashMap<Integer,JLabel> supIndMap = new HashMap<>();
 	private HashMap<Integer,List<Integer>> supJugadores = new HashMap<>(); //mapa<jug,listaSup>
 	private HashMap<Integer,List<Integer>> cartasJugador = new HashMap<>(); //mapa<jug,listaCartas>
@@ -104,6 +107,7 @@ public class FrameTablero extends JFrame {
 		usuario.getClientReader().setSala(null);
 		aso = new Asociaciones();
 		supMap = aso.getSupMap();
+		cartMap = aso.getCartasObjetos();
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
@@ -657,15 +661,15 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnGastarComida);
 		
 		JButton btnInfoJugador = new JButton("INFO JUGADOR");
-//		btnInfoJugador.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				if(infoJug != null) {
-//					infoJug.dispose();
-//				}
-//				//infoJug = new InfoJugador(listaSupJug, listaCartasJug,objetivoSecreto,supMap/*dados*/); //TODO: DADOS
-//				infoJug.setVisible(true);
-//			}
-//		});
+		btnInfoJugador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(infoJug != null) {
+					infoJug.dispose();
+				}
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador.get(idJug),objetivoSecreto,aso,dados); //TODO: DADOS
+				infoJug.setVisible(true);
+			}
+		});
 		btnInfoJugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
 		btnInfoJugador.setBounds(840, 71, 129, 41);
 		contentPane.add(btnInfoJugador);
