@@ -16,7 +16,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	//HABILIDADES PASIVAS
 	private boolean tirarAlMover;
 	private boolean tirarAlMatar;
-	
+	private boolean usada;
 	private int buscarDoble;
 	/*
 	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
@@ -40,6 +40,11 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		this.congelamiento = false;
 		this.influencia = influencia;
 		this.equipamiento = new ArrayList<>();
+		
+		tirarAlMatar = true;
+		tirarAlMover = true;
+		usada = false;
+		buscarDoble = -1;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,9 +62,25 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	//GETTERS Y SETTERS	
+	
+	//NECESARIOS EN INICSUPERVIVIENTES
 	public int doble() {
 		return buscarDoble;
 	}
+	
+	public void setTirarMover(boolean t) {
+		tirarAlMover = t;
+	}
+	
+	public void setLoc(int i) {
+		buscarDoble = i;
+	}
+	
+	public void setTirarMatar(boolean t) {
+		tirarAlMatar = t;
+	}
+	
+	///////////////////////////////////////////////////////////////////////
 	
 	public boolean tiraAlAtacar() {
 		return tirarAlMatar;
