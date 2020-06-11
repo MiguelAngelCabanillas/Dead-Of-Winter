@@ -39,6 +39,7 @@ public class Principal {
 	private Jugador jugadorActual;
 	private boolean finalBueno = false;
 	private int muertos = 0;
+	private int crisisActual;
 	private String[] dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@ public class Principal {
 	private void inicJugadores(int numJugadores) {
 		
 		int cartas = numJugadores * 5;
-		List<Carta_Objeto> mazoJugador;
+		List<Carta> mazoJugador;
 		idCartas = new String[cartas];
 		idCartas[0] = "";
 		idCartas[1] = "";
@@ -80,12 +81,12 @@ public class Principal {
 						
 				mazoJugador.add(aux);
 			}
-			jugadores.add(new Jugador(i, mazoJugador, tablero));
+			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo));
 		}
 		int i = 0;
 		
+		//SE TIRAN LOS DADOS
 		for(Jugador j : jugadores) {
-			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			dados[i] = j.tirarDados();
 			i++;
 		}
@@ -295,9 +296,10 @@ public class Principal {
 		for(Jugador j : jugadores) {
 			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
 			j.matar();
-			//dados[i] = j.tirarDados();
+			dados[i] = j.tirarDados();
 			i++;
 		}
+		rondasRestantes--;
 		
 		return datos;
 	}
@@ -319,6 +321,14 @@ public class Principal {
 	
 	public String getDados (int jugador) {
 		return dados[jugador];
+	}
+	
+	public int getRonda() {
+		return rondasRestantes;
+	}
+	
+	public int getMoral() {
+		return moral;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
