@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import Gui.FrameSala;
@@ -14,6 +15,7 @@ import Gui.FrameTablero;
 
 public class ClientReader implements Runnable {
 
+	private Random rnd;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -122,16 +124,27 @@ public class ClientReader implements Runnable {
                 case "ids": //ids|nombreJug1|nombreJug2|nombreJug3
                 	for(int k = 1; k < split.length; k++) {
                 		jugadores.add(split[k]);
+                		FrameTablero.setNombreJugadores(split[k]);
                 	}
                 	break;	
 
                 case "initCartas": //initCartas|idCarta|idCarta|idCarta|idCarta....|idCarta
-                	int j = 2, idCarta;
-                	idJug = Integer.parseInt(split[1]);
-                	while(split[j] != null) {
-                		idCarta = Integer.parseInt(split[j]);
-                		tablero.addCartaJug(idJug,idCarta); //añadimos cartas a la lista del jugador al que se le asigna
-                		j++;
+                	int idCarta;
+                    for(int j = 1; j < split.length;j++) {
+                        idCarta = Integer.parseInt(split[j]);
+                        tablero.addCartaJug(idCarta); //añadimos cartas a la lista del jugador al que se le asigna
+                	}
+                    FrameTablero.initListCartas(jugadores.size());
+                	break;
+                	
+                case "updtCartas": //updtCartas|idJug|nCartas
+                    FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+                	break;
+                	
+                case "newRound": //newRound|numeroRonda|dado1|dado2...
+                	tablero.setRonda(Integer.parseInt(split[1]));
+                	for(int j = 2; j<split.length;j++) {
+                		tablero.tiradaDados(Integer.parseInt(split[j]));
                 	}
                 	break;
                 	

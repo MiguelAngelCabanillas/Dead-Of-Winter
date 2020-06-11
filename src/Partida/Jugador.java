@@ -65,10 +65,19 @@ public class Jugador {
 	}
 	
 	//METODOS DE RONDA
-	public void tirarDados() {
+	public String tirarDados() {
+		String salida = ""; int i = 0;
+		
 		for(Dado d : dados) {
 			d.tirarDado();
+			if(i != 0) {
+				salida += "|";
+			}
+			salida += d.getValor();
+			i++;
 		}
+		
+		return salida;
 	}
 	
 	public void anyadirDados() {

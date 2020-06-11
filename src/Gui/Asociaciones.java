@@ -10,11 +10,15 @@ public class Asociaciones {
 	private HashMap<Integer,JLabel> CartasObjetos;
 	private HashMap<Integer,JLabel> ObjetivoSecreto;
 	private HashMap<Integer,JLabel[]> Supervivientes;
+	private HashMap<Integer,JLabel> CartasCrisis;
+	private HashMap<Integer,JLabel> Dados;
 	
 	public Asociaciones() {
 		CartasObjetos = AsocObjetos();
 		ObjetivoSecreto = AsocObjSecreto();
 		Supervivientes = AsocSupervivientes();
+		CartasCrisis = AsocCrisis();
+		Dados = AsocDados();
 	}
 	//TODO: AsocSupervivientes
 	private HashMap<Integer,JLabel[]> AsocSupervivientes() {
@@ -584,21 +588,153 @@ public class Asociaciones {
 	//TODO: AsocObjSecreto
 	private HashMap<Integer, JLabel> AsocObjSecreto(){
 		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel AsEnSerie = new JLabel("");
+		JLabel Coleccionista = new JLabel("");
+		JLabel CaminoCasa = new JLabel("");
+		JLabel Farmaceutico = new JLabel("");
 		JLabel ganasVivir = new JLabel("");
-		IniciarObjetivoSecretos(ganasVivir);
+		JLabel GatilloFacil = new JLabel("");
+		JLabel Germofobia = new JLabel("");
+		JLabel Historiador = new JLabel("");
+		JLabel LiderSecta = new JLabel ("");
+		JLabel Lider = new JLabel ("");
+		JLabel QuemaloTodo = new JLabel("");
+		JLabel Solitario = new JLabel("");
+		JLabel UnNuevoDestino = new JLabel("");
+		JLabel RobotAsesino = new JLabel("");
+		JLabel Venganza = new JLabel("");
+		IniciarObjetivoSecretos(AsEnSerie, Coleccionista, CaminoCasa, Farmaceutico, ganasVivir, 
+				GatilloFacil, Germofobia, Historiador, LiderSecta, Lider, QuemaloTodo, Solitario,
+				UnNuevoDestino, RobotAsesino, Venganza);
 		//TODO: A partir de 200
-		//Ganas de Vivir -> 0
-		aux.put(200, ganasVivir);
+		aux.put(200, AsEnSerie);
+		aux.put(201, Coleccionista);
+		aux.put(202, CaminoCasa);
+		aux.put(203, Farmaceutico);
+		aux.put(204, ganasVivir);
+		aux.put(205, GatilloFacil);
+		aux.put(206, Germofobia);
+		aux.put(207, Historiador);
+		aux.put(208, LiderSecta);
+		aux.put(209, Lider);
+		aux.put(210, QuemaloTodo);
+		aux.put(211, Solitario);
+		aux.put(212, UnNuevoDestino);
+		aux.put(213, RobotAsesino);
+		aux.put(214, Venganza);
 		return aux;
 	}
 	//TODO: IniciarObjetivoSecretos
-	private void IniciarObjetivoSecretos(JLabel ganasVivir) {
-		//Ganas de Vivir
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Ganas-de-vivir.jpg"));
+	private void IniciarObjetivoSecretos(JLabel AsEnSerie, JLabel Coleccionista, JLabel CaminoCasa, JLabel Farmaceutico,
+			JLabel ganasVivir, JLabel GatilloFacil, JLabel Germofobia, JLabel Historiador, JLabel LiderSecta, 
+			JLabel Lider, JLabel QuemaloTodo, JLabel Solitario, JLabel UnNuevoDestino, JLabel RobotAsesino, JLabel Venganza) {
+		
+		//Asesinos-en-serie
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Asesinos-en-serie.jpg"));
 		Image img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		AsEnSerie.setIcon(new ImageIcon(img));
+		AsEnSerie.setBounds(0, 0, 567, 305);	
+		
+		//Coleccionista
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Coleccionista.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Coleccionista.setIcon(new ImageIcon(img));
+		Coleccionista.setBounds(0, 0, 567, 305);	
+		
+		//El-camino-de-vuelta-a-casa
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/El-camino-de-vuelta-a-casa.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		CaminoCasa.setIcon(new ImageIcon(img));
+		CaminoCasa.setBounds(0, 0, 567, 305);	
+		
+		//Farmaceutico
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Farmaceutico.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Farmaceutico.setIcon(new ImageIcon(img));
+		Farmaceutico.setBounds(0, 0, 567, 305);	
+		
+		//Ganas de Vivir
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Ganas-de-vivir.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
 		
 		ganasVivir.setIcon(new ImageIcon(img));
 		ganasVivir.setBounds(0, 0, 567, 305);	
+		
+		//Gatillo-facil
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Gatillo-facil.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		GatilloFacil.setIcon(new ImageIcon(img));
+		GatilloFacil.setBounds(0, 0, 567, 305);	
+		
+		//Germofobia
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Germofobia.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Germofobia.setIcon(new ImageIcon(img));
+		Germofobia.setBounds(0, 0, 567, 305);	
+		
+		//Historiador
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Historiador.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Historiador.setIcon(new ImageIcon(img));
+		Historiador.setBounds(0, 0, 567, 305);	
+		
+		//Lider-de-secta
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Lider-de-secta.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		LiderSecta.setIcon(new ImageIcon(img));
+		LiderSecta.setBounds(0, 0, 567, 305);	
+		
+		//Lider
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Lider.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Lider.setIcon(new ImageIcon(img));
+		Lider.setBounds(0, 0, 567, 305);	
+		
+		//Quemalo-todo
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Quemalo-todo.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		QuemaloTodo.setIcon(new ImageIcon(img));
+		QuemaloTodo.setBounds(0, 0, 567, 305);	
+		
+		//Solitario
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Solitario.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Solitario.setIcon(new ImageIcon(img));
+		Solitario.setBounds(0, 0, 567, 305);	
+		
+		//Un-nuevo-destino
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Un-nuevo-destino.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		UnNuevoDestino.setIcon(new ImageIcon(img));
+		UnNuevoDestino.setBounds(0, 0, 567, 305);	
+		
+		//Un-robot-asesino-de-zombies
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Un-robot-asesino-de-zombies.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		RobotAsesino.setIcon(new ImageIcon(img));
+		RobotAsesino.setBounds(0, 0, 567, 305);	
+		
+		//Venganza
+		ima = new ImageIcon(this.getClass().getResource("/Objetivos-secundarios/Venganza.jpg"));
+		img = ima.getImage().getScaledInstance(567, 305, java.awt.Image.SCALE_SMOOTH); 
+		
+		Venganza.setIcon(new ImageIcon(img));
+		Venganza.setBounds(0, 0, 567, 305);	
+		
+		
 	}
 	//TODO: AsocObjetos
 	private HashMap<Integer, JLabel> AsocObjetos() {
@@ -735,7 +871,9 @@ public class Asociaciones {
 		
 		sup3.setIcon(new ImageIcon(img));
 		sup3.setBounds(0, 0, 406, 517);
-		//Equipables
+		
+		
+		//Equipables//
 		
 		//Francotirador
 		
@@ -851,6 +989,281 @@ public class Asociaciones {
 		libMasComida.setBounds(0, 0, 406, 517);
 		
 	}
+	
+	private HashMap<Integer, JLabel> AsocCrisis() {
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel agotamiento = new JLabel("");
+		JLabel despensaVacia = new JLabel("");
+		JLabel enfermedad = new JLabel("");
+		JLabel escasezDeGasolina= new JLabel("");
+		JLabel horrorNoche = new JLabel("");
+		JLabel nosEstanObservando = new JLabel("");
+		JLabel oleadaZombis = new JLabel("");
+		JLabel reorganizacion = new JLabel("");
+		iniciarLabelsCrisis(agotamiento, despensaVacia, enfermedad, escasezDeGasolina, horrorNoche, nosEstanObservando, oleadaZombis, reorganizacion);
+		//Comida 1 -> 0
+		aux.put(300, agotamiento);
+		//Comida 2 -> 1
+		aux.put(301, despensaVacia);
+		//Comida 3 -> 2
+		aux.put(302, enfermedad);
+		//Medicina -> 3
+		aux.put(303, escasezDeGasolina);
+		//Trastos -> 4
+		aux.put(304, horrorNoche);
+		//Gasolina -> 5
+		aux.put(305, nosEstanObservando);
+		//Superviviente 1 -> 6
+		aux.put(306, oleadaZombis);
+		//Superviviente 2 -> 7
+		aux.put(307, reorganizacion);
+
+		return aux;
+	}
+	
+	private void iniciarLabelsCrisis(JLabel agotamiento,JLabel despensaVacia,JLabel enfermedad,JLabel escasezDeGasolina,JLabel horrorNoche,JLabel nosEstanObservando,JLabel oleadaZombis,JLabel reorganizacion) {
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Crisis/Agotamiento.jpg"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		agotamiento.setIcon(new ImageIcon(img));
+		agotamiento.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Despensa-vacia.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		despensaVacia.setIcon(new ImageIcon(img));
+		despensaVacia.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Enfermedad.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		enfermedad.setIcon(new ImageIcon(img));
+		enfermedad.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/EscasezDeGasolina.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		escasezDeGasolina.setIcon(new ImageIcon(img));
+		escasezDeGasolina.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Horror-Noche.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		horrorNoche.setIcon(new ImageIcon(img));
+		horrorNoche.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Nos-Estan-Observando.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		nosEstanObservando.setIcon(new ImageIcon(img));
+		nosEstanObservando.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Oleada-Zombis.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		oleadaZombis.setIcon(new ImageIcon(img));
+		oleadaZombis.setBounds(0, 0, 406, 517);
+		
+		ima = new ImageIcon(this.getClass().getResource("/Crisis/Reorganizacion.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		reorganizacion.setIcon(new ImageIcon(img));
+		reorganizacion.setBounds(0, 0, 406, 517);
+				
+		
+	}
+	private HashMap<Integer, JLabel> AsocHerramientas(){
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel bateBeisbol = new JLabel(""), candado = new JLabel(""), carnePodrida = new JLabel(""), fregona = new JLabel("")
+				, gafasNocturnas = new JLabel(""), lamparaOficina = new JLabel(""), linterna = new JLabel(""), llaveInglesa = new JLabel(""), 
+				martillo = new JLabel(""), megafono = new JLabel(""), raquetasNieve = new JLabel(""), tijeras = new JLabel("")
+				, trastos = new JLabel("");
+		IniciarHerramientas(bateBeisbol, candado, carnePodrida, fregona, gafasNocturnas, lamparaOficina, linterna, llaveInglesa, martillo,
+				megafono, raquetasNieve, tijeras, trastos);
+		//BateBeisbol -> 23
+		aux.put(23, bateBeisbol);
+		//Candado-> 24
+		aux.put(24, candado);
+		//CarnePodrida-> 25
+		aux.put(25, carnePodrida);
+		//Fregona ->26
+		aux.put(26, fregona);
+		//GafasNocturnas-> 27
+		aux.put(27, gafasNocturnas);
+		//LamparaOficina > 28
+		aux.put(28, lamparaOficina);
+		//Linterna -> 29
+		aux.put(29, linterna);
+		//LlaveInglesa-> 30
+		aux.put(30, llaveInglesa);
+		//Martillo -> 31
+		aux.put(31, martillo);
+		//Megafono -> 31
+		aux.put(9, megafono);
+		//RaquetasNieve -> 32
+		aux.put(32, raquetasNieve);
+		//Tijeras -> 33
+		aux.put(33, tijeras);
+		//Trastos -> 34
+		aux.put(34, trastos);
+
+		return aux;
+	}
+	
+	private void IniciarHerramientas(JLabel bateBeisbol, JLabel candado, JLabel carnePodrida, JLabel fregona, JLabel gafasNocturnas, 
+			JLabel lamparaOficina, JLabel literna, JLabel llaveInglesa, JLabel martillo, JLabel megafono, JLabel raquetasNieve, 
+			JLabel tijeras, JLabel trastos) {
+		//Bate-Beisbol
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Herramientas/Bate-Beisbol.jpg"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		bateBeisbol.setIcon(new ImageIcon(img));
+		bateBeisbol.setBounds(0, 0, 406, 517);	
+		
+		//Candado
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Candado.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		candado.setIcon(new ImageIcon(img));
+		candado.setBounds(0, 0, 406, 517);
+		
+		//CarnePodrida
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/CarnePodrida.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		carnePodrida.setIcon(new ImageIcon(img));
+		carnePodrida.setBounds(0, 0, 406, 517);
+		
+		//Fregona
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Fregona.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		fregona.setIcon(new ImageIcon(img));
+		fregona.setBounds(0, 0, 406, 517);
+		
+		//GafasVisionNocturna
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Gafas-VisionNocturna.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		gafasNocturnas.setIcon(new ImageIcon(img));
+		gafasNocturnas.setBounds(0, 0, 406, 517);
+		
+		//LamparaOficina
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Lampara-Oficina.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		lamparaOficina.setIcon(new ImageIcon(img));
+		lamparaOficina.setBounds(0, 0, 406, 517);
+		
+		//Linterna
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Linterna.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		literna.setIcon(new ImageIcon(img));
+		literna.setBounds(0, 0, 406, 517);
+		
+		//LLaveInglesa
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/LLaveInglesa.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		llaveInglesa.setIcon(new ImageIcon(img));
+		llaveInglesa.setBounds(0, 0, 406, 517);
+		
+		//Megafono
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Megafono.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		megafono.setIcon(new ImageIcon(img));
+		megafono.setBounds(0, 0, 406, 517);
+		
+		//RaquetasNieve
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Raquetas-Nieve.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		raquetasNieve.setIcon(new ImageIcon(img));
+		raquetasNieve.setBounds(0, 0, 406, 517);
+		//Tijeras
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Tijeras.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		tijeras.setIcon(new ImageIcon(img));
+		tijeras.setBounds(0, 0, 406, 517);
+		
+		//Trastos
+		ima = new ImageIcon(this.getClass().getResource("/Herramientas/Trastos.jpg"));
+		img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		trastos.setIcon(new ImageIcon(img));
+		trastos.setBounds(0, 0, 406, 517);
+		
+	}
+	
+	public HashMap<Integer, JLabel> AsocDados(){
+		HashMap<Integer,JLabel> aux = new HashMap<Integer, JLabel>();
+		JLabel dado1 = new JLabel("");
+		JLabel dado2 = new JLabel("");
+		JLabel dado3 = new JLabel("");
+		JLabel dado4 = new JLabel("");
+		JLabel dado5 = new JLabel("");
+		JLabel dado6 = new JLabel("");
+		iniciarDados(dado1, dado2, dado3, dado4,dado5, dado6);
+		//Dados > 400
+		aux.put(400,dado1);
+		aux.put(401,dado2);
+		aux.put(402,dado3);
+		aux.put(403,dado4);
+		aux.put(404,dado5);
+		aux.put(405,dado6);
+		
+		return aux;
+	}
+	
+	public void iniciarDados(JLabel dado1, JLabel dado2, JLabel dado3, JLabel dado4, JLabel dado5, JLabel dado6){
+		
+		//Dado 1
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Dados/Dado1.png"));
+		Image img = ima.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado1.setIcon(new ImageIcon(img));
+		dado1.setBounds(0, 0, 165, 170);
+		
+		//Dado 2
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado2.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado2.setIcon(new ImageIcon(img));
+		dado2.setBounds(0, 0, 165, 170);
+		
+		//Dado 3
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado3.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado3.setIcon(new ImageIcon(img));
+		dado3.setBounds(0, 0, 165, 170);
+		
+		//Dado 4
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado4.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado4.setIcon(new ImageIcon(img));
+		dado4.setBounds(0, 0, 165, 170);
+		
+		//Dado 5
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado5.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado5.setIcon(new ImageIcon(img));
+		dado5.setBounds(0, 0, 165, 170);
+		
+		//Dado 6
+		ima = new ImageIcon(this.getClass().getResource("/Dados/Dado6.png"));
+		img = ima.getImage().getScaledInstance(165, 170, java.awt.Image.SCALE_SMOOTH); 
+		
+		dado6.setIcon(new ImageIcon(img));
+		dado6.setBounds(0, 0, 165, 170);
+	}
+
+	
 	//TODO: Getters
 	public HashMap<Integer,JLabel> getCartasObjetos(){
 		return CartasObjetos;
@@ -860,5 +1273,12 @@ public class Asociaciones {
 	}
 	public HashMap<Integer,JLabel[]> getSupMap(){
 		return Supervivientes;
+	}
+	public HashMap<Integer,JLabel> getCartasCrisis(){
+		return CartasCrisis;
+	}
+	
+	public HashMap<Integer,JLabel> getDados(){
+		return Dados;
 	}
 }
