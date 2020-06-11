@@ -152,7 +152,13 @@ public class ClientReader implements Runnable {
                 case "moral": //moral|nuevoValorMoral
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
-                	
+                case "heridas":
+                	int[] heridas = new int[2];
+                	heridas[0] = Integer.parseInt(split[1]);
+                	heridas[1] = Integer.parseInt(split[2]);
+                	System.out.println("Entran " + split[1] + ", " + split[2]);
+                	FrameTablero.setHeridas(heridas);
+                	break;
                 default:
                     break;
                 }

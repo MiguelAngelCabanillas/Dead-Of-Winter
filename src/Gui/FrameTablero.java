@@ -54,6 +54,8 @@ public class FrameTablero extends JFrame {
 	private Asociaciones aso;
 	private InfoJugador infoJug;
 	private InfoTablero infoTab;
+	
+	private static int[] heridas = new int[2];
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
@@ -1165,6 +1167,18 @@ public class FrameTablero extends JFrame {
 								case 2: fichZ3ColoniaZona6.setVisible(false); fichZ3ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
 		break;
 		}	
+	}
+	
+	public static void pedirHeridas(int id) throws IOException{
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|heridas|" + id);
+	}
+	
+	public static void setHeridas(int[] h) {
+		heridas = h.clone();
+	}
+	
+	public static int[] getHeridas() {
+		return heridas;
 	}
 }
 

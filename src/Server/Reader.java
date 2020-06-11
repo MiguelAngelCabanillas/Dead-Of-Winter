@@ -291,6 +291,11 @@ private BufferedReader buffer;
 //				case "moral":
 //					user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
 //					break;
+				case "heridas":
+					user.hacerPeticionAlServidor("heridas|2|0");
+					System.out.println("heridas|2|0");
+					System.out.println(split[3]);
+					break;
 				case "host":
 					if(user.getSala().getHost().equals(user)) {
 						user.hacerPeticionAlServidor("host|");
