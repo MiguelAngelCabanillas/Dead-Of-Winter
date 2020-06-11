@@ -86,6 +86,7 @@ public class Principal {
 		int i = 0;
 		//SE TIRAN LOS DADOS
 		dados = new String[numJugadores];
+
 		for(Jugador j : jugadores) {
 			dados[i] = j.tirarDados();
 			i++;
