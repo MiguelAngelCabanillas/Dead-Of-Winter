@@ -757,15 +757,15 @@ public class FrameTablero extends JFrame {
 		fichMoral = new JLabel("");
 		fichMoral.setBounds(p.x, p.y, 36, 33);
 		fichMoral.setIcon(imgCircular("images/Fichas/MoralDef.png",36,33));
-		fichMoral.setVisible(false);
+		fichMoral.setVisible(true);
 		contentPane.add(fichMoral);
 		contentPane.setComponentZOrder(fichMoral, contentPane.getComponentZOrder(lblTablero)-1);
 		
 		p = locRonda[5];//Ronda 6
 		fichRonda = new JLabel("");
 		fichRonda.setBounds(p.x, p.y, 36, 33);
-		fichRonda.setIcon(imgCircular("images/Fichas/MoralDef.png",36,33));
-		fichRonda.setVisible(false);
+		fichRonda.setIcon(imgCircular("images/Fichas/RondaDef.png",36,33));
+		fichRonda.setVisible(true);
 		contentPane.add(fichRonda);
 		contentPane.setComponentZOrder(fichRonda, contentPane.getComponentZOrder(lblTablero)-1);
 		
@@ -782,15 +782,15 @@ public class FrameTablero extends JFrame {
 		fichMoral = new JLabel("");
 		fichMoral.setBounds(p.x, p.y, 36, 33);
 		fichMoral.setIcon(imgCircular("images/Fichas/MoralDef.png",36,33));
-		fichMoral.setVisible(false);
+		fichMoral.setVisible(true);
 		contentPane.add(fichMoral);
 		contentPane.setComponentZOrder(fichMoral, contentPane.getComponentZOrder(lblTablero)-1);
 		
 		p = locRonda[5];//Ronda 6
 		fichRonda = new JLabel("");
 		fichRonda.setBounds(p.x, p.y, 36, 33);
-		fichRonda.setIcon(imgCircular("images/Fichas/MoralDef.png",36,33));
-		fichRonda.setVisible(false);
+		fichRonda.setIcon(imgCircular("images/Fichas/RondaDef.png",36,33));
+		fichRonda.setVisible(true);
 		contentPane.add(fichRonda);
 		contentPane.setComponentZOrder(fichRonda, contentPane.getComponentZOrder(lblTablero)-1);
 		
