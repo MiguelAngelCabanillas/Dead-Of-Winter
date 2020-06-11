@@ -33,14 +33,18 @@ import java.awt.Font;
  */
 
 public class InfoTablero extends JFrame {
-
+	
+	private JButton btnVolver;
 	private JPanel contentPane;
 	private static Asociaciones asociaciones;
 	private FrameSupervivientes auxSuper;
 	private static List<String> jugadores;
 	private static HashMap<Integer, List<Integer>> supervivientes;
+	private static List<Integer> numCartas;
 	private JLabel labelJugadores[];
+	private JLabel cartasJug[];
 	private JButton botoneSuperviviente[];
+	private Point posCartasJug[] = {new Point(928, 594), new Point(928, 676), new Point(928, 753), new Point(928, 841), new Point(928, 924)};
 	private Point posNombreJugadores[] = {new Point(10, 53), new Point(10, 288), new Point(10, 527), new Point(919, 49), new Point(919, 288)};
 	private Point posSupJugador1[] = {new Point(10, 72), new Point(187, 72), new Point(365, 72), new Point(545, 72), new Point(726, 72)};
 	private Point posSupJugador2[] = {new Point(10, 311), new Point(187, 311), new Point(365, 311), new Point(545, 311), new Point(726, 311)};
@@ -55,7 +59,7 @@ public class InfoTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones);
+					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones, numCartas);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -64,7 +68,7 @@ public class InfoTablero extends JFrame {
 		});
 	}
 
-	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso) {
+	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso, List<Integer> numC) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -76,125 +80,6 @@ public class InfoTablero extends JFrame {
 		
 		SupDerHandler supervivientesHandler = new SupDerHandler();
 		
-//		JButton btnNewButton_1_2_1_1_1 = new JButton("New button");
-//		btnNewButton_1_2_1_1_1.setBounds(919, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_2_1_1_1);
-//		
-//		JLabel lblNewLabel_1_1_1_1 = new JLabel("Miguelito");
-//		lblNewLabel_1_1_1_1.setForeground(Color.WHITE);
-//		lblNewLabel_1_1_1_1.setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-//		lblNewLabel_1_1_1_1.setBounds(919, 288, 125, 21);
-//		contentPane.add(lblNewLabel_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_1_2_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_2_1_1_1.setBounds(1454, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_2_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_1_1_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_1_1_1_1_1.setBounds(1635, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_1_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_2_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_2_1_1_1.setBounds(1274, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_2_1_1_1);
-//		
-//		JButton btnNewButton_1_1_2_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_2_1_1_1.setBounds(1096, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_2_1_1_1);
-//		
-//		JButton btnNewButton_1_2_1_1 = new JButton("New button");
-//		btnNewButton_1_2_1_1.setBounds(919, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_2_1_1);
-//		
-//		JButton btnNewButton_1_1_2_1_1 = new JButton("New button");
-//		btnNewButton_1_1_2_1_1.setBounds(1096, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_2_1_1);
-//		
-//		JButton btnNewButton_1_1_1_2_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_2_1_1.setBounds(1274, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_2_1_1);
-//		
-//		JButton btnNewButton_1_1_1_1_2_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_2_1_1.setBounds(1454, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_2_1_1);
-//		
-//		JLabel lblNewLabel_1_1_1 = new JLabel("Miguelito");
-//		lblNewLabel_1_1_1.setForeground(Color.WHITE);
-//		lblNewLabel_1_1_1.setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-//		lblNewLabel_1_1_1.setBounds(919, 49, 125, 21);
-//		contentPane.add(lblNewLabel_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_1_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_1_1_1_1.setBounds(1635, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_2_1 = new JButton("New button");
-//		btnNewButton_1_1_1_2_1.setBounds(365, 550, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_2_1);
-//		
-//		JButton btnNewButton_1_1_1_1_2_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_2_1.setBounds(545, 550, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_2_1);
-//		
-//		JButton btnNewButton_1_2_1 = new JButton("New button");
-//		btnNewButton_1_2_1.setBounds(10, 550, 147, 205);
-//		contentPane.add(btnNewButton_1_2_1);
-//		
-//		JButton btnNewButton_1_1_2_1 = new JButton("New button");
-//		btnNewButton_1_1_2_1.setBounds(187, 550, 147, 205);
-//		contentPane.add(btnNewButton_1_1_2_1);
-//		
-//		JButton btnNewButton_1_1_1_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_1_1_1.setBounds(726, 550, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_1_1_1);
-//		
-//		JLabel lblNewLabel_1_1 = new JLabel("Miguelito");
-//		lblNewLabel_1_1.setForeground(Color.WHITE);
-//		lblNewLabel_1_1.setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-//		lblNewLabel_1_1.setBounds(10, 527, 125, 21);
-//		contentPane.add(lblNewLabel_1_1);
-//		
-//		JButton btnNewButton_1_2 = new JButton("New button");
-//		btnNewButton_1_2.setBounds(10, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_2);
-//		
-//		JButton btnNewButton_1_1_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_1_1.setBounds(726, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_2 = new JButton("New button");
-//		btnNewButton_1_1_2.setBounds(187, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_2);
-//		
-//		JButton btnNewButton_1_1_1_2 = new JButton("New button");
-//		btnNewButton_1_1_1_2.setBounds(365, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_2);
-//		
-//		JButton btnNewButton_1_1_1_1_2 = new JButton("New button");
-//		btnNewButton_1_1_1_1_2.setBounds(545, 311, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_2);
-//		
-//		JLabel lblNewLabel_1 = new JLabel("Miguelito");
-//		lblNewLabel_1.setForeground(Color.WHITE);
-//		lblNewLabel_1.setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-//		lblNewLabel_1.setBounds(10, 288, 125, 21);
-//		contentPane.add(lblNewLabel_1);
-//		
-//		JButton btnNewButton_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1.setBounds(545, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1_1_1.setBounds(726, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1_1_1);
-//		
-//		JButton btnNewButton_1_1_1 = new JButton("New button");
-//		btnNewButton_1_1_1.setBounds(365, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1_1);
-//		
-//		JButton btnNewButton_1_1 = new JButton("New button");
-//		btnNewButton_1_1.setBounds(187, 72, 147, 205);
-//		contentPane.add(btnNewButton_1_1);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);
@@ -206,6 +91,7 @@ public class InfoTablero extends JFrame {
 		
 		botoneSuperviviente = new JButton[25]; //Tamaño del total de supervivientes que puede tener
 		labelJugadores = new JLabel[5];
+		cartasJug = new JLabel[5];
 		
 		ImageIcon icon;
 		Image img;
@@ -213,25 +99,20 @@ public class InfoTablero extends JFrame {
 		int cantSupervivientes;
 		Point p;
 
-//		for(int z = 0; z < tamSupervivientes; z++) {
-//			p = posCartaSuperV[z];
-//			botoneSuperviviente[z] = new JButton(String.valueOf(supJugadores.get(z)));
-//			icon = (ImageIcon) aso.getSupMap().get(supJugadores.get(z))[1].getIcon();
-//			img = icon.getImage().getScaledInstance(157, 205, java.awt.Image.SCALE_SMOOTH);
-//			botoneSuperviviente[z].setIcon(new ImageIcon(img));
-//			botoneSuperviviente[z].setBounds(p.x, p.y, 147, 205);
-//			botoneSuperviviente[z].addActionListener(supervivientesHandler);
-//			botoneSuperviviente[z].setActionCommand(""+z);
-//			contentPane.add(botoneSuperviviente[z]);
-//		}
 		
 		for(int i = 0; i < cantJugadores; i++) {
 			p = posNombreJugadores[i];
 			labelJugadores[i] = new JLabel(Jugadores.get(i));
 			labelJugadores[i].setForeground(Color.WHITE);
 			labelJugadores[i].setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-			labelJugadores[i].setBounds(p.x, p.y, 125, 21);
+			labelJugadores[i].setBounds(p.x, p.y, 200, 21);
 			contentPane.add(labelJugadores[i]);
+			p = posCartasJug[i];
+			cartasJug[i] = new JLabel(Jugadores.get(i) + " Tiene "+numC.get(i)+" cartas en la mano\r\n");
+			cartasJug[i].setForeground(Color.WHITE);
+			cartasJug[i].setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 25));
+			cartasJug[i].setBounds(p.x, p.y, 660, 30);
+			contentPane.add(cartasJug[i]);
 			cantSupervivientes = Supervivientes.get(i).size();
 			for(int j = 0; j < cantSupervivientes; j++) {
 				p = posiciones[i][j];
@@ -249,19 +130,17 @@ public class InfoTablero extends JFrame {
 		}
 		
 		
-		JLabel lblFondoInfo = new JLabel("");
-		icon = new ImageIcon(this.getClass().getResource("/fondo-info.jpg"));
-		img = icon.getImage().getScaledInstance(1924, 1021, java.awt.Image.SCALE_SMOOTH);
 		
-		JButton btnNewButton = new JButton("Volver");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
+					dispose();
 			}
 		});
-		btnNewButton.setFont(new Font("Castellar", Font.BOLD, 20));
-		btnNewButton.setBounds(861, 4, 218, 33);
-		contentPane.add(btnNewButton);
+		btnVolver.setFont(new Font("Castellar", Font.BOLD, 20));
+		btnVolver.setBounds(861, 4, 218, 33);
+		contentPane.add(btnVolver);
 		
 		JLabel lblSupervivientes_1 = new JLabel("Supervivientes");
 		lblSupervivientes_1.setForeground(Color.WHITE);
@@ -269,27 +148,28 @@ public class InfoTablero extends JFrame {
 		lblSupervivientes_1.setBounds(10, 5, 232, 29);
 		contentPane.add(lblSupervivientes_1);
 		
-//		JLabel lblNewLabel = new JLabel("Miguelito");
-//		lblNewLabel.setFont(new Font("Castellar", Font.BOLD | Font.ITALIC, 17));
-//		lblNewLabel.setForeground(Color.WHITE);
-//		lblNewLabel.setBounds(10, 53, 125, 21);
-//		contentPane.add(lblNewLabel);
-//		
-//		JButton btnNewButton_1 = new JButton("New button");
-//		btnNewButton_1.setBounds(10, 72, 147, 205);
-//		contentPane.add(btnNewButton_1);
-		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.WHITE);
 		separator.setBackground(Color.WHITE);
-		separator.setBounds(10, 766, 863, 2);
+		separator.setBounds(10, 766, 888, 2);
 		contentPane.add(separator);
 		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setForeground(Color.WHITE);
 		separator_2.setBackground(Color.WHITE);
-		separator_2.setBounds(919, 527, 863, 2);
+		separator_2.setBounds(896, 527, 1018, 2);
 		contentPane.add(separator_2);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setOrientation(SwingConstants.VERTICAL);
+		separator_3.setForeground(Color.WHITE);
+		separator_3.setBackground(Color.WHITE);
+		separator_3.setBounds(896, 40, 2, 728);
+		contentPane.add(separator_3);
+		
+		JLabel lblFondoInfo = new JLabel("");
+		icon = new ImageIcon(this.getClass().getResource("/fondo-info.jpg"));
+		img = icon.getImage().getScaledInstance(1924, 1021, java.awt.Image.SCALE_SMOOTH);
 		lblFondoInfo.setBounds(0, 0, 1924, 1021);
 		lblFondoInfo.setIcon(new ImageIcon(img));
 		contentPane.add(lblFondoInfo);
