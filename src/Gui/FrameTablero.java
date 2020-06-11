@@ -54,6 +54,7 @@ public class FrameTablero extends JFrame {
 	private ObjPrincipal auxObj;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
+	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
 	private static int idJug;
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
@@ -487,7 +488,9 @@ public class FrameTablero extends JFrame {
 		
 		JButton btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {		
+				frameMoverse = new FrameMoverse(supJugadores.get(idJug), aso);
+				frameMoverse.setVisible(true);
 			}
 		});
 		btnMoverse.setBounds(183, 196, 115, 41);
