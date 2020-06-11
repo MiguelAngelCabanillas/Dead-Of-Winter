@@ -22,14 +22,13 @@ import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo,objetivoSecreto;
+	private static int objetivo,objetivoSecreto,idJug,idCrisis;
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
-	private JLabel aux;
 	private Point p;
-	private JLabel lblTablero,fichMoral,fichRonda;
+	private JLabel lblTablero,fichMoral,fichRonda,aux;
 
 	private JLabel fichZ1ColoniaZona1,fichZ2ColoniaZona1,fichZ3ColoniaZona1,fichZ1ColoniaZona2,fichZ2ColoniaZona2,fichZ3ColoniaZona2,
 	fichZ1ColoniaZona3,fichZ2ColoniaZona3,fichZ3ColoniaZona3,fichZ1ColoniaZona4,fichZ2ColoniaZona4,fichZ3ColoniaZona4,
@@ -42,20 +41,19 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
-	private HashMap<Integer,JLabel[]> supMap;
+	private HashMap<Integer,JLabel[]> supMap,objMap;
 	private static List<String> nombresJugadores;
 	private HashMap<Integer, JLabel> cartMap;
-	private HashMap<Integer,JLabel[]> objMap;
 	private List<Integer> dados;
 	private static List<Integer> nCartasJugadores;
 	private HashMap<Integer,JLabel> supIndMap;
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private ObjPrincipal auxObj;
+	private Crisis crisis;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
 	private InfoTablero infoTab;
-	private static int idJug;
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
@@ -568,7 +566,7 @@ public class FrameTablero extends JFrame {
 				if(infoTab != null) {
 					infoTab.dispose();
 				}
-				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso);
+				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores);
 				infoTab.setVisible(true);
 			}
 		});
@@ -584,11 +582,23 @@ public class FrameTablero extends JFrame {
 				}
 				auxObj = new ObjPrincipal(objetivo);
 				auxObj.setVisible(true);
-				
 			}
 		});
 		ObjetivoPrin.setBounds(911, 699, 123, 158);
 		contentPane.add(ObjetivoPrin);
+		
+		JButton btnCartaCrisis = new JButton("");
+		btnCartaCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(crisis != null) {
+					crisis.dispose();
+				}
+				crisis = new Crisis(idCrisis,aso);
+				crisis.setVisible(true);
+			}
+		});
+		btnCartaCrisis.setBounds(1062, 699, 123, 158);
+		contentPane.add(btnCartaCrisis);
 		
 		JButton btnSendChat = new JButton(">");
 		btnSendChat.addActionListener(new ActionListener() {
@@ -916,6 +926,10 @@ public class FrameTablero extends JFrame {
 	
 	public void setMoral(int moral) {
 		fichMoral.setLocation(locMoral[moral-1]);
+	}
+	
+	public static void setCrisis(int crisis) {
+		idCrisis = crisis;
 	}
 	
 	public static void setNombreJugadores(String n) {
