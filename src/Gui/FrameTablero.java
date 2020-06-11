@@ -54,7 +54,6 @@ public class FrameTablero extends JFrame {
 	private Asociaciones aso;
 	private InfoJugador infoJug;
 	private InfoTablero infoTab;
-	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
 								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};
@@ -75,6 +74,9 @@ public class FrameTablero extends JFrame {
 			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
 	
 	private static Thread hilo;
+	private JButton btnFichasComida;
+	private JButton btnVertedero;
+	private JButton btnContribucionesCrisis;
 
 	/**
 	 * Launch the application.
@@ -603,6 +605,8 @@ public class FrameTablero extends JFrame {
 		btnCartaCrisis.setIcon(new ImageIcon(img));
 		contentPane.add(btnCartaCrisis);
 		
+		
+		
 		JButton btnSendChat = new JButton(">");
 		btnSendChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -689,13 +693,47 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
+		btnFichasComida = new JButton("");
+		btnFichasComida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + 5); //TODO: CAMBIAR
+			}
+		});
+		btnFichasComida.setBounds(1165, 538, 107, 113);
+		btnFichasComida.setOpaque(false);
+		btnFichasComida.setContentAreaFilled(false);
+		btnFichasComida.setBorderPainted(false);
+		contentPane.add(btnFichasComida);
+		
+		btnVertedero = new JButton("");
+		btnVertedero.setBounds(973, 539, 173, 112);
+		btnVertedero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + 3); //TODO: CAMBIAR
+			}
+		});
+		btnVertedero.setOpaque(false);
+		btnVertedero.setContentAreaFilled(false);
+		btnVertedero.setBorderPainted(false);
+		contentPane.add(btnVertedero);
+		
+		btnContribucionesCrisis = new JButton("");
+		btnContribucionesCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: CAMBIAR
+			}
+		});
+		btnContribucionesCrisis.setBounds(1210, 699, 129, 158);
+		btnContribucionesCrisis.setOpaque(false);
+		btnContribucionesCrisis.setContentAreaFilled(false);
+		btnContribucionesCrisis.setBorderPainted(false);
+		contentPane.add(btnContribucionesCrisis);
+		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
 		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/PartidaDeSaqueo.jpg"));
 		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
-		
-
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		switch(objetivo){
