@@ -43,4 +43,8 @@ public class Objetivo_Principal {
 	public boolean completado() {
 		return estado;
 	}
+	
+	public int getId() {
+		return objetivo;
+	}
 }

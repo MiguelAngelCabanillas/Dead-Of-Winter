@@ -22,14 +22,13 @@ import Partida.*;
 
 public class FrameTablero extends JFrame {
 
-	private static int objetivo,objetivoSecreto;
+	private static int objetivo,objetivoSecreto,idJug,idCrisis;
 	private static Usuario usuario;
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
-	private JLabel aux;
 	private Point p;
-	private JLabel lblTablero,fichMoral,fichRonda;
+	private JLabel lblTablero,fichMoral,fichRonda,aux;
 
 	private JLabel fichZ1ColoniaZona1,fichZ2ColoniaZona1,fichZ3ColoniaZona1,fichZ1ColoniaZona2,fichZ2ColoniaZona2,fichZ3ColoniaZona2,
 	fichZ1ColoniaZona3,fichZ2ColoniaZona3,fichZ3ColoniaZona3,fichZ1ColoniaZona4,fichZ2ColoniaZona4,fichZ3ColoniaZona4,
@@ -42,22 +41,20 @@ public class FrameTablero extends JFrame {
 	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
 	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
 	
-	private HashMap<Integer,JLabel[]> supMap;
+	private HashMap<Integer,JLabel[]> supMap,objMap;
 	private static List<String> nombresJugadores;
 	private HashMap<Integer, JLabel> cartMap;
-	private HashMap<Integer,JLabel[]> objMap;
 	private List<Integer> dados;
 	private static List<Integer> nCartasJugadores;
 	private HashMap<Integer,JLabel> supIndMap;
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private ObjPrincipal auxObj;
+	private Crisis crisis;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
 	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
-	private static int idJug;
-	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
 								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};
@@ -78,6 +75,9 @@ public class FrameTablero extends JFrame {
 			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
 	
 	private static Thread hilo;
+	private JButton btnFichasComida;
+	private JButton btnVertedero;
+	private JButton btnContribucionesCrisis;
 
 	/**
 	 * Launch the application.
@@ -571,7 +571,7 @@ public class FrameTablero extends JFrame {
 				if(infoTab != null) {
 					infoTab.dispose();
 				}
-				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso);
+				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores);
 				infoTab.setVisible(true);
 			}
 		});
@@ -587,11 +587,28 @@ public class FrameTablero extends JFrame {
 				}
 				auxObj = new ObjPrincipal(objetivo);
 				auxObj.setVisible(true);
-				
 			}
 		});
 		ObjetivoPrin.setBounds(911, 699, 123, 158);
 		contentPane.add(ObjetivoPrin);
+		
+		JButton btnCartaCrisis = new JButton("");
+		btnCartaCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(crisis != null) {
+					crisis.dispose();
+				}
+				crisis = new Crisis(301, aso);
+				crisis.setVisible(true);
+			}
+		});
+		btnCartaCrisis.setBounds(1062, 699, 123, 158);
+		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(301).getIcon();
+		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
+		btnCartaCrisis.setIcon(new ImageIcon(img));
+		contentPane.add(btnCartaCrisis);
+		
+		
 		
 		JButton btnSendChat = new JButton(">");
 		btnSendChat.addActionListener(new ActionListener() {
@@ -679,13 +696,47 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
+		btnFichasComida = new JButton("");
+		btnFichasComida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + 5); //TODO: CAMBIAR
+			}
+		});
+		btnFichasComida.setBounds(1165, 538, 107, 113);
+		btnFichasComida.setOpaque(false);
+		btnFichasComida.setContentAreaFilled(false);
+		btnFichasComida.setBorderPainted(false);
+		contentPane.add(btnFichasComida);
+		
+		btnVertedero = new JButton("");
+		btnVertedero.setBounds(973, 539, 173, 112);
+		btnVertedero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + 3); //TODO: CAMBIAR
+			}
+		});
+		btnVertedero.setOpaque(false);
+		btnVertedero.setContentAreaFilled(false);
+		btnVertedero.setBorderPainted(false);
+		contentPane.add(btnVertedero);
+		
+		btnContribucionesCrisis = new JButton("");
+		btnContribucionesCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: CAMBIAR
+			}
+		});
+		btnContribucionesCrisis.setBounds(1210, 699, 129, 158);
+		btnContribucionesCrisis.setOpaque(false);
+		btnContribucionesCrisis.setContentAreaFilled(false);
+		btnContribucionesCrisis.setBorderPainted(false);
+		contentPane.add(btnContribucionesCrisis);
+		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
 		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/PartidaDeSaqueo.jpg"));
 		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
-		
-
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		switch(objetivo){
@@ -835,7 +886,7 @@ public class FrameTablero extends JFrame {
 		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
 	}
 	
-	//AÑADIR SUUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
+	//AÑADIR SUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
 	//ARG0 ID SUPIND, ARG1 POSCION VALIDA COLONIA EMPEZANDO POR FINAL
 	public void anyadirSupIndef(int id,int pos) { //deberiamos de pasarle algun id que lo identifique nSupInd, podriamos crear otro diccionario
 		aux = new JLabel("");
@@ -919,6 +970,10 @@ public class FrameTablero extends JFrame {
 	
 	public void setMoral(int moral) {
 		fichMoral.setLocation(locMoral[moral-1]);
+	}
+	
+	public static void setCrisis(int crisis) {
+		idCrisis = crisis;
 	}
 	
 	public static void setNombreJugadores(String n) {

@@ -3,6 +3,7 @@ package Partida;
 import java.util.ArrayList;
 import java.util.List;
 
+import Cartas.Carta;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
 
@@ -17,9 +18,10 @@ public class Jugador {
 	
 	//DATOS DEL JUGADOR
 	private List<Carta_Supervivientes> mazoSuperviviente;
-	private List<Carta_Objeto> mazoObjeto;
+	private List<Carta> mazoObjeto;
 	private List<Dado> dados;
 	private DadoDeRiesgo riesgo;
+	private Objetivo_Principal objetivo;
 	
 	//DATOS DE CONTROL
 	private static Tablero tablero;
@@ -28,13 +30,15 @@ public class Jugador {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Jugador(int id, List<Carta_Objeto> mazo, Tablero t) {
+	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o) {
 		this.id = id;
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
-		this.mazoObjeto  = mazo;
+		this.mazoObjeto  = mazoJugador;
 		this.dados = new ArrayList<Dado>();
 		this.riesgo = new DadoDeRiesgo();
+		
+		this.objetivo = o;
 		
 		tablero = t;
 	}
@@ -66,15 +70,12 @@ public class Jugador {
 	
 	//METODOS DE RONDA
 	public String tirarDados() {
-		String salida = ""; int i = 0;
+		String salida = Integer.toString(dados.size());
 		
 		for(Dado d : dados) {
 			d.tirarDado();
-			if(i != 0) {
-				salida += "|";
-			}
+			salida += "|";
 			salida += d.getValor();
-			i++;
 		}
 		
 		return salida;
@@ -266,14 +267,19 @@ public class Jugador {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Dado dado = valorDado(personaje.getAtaque());
 		String salida = "";
+		Carta aux;
 		
 		//SI HAY DADO Y EL SUPERVIVIENTE NO ESTA EN LA COLONIA
 		if(dado != null && !getLocalizacion(6).equals(localizacion(personaje))) {
-			salida += localizacion(personaje).cogerCarta().getId();
+			aux = localizacion(personaje).cogerCarta();
+			salida += aux.getId();
+			mazoObjeto.add((Carta) aux);
 			
 			//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
 			if(getLocalizacion(personaje.doble()).equals(localizacion(personaje))) {
-				salida += "|" + localizacion(personaje).cogerCarta().getId();
+				aux = localizacion(personaje).cogerCarta();
+				salida += "|" + aux.getId();
+				mazoObjeto.add((Carta) aux);
 			}
 		}
 		

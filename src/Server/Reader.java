@@ -59,12 +59,7 @@ private BufferedReader buffer;
 				usuario = split[0];
 				
 				user = buscarUsuarioConectado(usuario);
-				if(split[1] != null) {
-					continue;
-				}
-				if(split[1].length() > 10) {
-					continue;
-				}
+				
 					idSala = Integer.parseInt(split[1]);
 				if(idSala == -1) {
 					idSala = getIdSalaLibre();
