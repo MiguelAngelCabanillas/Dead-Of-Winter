@@ -593,11 +593,14 @@ public class FrameTablero extends JFrame {
 				if(crisis != null) {
 					crisis.dispose();
 				}
-				crisis = new Crisis(idCrisis,aso);
+				crisis = new Crisis(301, aso);
 				crisis.setVisible(true);
 			}
 		});
 		btnCartaCrisis.setBounds(1062, 699, 123, 158);
+		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(301).getIcon();
+		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
+		btnCartaCrisis.setIcon(new ImageIcon(img));
 		contentPane.add(btnCartaCrisis);
 		
 		JButton btnSendChat = new JButton(">");
@@ -842,7 +845,7 @@ public class FrameTablero extends JFrame {
 		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
 	}
 	
-	//AÑADIR SUUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
+	//AÑADIR SUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
 	//ARG0 ID SUPIND, ARG1 POSCION VALIDA COLONIA EMPEZANDO POR FINAL
 	public void anyadirSupIndef(int id,int pos) { //deberiamos de pasarle algun id que lo identifique nSupInd, podriamos crear otro diccionario
 		aux = new JLabel("");
