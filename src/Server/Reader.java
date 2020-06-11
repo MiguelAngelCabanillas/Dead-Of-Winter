@@ -59,9 +59,7 @@ private BufferedReader buffer;
 				usuario = split[0];
 				
 				user = buscarUsuarioConectado(usuario);
-				if(split[1].length() > 10) {
-					continue;
-				}
+				
 					idSala = Integer.parseInt(split[1]);
 				if(idSala == -1) {
 					idSala = getIdSalaLibre();
@@ -276,6 +274,7 @@ private BufferedReader buffer;
 						  }
 						  System.out.println(mensIds);
 					   }
+					   
 					   user.enviarALaSala("exit|tablero|" + split[4]);
 					   
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {					   
@@ -283,9 +282,13 @@ private BufferedReader buffer;
 						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
-							  user.hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
+							  //ENVIA LOS DADOS A CADA JUGADOR//
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));
+							  
 							  System.out.println(mensInit);
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
+							  System.out.println("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));
 						  }
 					   }
 						  

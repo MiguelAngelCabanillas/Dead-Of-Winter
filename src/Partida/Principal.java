@@ -85,7 +85,12 @@ public class Principal {
 		}
 		int i = 0;
 		
+<<<<<<< HEAD
 		//SE TIRAN LOS DADOS
+=======
+		dados = new String[numJugadores];
+		
+>>>>>>> f9c7546dd2a102d96f0d7e12f419d24d2cf772cb
 		for(Jugador j : jugadores) {
 			dados[i] = j.tirarDados();
 			i++;
@@ -323,6 +328,7 @@ public class Principal {
 		return dados[jugador];
 	}
 	
+<<<<<<< HEAD
 	public int getRonda() {
 		return rondasRestantes;
 	}
@@ -331,6 +337,12 @@ public class Principal {
 		return moral;
 	}
 	
+=======
+	public int getRondasRestantes() {
+		return rondasRestantes;
+	}
+	
+>>>>>>> f9c7546dd2a102d96f0d7e12f419d24d2cf772cb
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS AUXILIARES
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import Gui.FrameSala;
@@ -14,6 +15,7 @@ import Gui.FrameTablero;
 
 public class ClientReader implements Runnable {
 
+	private Random rnd;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -122,6 +124,7 @@ public class ClientReader implements Runnable {
                 case "ids": //ids|nombreJug1|nombreJug2|nombreJug3
                 	for(int k = 1; k < split.length; k++) {
                 		jugadores.add(split[k]);
+                		FrameTablero.setNombreJugadores(split[k]);
                 	}
                 	break;	
 
@@ -131,6 +134,23 @@ public class ClientReader implements Runnable {
                         idCarta = Integer.parseInt(split[j]);
                         tablero.addCartaJug(idCarta); //añadimos cartas a la lista del jugador al que se le asigna
                 	}
+                    FrameTablero.initListCartas(jugadores.size());
+                	break;
+                	
+                case "updtCartas": //updtCartas|idJug|nCartas
+                    FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+                	break;
+                	
+                case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
+                	tablero.setRonda(Integer.parseInt(split[1]));
+                	FrameTablero.setCrisis(Integer.parseInt(split[2]));
+                	for(int j = 3; j<split.length;j++) {
+                		tablero.tiradaDados(Integer.parseInt(split[j]));
+                	}
+                	break;
+                
+                case "moral": //moral|nuevoValorMoral
+                	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
                 	
                 default:
