@@ -186,5 +186,9 @@ public class ClientReader implements Runnable {
 	public List<String> getJugadores(){
     	return jugadores;
     }
+	
+	public Socket getSocket() {
+		return socket;
+	}
 
 }
