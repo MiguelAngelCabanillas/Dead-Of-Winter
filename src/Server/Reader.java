@@ -273,7 +273,7 @@ private BufferedReader buffer;
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  //ENVIA LOS DADOS A CADA JUGADOR//
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + 1/*user.getSala().getPartida().getRonda()*/ + "|" + 1/* user.getSala().getPartida().getCrisis()*/ +  "|" + user.getSala().getPartida().getDados(i));
 							  
 							  System.out.println(mensInit);
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
