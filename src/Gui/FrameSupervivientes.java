@@ -24,7 +24,6 @@ public class FrameSupervivientes extends JFrame {
 	private static HashMap<Integer, JLabel[]> carta;
 	private static String id;
 	private static int[] heridas;
-//	private Asociaciones asociaciones;
 	/**
 	 * Launch the application.
 	 */
@@ -32,7 +31,6 @@ public class FrameSupervivientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					FrameSupervivientes frame = new FrameSupervivientes(carta);
 					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridas);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -49,9 +47,11 @@ public class FrameSupervivientes extends JFrame {
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id) {
 		this(carta, id, null);
 	}
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, int[] heridas) {
 		
-//		asociaciones = new Asociaciones();
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,27 +66,73 @@ public class FrameSupervivientes extends JFrame {
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(10, 11,  406, 575);
-//		ImageIcon icon = (ImageIcon) carta;
-//		Image img = icon.getImage().getScaledInstance(406, 517, java.awt.Image.SCALE_SMOOTH);
-		lblNewLabel.setIcon(carta.get(Integer.parseInt(id))[1].getIcon());
-//		lblNewLabel.setIcon(new ImageIcon(img));
+		JLabel lblSuperviviente = new JLabel("");
+		lblSuperviviente.setBounds(10, 12,  406, 575);
+		lblSuperviviente.setIcon(carta.get(Integer.parseInt(id))[1].getIcon());
+
 		
-		JButton btnNewButton = new JButton("OK\r\n");
+		JButton btnNewButton = new JButton("Volver\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		
+		JLabel lblHeridaCongelacion = new JLabel("");
+		lblHeridaCongelacion.setBounds(89, 184, 100, 100);
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("/Fichas/Herida-Congelacion.png"));
+		Image heridaCongelacion = icon.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		
+		
+		JLabel lblHerida = new JLabel("");
+		lblHerida.setBounds(223, 315, 100, 100);
+		icon = new ImageIcon(this.getClass().getResource("/Fichas/Herida.png"));
+		Image heridaNormal = icon.getImage().getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		
+		
+		
+		
+		//Se encarga de poner las heridas manuelamente (Automatico necesito asoc con las heridas)
+		switch (heridas[0]) {
+		case 2:
+			lblHerida.setIcon(new ImageIcon(heridaNormal));
+			lblHeridaCongelacion.setIcon(new ImageIcon(heridaNormal));
+			contentPane.add(lblHerida);	
+			contentPane.add(lblHeridaCongelacion);
+			break;
+		case 1:
+			lblHerida.setIcon(new ImageIcon(heridaNormal));
+			contentPane.add(lblHerida);	
+		default:
+			break;
+		}
+		
+		switch (heridas[1]) {
+		case 2:
+			lblHerida.setIcon(new ImageIcon(heridaCongelacion));
+			lblHeridaCongelacion.setIcon(new ImageIcon(heridaCongelacion));
+			contentPane.add(lblHerida);	
+			contentPane.add(lblHeridaCongelacion);
+			break;
+		case 1:
+			lblHeridaCongelacion.setIcon(new ImageIcon(heridaCongelacion));
+			contentPane.add(lblHeridaCongelacion);
+		default:
+			break;
+		}
+		
+		
+		
+		
+		
 		btnNewButton.setBounds(168, 598, 95, 38);
 		contentPane.add(btnNewButton);
-		contentPane.add(lblNewLabel);
+		contentPane.add(lblSuperviviente);
 		
 		if(heridas != null) {
 		System.out.println(heridas[0] + ", " + heridas[1]);
 		}
-		
 	}
 	private void ajustarAPantalla() {
 		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();

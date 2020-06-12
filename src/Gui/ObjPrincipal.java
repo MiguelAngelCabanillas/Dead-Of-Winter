@@ -73,7 +73,7 @@ public class ObjPrincipal extends JFrame {
 			lblNewLabel.setIcon(new ImageIcon(img3));
 		}
 		
-		JButton btnNewButton = new JButton("OK\r\n");
+		JButton btnNewButton = new JButton("Volver\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
