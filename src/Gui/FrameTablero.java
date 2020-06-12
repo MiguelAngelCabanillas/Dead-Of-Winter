@@ -107,8 +107,9 @@ public class FrameTablero extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws InterruptedException 
 	 */
-	public FrameTablero(int objetivo, Usuario user) {
+	public FrameTablero(int objetivo, Usuario user){
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -483,6 +484,12 @@ public class FrameTablero extends JFrame {
 //		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
 		hilo.start();
+		
+		try {
+			Thread.sleep(100); //PARA QUE LE DE TIEMPO A PILLAR EL idCrisis
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 		
 		//HAY QUE PONERLO DESPUES DE INICIAR EL HILO
 		JButton btnCartaCrisis = new JButton("");
