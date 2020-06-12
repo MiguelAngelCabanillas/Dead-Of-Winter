@@ -17,6 +17,8 @@ public class Principal {
 	
 	private int moral;
 	private int rondasRestantes;
+	private int[] rondasRestantesObj = {6, 6} ;
+	private int[] moralObj = {6, 5};
 	
 	private List<Jugador> jugadores = new ArrayList<>();
 	private Tablero tablero;
@@ -48,6 +50,8 @@ public class Principal {
 	
 	public Principal(int objetivo) {
 		this.objetivo = new Objetivo_Principal(objetivo);
+		moral = moralObj[objetivo-1];
+		rondasRestantes = rondasRestantesObj[objetivo-1];
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,11 +87,17 @@ public class Principal {
 			}
 			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo));
 		}
-		int i = 0;
+		
 		//SE TIRAN LOS DADOS
 		dados = new String[numJugadores];
 
+		
+	}
+	
+	public void inicDados() {
+		int i = 0;
 		for(Jugador j : jugadores) {
+			j.anyadirDados();
 			dados[i] = j.tirarDados();
 			i++;
 		}

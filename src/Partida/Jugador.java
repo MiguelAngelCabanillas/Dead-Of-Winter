@@ -70,8 +70,7 @@ public class Jugador {
 	
 	//METODOS DE RONDA
 	public String tirarDados() {
-		String salida = Integer.toString(dados.size());
-		
+		String salida = "";
 		for(Dado d : dados) {
 			d.tirarDado();
 			salida += "|";
@@ -82,7 +81,7 @@ public class Jugador {
 	}
 	
 	public void anyadirDados() {
-		for (int i = 0; i < this.mazoSuperviviente.size(); ++i) {
+		while(dados.size() <= mazoSuperviviente.size()) {
 			this.dados.add(new Dado());
 		}
 	}
@@ -180,7 +179,7 @@ public class Jugador {
 	
 	//AÑADE UN SUPERVIVIENTE AL JUGADOR
 	public void addSuperviviente(int id) {
-	
+		mazoSuperviviente.add(new Carta_Supervivientes(id, 0, 0, 0));
 	}
 	
 	//DEVUELVE EL SUPERVIVIENTE QUE EL JUGADOR TIENE EN LA LOCALIZACION

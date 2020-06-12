@@ -207,7 +207,7 @@ public class FrameSala extends JFrame {
 				//Partida.iniciar();
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
-					Thread.sleep(500);
+					Thread.sleep(20);
 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
 						btnNewButton.setEnabled(false);

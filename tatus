@@ -1,0 +1,132 @@
+[1mdiff --git a/src/Gui/FrameSala.java b/src/Gui/FrameSala.java[m
+[1mindex b733069..5139f2d 100644[m
+[1m--- a/src/Gui/FrameSala.java[m
+[1m+++ b/src/Gui/FrameSala.java[m
+[36m@@ -207,7 +207,7 @@[m [mpublic class FrameSala extends JFrame {[m
+ 				//Partida.iniciar();[m
+ 				try {[m
+ 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");[m
+[31m-					Thread.sleep(500);[m
+[32m+[m					[32mThread.sleep(20);[m[41m[m
+ 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA[m
+ 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );[m
+ 						btnNewButton.setEnabled(false);[m
+[1mdiff --git a/src/Gui/FrameSupervivientes.java b/src/Gui/FrameSupervivientes.java[m
+[1mindex 06a237d..0ab9b48 100644[m
+[1m--- a/src/Gui/FrameSupervivientes.java[m
+[1m+++ b/src/Gui/FrameSupervivientes.java[m
+[36m@@ -45,6 +45,10 @@[m [mpublic class FrameSupervivientes extends JFrame {[m
+ 	/**[m
+ 	 * Create the frame.[m
+ 	 */[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id) {[m
+[32m+[m		[32mthis(carta, id, null);[m
+[32m+[m	[32m}[m
+ 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, int[] heridas) {[m
+ 		[m
+ //		asociaciones = new Asociaciones();[m
+[36m@@ -79,7 +83,9 @@[m [mpublic class FrameSupervivientes extends JFrame {[m
+ 		contentPane.add(btnNewButton);[m
+ 		contentPane.add(lblNewLabel);[m
+ 		[m
+[32m+[m		[32mif(heridas != null) {[m
+ 		System.out.println(heridas[0] + ", " + heridas[1]);[m
+[32m+[m		[32m}[m
+ 		[m
+ 	}[m
+ 	private void ajustarAPantalla() {[m
+[1mdiff --git a/src/Gui/FrameTablero.java b/src/Gui/FrameTablero.java[m
+[1mindex 55d4aa0..c65224a 100644[m
+[1m--- a/src/Gui/FrameTablero.java[m
+[1m+++ b/src/Gui/FrameTablero.java[m
+[36m@@ -55,12 +55,9 @@[m [mpublic class FrameTablero extends JFrame {[m
+ 	private InfoJugador infoJug;[m
+ 	private FrameMoverse frameMoverse;[m
+ 	private InfoTablero infoTab;[m
+[31m-<<<<<<< HEAD[m
+[31m-	[m
+[32m+[m[41m[m
+ 	private static int[] heridas = new int[2];[m
+ 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS[m
+[31m-=======[m
+[31m->>>>>>> 72cf0d6e53334038235616c5894dadd9ccdcbccf[m
+ 	[m
+ 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),[m
+ 								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};[m
+[1mdiff --git a/src/Partida/Principal.java b/src/Partida/Principal.java[m
+[1mindex 5d54e88..7e877a7 100644[m
+[1m--- a/src/Partida/Principal.java[m
+[1m+++ b/src/Partida/Principal.java[m
+[36m@@ -83,11 +83,17 @@[m [mpublic class Principal {[m
+ 			}[m
+ 			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo));[m
+ 		}[m
+[31m-		int i = 0;[m
+[32m+[m[41m		[m
+ 		//SE TIRAN LOS DADOS[m
+ 		dados = new String[numJugadores];[m
+ [m
+[32m+[m[41m		[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic void inicDados() {[m
+[32m+[m		[32mint i = 0;[m
+ 		for(Jugador j : jugadores) {[m
+[32m+[m			[32mj.anyadirDados();[m
+ 			dados[i] = j.tirarDados();[m
+ 			i++;[m
+ 		}[m
+[1mdiff --git a/src/Server/Reader.java b/src/Server/Reader.java[m
+[1mindex e75ef91..4fc479d 100644[m
+[1m--- a/src/Server/Reader.java[m
+[1m+++ b/src/Server/Reader.java[m
+[36m@@ -262,22 +262,20 @@[m [mprivate BufferedReader buffer;[m
+ 							  System.out.println((int)i/2 + ", " + sups.get(i));[m
+ 						  }[m
+ 						  System.out.println(mensIds);[m
+[31m-					   }[m
+[31m-					   [m
+[31m-					   user.enviarALaSala("exit|tablero|" + split[4]);[m
+[31m-					   [m
+[31m-					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {					   [m
+[32m+[m[41m						  [m
+[32m+[m						[32m   user.enviarALaSala("exit|tablero|" + split[4]);[m[41m[m
+[32m+[m[41m						   [m
+ 						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {  [m
+ 						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario[m
+ 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);[m
+ 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);[m
+ 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));[m
+ 							  //ENVIA LOS DADOS A CADA JUGADOR//[m
+[31m-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));[m
+[32m+[m							[32m  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|1|" + user.getSala().getPartida().getDados(i));[m[41m[m
+ 							  [m
+ 							  System.out.println(mensInit);[m
+ 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));[m
+[31m-							  System.out.println("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));[m
+[32m+[m							[32m  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getDados(i));[m[41m[m
+ 						  }[m
+ 					   }[m
+ 						  [m
+[36m@@ -285,12 +283,14 @@[m [mprivate BufferedReader buffer;[m
+ 						  [m
+ 						 }[m
+ 					 break;[m
+[31m-//				case "newRound": // Me hace falta la ronda actual[m
+[31m-//					user.enviarALaSala("newRound|" + user.getSala().getPartida().getRonda() + "|" user.getSala().getPartida().getCrisis() + "|" + user.getSala().getPartida().getDados(user.getJugador().getId()));[m
+[31m-//					break;[m
+[31m-//				case "moral":[m
+[31m-//					user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());[m
+[31m-//					break;[m
+[32m+[m				[32mcase "newRound": // Me hace falta la crisis[m[41m[m
+[32m+[m					[32mfor(Usuario usario : user.getSala().getUsuarios()) {[m[41m[m
+[32m+[m					[32musario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|1" /*user.getSala().getPartida().getCrisis()*/ + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));[m[41m[m
+[32m+[m					[32m}[m[41m[m
+[32m+[m					[32mbreak;[m[41m[m
+[32m+[m				[32mcase "moral":[m[41m[m
+[32m+[m					[32muser.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());[m[41m[m
+[32m+[m					[32mbreak;[m[41m[m
+ 				case "heridas":[m
+ 					user.hacerPeticionAlServidor("heridas|2|0");[m
+ 					System.out.println("heridas|2|0");[m
