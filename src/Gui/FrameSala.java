@@ -1,8 +1,6 @@
 package Gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -28,8 +26,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
-import Partida.Principal;
 
 public class FrameSala extends JFrame {
 
@@ -115,7 +111,7 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
-					Thread.sleep(100); //espera a recibir la confirmación del servidor
+					Thread.sleep(200); //espera a recibir la confirmación del servidor
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -200,9 +196,9 @@ public class FrameSala extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		
-		JButton btnNewButton = new JButton("Iniciar la partida con los jugadores conectados");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnIniciarPartida = new JButton("Iniciar la partida con los jugadores conectados");
+		btnIniciarPartida.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnIniciarPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Partida.iniciar();
 				try {
@@ -210,10 +206,11 @@ public class FrameSala extends JFrame {
 					Thread.sleep(20);
 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
-						btnNewButton.setEnabled(false);
+						btnIniciarPartida.setEnabled(false);
 					} else {
 						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
 					}
+					
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -223,8 +220,8 @@ public class FrameSala extends JFrame {
 				
 			}
 		});
-		btnNewButton.setBounds(174, 449, 512, 51);
-		contentPane.add(btnNewButton);
+		btnIniciarPartida.setBounds(174, 449, 512, 51);
+		contentPane.add(btnIniciarPartida);
 		
 		JButton btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
 		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));

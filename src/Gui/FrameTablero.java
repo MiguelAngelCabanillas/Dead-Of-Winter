@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Partida.*;
-
 public class FrameTablero extends JFrame {
 
 	private static int objetivo,objetivoSecreto,idJug,idCrisis;
@@ -30,12 +28,11 @@ public class FrameTablero extends JFrame {
 	private Point p;
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 
-	private HashMap<Integer,JLabel[]> supMap,objMap;
+	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
-	private HashMap<Integer, JLabel> cartMap;
-	private List<Integer> dados;
-	private static List<Integer> nCartasJugadores;
-	private HashMap<Integer,JLabel> supIndMap;
+	private List<Integer> dados; //puntuación de los dado del jugador
+	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
+	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private List<List<JLabel>> labelsZombies;
@@ -49,14 +46,12 @@ public class FrameTablero extends JFrame {
 
 
 	private static int[] heridas = new int[2];
-	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
-
 	
-	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
-								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};
+	private Point locRonda[] = {new Point(1061,915),new Point(1018,915),new Point(977,915),new Point(934,915),new Point(892,915),new Point(849,915),
+								new Point(808,915),new Point(765,915),new Point(723,915),new Point(680,915)};
 	
-	private Point locMoral[] = {new Point(1144,914),new Point(1187,914),new Point(1229,914),new Point(1272,914),new Point(1315,914),new Point(1357,914),
-								new Point(1398,914),new Point(1440,914),new Point(1483,914),new Point(1526,914)};
+	private Point locMoral[] = {new Point(1144,915),new Point(1187,915),new Point(1229,915),new Point(1272,915),new Point(1315,915),new Point(1357,915),
+								new Point(1398,915),new Point(1440,915),new Point(1483,915),new Point(1526,915)};
 	
 	private Point locColonia[] = {new Point(974,340),new Point(1026,340),new Point(1080,340),new Point(1132,340),new Point(1185,340),new Point(1238,340),
 									new Point(974,390),new Point(1026,390), new Point(1080,390),new Point(1132,390),new Point(1185,390),new Point(1238,390),
@@ -70,19 +65,19 @@ public class FrameTablero extends JFrame {
 			locHospital[] = {new Point(1500,472),new Point(1548,472),new Point(1594,472),new Point(1641,472)},
 			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
 		
-	private Point locZComisaria[] = {new Point(568,223),new Point(616,223),new Point(664,222),new Point(712,222)},
-			locZSuperm[] = {new Point(568,530),new Point(616,530),new Point(664,530),new Point(712,530)},
-			locZColegio[] = {new Point(568,836),new Point(616,836),new Point(664,836),new Point(712,836)},
-			locZGasolinera[] = {new Point(1525,223),new Point(1573,223),new Point(1621,223)},
-			locZHospital[] = {new Point(1500,530),new Point(1548,530),new Point(1596,530),new Point(1644,530)},
-			locZBiblioteca[] = {new Point(1525,836),new Point(1573,836),new Point(1621,836)};
+	private Point locZComisaria[] = {new Point(568,222),new Point(616,222),new Point(663,222),new Point(711,222)},
+			locZSuperm[] = {new Point(568,529),new Point(616,529),new Point(664,529),new Point(712,529)},
+			locZColegio[] = {new Point(568,837),new Point(616,837),new Point(664,837),new Point(711,837)},
+			locZGasolinera[] = {new Point(1524,221),new Point(1572,222),new Point(1620,221)},
+			locZHospital[] = {new Point(1500,529),new Point(1548,529),new Point(1596,529),new Point(1644,529)},
+			locZBiblioteca[] = {new Point(1524,837),new Point(1572,837),new Point(1620,837)};
 	
 	private Point locZColoniaZ1[] = {new Point(872,367),new Point(911,347),new Point(910,388)},
-			locZColoniaZ2[] = {new Point(872,480),new Point(911,460),new Point(910,501)},
+			locZColoniaZ2[] = {new Point(872,480),new Point(911,460),new Point(911,501)},
 			locZColoniaZ3[] = {new Point(872,592),new Point(911,571),new Point(910,612)},
-			locZColoniaZ4[] = {new Point(1341,592),new Point(1303,571),new Point(1304,612)},
-			locZColoniaZ5[] = {new Point(1341,481),new Point(1303,460),new Point(1304,501)},
-			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,388)};
+			locZColoniaZ4[] = {new Point(1341,592),new Point(1303,571),new Point(1304,611)},
+			locZColoniaZ5[] = {new Point(1341,481),new Point(1303,460),new Point(1304,500)},
+			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,387)};
 	
 	private static Thread hilo;
 	private JButton btnFichasComida;
@@ -119,13 +114,12 @@ public class FrameTablero extends JFrame {
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		
-		this.objetivo = objetivo;
-		this.usuario = user;
+		FrameTablero.objetivo = objetivo;
+		FrameTablero.usuario = user;
 		usuario.getClientReader().setTablero(this);
 		usuario.getClientReader().setSala(null);
 		aso = new Asociaciones();
 		supMap = aso.getSupMap();
-		cartMap = aso.getCartasObjetos();
 		supJugadores = new HashMap<>();
 		cartasJugador = new ArrayList<>();
 		supIndMap = new HashMap<>();
@@ -279,6 +273,11 @@ public class FrameTablero extends JFrame {
 		JButton btnFinalizarTurno = new JButton("FINALIZAR TURNO");
 		btnFinalizarTurno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				try {
+					usuario.hacerPeticionAlServidor("finturno|"+idJug);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		btnFinalizarTurno.setBackground(new Color(67,73,114));
