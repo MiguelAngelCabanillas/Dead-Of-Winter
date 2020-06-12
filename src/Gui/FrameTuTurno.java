@@ -25,8 +25,6 @@ public class FrameTuTurno extends JFrame {
 				try {
 					FrameTuTurno frame = new FrameTuTurno();
 					frame.setVisible(true);
-					Thread.sleep(3000);
-					frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,13 +37,12 @@ public class FrameTuTurno extends JFrame {
 	 */
 	public FrameTuTurno() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 780, 159);
 		setUndecorated(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/TuTurno.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		setBackground(new Color(0, 0, 0, 0));
 		
 		JLabel lblturno = new JLabel("");
@@ -54,6 +51,8 @@ public class FrameTuTurno extends JFrame {
 		lblturno.setBounds(12, 13, 912, 133);
 		lblturno.setIcon(new ImageIcon(img));
 		setBounds(0, 0, 912, 133);
+		setLocationRelativeTo(null);		
 		contentPane.add(lblturno);
+
 	}
 }
