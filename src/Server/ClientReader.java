@@ -63,8 +63,6 @@ public class ClientReader implements Runnable {
                 case "exit":
                 	try {
 						if(split[1].equals("tablero")) { // Inicializar
-							
-							
 							sala.avanzarATablero(Integer.parseInt(split[2]));
 						} else {
 							sala.salirSala();
@@ -143,8 +141,9 @@ public class ClientReader implements Runnable {
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
-                	//FrameTablero.setCrisis(Integer.parseInt(split[2]));
-                	for(int j = 2; j<split.length;j++) {
+            		System.out.println("IDCRISIS CR: " +split[2]);
+                	FrameTablero.setCrisis(Integer.parseInt(split[2]));
+                	for(int j = 3; j<split.length;j++) {
                 		tablero.tiradaDados(Integer.parseInt(split[j]));
                 	}
                 	break;

@@ -162,7 +162,7 @@ public class InfoJugador extends JFrame {
 		for (int d = 0; d < dados.size(); d++) {
 			p = posDado[d];
 			labelsDados[d] = new JLabel(String.valueOf(dados.get(d)));
-			icon = (ImageIcon) aso.getDados().get(dados.get(d)).getIcon();
+			icon = (ImageIcon) aso.getDados().get(dados.get(d)+399).getIcon();
 			img = icon.getImage().getScaledInstance(73, 68, java.awt.Image.SCALE_SMOOTH);
 			labelsDados[d].setIcon(new ImageIcon(img));
 			labelsDados[d].setBounds(p.x, p.y, 73, 68);
