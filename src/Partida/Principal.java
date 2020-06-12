@@ -452,6 +452,8 @@ public class Principal {
 			for(int i = 0; i < 5; i++) {
 				enPartida.peek().recibirHerida(true);
 			}
+			
+			actualizarTodosSupervivientes();
 		}
 		break;
 		case 1 : {
@@ -502,6 +504,8 @@ public class Principal {
 			tablero.getHospital().anyadirZombie();
 			tablero.getSupermercado().anyadirZombie();
 			
+			
+			//TODO CAMBIAR EL AÑADIR ZOMBIES PARA QUE SEAN EN RELOJ
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
