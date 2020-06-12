@@ -46,7 +46,8 @@ public class FrameTablero extends JFrame {
 	private InfoJugador infoJug;
 	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
-	
+
+
 	private static int[] heridas = new int[2];
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
 

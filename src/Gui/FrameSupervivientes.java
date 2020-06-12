@@ -45,6 +45,10 @@ public class FrameSupervivientes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id) {
+		this(carta, id, null);
+	}
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, int[] heridas) {
 		
 //		asociaciones = new Asociaciones();
@@ -79,7 +83,9 @@ public class FrameSupervivientes extends JFrame {
 		contentPane.add(btnNewButton);
 		contentPane.add(lblNewLabel);
 		
+		if(heridas != null) {
 		System.out.println(heridas[0] + ", " + heridas[1]);
+		}
 		
 	}
 	private void ajustarAPantalla() {
