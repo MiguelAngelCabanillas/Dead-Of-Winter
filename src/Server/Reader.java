@@ -25,7 +25,6 @@ private List<Sala> salas;
 
 private InputStreamReader reader;
 private BufferedReader buffer;
-private static int cuchillo = 0;
 
 
 	
@@ -221,6 +220,7 @@ private static int cuchillo = 0;
 						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
+						  user.getSala().setCuchillo(0);
 						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {
@@ -292,8 +292,8 @@ private static int cuchillo = 0;
 							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 						  }
 						  
-						  user.getSala().getUsuarios().get(cuchillo).hacerPeticionAlServidor("tuturno");
-						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(cuchillo).getNombre());
+						  user.getSala().getUsuarios().get(user.getSala().getCuchillo()).hacerPeticionAlServidor("tuturno");
+						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(user.getSala().getCuchillo()).getNombre());
 						  
 					   }
 					
@@ -301,9 +301,12 @@ private static int cuchillo = 0;
 					 break;
 				case "finturno": //finturno|idJugAnterior
 					int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
+					int cuchillo = user.getSala().getCuchillo();
 					if(idSig == cuchillo) {
-						cuchillo = (cuchillo + 1)%user.getSala().getUsuarios().size();
+						user.getSala().setCuchillo((cuchillo + 1)%user.getSala().getUsuarios().size());
+						cuchillo = user.getSala().getCuchillo();
 						user.getSala().getPartida().pasaRonda();
+						user.getSala().getPartida().pasaTurno(cuchillo);
 						for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
