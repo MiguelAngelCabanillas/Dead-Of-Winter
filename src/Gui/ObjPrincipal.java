@@ -59,27 +59,27 @@ public class ObjPrincipal extends JFrame {
 		
 		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
-		Image img2 = ima2.getImage().getScaledInstance(300, 420, java.awt.Image.SCALE_SMOOTH);
+		Image img2 = ima2.getImage().getScaledInstance(406, 572, java.awt.Image.SCALE_SMOOTH);
 		
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/PartidaDeSaqueo.jpg"));
-		Image img3 = ima3.getImage().getScaledInstance(300, 420, java.awt.Image.SCALE_SMOOTH);
+		Image img3 = ima3.getImage().getScaledInstance(406, 572, java.awt.Image.SCALE_SMOOTH);
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(10, 11, 300, 420);
+		lblNewLabel.setBounds(10, 11, 406, 572);
 		if(objetivo == 1) {
 			lblNewLabel.setIcon(new ImageIcon(img2));
 		}else if (objetivo == 2) {
 			lblNewLabel.setIcon(new ImageIcon(img3));
 		}
 		
-		JButton btnNewButton = new JButton("OK\r\n");
+		JButton btnNewButton = new JButton("Volver\r\n");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(115, 442, 89, 34);
+		btnNewButton.setBounds(154, 594, 121, 40);
 		contentPane.add(btnNewButton);
 		
 		
@@ -91,7 +91,7 @@ public class ObjPrincipal extends JFrame {
 		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
 	      int height = pantalla.height;
 	      int width = pantalla.width;
-	      setSize(326, 486);
+	      setSize(433, 646);
 
 	      setLocationRelativeTo(null);
 	}
