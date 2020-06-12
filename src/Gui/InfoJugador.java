@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -162,7 +163,7 @@ public class InfoJugador extends JFrame {
 		for (int d = 0; d < dados.size(); d++) {
 			p = posDado[d];
 			labelsDados[d] = new JLabel(String.valueOf(dados.get(d)));
-			icon = (ImageIcon) aso.getDados().get(dados.get(d)).getIcon();
+			icon = (ImageIcon) aso.getDados().get(dados.get(d)+399).getIcon();
 			img = icon.getImage().getScaledInstance(73, 68, java.awt.Image.SCALE_SMOOTH);
 			labelsDados[d].setIcon(new ImageIcon(img));
 			labelsDados[d].setBounds(p.x, p.y, 73, 68);
@@ -366,89 +367,103 @@ public class InfoJugador extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			switch (e.getActionCommand()) {
-			case "0":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[0].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "1":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[1].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "2":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[2].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "3":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[3].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "4":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[4].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "5":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[5].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "6":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[6].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "7":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[7].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "8":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[8].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "9":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[9].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "10":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[10].getText());
-				auxSuper.setVisible(true);
-				break;
-
-			default:
-				break;
+			if(auxSuper != null) {
+				auxSuper.dispose();
+			} 
+			
+			try {
+				FrameTablero.pedirHeridas(Integer.parseInt(botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()));
+				Thread.sleep(20);
+			} catch (InterruptedException | NumberFormatException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		}
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), FrameTablero.getHeridas());
+			auxSuper.setVisible(true);
+			
+//			switch (e.getActionCommand()) {
+//			case "0":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[0].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "1":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[1].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "2":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[2].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "3":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[3].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "4":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[4].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "5":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[5].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "6":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[6].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "7":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[7].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "8":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[8].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "9":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[9].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//			case "10":
+//				if(auxSuper != null) {
+//					auxSuper.dispose();
+//				} 
+//				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[10].getText());
+//				auxSuper.setVisible(true);
+//				break;
+//
+//			default:
+//				break;
+//			}
+    	}
 		
 	}
 }

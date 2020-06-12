@@ -23,6 +23,7 @@ public class FrameSupervivientes extends JFrame {
 	private JPanel contentPane;
 	private static HashMap<Integer, JLabel[]> carta;
 	private static String id;
+	private static int[] heridas;
 //	private Asociaciones asociaciones;
 	/**
 	 * Launch the application.
@@ -32,7 +33,7 @@ public class FrameSupervivientes extends JFrame {
 			public void run() {
 				try {
 //					FrameSupervivientes frame = new FrameSupervivientes(carta);
-					FrameSupervivientes frame = new FrameSupervivientes(carta, id);
+					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridas);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,11 @@ public class FrameSupervivientes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id) {
+		this(carta, id, null);
+	}
+	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, int[] heridas) {
 		
 //		asociaciones = new Asociaciones();
 		
@@ -78,6 +83,9 @@ public class FrameSupervivientes extends JFrame {
 		contentPane.add(btnNewButton);
 		contentPane.add(lblNewLabel);
 		
+		if(heridas != null) {
+		System.out.println(heridas[0] + ", " + heridas[1]);
+		}
 		
 	}
 	private void ajustarAPantalla() {

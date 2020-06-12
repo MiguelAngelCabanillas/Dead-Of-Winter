@@ -63,8 +63,6 @@ public class ClientReader implements Runnable {
                 case "exit":
                 	try {
 						if(split[1].equals("tablero")) { // Inicializar
-							
-							
 							sala.avanzarATablero(Integer.parseInt(split[2]));
 						} else {
 							sala.salirSala();
@@ -143,16 +141,22 @@ public class ClientReader implements Runnable {
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
-                	//FrameTablero.setCrisis(Integer.parseInt(split[2]));
-                	for(int j = 2; j<split.length;j++) {
+                	FrameTablero.setCrisis(Integer.parseInt(split[2]));
+                	for(int j = 3; j<split.length;j++) {
                 		tablero.tiradaDados(Integer.parseInt(split[j]));
+                		System.out.println("Dado: " + Integer.parseInt(split[j]));
                 	}
                 	break;
-                
                 case "moral": //moral|nuevoValorMoral
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
-                	
+                case "heridas":
+                	int[] heridas = new int[2];
+                	heridas[0] = Integer.parseInt(split[1]);
+                	heridas[1] = Integer.parseInt(split[2]);
+                	System.out.println("Entran " + split[1] + ", " + split[2]);
+                	FrameTablero.setHeridas(heridas);
+                	break;
                 default:
                     break;
                 }
@@ -191,5 +195,9 @@ public class ClientReader implements Runnable {
 	public List<String> getJugadores(){
     	return jugadores;
     }
+	
+	public Socket getSocket() {
+		return socket;
+	}
 
 }
