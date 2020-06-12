@@ -141,14 +141,14 @@ public class FrameTablero extends JFrame {
 		mnSonido.setToolTipText("Ajustes de sonido");
 		menuBar.add(mnSonido);
 		
-		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar m\u00FAsica");
+		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar/Reanudar m\u00FAsica");
+		mntmSilenciarMusica.setToolTipText("Silencia o reanuda la banda sonora");
 		mntmSilenciarMusica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user.pararMusica();
 			}
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mntmSilenciarMusica.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
 		mnSonido.add(mntmSilenciarMusica);
 		
 		contentPane = new JPanel();
