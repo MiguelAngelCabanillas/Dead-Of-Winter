@@ -20,49 +20,42 @@ public class Crisis {
 		
 		inic();
 	}
+	//TODO
 	
 	private void inic() {
 		switch(id) {
-		case 0 : {
+		case 300 : {
 			tipo1 = 3; tipo2 = -1; tipo3 = -1;
 		}
 		break;
-		case 1 : {
+		case 301 : {
 			tipo1 = 0; tipo2 = 1; tipo3 = 2;
 		}
 		break;
-		case 2 : {
+		case 302 : {
 			tipo1 = 3; tipo2 = -1; tipo3 = -1;
 		}
 		break;
-		case 3 : {
+		case 303 : {
 			tipo1 = 5; tipo2 = -1; tipo3 = -1;
 		}
 		break;
-		case 4 : {
+		case 304 : {
 			tipo1 = 0; tipo2 = 1; tipo3 = 2;
 		}
 		break;
-		case 5 : {
+		case 305 : {
 			tipo1 = 3; tipo2 = 4; tipo3 = -1;
 		}
 		break;
-		case 6 : {
+		case 306 : {
 			tipo1 = 4; tipo2 = -1; tipo3 = -1;
 		}
 		break;
-		case 7 : {
+		case 307 : {
 			tipo1 = 4; tipo2 = -1; tipo3 = -1;
 		}
 		break;
-		}
-		
-		if(cantidad == actuales) {
-			pasada = true;
-		}
-		
-		if(cantidad + 2 == actuales) {
-			sobra = true;
 		}
 	}
 	
@@ -71,6 +64,14 @@ public class Crisis {
 			actuales++;
 		}else {
 			actuales--;
+		}
+		
+		if(cantidad == actuales) {
+			pasada = true;
+		}
+		
+		if(cantidad + 2 == actuales) {
+			sobra = true;
 		}
 	}
 	
