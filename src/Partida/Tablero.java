@@ -1,5 +1,10 @@
 package Partida;
 
+import java.util.List;
+import java.util.Map;
+
+import Cartas.Carta_Supervivientes;
+
 public class Tablero {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,19 +25,20 @@ public class Tablero {
 	
 	public Tablero(int jugadores, Mazo mComisaria, Mazo mSupermercado, Mazo mColegio, Mazo mGasolinera,
 			Mazo mHospital, Mazo mBiblioteca, Objetivo_Principal objetivoPrincipal) {
-		hospital = new Localizacion("Hospital.", mHospital, 4, 4);
-		colegio = new Localizacion("Colegio", mColegio, 4, 4);
-		comisaria = new Localizacion("Comisaría.", mComisaria, 3, 4);
-		supermercado= new Localizacion("Supermercado.", mSupermercado, 3, 4);
-		gasolinera = new Localizacion("Gasolinera.", mGasolinera, 2, 4);
-		biblioteca = new Localizacion("Biblioteca.", mBiblioteca, 3, 4);
+		comisaria = new Localizacion(mComisaria, 3, 4, 0);
+		supermercado= new Localizacion(mSupermercado, 3, 4, 1);
+		colegio = new Localizacion(mColegio, 4, 4, 2);
+		gasolinera = new Localizacion(mGasolinera, 2, 4, 3);
+		hospital = new Localizacion(mHospital, 4, 4, 4);
+		biblioteca = new Localizacion(mBiblioteca, 3, 4, 5);
 		colonia = new Colonia(objetivoPrincipal, jugadores);
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////	
 	
+	//GETTERS Y SETTERS
 	public Colonia getColonia() {
 		return colonia;
 	}

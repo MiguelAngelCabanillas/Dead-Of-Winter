@@ -2,6 +2,7 @@ package Partida;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Stack;
 
@@ -17,11 +18,13 @@ public class Principal {
 	
 	private int moral;
 	private int rondasRestantes;
+	private int comida;
+	private int hambre;
+	private int vertedero;
 	
 	private List<Jugador> jugadores = new ArrayList<>();
 	private Tablero tablero;
 	private Objetivo_Principal objetivo;
-	private List<Integer> supervivientes;
 	
 	private Random r = new Random();
 	
@@ -34,12 +37,16 @@ public class Principal {
 	private Mazo hospital;
 	private Mazo biblioteca;
 	
+	private InicSupervivientes supervivientes;
+	private InicCrisis crisis;
+	private PriorityQueue<Carta_Supervivientes> enPartida;
+	
 	//DATOS PARA EL SERVIDOR
 	private String [] idCartas;
 	private Jugador jugadorActual;
 	private boolean finalBueno = false;
 	private int muertos = 0;
-	private int crisisActual;
+	private Crisis crisisActual;
 	private String[] dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +55,14 @@ public class Principal {
 	
 	public Principal(int objetivo) {
 		this.objetivo = new Objetivo_Principal(objetivo);
+		moral = this.objetivo.getMoral();
+		rondasRestantes = this.objetivo.getRondas();
+		
+		supervivientes = new InicSupervivientes();
+		crisis = new InicCrisis(jugadores.size());
+		enPartida = new PriorityQueue<>();
+		
+		crisisActual = crisis.getCrisis();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,12 +100,9 @@ public class Principal {
 		}
 		int i = 0;
 		
-<<<<<<< HEAD
 		//SE TIRAN LOS DADOS
-=======
 		dados = new String[numJugadores];
 		
->>>>>>> f9c7546dd2a102d96f0d7e12f419d24d2cf772cb
 		for(Jugador j : jugadores) {
 			dados[i] = j.tirarDados();
 			i++;
@@ -111,29 +123,12 @@ public class Principal {
 		mazoInicial = inicInicial();
 	}
 	
-	private void inicSupervivientes() {
-		supervivientes = new ArrayList<>();
-		
-		for(int i = 0; i < 24; i++) {
-			supervivientes.add(i);
-		}
-	}
-	
 	//METODOS DE INICIO DE LA PARTIDA
-	
-	/*
-	 * comida -> 0
-	 * medicina -> 1
-	 * trastos -> 2
-	 * gasolina -> 3
-	 * supervivientes -> 4
-	 * equipables -> 5
-	 */
 	
 	//INICIA EL MAZO INICIAL
 	private List<Carta_Objeto> inicInicial() {
 		List<Carta_Objeto> mazo = new ArrayList<>();
-		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3};
+		int [] cartas = {0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5};
 		 
 		int i = 0;
 		
@@ -152,7 +147,7 @@ public class Principal {
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 8, 8, 8, 9, 9, 10, 10, 10};
+		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
 		 
 		int i = 0;
 		
@@ -171,7 +166,7 @@ public class Principal {
 	//INICIA MAZO SUPERMERCADO
 	private Stack<Carta> inicSupermercado() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 7, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2 ,2, 2, 2, 2, 2, 2, 4, 5};
+		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4 ,4, 4, 4, 4, 4, 4, 7, 8};
 		 
 		int i = 0;
 		
@@ -190,7 +185,7 @@ public class Principal {
 	//INICIA MAZO COLEGIO
 	private Stack<Carta> inicColegio() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 0, 0, 6, 6, 6, 7, 7, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 4, 5, 11, 12};
+		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 6, 7, 12, 13};
 		 
 		int i = 0;
 		
@@ -209,7 +204,7 @@ public class Principal {
 	//INICIA MAZO GASOLINERA
 	private Stack<Carta> inicGasolinera() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 0, 6, 6, 7, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 5, 8, 10};
+		int [] cartas = {0, 0, 0, 0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 7, 8, 10, 11};
 		 
 		int i = 0;
 		
@@ -228,7 +223,7 @@ public class Principal {
 	//INICIA MAZO HOSPITAL
 	private Stack<Carta> inicHospital() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5};
+		int [] cartas = {0, 0, 0, 0, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 7, 8};
 		 
 		int i = 0;
 		
@@ -247,7 +242,7 @@ public class Principal {
 	//INICIA MAZO BIBLIOTECA
 	private Stack<Carta> inicBiblioteca() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 0, 6, 6, 6, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 13, 14, 15, 16, 17, 18};
+		int [] cartas = {0, 0, 0, 0, 0, 1, 1, 1, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 14, 15, 16, 17, 18, 21};
 		 
 		int i = 0;
 		
@@ -278,6 +273,20 @@ public class Principal {
 		return jugadorActual.buscar(idJugador);
 	}
 	
+	public String usarPasiva() {
+		return null;
+	}
+	
+	public boolean aportarCrisis(int id) {
+		boolean estado = false;
+		if(jugadorActual.anyadirCrisis(id)) {
+			crisisActual.ayadir(id);
+			
+			estado = true;
+		}
+		return estado;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,12 +294,14 @@ public class Principal {
 	public void inicPartida(int numJugadores) {
 		inicMazos();
 		inicJugadores(numJugadores);
-		inicSupervivientes();
 		inicTablero(numJugadores);
 	}
 	
+	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
+		jugadorActual.resetHab();
 		jugadorActual = jugadores.get(id);
+		inicTurno();
 	}
 	
 	public String pasaRonda() {
@@ -304,9 +315,21 @@ public class Principal {
 			dados[i] = j.tirarDados();
 			i++;
 		}
+		
+		if(!crisisActual.pasada()) {
+			fallo();
+		}else if(crisisActual.sobra()) {
+			moral++;
+		}
+		
 		rondasRestantes--;
 		
 		return datos;
+	}
+	
+	//TODO queda que Roldán diga como me pasa los datos
+	public void supervivientesIniciales() {
+		
 	}
 	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO
@@ -328,21 +351,18 @@ public class Principal {
 		return dados[jugador];
 	}
 	
-<<<<<<< HEAD
 	public int getRonda() {
 		return rondasRestantes;
 	}
 	
 	public int getMoral() {
 		return moral;
-	}
-	
-=======
+	}	
+
 	public int getRondasRestantes() {
 		return rondasRestantes;
 	}
 	
->>>>>>> f9c7546dd2a102d96f0d7e12f419d24d2cf772cb
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS AUXILIARES
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,6 +397,8 @@ public class Principal {
 		return aux;
 	}
 	
+	
+	
 	private String actualizarSupervivientesActual() {
 		String muertos = "";
 		List<Carta_Supervivientes> aux = jugadorActual.getMazoSuperviviente();
@@ -397,7 +419,101 @@ public class Principal {
 		return muertos;
 	}
 	
+	private String actualizarTodosSupervivientes() {
+		String muertos = "";
+		List<Carta_Supervivientes> aux;
+		
+		for(Jugador j : jugadores) {
+			aux = j.getMazoSuperviviente();
+			
+			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
+			for(Carta_Supervivientes personaje : aux) {
+				if(personaje.estaMuerto()) {
+					muertos += personaje.getId() + "|";
+					aux.remove(personaje);
+				}
+			}
+		}
+		
+		return muertos;
+	}
 	
+	private String fallo() {
+		String datos = null;
+		
+		switch(crisisActual.getId()) {
+		case 0 : {
+			
+			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
+			for(int i = 0; i < 5; i++) {
+				enPartida.peek().recibirHerida(true);
+			}
+		}
+		break;
+		case 1 : {
+			
+			//SE BAJA LA MORAL Y SE AÑADE TOKEN DE HAMBRE
+			hambre++;
+			moral--;
+		}
+		break;
+		case 2 : {
+			
+			//SE BAJA LA MORAL Y SE AÑADE UNA HERIDA A CADA SUPERVIVIENTE
+			moral--;
+			for(Carta_Supervivientes sup : enPartida) {
+				sup.recibirHerida(false);
+			}
+			
+			actualizarTodosSupervivientes();
+		}
+		break;
+		case 3 : {
+			moral -=2;
+		}
+		break;
+		case 4 : {
+			moral -=2;
+		}
+		break;
+		case 5 : {
+			
+			//SE AÑADEN 3 ZOMBIES EN BIBLIOTECA Y EN SUPERMERCADO
+			tablero.getBiblioteca().anyadirZombie();
+			tablero.getBiblioteca().anyadirZombie();
+			tablero.getBiblioteca().anyadirZombie();
+			
+			tablero.getSupermercado().anyadirZombie();
+			tablero.getSupermercado().anyadirZombie();
+			tablero.getSupermercado().anyadirZombie();
+		}
+		break;
+		case 6 : {
+			
+			//SE AÑADEN 6 SUPERVIVIENTES A LA COLONIA Y UNO EN CADA LOCALIZACION
+			tablero.getBiblioteca().anyadirZombie();
+			tablero.getColegio().anyadirZombie();
+			tablero.getComisaria().anyadirZombie();
+			tablero.getGasolinera().anyadirZombie();
+			tablero.getHospital().anyadirZombie();
+			tablero.getSupermercado().anyadirZombie();
+			
+			tablero.getColonia().anyadirZombie();
+			tablero.getColonia().anyadirZombie();
+			tablero.getColonia().anyadirZombie();
+			tablero.getColonia().anyadirZombie();
+			tablero.getColonia().anyadirZombie();
+			tablero.getColonia().anyadirZombie();
+		}
+		break;
+		case 7 : {
+			//TODO
+		}
+		break;
+		}
+		
+		return datos;
+	}
 	
 	//ESTE METODO SE COMPRUEBA CADA VEZ QUE EL JUGADOR REALIZA UNA ACCIÓN PARA MONITOREAR EL PROGRESO DEL OBJETIVO
 	private boolean terminaPartida() {

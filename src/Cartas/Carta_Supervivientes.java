@@ -80,6 +80,14 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		tirarAlMatar = t;
 	}
 	
+	public void setUsado(boolean t) {
+		usada = true;
+	}
+	
+	public boolean getUsado(){
+		return usada;
+	}
+	
 	///////////////////////////////////////////////////////////////////////
 	
 	public boolean tiraAlAtacar() {

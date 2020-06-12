@@ -33,12 +33,7 @@ public class Carta_Objeto extends Carta {
 	
 	@Override
 	public boolean equals(Object o) {
-		boolean res = false;
-		if (o instanceof Carta_Objeto) {
-			Carta_Objeto c = (Carta_Objeto) o;
-			res = this.getId() == c.getId();
-		}
-		return res;
+		return (o instanceof Carta_Objeto) && this.getId() == ((Carta_Objeto)o).getId() && this.hashCode() == ((Carta_Objeto) o).hashCode();
 	}
 	
 	public int hashCode() {
