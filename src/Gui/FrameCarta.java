@@ -68,20 +68,25 @@ public class FrameCarta extends JFrame {
 		lblNewLabel.setIcon(carta.get(Integer.parseInt(id)).getIcon());
 //		lblNewLabel.setIcon(new ImageIcon(img));
 		
-		JButton btnNewButton = new JButton("Volver");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(72, 548, 95, 38);
-		contentPane.add(btnNewButton);
+		btnVolver.setBounds(32, 548, 95, 38);
+		contentPane.add(btnVolver);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnUsarCarta = new JButton("Usar carta");
 		btnUsarCarta.setToolTipText("Se aplica el efecto de la carta seleccionada");
-		btnUsarCarta.setBounds(263, 548, 95, 38);
+		btnUsarCarta.setBounds(166, 548, 95, 38);
 		contentPane.add(btnUsarCarta);
+		
+		JButton btnAportarCrisis = new JButton("Aportar");
+		btnAportarCrisis.setToolTipText("Aporta esta carta para contribuir a la crisis");
+		btnAportarCrisis.setBounds(304, 548, 95, 38);
+		contentPane.add(btnAportarCrisis);
 		
 		
 	}
