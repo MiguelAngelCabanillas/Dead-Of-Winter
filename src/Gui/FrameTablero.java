@@ -27,6 +27,7 @@ public class FrameTablero extends JFrame {
 	private JTextArea txtrHistorial;
 	private Point p;
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
+	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
@@ -44,8 +45,10 @@ public class FrameTablero extends JFrame {
 	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
 
-
 	private static int[] heridas = new int[2];
+	
+	private JButton btnAtacar,btnMoverse,btnBuscar,btnBarricada,btnContribuir,btnLimpiarVertedero,btnAtraerZombie,btnFinalizarTurno,btnDarCarta,btnPedirCarta,
+					btnGastarComida,btnFichasComida,btnVertedero,btnContribucionesCrisis,btnInfoJugador,btnInfoTablero,ObjetivoPrin,btnSendChat,btnCartaCrisis;
 	
 	private Point locRonda[] = {new Point(1061,915),new Point(1018,915),new Point(977,915),new Point(934,915),new Point(892,915),new Point(849,915),
 								new Point(808,915),new Point(765,915),new Point(723,915),new Point(680,915)};
@@ -80,9 +83,6 @@ public class FrameTablero extends JFrame {
 			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,387)};
 	
 	private static Thread hilo;
-	private JButton btnFichasComida;
-	private JButton btnVertedero;
-	private JButton btnContribucionesCrisis;
 
 	/**
 	 * Launch the application.
@@ -124,6 +124,7 @@ public class FrameTablero extends JFrame {
 		cartasJugador = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
+		turno = false;
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
@@ -220,61 +221,65 @@ public class FrameTablero extends JFrame {
 		lblAcciones.setBounds(103, 13, 105, 26);
 		contentPane.add(lblAcciones);
 		
-		JButton btnAtacar = new JButton("ATACAR");
+		btnAtacar = new JButton("ATACAR");
 		btnAtacar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		btnAtacar.setBounds(12, 92, 115, 41);
 		btnAtacar.setToolTipText("Atacar a un zombie o superviviente");
+		btnAtacar.setEnabled(false);
 		contentPane.add(btnAtacar);
 		
-		JButton btnMoverse = new JButton("MOVERSE");
+		btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {		
 				frameMoverse = new FrameMoverse(supJugadores.get(idJug), aso);
 				frameMoverse.setVisible(true);
 			}
 		});
-		btnMoverse.setBounds(183, 196, 115, 41);
+		btnMoverse.setBounds(184, 144, 115, 41);
 		btnMoverse.setToolTipText("Desplazar un superviviente a otra localización");
+		btnMoverse.setEnabled(false);
 		contentPane.add(btnMoverse);
 		
-		JButton btnBuscar = new JButton("BUSCAR");
+		btnBuscar = new JButton("BUSCAR");
 		btnBuscar.setBounds(12, 144, 115, 41);
 		btnBuscar.setToolTipText("Lanzar uno o varios dados");
+		btnBuscar.setEnabled(false);
 		contentPane.add(btnBuscar);
 		
-		JButton btnBarricada = new JButton("BARRICADA");
+		btnBarricada = new JButton("BARRICADA");
 		btnBarricada.setBounds(12, 196, 115, 41);
 		btnBarricada.setToolTipText("Construir una barricada protegiendo un espacio para Zombies");
+		btnBarricada.setEnabled(false);
 		contentPane.add(btnBarricada);
 		
-		JButton btnContribuir = new JButton("CONTRIBUIR");
-		btnContribuir.setBounds(183, 144, 115, 41);
+		btnContribuir = new JButton("CONTRIBUIR");
+		btnContribuir.setBounds(184, 92, 115, 41);
 		btnContribuir.setToolTipText("Aportar un objeto a la crisis");
+		btnContribuir.setEnabled(false);
 		contentPane.add(btnContribuir);
 		
-		JButton btnLimpiarVertedero = new JButton("VERTEDERO");
+		btnLimpiarVertedero = new JButton("VERTEDERO");
 		btnLimpiarVertedero.setBounds(12, 248, 115, 41);
 		btnLimpiarVertedero.setToolTipText("Limpia 3 objetos del vertedero");
+		btnLimpiarVertedero.setEnabled(false);
 		contentPane.add(btnLimpiarVertedero);
 		
-		JButton btnAtraerZombie = new JButton("ATRAER Z");
+		btnAtraerZombie = new JButton("ATRAER Z");
 		btnAtraerZombie.setBounds(12, 300, 115, 41);
 		btnAtraerZombie.setToolTipText("Obtienes más objetos buscando, pero atrae Zombies");
+		btnAtraerZombie.setEnabled(false);
 		contentPane.add(btnAtraerZombie);
 		
-		JButton btnJugarCarta = new JButton("JUGAR CARTA");
-		btnJugarCarta.setBounds(183, 92, 115, 41);
-		btnJugarCarta.setToolTipText("Usa una carta de tu mano");
-		contentPane.add(btnJugarCarta);
-		
-		JButton btnFinalizarTurno = new JButton("FINALIZAR TURNO");
+		btnFinalizarTurno = new JButton("FINALIZAR TURNO");
 		btnFinalizarTurno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					usuario.hacerPeticionAlServidor("finturno|"+idJug);
+					usuario.hacerPeticionAlServidor(nombresJugadores.get(idJug)+"|1|finturno|"+idJug);turno = false;
+					btnAtacar.setEnabled(false);btnMoverse.setEnabled(false);btnBuscar.setEnabled(false);btnBarricada.setEnabled(false);btnContribuir.setEnabled(false);btnLimpiarVertedero.setEnabled(false);
+					btnAtraerZombie.setEnabled(false);btnFinalizarTurno.setEnabled(false);btnDarCarta.setEnabled(false);btnPedirCarta.setEnabled(false);btnGastarComida.setEnabled(false);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -284,24 +289,28 @@ public class FrameTablero extends JFrame {
 		btnFinalizarTurno.setForeground(Color.WHITE);
 		btnFinalizarTurno.setBounds(12, 408, 286, 41);
 		btnFinalizarTurno.setToolTipText("Finaliza el turno del jugador actual e inicia el turno de otro jugador o cambia de ronda");
+		btnFinalizarTurno.setEnabled(false);
 		contentPane.add(btnFinalizarTurno);
 		
-		JButton btnDarCarta = new JButton("DAR CARTA");
-		btnDarCarta.setBounds(183, 356, 115, 41);
+		btnDarCarta = new JButton("DAR CARTA");
+		btnDarCarta.setBounds(184, 300, 115, 41);
 		btnDarCarta.setToolTipText("Ofrece una determinada carta a otro jugador");
+		btnDarCarta.setEnabled(false);
 		contentPane.add(btnDarCarta);
 		
-		JButton btnPedirCarta = new JButton("PEDIR CARTA");
-		btnPedirCarta.setBounds(183, 300, 115, 41);
+		btnPedirCarta = new JButton("PEDIR CARTA");
+		btnPedirCarta.setBounds(184, 248, 115, 41);
 		btnPedirCarta.setToolTipText("Pide una determinada carta a otro jugador");
+		btnPedirCarta.setEnabled(false);
 		contentPane.add(btnPedirCarta);
 		
-		JButton btnGastarComida = new JButton("GASTAR COMIDA");
-		btnGastarComida.setBounds(183, 248, 115, 41);
+		btnGastarComida = new JButton("GASTAR COMIDA");
+		btnGastarComida.setBounds(184, 196, 115, 41);
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
+		btnGastarComida.setEnabled(false);
 		contentPane.add(btnGastarComida);
 		
-		JButton btnInfoJugador = new JButton("INFO JUGADOR");
+		btnInfoJugador = new JButton("INFO JUGADOR");
 		btnInfoJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(infoJug != null) {
@@ -316,7 +325,7 @@ public class FrameTablero extends JFrame {
 		btnInfoJugador.setBounds(840, 71, 129, 41);
 		contentPane.add(btnInfoJugador);
 		
-		JButton btnInfoTablero = new JButton("INFO TABLERO");
+		btnInfoTablero = new JButton("INFO TABLERO");
 		btnInfoTablero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(infoTab != null) {
@@ -330,7 +339,7 @@ public class FrameTablero extends JFrame {
 		btnInfoTablero.setBounds(1270, 71, 129, 41);
 		contentPane.add(btnInfoTablero);
 		
-		JButton ObjetivoPrin = new JButton("");
+		ObjetivoPrin = new JButton("");
 		ObjetivoPrin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(auxObj != null) {
@@ -343,7 +352,7 @@ public class FrameTablero extends JFrame {
 		ObjetivoPrin.setBounds(911, 699, 123, 158);
 		contentPane.add(ObjetivoPrin);
 		
-		JButton btnSendChat = new JButton(">");
+		btnSendChat = new JButton(">");
 		btnSendChat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -491,7 +500,7 @@ public class FrameTablero extends JFrame {
 		}
 		
 		//HAY QUE PONERLO DESPUES DE INICIAR EL HILO
-		JButton btnCartaCrisis = new JButton("");
+		btnCartaCrisis = new JButton("");
 		btnCartaCrisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(crisis != null) {
@@ -758,6 +767,21 @@ public class FrameTablero extends JFrame {
 	
 	public static int[] getHeridas() {
 		return heridas;
+	}
+	
+	public void miTurno() {
+		turno = true;
+		btnAtacar.setEnabled(true);
+		btnMoverse.setEnabled(true);
+		btnBuscar.setEnabled(true);
+		btnBarricada.setEnabled(true);
+		btnContribuir.setEnabled(true);
+		btnLimpiarVertedero.setEnabled(true);
+		btnAtraerZombie.setEnabled(true);
+		btnFinalizarTurno.setEnabled(true);
+		btnDarCarta.setEnabled(true);
+		btnPedirCarta.setEnabled(true);
+		btnGastarComida.setEnabled(true);
 	}
 }
 
