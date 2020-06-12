@@ -144,7 +144,7 @@ public class FrameTablero extends JFrame {
 		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar m\u00FAsica");
 		mntmSilenciarMusica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				user.pararMusica();
 			}
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));

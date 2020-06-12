@@ -35,6 +35,7 @@ public class Login {
 	private JFrame frmDeadOfWinter;
 	IniciarSesion iS;
 	RegistroInicioSesion rIS;
+	Clip musica;
 	
 	/**
 	 * Launch the application.
@@ -63,9 +64,10 @@ public class Login {
 	public Login() {
 		initialize();
 		
+		playSound();
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
-		playSound();
+		
 		
 	}
 
@@ -213,6 +215,7 @@ public class Login {
 			ClientReader cr = new ClientReader(peticion);
 			cr.hacerPeticionAlServidor(user);
 			Usuario usuario = new Usuario(user, cr);
+			usuario.setMusica(musica);
 			FrameSeleccion SalaSeleccion = new FrameSeleccion(usuario);
 			SalaSeleccion.setVisible(true);
 		}
@@ -224,6 +227,7 @@ public class Login {
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
 	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	        musica = clip;
 	        //clip.start();
 	       
 	     

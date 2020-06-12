@@ -215,11 +215,12 @@ private BufferedReader buffer;
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
-						 
+						  
 						  String mensInit = "initSup";
 						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
+						  user.getSala().setCuchillo(0);
 						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {
@@ -278,8 +279,8 @@ private BufferedReader buffer;
 							  //ENVIA LOS DADOS A CADA JUGADOR//
 
 							  user.getSala().getPartida().inicDados();
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
-
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							  
 							  for(Usuario usu : user.getSala().getUsuarios()){
 								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());
@@ -288,17 +289,39 @@ private BufferedReader buffer;
 							  
 							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
+							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 						  }
+						  
+						  user.getSala().getUsuarios().get(user.getSala().getCuchillo()).hacerPeticionAlServidor("tuturno");
+						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(user.getSala().getCuchillo()).getNombre());
+						  
 					   }
-						  
-						  
-						  
-						 }
+					
+					}
 					 break;
+				case "finturno": //finturno|idJugAnterior
+					int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
+					int cuchillo = user.getSala().getCuchillo();
+					if(idSig == cuchillo) {
+						user.getSala().setCuchillo((cuchillo + 1)%user.getSala().getUsuarios().size());
+						cuchillo = user.getSala().getCuchillo();
+						user.getSala().getPartida().pasaRonda();
+						user.getSala().getPartida().pasaTurno(cuchillo);
+						for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
+						}
+						user.getSala().getUsuarios().get(cuchillo).hacerPeticionAlServidor("tuturno");
+						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(cuchillo).getNombre());
+					} else {
+						user.getSala().getPartida().pasaTurno(idSig);
+						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
+						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
+					}
+					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
-					usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|1" /*user.getSala().getPartida().getCrisis()*/ + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
+						usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|"  + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
 					}
 					break;
 				case "moral":
