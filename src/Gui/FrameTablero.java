@@ -131,20 +131,20 @@ public class FrameTablero extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnInfo = new JMenu("Info");
-		mnInfo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mnInfo.setToolTipText("Informacion relevante sobre la partida");
-		menuBar.add(mnInfo);
+		JMenu mnSonido = new JMenu("Sonido");
+		mnSonido.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mnSonido.setToolTipText("Ajustes de sonido");
+		menuBar.add(mnSonido);
 		
-		JMenuItem mntmInfojugador = new JMenuItem("InfoJugador");
-		mntmInfojugador.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mntmInfojugador.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
-		mnInfo.add(mntmInfojugador);
-		
-		JMenuItem mntmInfoTablero = new JMenuItem("InfoTablero");
-		mntmInfoTablero.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mntmInfoTablero.setToolTipText("Muestra informacion sobre el estado actual del tablero");
-		mnInfo.add(mntmInfoTablero);
+		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar m\u00FAsica");
+		mntmSilenciarMusica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmSilenciarMusica.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
+		mnSonido.add(mntmSilenciarMusica);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
