@@ -14,9 +14,13 @@ public class Crisis {
 	private boolean pasada;
 	private boolean sobra;
 	
+	private int [] donaciones;
+	
 	public Crisis(int id, int jugadores) {
 		this.id = id;
 		cantidad = jugadores;
+		
+		donaciones = new int[jugadores];
 		
 		inic();
 	}
