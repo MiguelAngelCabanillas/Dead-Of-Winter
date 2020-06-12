@@ -227,6 +227,7 @@ public class Login {
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
 	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	  
 	        musica = clip;
 	        //clip.start();
 	       

@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -797,10 +801,23 @@ public class FrameTablero extends JFrame {
 		turno = true;
 		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
 		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
+		
+		
+       
 		try {
 			Thread.sleep(500);
 			miguelito = new FrameTuTurno();
 			miguelito.setVisible(true);
+			try {
+				AudioInputStream audioInputStream;
+				audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
+				 Clip clip = AudioSystem.getClip();
+			        clip.open(audioInputStream);
+			        clip.start();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Thread.sleep(2500);
 			miguelito.dispose();
 		} catch (InterruptedException e) {
