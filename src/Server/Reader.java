@@ -220,7 +220,7 @@ private BufferedReader buffer;
 						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
-						  user.getSala().setCuchillo(0);
+						  user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {
@@ -244,7 +244,7 @@ private BufferedReader buffer;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 125; i++) {
+						  for(int i = 100; i < 130; i++) {
 							  sups.add(i);
 						  }
 						  
@@ -292,28 +292,31 @@ private BufferedReader buffer;
 							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 						  }
 						  
-						  user.getSala().getUsuarios().get(user.getSala().getCuchillo()).hacerPeticionAlServidor("tuturno");
-						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(user.getSala().getCuchillo()).getNombre());
+						  user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
+						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						  
 					   }
 					
 					}
 					 break;
 				case "finturno": //finturno|idJugAnterior
-					int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
-					int cuchillo = user.getSala().getCuchillo();
-					if(idSig == cuchillo) {
-						user.getSala().setCuchillo((cuchillo + 1)%user.getSala().getUsuarios().size());
-						cuchillo = user.getSala().getCuchillo();
+					int cont = user.getSala().getContTurnos();
+					cont--;
+					user.getSala().setContTurnos(cont);
+					if(cont == 0) {
+						Random rnd = new Random();
+						int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
+						user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 						user.getSala().getPartida().pasaRonda();
-						user.getSala().getPartida().pasaTurno(cuchillo);
+						user.getSala().getPartida().pasaTurno(primero);
 						for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
 						}
-						user.getSala().getUsuarios().get(cuchillo).hacerPeticionAlServidor("tuturno");
-						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(cuchillo).getNombre());
+						user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
+						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
 					} else {
+						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
 						user.getSala().getPartida().pasaTurno(idSig);
 						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
 						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
