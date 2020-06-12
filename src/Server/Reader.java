@@ -1,6 +1,7 @@
 package Server;
 
 import BD.*;
+import Cartas.Carta_Supervivientes;
 import Partida.Principal;
 
 import java.io.BufferedReader;
@@ -260,7 +261,7 @@ private BufferedReader buffer;
 								  user.setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
 							  }
 							  
-							  user.getSala().getPartida().getJugador((int)i/2).addSuperviviente(sups.get(i));
+							  user.getSala().getPartida().getJugador((int)i/2).addSuperviviente(new Carta_Supervivientes(sups.get(i), 0, 0, 99));
 							 
 							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
 							  System.out.println((int)i/2 + ", " + sups.get(i));
@@ -277,7 +278,7 @@ private BufferedReader buffer;
 							  //ENVIA LOS DADOS A CADA JUGADOR//
 
 							  user.getSala().getPartida().inicDados();
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303" + user.getSala().getPartida().getDados(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
 
 							  
 							  for(Usuario usu : user.getSala().getUsuarios()){
@@ -287,7 +288,7 @@ private BufferedReader buffer;
 							  
 							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303" + user.getSala().getPartida().getDados(i));
+							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
 						  }
 					   }
 						  
@@ -304,8 +305,10 @@ private BufferedReader buffer;
 					user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
 					break;
 				case "heridas":
-					user.hacerPeticionAlServidor("heridas|2|0");
-					System.out.println("heridas|2|0");
+					Random rand = new Random();
+					int numero = rand.nextInt(3);
+					user.hacerPeticionAlServidor("heridas|" + numero + "|0");
+					System.out.println("heridas|" + numero + "|0");
 					System.out.println(split[3]);
 					break;
 				case "host":
