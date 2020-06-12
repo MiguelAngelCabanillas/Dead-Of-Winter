@@ -115,7 +115,7 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
-					Thread.sleep(500);
+					Thread.sleep(100); //espera a recibir la confirmación del servidor
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
@@ -207,7 +207,7 @@ public class FrameSala extends JFrame {
 				//Partida.iniciar();
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
-					Thread.sleep(500);
+					Thread.sleep(20);
 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
 						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
 						btnNewButton.setEnabled(false);

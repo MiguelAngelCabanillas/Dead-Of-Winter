@@ -18,9 +18,14 @@ public class Principal {
 	
 	private int moral;
 	private int rondasRestantes;
+<<<<<<< HEAD
 	private int comida;
 	private int hambre;
 	private int vertedero;
+=======
+	private int[] rondasRestantesObj = {6, 6} ;
+	private int[] moralObj = {6, 5};
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 	
 	private List<Jugador> jugadores = new ArrayList<>();
 	private Tablero tablero;
@@ -55,6 +60,7 @@ public class Principal {
 	
 	public Principal(int objetivo) {
 		this.objetivo = new Objetivo_Principal(objetivo);
+<<<<<<< HEAD
 		moral = this.objetivo.getMoral();
 		rondasRestantes = this.objetivo.getRondas();
 		
@@ -63,6 +69,10 @@ public class Principal {
 		enPartida = new PriorityQueue<>();
 		
 		crisisActual = crisis.getCrisis();
+=======
+		moral = moralObj[objetivo-1];
+		rondasRestantes = rondasRestantesObj[objetivo-1];
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,12 +108,20 @@ public class Principal {
 			}
 			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo));
 		}
-		int i = 0;
 		
 		//SE TIRAN LOS DADOS
 		dados = new String[numJugadores];
+
 		
+<<<<<<< HEAD
+=======
+	}
+	
+	public void inicDados() {
+		int i = 0;
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 		for(Jugador j : jugadores) {
+			j.anyadirDados();
 			dados[i] = j.tirarDados();
 			i++;
 		}
@@ -357,8 +375,13 @@ public class Principal {
 	
 	public int getMoral() {
 		return moral;
+<<<<<<< HEAD
 	}	
 
+=======
+	}
+	
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 	public int getRondasRestantes() {
 		return rondasRestantes;
 	}

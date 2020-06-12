@@ -19,10 +19,6 @@ public class Reader implements Runnable {
 private Usuario user;
 private List <Usuario> us;
 
-private Socket socket;
-private List<Socket> sl;
-private List<PrintWriter> ls;
-
 private Sala sala;
 private List<Sala> salas;
 
@@ -31,19 +27,16 @@ private BufferedReader buffer;
 
 
 	
-	public Reader (Socket s, List<PrintWriter> ls, List<Socket> sl, List<Usuario> us, List<Sala> salas) throws IOException {
-		socket = s;
+	public Reader (List<Usuario> us, List<Sala> salas) throws IOException {
 		this.salas = salas;
-		this.ls = ls;
-		this.sl = sl;
 		this.us = us;
 
-		reader = new InputStreamReader(socket.getInputStream());
-		buffer = new BufferedReader(reader);
 	}
 	
-	public void setUsuario(Usuario user) {
+	public void setUsuario(Usuario user) throws IOException {
 		this.user = user;
+		reader = new InputStreamReader(user.getClientReader().getSocket().getInputStream());
+		buffer = new BufferedReader(reader);
 	}
 	
 	public void run() {
@@ -59,7 +52,9 @@ private BufferedReader buffer;
 				usuario = split[0];
 				
 				user = buscarUsuarioConectado(usuario);
-				
+				if(split[1].length() > 10) {
+					continue;
+				}
 					idSala = Integer.parseInt(split[1]);
 				if(idSala == -1) {
 					idSala = getIdSalaLibre();
@@ -89,12 +84,6 @@ private BufferedReader buffer;
 				
 				if(split.length >= 3) {
 				switch(split[2]) { // Comando
-				case "msg": // Nombre|NumeroDeSala|msg|"Mensaje"
-					for(PrintWriter pw : ls ) {
-						pw.println(user.getNombre() + ": " + split[3]);
-					}
-					System.out.println(split[3]);
-					break;
 				case "msgsala": // Nombre|NumeroDeSala|msgsala|"Mensaje"
 				 if(user.getSala() != null) {
 					 if(!user.getSala().getMuteados().contains(user)) {
@@ -265,44 +254,60 @@ private BufferedReader buffer;
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
 							  mensInit += "|" + sups.get(i);
 							  
+							  
 							  if(i%2 == 0) {
 								  mensIds += "|" + user.getSala().getUsuarios().get(i/2).getNombre(); // ids|FranMJ|Umbra|zunk|NiemaJ|Miguel1995
+								  user.setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
 							  }
+							  
+							  user.getSala().getPartida().getJugador((int)i/2).addSuperviviente(sups.get(i));
 							 
 							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
 						  System.out.println(mensIds);
-					   }
-					   
-					   user.enviarALaSala("exit|tablero|" + split[4]);
-					   
-					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {					   
+						  
+						   user.enviarALaSala("exit|tablero|" + split[4]);
+						   
 						  for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {  
-						//	  user.setJugador(user.getSala().getPartida().getJugador(i)); // Se asigna un jugador para cada usuario
+							  
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensIds);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  //ENVIA LOS DADOS A CADA JUGADOR//
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));
+
+							  user.getSala().getPartida().inicDados();
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303" + user.getSala().getPartida().getDados(i));
+
 							  
+							  for(Usuario usu : user.getSala().getUsuarios()){
+								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());
+							  }
 							  System.out.println(mensInit);
+							  
+							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-							  System.out.println("newRound|" + 1/*user.getSala().getPartida().getRondasRestantes()*/ + "|" + user.getSala().getPartida().getDados(i));
+							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303" + user.getSala().getPartida().getDados(i));
 						  }
 					   }
 						  
-						  //////////////////////////////////////////////////////////////////////////////////////////////////
-						  /// Cartas iniciales
-						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  
 						 }
-						  
-						  
-						  
-					  
 					 break;
+				case "newRound": // Me hace falta la crisis
+					for(Usuario usario : user.getSala().getUsuarios()) {
+					usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|1" /*user.getSala().getPartida().getCrisis()*/ + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
+					}
+					break;
+				case "moral":
+					user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
+					break;
+				case "heridas":
+					user.hacerPeticionAlServidor("heridas|2|0");
+					System.out.println("heridas|2|0");
+					System.out.println(split[3]);
+					break;
 				case "host":
 					if(user.getSala().getHost().equals(user)) {
 						user.hacerPeticionAlServidor("host|");
@@ -342,35 +347,28 @@ private BufferedReader buffer;
 		} catch (IOException e) {
 			//e.printStackTrace();
 		} finally {
-			if(socket != null) {
-				 int index = sl.indexOf(socket);
-				 if(index > -1) {
-				 sl.remove(index);
-				 ls.remove(index);
-				 if(us.get(index).getSala() != null) {
+			if(user != null) {
+				 if(user.getSala() != null) {
 				 try {
-					salirDeSala(us.get(index), us.get(index).getSala());
+					salirDeSala(user, user.getSala());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				 }
-				 us.remove(index);
+				 us.remove(user);
 				 
-				 System.out.println("Desconectado:" + socket.getInetAddress());
+				 System.out.println("Desconectado:" + user.getClientReader().getSocket().getInetAddress() + "(" + user.getNombre() + ")");
 				
 				 
 				 //Comprobar el numero de conexiones activas
-				 for(Socket s : sl) {
-						System.out.println(s.getInetAddress());
+				 for(Usuario vodkausuario : us) {
+						System.out.println(vodkausuario.getClientReader().getSocket().getInetAddress());
 					}
-					int i = 0;
-					for(PrintWriter pw1 : ls) {
-						i++;
-					} System.out.println(i);
+				 System.out.println(us.size());
 				 
 				 try {
-					socket.close();
+					user.getClientReader().close();
 				    } catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -378,7 +376,6 @@ private BufferedReader buffer;
 				 }
 			}
 	}
-}
 	public String recibirMensaje() throws IOException {
 		return buffer.readLine();
 	}

@@ -20,7 +20,7 @@ public class Crisis extends JFrame {
 
 	private JPanel contentPane;
 	private static int crisis;
-	private Asociaciones asoc;
+	private static Asociaciones asoc;
 
 	/**
 	 * Launch the application.
@@ -29,7 +29,7 @@ public class Crisis extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Crisis frame = new Crisis(crisis);
+					Crisis frame = new Crisis(crisis, asoc);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,9 +41,9 @@ public class Crisis extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Crisis(int crisis) {
+	public Crisis(int crisis, Asociaciones aso) {
 		this.crisis = crisis;
-		
+		this.asoc = aso;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
@@ -56,18 +56,18 @@ public class Crisis extends JFrame {
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
-		JButton btnNewButton = new JButton("OK\r\n");
+		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(166, 599, 89, 34);
+		btnNewButton.setBounds(161, 543, 121, 40);
 		contentPane.add(btnNewButton);
 		
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(12, 13, 406, 572);
+		lblNewLabel.setBounds(12, 13, 406, 517);
 		lblNewLabel.setIcon(asoc.getCartasCrisis().get(crisis).getIcon());	
 		contentPane.add(lblNewLabel);
 		

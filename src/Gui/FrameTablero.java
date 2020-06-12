@@ -30,17 +30,6 @@ public class FrameTablero extends JFrame {
 	private Point p;
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 
-	private JLabel fichZ1ColoniaZona1,fichZ2ColoniaZona1,fichZ3ColoniaZona1,fichZ1ColoniaZona2,fichZ2ColoniaZona2,fichZ3ColoniaZona2,
-	fichZ1ColoniaZona3,fichZ2ColoniaZona3,fichZ3ColoniaZona3,fichZ1ColoniaZona4,fichZ2ColoniaZona4,fichZ3ColoniaZona4,
-	fichZ1ColoniaZona5,fichZ2ColoniaZona5,fichZ3ColoniaZona5,fichZ1ColoniaZona6,fichZ2ColoniaZona6,fichZ3ColoniaZona6;
-	
-	private JLabel fichZComisaria1,fichZComisaria2,fichZComisaria3,fichZComisaria4;
-	private JLabel fichZSuperm1,fichZSuperm2,fichZSuperm3,fichZSuperm4;
-	private JLabel fichZColegio1,fichZColegio2,fichZColegio3,fichZColegio4;
-	private JLabel fichZGasolinera1,fichZGasolinera2,fichZGasolinera3;
-	private JLabel fichZHospital1,fichZHospital2,fichZHospital3,fichZHospital4;
-	private JLabel fichZBiblioteca1,fichZBiblioteca2,fichZBiblioteca3;
-	
 	private HashMap<Integer,JLabel[]> supMap,objMap;
 	private static List<String> nombresJugadores;
 	private HashMap<Integer, JLabel> cartMap;
@@ -49,12 +38,19 @@ public class FrameTablero extends JFrame {
 	private HashMap<Integer,JLabel> supIndMap;
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
+	private List<List<JLabel>> labelsZombies;
+	private List<Point[]> locZombies;
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
+	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
+
+
+	private static int[] heridas = new int[2];
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
+
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
 								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};
@@ -73,8 +69,25 @@ public class FrameTablero extends JFrame {
 			locGasolinera[] = {new Point(1547,163),new Point(1594,163)},
 			locHospital[] = {new Point(1500,472),new Point(1548,472),new Point(1594,472),new Point(1641,472)},
 			locBiblioteca[] = {new Point(1524,779),new Point(1571,779),new Point(1617,779)};
+		
+	private Point locZComisaria[] = {new Point(568,223),new Point(616,223),new Point(664,222),new Point(712,222)},
+			locZSuperm[] = {new Point(568,530),new Point(616,530),new Point(664,530),new Point(712,530)},
+			locZColegio[] = {new Point(568,836),new Point(616,836),new Point(664,836),new Point(712,836)},
+			locZGasolinera[] = {new Point(1525,223),new Point(1573,223),new Point(1621,223)},
+			locZHospital[] = {new Point(1500,530),new Point(1548,530),new Point(1596,530),new Point(1644,530)},
+			locZBiblioteca[] = {new Point(1525,836),new Point(1573,836),new Point(1621,836)};
+	
+	private Point locZColoniaZ1[] = {new Point(872,367),new Point(911,347),new Point(910,388)},
+			locZColoniaZ2[] = {new Point(872,480),new Point(911,460),new Point(910,501)},
+			locZColoniaZ3[] = {new Point(872,592),new Point(911,571),new Point(910,612)},
+			locZColoniaZ4[] = {new Point(1341,592),new Point(1303,571),new Point(1304,612)},
+			locZColoniaZ5[] = {new Point(1341,481),new Point(1303,460),new Point(1304,501)},
+			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,388)};
 	
 	private static Thread hilo;
+	private JButton btnFichasComida;
+	private JButton btnVertedero;
+	private JButton btnContribucionesCrisis;
 
 	/**
 	 * Launch the application.
@@ -94,8 +107,9 @@ public class FrameTablero extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws InterruptedException 
 	 */
-	public FrameTablero(int objetivo, Usuario user) {
+	public FrameTablero(int objetivo, Usuario user){
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -114,7 +128,6 @@ public class FrameTablero extends JFrame {
 		cartMap = aso.getCartasObjetos();
 		supJugadores = new HashMap<>();
 		cartasJugador = new ArrayList<>();
-//		dados = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
 		
@@ -147,285 +160,24 @@ public class FrameTablero extends JFrame {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS LOCALIZACIONES
 		
 		//LABELS ZOMBIES
-		fichZ1ColoniaZona3 = new JLabel("");
-		fichZ1ColoniaZona3.setBounds(872, 592, 36, 34);
-		fichZ1ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona3.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona3);
+		locZombies = new ArrayList<>();
+		locZombies.add(locZComisaria);locZombies.add(locZSuperm);locZombies.add(locZColegio);locZombies.add(locZGasolinera);locZombies.add(locZHospital);locZombies.add(locZBiblioteca);
+		locZombies.add(locZColoniaZ1);locZombies.add(locZColoniaZ2);locZombies.add(locZColoniaZ3);locZombies.add(locZColoniaZ4);locZombies.add(locZColoniaZ5);locZombies.add(locZColoniaZ6);
 		
-		fichZ2ColoniaZona5 = new JLabel("");
-		fichZ2ColoniaZona5.setBounds(1303, 460, 36, 34);
-		fichZ2ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona5.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona5);
-		
-		fichZ3ColoniaZona5 = new JLabel("");
-		fichZ3ColoniaZona5.setBounds(1304, 501, 36, 34);
-		fichZ3ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona5.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona5);
-		
-		fichZ2ColoniaZona1 = new JLabel("");
-		fichZ2ColoniaZona1.setBounds(911, 347, 36, 34);
-		fichZ2ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona1.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona1);
-		
-		fichZ3ColoniaZona3 = new JLabel("");
-		fichZ3ColoniaZona3.setBounds(910, 612, 36, 34);
-		fichZ3ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona3.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona3);
-		
-		fichZ3ColoniaZona6 = new JLabel("");
-		fichZ3ColoniaZona6.setBounds(1304, 388, 36, 34);
-		fichZ3ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona6.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona6);
-		
-		fichZ2ColoniaZona3 = new JLabel("");
-		fichZ2ColoniaZona3.setBounds(910, 571, 36, 34);
-		fichZ2ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona3.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona3);
-		
-		fichZ1ColoniaZona6 = new JLabel("");
-		fichZ1ColoniaZona6.setBounds(1341, 368, 36, 34);
-		fichZ1ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona6.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona6);
-		
-		fichZ1ColoniaZona5 = new JLabel("");
-		fichZ1ColoniaZona5.setBounds(1341, 481, 36, 34);
-		fichZ1ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona5.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona5);
-		
-		fichZ3ColoniaZona4 = new JLabel("");
-		fichZ3ColoniaZona4.setBounds(1304, 612, 36, 34);
-		fichZ3ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona4.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona4);
-		
-		fichZ1ColoniaZona4 = new JLabel("");
-		fichZ1ColoniaZona4.setBounds(1341, 592, 36, 34);
-		fichZ1ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona4.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona4);
-		
-		fichZ3ColoniaZona2 = new JLabel("");
-		fichZ3ColoniaZona2.setBounds(910, 501, 36, 34);
-		fichZ3ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona2.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona2);
-		
-		fichZ1ColoniaZona1 = new JLabel("");
-		fichZ1ColoniaZona1.setBounds(872, 367, 36, 34);
-		fichZ1ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona1.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona1);
-		
-		fichZ3ColoniaZona1 = new JLabel("");
-		fichZ3ColoniaZona1.setBounds(910, 388, 36, 34);
-		fichZ3ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ3ColoniaZona1.setVisible(false);
-		contentPane.add(fichZ3ColoniaZona1);
-		
-		fichZ1ColoniaZona2 = new JLabel("");
-		fichZ1ColoniaZona2.setBounds(872, 480, 36, 34);
-		fichZ1ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ1ColoniaZona2.setVisible(false);
-		contentPane.add(fichZ1ColoniaZona2);
-		
-		fichZ2ColoniaZona4 = new JLabel("");
-		fichZ2ColoniaZona4.setBounds(1303, 571, 36, 34);
-		fichZ2ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona4.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona4);
-		
-		fichZ2ColoniaZona6 = new JLabel("");
-		fichZ2ColoniaZona6.setBounds(1303, 347, 36, 34);
-		fichZ2ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona6.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona6);
-		
-		fichZ2ColoniaZona2 = new JLabel("");
-		fichZ2ColoniaZona2.setBounds(911, 460, 36, 34);
-		fichZ2ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZ2ColoniaZona2.setVisible(false);
-		contentPane.add(fichZ2ColoniaZona2);
-		
-		///LABELS AUXILIARES
-		JLabel fichAlimento3 = new JLabel("");
-		fichAlimento3.setBounds(1180, 559, 36, 33);
-		fichAlimento3.setIcon(imgCircular("images/Fichas/fichaAlimento.png",36,33));
-		contentPane.add(fichAlimento3);
-		
-		JLabel fichAlimento2 = new JLabel("");
-		fichAlimento2.setBounds(1227, 596, 36, 33);
-		fichAlimento2.setIcon(imgCircular("images/Fichas/fichaAlimento.png",36,33));
-		contentPane.add(fichAlimento2);
-		
-		JLabel fichAlimento1 = new JLabel("");
-		fichAlimento1.setBounds(1180, 607, 36, 33);
-		fichAlimento1.setIcon(imgCircular("images/Fichas/fichaAlimento.png",36,33));
-		contentPane.add(fichAlimento1);
-		
-		///LABELS COMISARIA
-		
-		///LABELS RUIDO
-		JLabel fichRuidoComisaria2 = new JLabel("");
-		fichRuidoComisaria2.setBounds(422, 224, 33, 33);
-		//fichRuidoComisaria2.setIcon(imgCircular("images/fichaRuido.png",33,33));
-		contentPane.add(fichRuidoComisaria2);
-		
-		JLabel fichRuidoComisaria1 = new JLabel("");
-		fichRuidoComisaria1.setBounds(390, 224, 33, 33);
-		//fichRuidoComisaria1.setIcon(imgCircular("images/fichaRuido.png",33,33));
-		contentPane.add(fichRuidoComisaria1);
-		
-		///LABELS ZOMBIES
-		fichZComisaria4 = new JLabel("");
-		fichZComisaria4.setBounds(712, 224, 36, 34);
-		fichZComisaria4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZComisaria4.setVisible(false);
-		contentPane.add(fichZComisaria4);
-		
-		fichZComisaria3 = new JLabel("");
-		fichZComisaria3.setBounds(664, 224, 36, 34);
-		fichZComisaria3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZComisaria3.setVisible(false);
-		contentPane.add(fichZComisaria3);
-		
-		fichZComisaria2 = new JLabel("");
-		fichZComisaria2.setBounds(616, 223, 36, 34);
-		fichZComisaria2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZComisaria2.setVisible(false);
-		contentPane.add(fichZComisaria2);
-		
-		fichZComisaria1 = new JLabel("");
-		fichZComisaria1.setBounds(568, 221, 36, 34);
-		fichZComisaria1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZComisaria1.setVisible(false);
-		contentPane.add(fichZComisaria1);
-		
-		//LABELS SUPERMERCADO
-		
-		fichZSuperm4 = new JLabel("");
-		fichZSuperm4.setBounds(712, 530, 36, 34);
-		fichZSuperm4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZSuperm4.setVisible(false);
-		contentPane.add(fichZSuperm4);
-		
-		fichZSuperm1 = new JLabel("");
-		fichZSuperm1.setBounds(568, 530, 36, 34);
-		fichZSuperm1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZSuperm1.setVisible(false);
-		contentPane.add(fichZSuperm1);
-		
-		fichZSuperm2 = new JLabel("");
-		fichZSuperm2.setBounds(616, 529, 36, 34);
-		fichZSuperm2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZSuperm2.setVisible(false);
-		contentPane.add(fichZSuperm2);
-		
-		fichZSuperm3 = new JLabel("");
-		fichZSuperm3.setBounds(664, 530, 36, 34);
-		fichZSuperm3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZSuperm3.setVisible(false);
-		contentPane.add(fichZSuperm3);	
-		
-		//LABELS COLEGIO
-		
-		fichZColegio1 = new JLabel("");
-		fichZColegio1.setBounds(568, 836, 36, 34);
-		fichZColegio1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZColegio1.setVisible(false);
-		contentPane.add(fichZColegio1);
-		
-		fichZColegio3 = new JLabel("");
-		fichZColegio3.setBounds(664, 836, 36, 34);
-		fichZColegio3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZColegio3.setVisible(false);
-		contentPane.add(fichZColegio3);
-		
-		fichZColegio4 = new JLabel("");
-		fichZColegio4.setBounds(712, 836, 36, 34);
-		fichZColegio4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZColegio4.setVisible(false);
-		contentPane.add(fichZColegio4);
-		
-		fichZColegio2 = new JLabel("");
-		fichZColegio2.setBounds(616, 835, 36, 34);
-		fichZColegio2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZColegio2.setVisible(false);
-		contentPane.add(fichZColegio2);
-		
-		//LABELS GASOLINERA
-		
-		fichZGasolinera2 = new JLabel("");
-		fichZGasolinera2.setBounds(1573, 222, 36, 34);
-		fichZGasolinera2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZGasolinera2.setVisible(false);
-		contentPane.add(fichZGasolinera2);
-		
-		fichZGasolinera3 = new JLabel("");
-		fichZGasolinera3.setBounds(1621, 223, 36, 34);
-		fichZGasolinera3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZGasolinera3.setVisible(false);
-		contentPane.add(fichZGasolinera3);
-		
-		fichZGasolinera1 = new JLabel("");
-		fichZGasolinera1.setBounds(1525, 223, 36, 34);
-		fichZGasolinera1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZGasolinera1.setVisible(false);
-		contentPane.add(fichZGasolinera1);
-		
-		//LABELS HOSPITAL
-		
-		fichZHospital3 = new JLabel("");
-		fichZHospital3.setBounds(1596, 530, 36, 34);
-		fichZHospital3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZHospital3.setVisible(false);
-		contentPane.add(fichZHospital3);
-		
-		fichZHospital1 = new JLabel("");
-		fichZHospital1.setBounds(1500, 530, 36, 34);
-		fichZHospital1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZHospital1.setVisible(false);
-		contentPane.add(fichZHospital1);
-		
-		fichZHospital2 = new JLabel("");
-		fichZHospital2.setBounds(1548, 529, 36, 34);
-		fichZHospital2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZHospital2.setVisible(false);
-		contentPane.add(fichZHospital2);
-		
-		fichZHospital4 = new JLabel("");
-		fichZHospital4.setBounds(1644, 530, 36, 34);
-		fichZHospital4.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZHospital4.setVisible(false);
-		contentPane.add(fichZHospital4);
-
-		//LABELS BIBLIOTECA
-		
-		fichZBiblioteca3 = new JLabel("");
-		fichZBiblioteca3.setBounds(1621, 836, 36, 34);
-		fichZBiblioteca3.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZBiblioteca3.setVisible(false);
-		contentPane.add(fichZBiblioteca3);
-		
-		fichZBiblioteca1 = new JLabel("");
-		fichZBiblioteca1.setBounds(1525, 836, 36, 34);
-		fichZBiblioteca1.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZBiblioteca1.setVisible(false);
-		contentPane.add(fichZBiblioteca1);
-		
-		fichZBiblioteca2 = new JLabel("");
-		fichZBiblioteca2.setBounds(1573, 835, 36, 34);
-		fichZBiblioteca2.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
-		fichZBiblioteca2.setVisible(false);
-		contentPane.add(fichZBiblioteca2);
+		labelsZombies = new ArrayList<>();
+		List<JLabel> auxList;
+		for(int i=0;i<locZombies.size();i++) {
+			auxList = new ArrayList<>();
+			for(int j=0;j<locZombies.get(i).length;j++) {
+				aux = new JLabel(""); 
+				aux.setBounds(locZombies.get(i)[j].x, locZombies.get(i)[j].y, 36, 34);
+				aux.setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+				aux.setVisible(false);
+				contentPane.add(aux);
+				auxList.add(aux);
+			}
+			labelsZombies.add(auxList);
+		}
 		
 //////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS AUXILIARES		
 		
@@ -485,17 +237,19 @@ public class FrameTablero extends JFrame {
 		
 		JButton btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
+			public void actionPerformed(ActionEvent arg0) {		
+				frameMoverse = new FrameMoverse(supJugadores.get(idJug), aso);
+				frameMoverse.setVisible(true);
 			}
 		});
 		btnMoverse.setBounds(183, 196, 115, 41);
 		btnMoverse.setToolTipText("Desplazar un superviviente a otra localización");
 		contentPane.add(btnMoverse);
 		
-		JButton btnLanzarDado = new JButton("BUSCAR");
-		btnLanzarDado.setBounds(12, 144, 115, 41);
-		btnLanzarDado.setToolTipText("Lanzar uno o varios dados");
-		contentPane.add(btnLanzarDado);
+		JButton btnBuscar = new JButton("BUSCAR");
+		btnBuscar.setBounds(12, 144, 115, 41);
+		btnBuscar.setToolTipText("Lanzar uno o varios dados");
+		contentPane.add(btnBuscar);
 		
 		JButton btnBarricada = new JButton("BARRICADA");
 		btnBarricada.setBounds(12, 196, 115, 41);
@@ -522,10 +276,16 @@ public class FrameTablero extends JFrame {
 		btnJugarCarta.setToolTipText("Usa una carta de tu mano");
 		contentPane.add(btnJugarCarta);
 		
-		JButton btnExilio = new JButton("VOTAR EXILIO");
-		btnExilio.setBounds(183, 408, 115, 41);
-		btnExilio.setToolTipText("Se inicia una votación entre todos los jugadores para exiliar a un jugador determinado");
-		contentPane.add(btnExilio);
+		JButton btnFinalizarTurno = new JButton("FINALIZAR TURNO");
+		btnFinalizarTurno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnFinalizarTurno.setBackground(new Color(67,73,114));
+		btnFinalizarTurno.setForeground(Color.WHITE);
+		btnFinalizarTurno.setBounds(12, 408, 286, 41);
+		btnFinalizarTurno.setToolTipText("Finaliza el turno del jugador actual e inicia el turno de otro jugador o cambia de ronda");
+		contentPane.add(btnFinalizarTurno);
 		
 		JButton btnDarCarta = new JButton("DAR CARTA");
 		btnDarCarta.setBounds(183, 356, 115, 41);
@@ -548,10 +308,7 @@ public class FrameTablero extends JFrame {
 				if(infoJug != null) {
 					infoJug.dispose();
 				}
-				dados = new ArrayList<Integer>();
-				dados.add(400);
-				dados.add(402);
-				dados.add(405);
+				System.out.println("DADOS "+dados.toString());
 				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
 				infoJug.setVisible(true);
 			}
@@ -586,19 +343,6 @@ public class FrameTablero extends JFrame {
 		});
 		ObjetivoPrin.setBounds(911, 699, 123, 158);
 		contentPane.add(ObjetivoPrin);
-		
-		JButton btnCartaCrisis = new JButton("");
-		btnCartaCrisis.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(crisis != null) {
-					crisis.dispose();
-				}
-				crisis = new Crisis(idCrisis,aso);
-				crisis.setVisible(true);
-			}
-		});
-		btnCartaCrisis.setBounds(1062, 699, 123, 158);
-		contentPane.add(btnCartaCrisis);
 		
 		JButton btnSendChat = new JButton(">");
 		btnSendChat.addActionListener(new ActionListener() {
@@ -686,13 +430,47 @@ public class FrameTablero extends JFrame {
 		separator_3.setBounds(12, 481, 286, 2);
 		contentPane.add(separator_3);
 		
+		btnFichasComida = new JButton("");
+		btnFichasComida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + 5); //TODO: CAMBIAR
+			}
+		});
+		btnFichasComida.setBounds(1165, 538, 107, 113);
+		btnFichasComida.setOpaque(false);
+		btnFichasComida.setContentAreaFilled(false);
+		contentPane.add(btnFichasComida);
+		contentPane.setComponentZOrder(btnFichasComida, contentPane.getComponentZOrder(lblTablero)-1);
+		
+		btnVertedero = new JButton("");
+		btnVertedero.setBounds(973, 539, 173, 112);
+		btnVertedero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + 3); //TODO: CAMBIAR
+			}
+		});
+		btnVertedero.setOpaque(false);
+		btnVertedero.setContentAreaFilled(false);
+		contentPane.add(btnVertedero);
+		contentPane.setComponentZOrder(btnVertedero, contentPane.getComponentZOrder(lblTablero)-1);
+		
+		btnContribucionesCrisis = new JButton("");
+		btnContribucionesCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: CAMBIAR
+			}
+		});
+		btnContribucionesCrisis.setBounds(1210, 699, 129, 158);
+		btnContribucionesCrisis.setOpaque(false);
+		btnContribucionesCrisis.setContentAreaFilled(false);
+		contentPane.add(btnContribucionesCrisis);
+		contentPane.setComponentZOrder(btnContribucionesCrisis, contentPane.getComponentZOrder(lblTablero)-1);
+		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
 		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
 		ImageIcon ima3 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/PartidaDeSaqueo.jpg"));
 		Image img3 = ima3.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
-		
-
 		
 		////////////////////////////////////////////////////TODO: OBJETIVOS PRINCIPALES
 		switch(objetivo){
@@ -706,6 +484,33 @@ public class FrameTablero extends JFrame {
 //		usuario.getClientReader().setSala(null);
 		hilo = new Thread(usuario.getClientReader());
 		hilo.start();
+		
+		try {
+			Thread.sleep(100); //PARA QUE LE DE TIEMPO A PILLAR EL idCrisis
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+		
+		//HAY QUE PONERLO DESPUES DE INICIAR EL HILO
+		JButton btnCartaCrisis = new JButton("");
+		btnCartaCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(crisis != null) {
+					crisis.dispose();
+				}
+				System.out.println("IDCRISIS: " +idCrisis);
+
+				crisis = new Crisis(idCrisis, aso);
+				crisis.setVisible(true);
+			}
+		});
+		btnCartaCrisis.setBounds(1062, 699, 123, 158);
+		System.out.println("IDCRISIS: " +idCrisis);
+		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(idCrisis).getIcon();
+		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
+		btnCartaCrisis.setIcon(new ImageIcon(img));
+		contentPane.add(btnCartaCrisis);
+		contentPane.setComponentZOrder(btnCartaCrisis, contentPane.getComponentZOrder(lblTablero)-1);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
@@ -779,12 +584,9 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichRonda);
 		contentPane.setComponentZOrder(fichRonda, contentPane.getComponentZOrder(lblTablero)-1);
 		
-		fichZBiblioteca1.setVisible(true);
-		fichZGasolinera1.setVisible(true);
-		fichZColegio1.setVisible(true);
-		fichZHospital1.setVisible(true);
-		fichZSuperm1.setVisible(true);
-		fichZComisaria1.setVisible(true);
+		for(int i=0;i<6;i++) {
+			labelsZombies.get(i).get(0).setVisible(true);
+		}
 	}
 	
 	private void raidingParty() {
@@ -804,20 +606,12 @@ public class FrameTablero extends JFrame {
 		contentPane.add(fichRonda);
 		contentPane.setComponentZOrder(fichRonda, contentPane.getComponentZOrder(lblTablero)-1);
 		
-		fichZBiblioteca1.setVisible(true);
-		fichZBiblioteca2.setVisible(true);
-		fichZGasolinera1.setVisible(true);
-		fichZGasolinera2.setVisible(true);
-		fichZColegio1.setVisible(true);
-		fichZColegio2.setVisible(true);
-		fichZHospital1.setVisible(true);
-		fichZHospital2.setVisible(true);
-		fichZSuperm1.setVisible(true);
-		fichZSuperm2.setVisible(true);
-		fichZComisaria1.setVisible(true);
-		fichZComisaria2.setVisible(true);
-		fichZ1ColoniaZona1.setVisible(true);
-		fichZ1ColoniaZona2.setVisible(true);
+		for(int i=0;i<6;i++) {
+			labelsZombies.get(i).get(0).setVisible(true);
+			labelsZombies.get(i).get(1).setVisible(true);
+		}
+		labelsZombies.get(6).get(0).setVisible(true);
+		labelsZombies.get(7).get(0).setVisible(true);
 	}
 	
 	public void actualizaChat(String mensaje) {
@@ -842,7 +636,7 @@ public class FrameTablero extends JFrame {
 		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
 	}
 	
-	//AÑADIR SUUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
+	//AÑADIR SUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
 	//ARG0 ID SUPIND, ARG1 POSCION VALIDA COLONIA EMPEZANDO POR FINAL
 	public void anyadirSupIndef(int id,int pos) { //deberiamos de pasarle algun id que lo identifique nSupInd, podriamos crear otro diccionario
 		aux = new JLabel("");
@@ -850,6 +644,7 @@ public class FrameTablero extends JFrame {
 		aux.setBounds(p.x,p.y, 36, 34);
 		aux.setIcon(imgCircular("images/fichaSupIndefenso.png",36,34));
 		contentPane.add(aux);
+		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
 		supIndMap.put(id,aux);
 	}
 	
@@ -937,231 +732,33 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void addZombie(int loc, int pos) {
-		switch(loc) {
-			case 0 : switch(pos) {	case 0: fichZComisaria1.setVisible(true); break;
-									case 1: fichZComisaria2.setVisible(true); break;
-									case 2: fichZComisaria3.setVisible(true); break;
-									case 3: fichZComisaria4.setVisible(true); break;}	
-			break;
-			case 1 : switch(pos) {	case 0: fichZSuperm1.setVisible(true); break;
-									case 1: fichZSuperm2.setVisible(true); break;
-									case 2: fichZSuperm3.setVisible(true); break;
-									case 3: fichZSuperm4.setVisible(true); break;}	
-			break;
-			case 2 : switch(pos) {	case 0: fichZColegio1.setVisible(true); break;
-									case 1: fichZColegio2.setVisible(true); break;
-									case 2: fichZColegio3.setVisible(true); break;
-									case 3: fichZColegio4.setVisible(true); break;}	
-			break;
-			case 3 : switch(pos) {	case 0: fichZGasolinera1.setVisible(true); break;
-									case 1: fichZGasolinera2.setVisible(true); break;
-									case 2: fichZGasolinera3.setVisible(true); break;}
-			break;
-			case 4 : switch(pos) {	case 0: fichZHospital1.setVisible(true); break;
-									case 1: fichZHospital2.setVisible(true); break;
-									case 2: fichZHospital3.setVisible(true); break;
-									case 3: fichZHospital4.setVisible(true); break;}	
-			break;
-			case 5 : switch(pos) {	case 0: fichZBiblioteca1.setVisible(true); break;
-									case 1: fichZBiblioteca2.setVisible(true); break;
-									case 2: fichZBiblioteca3.setVisible(true); break;}
-			break;
-			case 6 : switch(pos) { 	case 0: fichZ1ColoniaZona1.setVisible(true); break;
-									case 1: fichZ2ColoniaZona1.setVisible(true); break;
-									case 2: fichZ3ColoniaZona1.setVisible(true); break;}
-			break;
-			case 7 : switch(pos) { 	case 0: fichZ1ColoniaZona2.setVisible(true); break;
-									case 1: fichZ2ColoniaZona2.setVisible(true); break;
-									case 2: fichZ3ColoniaZona2.setVisible(true); break;}
-			break;
-			case 8 : switch(pos) { 	case 0: fichZ1ColoniaZona3.setVisible(true); break;
-									case 1: fichZ2ColoniaZona3.setVisible(true); break;
-									case 2: fichZ3ColoniaZona3.setVisible(true); break;}
-			break;
-			case 9 : switch(pos) { 	case 0: fichZ1ColoniaZona4.setVisible(true); break;
-									case 1: fichZ2ColoniaZona4.setVisible(true); break;
-									case 2: fichZ3ColoniaZona4.setVisible(true); break;}
-			break;
-			case 10 : switch(pos) { case 0: fichZ1ColoniaZona5.setVisible(true); break;
-									case 1: fichZ2ColoniaZona5.setVisible(true); break;
-									case 2: fichZ3ColoniaZona5.setVisible(true); break;}
-			break;
-			case 11 : switch(pos) { case 0: fichZ1ColoniaZona6.setVisible(true); break;
-									case 1: fichZ2ColoniaZona6.setVisible(true); break;
-									case 2: fichZ3ColoniaZona6.setVisible(true); break;}
-			break;
-		}
+		labelsZombies.get(loc).get(pos).setVisible(true);
 	}
 	
 	public void deleteZombie(int loc, int pos) {
-		switch(loc) {
-			case 0 : switch(pos) {	case 0: fichZComisaria1.setVisible(false); break;
-									case 1: fichZComisaria2.setVisible(false); break;
-									case 2: fichZComisaria3.setVisible(false); break;
-									case 3: fichZComisaria4.setVisible(false); break;}	
-			break;
-			case 1 : switch(pos) {	case 0: fichZSuperm1.setVisible(false); break;
-									case 1: fichZSuperm2.setVisible(false); break;
-									case 2: fichZSuperm3.setVisible(false); break;
-									case 3: fichZSuperm4.setVisible(false); break;}	
-			break;
-			case 2 : switch(pos) {	case 0: fichZColegio1.setVisible(false); break;
-									case 1: fichZColegio2.setVisible(false); break;
-									case 2: fichZColegio3.setVisible(false); break;
-									case 3: fichZColegio4.setVisible(false); break;}	
-			break;
-			case 3 : switch(pos) {	case 0: fichZGasolinera1.setVisible(false); break;
-									case 1: fichZGasolinera2.setVisible(false); break;
-									case 2: fichZGasolinera3.setVisible(false); break;}
-			break;
-			case 4 : switch(pos) {	case 0: fichZHospital1.setVisible(false); break;
-									case 1: fichZHospital2.setVisible(false); break;
-									case 2: fichZHospital3.setVisible(false); break;
-									case 3: fichZHospital4.setVisible(false); break;}	
-			break;
-			case 5 : switch(pos) {	case 0: fichZBiblioteca1.setVisible(false); break;
-									case 1: fichZBiblioteca2.setVisible(false); break;
-									case 2: fichZBiblioteca3.setVisible(false); break;}
-			break;
-			case 6 : switch(pos) { 	case 0: fichZ1ColoniaZona1.setVisible(false); break;
-									case 1: fichZ2ColoniaZona1.setVisible(false); break;
-									case 2: fichZ3ColoniaZona1.setVisible(false); break;}
-			break;
-			case 7 : switch(pos) { 	case 0: fichZ1ColoniaZona2.setVisible(false); break;
-									case 1: fichZ2ColoniaZona2.setVisible(false); break;
-									case 2: fichZ3ColoniaZona2.setVisible(false); break;}
-			break;
-			case 8 : switch(pos) { 	case 0: fichZ1ColoniaZona3.setVisible(false); break;
-									case 1: fichZ2ColoniaZona3.setVisible(false); break;
-									case 2: fichZ3ColoniaZona3.setVisible(false); break;}
-			break;
-			case 9 : switch(pos) { 	case 0: fichZ1ColoniaZona4.setVisible(false); break;
-									case 1: fichZ2ColoniaZona4.setVisible(false); break;
-									case 2: fichZ3ColoniaZona4.setVisible(false); break;}
-			break;
-			case 10 : switch(pos) { case 0: fichZ1ColoniaZona5.setVisible(false); break;
-									case 1: fichZ2ColoniaZona5.setVisible(false); break;
-									case 2: fichZ3ColoniaZona5.setVisible(false); break;}
-			break;
-			case 11 : switch(pos) { case 0: fichZ1ColoniaZona6.setVisible(false); break;
-									case 1: fichZ2ColoniaZona6.setVisible(false); break;
-									case 2: fichZ3ColoniaZona6.setVisible(false); break;}
-			break;
-		}
+		labelsZombies.get(loc).get(pos).setVisible(false);
 	}
-	
+
 	public void addBarricada(int loc, int pos) {
-		switch(loc) {
-		case 0 : switch(pos) {	case 0: fichZComisaria1.setVisible(true); fichZComisaria1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZComisaria2.setVisible(true); fichZComisaria2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZComisaria3.setVisible(true); fichZComisaria3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 3: fichZComisaria4.setVisible(true); fichZComisaria4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}	
-		break;
-		case 1 : switch(pos) {	case 0: fichZSuperm1.setVisible(true); fichZSuperm1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZSuperm2.setVisible(true); fichZSuperm2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZSuperm3.setVisible(true); fichZSuperm3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 3: fichZSuperm4.setVisible(true); fichZSuperm4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}	
-		break;
-		case 2 : switch(pos) {	case 0: fichZColegio1.setVisible(true); fichZColegio1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZColegio2.setVisible(true); fichZColegio2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZColegio3.setVisible(true); fichZColegio3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 3: fichZColegio4.setVisible(true); fichZColegio4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}	
-		break;
-		case 3 : switch(pos) {	case 0: fichZGasolinera1.setVisible(true); fichZGasolinera1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZGasolinera2.setVisible(true); fichZGasolinera2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZGasolinera3.setVisible(true); fichZGasolinera3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 4 : switch(pos) {	case 0: fichZHospital1.setVisible(true); fichZHospital1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZHospital2.setVisible(true); fichZHospital2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZHospital3.setVisible(true); fichZHospital3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 3: fichZHospital4.setVisible(true); fichZHospital4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}	
-		break;
-		case 5 : switch(pos) {	case 0: fichZBiblioteca1.setVisible(true); fichZBiblioteca1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZBiblioteca2.setVisible(true); fichZBiblioteca2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZBiblioteca3.setVisible(true); fichZBiblioteca3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 6 : switch(pos) { 	case 0: fichZ1ColoniaZona1.setVisible(true); fichZ1ColoniaZona1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona1.setVisible(true); fichZ2ColoniaZona1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona1.setVisible(true); fichZ3ColoniaZona1.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 7 : switch(pos) { 	case 0: fichZ1ColoniaZona2.setVisible(true); fichZ1ColoniaZona2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona2.setVisible(true); fichZ2ColoniaZona2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona2.setVisible(true); fichZ3ColoniaZona2.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 8 : switch(pos) { 	case 0: fichZ1ColoniaZona3.setVisible(true); fichZ1ColoniaZona3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona3.setVisible(true); fichZ2ColoniaZona3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona3.setVisible(true); fichZ3ColoniaZona3.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 9 : switch(pos) { 	case 0: fichZ1ColoniaZona4.setVisible(true); fichZ1ColoniaZona4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona4.setVisible(true); fichZ2ColoniaZona4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona4.setVisible(true); fichZ3ColoniaZona4.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 10 : switch(pos) { case 0: fichZ1ColoniaZona5.setVisible(true); fichZ1ColoniaZona5.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona5.setVisible(true); fichZ2ColoniaZona5.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona5.setVisible(true); fichZ3ColoniaZona5.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		case 11 : switch(pos) { case 0: fichZ1ColoniaZona6.setVisible(true); fichZ1ColoniaZona6.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 1: fichZ2ColoniaZona6.setVisible(true); fichZ2ColoniaZona6.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;
-								case 2: fichZ3ColoniaZona6.setVisible(true); fichZ3ColoniaZona6.setIcon(imgCircular("images/Fichas/barricada.png",36,34)); break;}
-		break;
-		}	
+		labelsZombies.get(loc).get(pos).setVisible(true);
+		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/Fichas/barricada.png",36,34));
 	}
 	
 	public void deleteBarricada(int loc, int pos) {
-		switch(loc) {
-		case 0 : switch(pos) {	case 0: fichZComisaria1.setVisible(false); fichZComisaria1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZComisaria2.setVisible(false); fichZComisaria2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZComisaria3.setVisible(false); fichZComisaria3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 3: fichZComisaria4.setVisible(false); fichZComisaria4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}	
-		break;
-		case 1 : switch(pos) {	case 0: fichZSuperm1.setVisible(false); fichZSuperm1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZSuperm2.setVisible(false); fichZSuperm2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZSuperm3.setVisible(false); fichZSuperm3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 3: fichZSuperm4.setVisible(false); fichZSuperm4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}	
-		break;
-		case 2 : switch(pos) {	case 0: fichZColegio1.setVisible(false); fichZColegio1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZColegio2.setVisible(false); fichZColegio2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZColegio3.setVisible(false); fichZColegio3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 3: fichZColegio4.setVisible(false); fichZColegio4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}	
-		break;
-		case 3 : switch(pos) {	case 0: fichZGasolinera1.setVisible(false); fichZGasolinera1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZGasolinera2.setVisible(false); fichZGasolinera2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZGasolinera3.setVisible(false); fichZGasolinera3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 4 : switch(pos) {	case 0: fichZHospital1.setVisible(false); fichZHospital1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZHospital2.setVisible(false); fichZHospital2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZHospital3.setVisible(false); fichZHospital3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 3: fichZHospital4.setVisible(false); fichZHospital4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}	
-		break;
-		case 5 : switch(pos) {	case 0: fichZBiblioteca1.setVisible(false); fichZBiblioteca1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZBiblioteca2.setVisible(false); fichZBiblioteca2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZBiblioteca3.setVisible(false); fichZBiblioteca3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 6 : switch(pos) { 	case 0: fichZ1ColoniaZona1.setVisible(false); fichZ1ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona1.setVisible(false); fichZ2ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona1.setVisible(false); fichZ3ColoniaZona1.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 7 : switch(pos) { 	case 0: fichZ1ColoniaZona2.setVisible(false); fichZ1ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona2.setVisible(false); fichZ2ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona2.setVisible(false); fichZ3ColoniaZona2.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 8 : switch(pos) { 	case 0: fichZ1ColoniaZona3.setVisible(false); fichZ1ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona3.setVisible(false); fichZ2ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona3.setVisible(false); fichZ3ColoniaZona3.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 9 : switch(pos) { 	case 0: fichZ1ColoniaZona4.setVisible(false); fichZ1ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona4.setVisible(false); fichZ2ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona4.setVisible(false); fichZ3ColoniaZona4.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 10 : switch(pos) { case 0: fichZ1ColoniaZona5.setVisible(false); fichZ1ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona5.setVisible(false); fichZ2ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona5.setVisible(false); fichZ3ColoniaZona5.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		case 11 : switch(pos) { case 0: fichZ1ColoniaZona6.setVisible(false); fichZ1ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 1: fichZ2ColoniaZona6.setVisible(false); fichZ2ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;
-								case 2: fichZ3ColoniaZona6.setVisible(false); fichZ3ColoniaZona6.setIcon(imgCircular("images/fichaZombieReal.png",36,34)); break;}
-		break;
-		}	
+		labelsZombies.get(loc).get(pos).setVisible(false);
+		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/fichaZombieReal.png",36,34));
+	}
+	
+	public static void pedirHeridas(int id) throws IOException{
+		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|heridas|" + id);
+	}
+	
+	public static void setHeridas(int[] h) {
+		heridas = h.clone();
+	}
+	
+	public static int[] getHeridas() {
+		return heridas;
 	}
 }
 

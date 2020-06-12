@@ -1001,21 +1001,21 @@ public class Asociaciones {
 		JLabel oleadaZombis = new JLabel("");
 		JLabel reorganizacion = new JLabel("");
 		iniciarLabelsCrisis(agotamiento, despensaVacia, enfermedad, escasezDeGasolina, horrorNoche, nosEstanObservando, oleadaZombis, reorganizacion);
-		//Comida 1 -> 0
+		//Agotamiento  -> 0
 		aux.put(300, agotamiento);
-		//Comida 2 -> 1
+		//despensaVacia -> 1
 		aux.put(301, despensaVacia);
-		//Comida 3 -> 2
+		//enfermedad  -> 2
 		aux.put(302, enfermedad);
-		//Medicina -> 3
+		//escasezDeGasolina -> 3
 		aux.put(303, escasezDeGasolina);
-		//Trastos -> 4
+		//horrorNoche -> 4
 		aux.put(304, horrorNoche);
-		//Gasolina -> 5
+		//nosEstanObservando -> 5
 		aux.put(305, nosEstanObservando);
-		//Superviviente 1 -> 6
+		//oleadaZombis  -> 6
 		aux.put(306, oleadaZombis);
-		//Superviviente 2 -> 7
+		//reorganizacion  -> 7
 		aux.put(307, reorganizacion);
 
 		return aux;
