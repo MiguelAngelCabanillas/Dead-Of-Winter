@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import Cartas.Carta;
-import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
 
 public class Localizacion {
@@ -16,7 +15,7 @@ public class Localizacion {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//DATOS PARA LA INTERFAZ
-	private String nombre;
+	private int id;
 	
 	//DATOS PARA EL MOVIMIENTO
 	private List<CasillasZombie> casillasZombie;
@@ -31,8 +30,8 @@ public class Localizacion {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Localizacion(String n, Mazo m, int max, int numCasillasZombie) {
-		this.nombre = n;
+	public Localizacion(Mazo m, int max, int numCasillasZombie, int id) {
+		this.id = id;
 		
 		inicCasillasZombie(numCasillasZombie);
 		this.supervivientes = new TreeMap<Integer, Carta_Supervivientes>();
@@ -56,8 +55,8 @@ public class Localizacion {
 	}
 	
 	//GETTERS Y SETTERS
-	public String getNombre() {
-		return nombre;
+	public int getId() {
+		return id;
 	}
 	
 	public List<CasillasZombie> getCasillasZombie() {
@@ -128,7 +127,57 @@ public class Localizacion {
 		return aux;
 	}
 	
+	public String anyadirZombie() {
+		String casillas = "";
+		boolean colocado = false;
+		CasillasZombie aux;
+		int i = 0;
+		
+		//INTENTA COLOCARLO EN UN HUECO
+		while(!colocado && i < casillasZombie.size()) {
+			aux = casillasZombie.get(i);
+			if(!aux.getHayZombie()  && !aux.getHayBarricada()) {
+				aux.setHayZombie(true);
+				casillas += i;
+				colocado = true;
+			}
+		}
+
+		i = 0;
+		
+		//INTENTA COLOCARLO EN UNA BARRICADA
+		while(!colocado && i < casillasZombie.size()) {
+			aux = casillasZombie.get(i);
+			if(!aux.getHayZombie()  && !aux.getHayBarricada()) {
+				aux.setHayZombie(true);
+				casillas += i;
+				colocado = true;
+			}
+		}
+		
+		if(!colocado) {
+			menorInfluencia().recibirHerida(false);
+			menorInfluencia().recibirHerida(false);
+			menorInfluencia().recibirHerida(false);
+		}
+		
+		return casillas;
+	}
+	
 	//METODOS DE CONTROL
+	public void eliminarSuperviviente(Carta_Supervivientes personaje) {
+		boolean encontrado = false; int i = 0;
+		while(!encontrado) {
+			Carta_Supervivientes aux = supervivientes.get(i);
+			if(aux.equals(personaje)) {
+				supervivientes.remove(i);
+				encontrado = true;
+			}else {
+				i++;
+			}
+		}
+	}
+	
 	public boolean esta(Carta_Supervivientes personaje) {
 		return supervivientes.containsValue(personaje);
 	}
@@ -229,11 +278,11 @@ public class Localizacion {
 	//METODOS DE CLASE
 	@Override
 	public boolean equals(Object o) {
-		return (o instanceof Localizacion) && (this.getNombre().contentEquals(((Localizacion)o).getNombre())) && (this.hashCode() == ((Localizacion)o).hashCode());
+		return (o instanceof Localizacion) && (this.getId() == ((Localizacion)o).getId()) && (this.hashCode() == ((Localizacion)o).hashCode());
 	}
 	
 	@Override
 	public int hashCode() {
-		return nombre.hashCode();
+		return Integer.hashCode(id);
 	}
 }

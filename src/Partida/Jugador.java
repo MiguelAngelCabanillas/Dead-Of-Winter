@@ -36,6 +36,8 @@ public class Jugador {
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
 		this.mazoObjeto  = mazoJugador;
 		this.dados = new ArrayList<Dado>();
+		dados.add(new Dado());
+		
 		this.riesgo = new DadoDeRiesgo();
 		
 		this.objetivo = o;
@@ -70,10 +72,18 @@ public class Jugador {
 	
 	//METODOS DE RONDA
 	public String tirarDados() {
+<<<<<<< HEAD
+		String salida = ""; int i = 0;
+		
+=======
 		String salida = "";
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 		for(Dado d : dados) {
 			d.tirarDado();
-			salida += "|";
+			if(i != 0) {
+				salida += "|";
+			}
+			i++;
 			salida += d.getValor();
 		}
 		
@@ -90,6 +100,7 @@ public class Jugador {
 		for (int i = 0; i < this.mazoSuperviviente.size(); i++) {
 			if (this.mazoSuperviviente.get(i).estaMuerto()) {
 				this.mazoSuperviviente.remove(i);
+				this.dados.remove(dados.size() - 1);
 			}
 		}
 	}
@@ -123,6 +134,13 @@ public class Jugador {
 		return indice;
 	}
 	
+	//RESTABLECE LAS HABILIDADES YA USADAS
+	public void resetHab() {
+		for(Carta_Supervivientes sup : mazoSuperviviente) {
+			sup.setUsado(false);
+		}
+	}
+	
 	//DEVUELVE LA CARTA DE SUPERVIVIENTE CORRESPONDIENTE A LA ID
 	private Carta_Supervivientes getSupConId(int id) {
 		Carta_Supervivientes salida = null;
@@ -143,8 +161,8 @@ public class Jugador {
 	}
 	
 	//METODO PARA APLICAR UNA HERIDA
-	public void herir(Carta_Supervivientes carta) {
-		mazoSuperviviente.get(indice(carta)).recibirHerida(false);
+	public void herir(Carta_Supervivientes carta, boolean hielo) {
+		mazoSuperviviente.get(indice(carta)).recibirHerida(hielo);
 	}
 	
 	//DEVUELVE LA LOCALIZACION DEL PERSONAJE
@@ -178,8 +196,14 @@ public class Jugador {
 	}
 	
 	//AÑADE UN SUPERVIVIENTE AL JUGADOR
+<<<<<<< HEAD
+	public void addSuperviviente(Carta_Supervivientes personaje) {
+		mazoSuperviviente.add(personaje);
+		dados.add(new Dado());
+=======
 	public void addSuperviviente(int id) {
 		mazoSuperviviente.add(new Carta_Supervivientes(id, 0, 0, 0));
+>>>>>>> 6ec86010d69fe40613bef9fbc5222e9e3b73fef0
 	}
 	
 	//DEVUELVE EL SUPERVIVIENTE QUE EL JUGADOR TIENE EN LA LOCALIZACION
@@ -231,6 +255,8 @@ public class Jugador {
 		} else if (dado > 8 && dado <= 10){
 			personaje.recibirHerida(true);
 		} else if (dado == 11) {
+			dados.remove(dados.size() - 1);
+			localizacion(personaje).eliminarSuperviviente(personaje);
 			mazoSuperviviente.remove(personaje);
 		}
 	}
@@ -247,6 +273,10 @@ public class Jugador {
 		valorDado(superviviente.getAtaque()).usar();
 		if(superviviente.tiraAlAtacar()) {
 			tiradaRiesgo(superviviente);
+		}
+		
+		if(objetivo.getId() == 0) {
+			objetivo.actualizar(0);
 		}
 		
 		return localizacion(superviviente).matarZombie();
@@ -270,16 +300,25 @@ public class Jugador {
 		
 		//SI HAY DADO Y EL SUPERVIVIENTE NO ESTA EN LA COLONIA
 		if(dado != null && !getLocalizacion(6).equals(localizacion(personaje))) {
-			aux = localizacion(personaje).cogerCarta();
-			salida += aux.getId();
-			mazoObjeto.add((Carta) aux);
-			
-			//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
-			if(getLocalizacion(personaje.doble()).equals(localizacion(personaje))) {
+			if(localizacion(personaje).getMazo().vacio()) {
+				salida = null;
+			}else {
 				aux = localizacion(personaje).cogerCarta();
-				salida += "|" + aux.getId();
+				salida += aux.getId();
 				mazoObjeto.add((Carta) aux);
+				
+				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
+				if(!personaje.getUsado() && (getLocalizacion(personaje.doble()).equals(localizacion(personaje)) || personaje.doble() == 7)) {	//VALE 7 SOLO PARA EL DIRECTOR
+					aux = localizacion(personaje).cogerCarta();
+					salida += "|" + aux.getId();
+					mazoObjeto.add((Carta) aux);
+					personaje.setUsado(true);
+				}
 			}
+		}
+		
+		if(objetivo.getId() == 1 && localizacion(personaje).getMazo().vacio()) {
+			objetivo.actualizar(localizacion(personaje).getId());
 		}
 		
 		return salida;
@@ -311,17 +350,24 @@ public class Jugador {
 	 * UN METODO EXTERNO COMO UNA CARTA DE ENCRUCIJADA. EL METODO AÑADE POR DEFECTO UNO DE COMIDA. HABRA QUE CAMBIAR
 	 * SI DECIDIMOS IMPLEMENTAR CARTAS CON VALORES DISTINTOS
 	 */
-	public void anyadirComida(Carta_Objeto objeto) {
-		if(objeto != null) {
-			mazoObjeto.remove(objeto);
+	//TODO
+//	public void anyadirComida(Carta_Objeto objeto) {
+//		if(objeto != null) {
+//			mazoObjeto.remove(objeto);
+//		}
+//		
+//		tablero.getColonia().setTokensDeHambre(tablero.getColonia().getTokensDeHambre() + 1);
+//	}
+	
+	public boolean anyadirCrisis(int id) {
+		boolean tiene = false;
+		Carta carta = new Carta_Objeto(id, 0, 0);
+		
+		if(mazoObjeto.contains(carta)) {
+			mazoObjeto.remove(carta);
 		}
 		
-		tablero.getColonia().setTokensDeHambre(tablero.getColonia().getTokensDeHambre() + 1);
-	}
-	
-	public void anyadirCrisis(Carta_Objeto carta) {
-		tablero.getColonia().anyadirCrisis(carta);
-		mazoObjeto.remove(carta);
+		return tiene;
 	}
 	
 	public void darCarta() {

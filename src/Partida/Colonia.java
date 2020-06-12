@@ -13,14 +13,9 @@ public class Colonia extends Localizacion {
 	////ATRIBUTOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//CONTADORES DE INTERFAZ
-	private int tokensDeHambre;
-	private int vertedero;
-	
+
 	//OBJETIVOS
-	private Objetivo_Principal ObjetivoPrincipal;			//es posible que esto sea eliminado
-	private List<Carta_Objeto> crisis;
-	private Carta_Crisis ronda;		
+	private Objetivo_Principal ObjetivoPrincipal;			//es posible que esto sea eliminado	
 	
 	//DATOS PARA MOVIMIENTO
 	private List<List<CasillasZombie>> puertas;
@@ -34,13 +29,9 @@ public class Colonia extends Localizacion {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Colonia(Objetivo_Principal c, int jugadores) {
-		super("Colonia.", null, 24, 3);	
-		
-		this.tokensDeHambre = 0;		
-		this.vertedero = 0;
+		super(null, 24, 3, 6);	
 		
 		this.ObjetivoPrincipal = c;
-		this.crisis = new ArrayList<>();
 		
 		inicCasillasZombie();
 		
@@ -110,6 +101,37 @@ public class Colonia extends Localizacion {
 	
 	public void pasarRonda(Carta_Crisis crisis) {
 		//A IMPLEMENTAR CUANDO ESTE LA CLASE PARTIDA
+	}
+	
+	@Override
+	public String anyadirZombie() {
+		boolean colocado = false;
+		int[] posiciones = new int[6];
+		int i = 0;
+		int j;
+		List<CasillasZombie> aux;
+		
+		while(!colocado && i < 6) {
+			aux = puertas.get(i);
+			CasillasZombie aux2;
+			j = 0;
+			while(!colocado && j < 3) {
+				aux2 = aux.get(j);
+				if(!aux2.getHayBarricada() && !aux2.getHayZombie()){
+					aux2.setHayZombie(true);
+					colocado = true;
+					posiciones[i]++;
+				}
+			}
+		}
+		
+		//SI NO CABEN, SE MATA A UN SUPERVIVIENTE
+		if(!colocado) {
+			eliminarSuperviviente(super.menorInfluencia());
+		}
+		
+		return Integer.toString(posiciones[0]) + Integer.toString(posiciones[1]) + Integer.toString(posiciones[2]) + Integer.toString(posiciones[3]) + Integer.toString(posiciones[4])+ 
+				Integer.toString(posiciones[5]);
 	}
 	
 	@Override
@@ -196,44 +218,7 @@ public class Colonia extends Localizacion {
 		return aux;
 	}
 	
-	public int pasarCrisis() {
-		int contador = 0;
-		Carta_Objeto objeto = ronda.getObjeto();
-		
-		for (Carta_Objeto carta : crisis) {
-			if (objeto.getTipo() == (carta.getTipo())) {
-				contador++;
-			} else {
-				contador--;
-			}
-		}
-		return contador/numJugadores;
-	}
-	
-	public void anyadirCrisis(Carta_Objeto carta) {
-		crisis.add(carta);
-	}
-	
 	//GETTERS Y SETTERS
-	public void setCrisis(Carta_Crisis crisis) {
-		this.ronda = crisis;
-	}
-
-	public int getTokensDeHambre() {
-		return tokensDeHambre;
-	}
-
-	public void setTokensDeHambre(int tokensDeHambre) {
-		this.tokensDeHambre = tokensDeHambre;
-	}
-
-	public int getVertedero() {
-		return vertedero;
-	}
-
-	public void setVertedero(int vertedero) {
-		this.vertedero = vertedero;
-	}
 	
 	public List<List<CasillasZombie>> getPuertas() {
 		return this.puertas;
