@@ -143,12 +143,12 @@ public class ClientReader implements Runnable {
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
-                	//FrameTablero.setCrisis(Integer.parseInt(split[2]));
-                	for(int j = 2; j<split.length;j++) {
+                	FrameTablero.setCrisis(Integer.parseInt(split[2]));
+                	for(int j = 3; j<split.length;j++) {
                 		tablero.tiradaDados(Integer.parseInt(split[j]));
+                		System.out.println("Dado: " + Integer.parseInt(split[j]));
                 	}
                 	break;
-                
                 case "moral": //moral|nuevoValorMoral
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;

@@ -275,8 +275,10 @@ private BufferedReader buffer;
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor(mensInit + "|" + i);
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  //ENVIA LOS DADOS A CADA JUGADOR//
+
 							  user.getSala().getPartida().inicDados();
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303" + user.getSala().getPartida().getDados(i));
+
 							  
 							  for(Usuario usu : user.getSala().getUsuarios()){
 								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());

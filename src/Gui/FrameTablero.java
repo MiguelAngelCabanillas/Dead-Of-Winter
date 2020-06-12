@@ -56,8 +56,10 @@ public class FrameTablero extends JFrame {
 	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
 
+
 	private static int[] heridas = new int[2];
 	//TODO: CREAR CLASE PRINCIPAL PARA GENERAR TIRADA DADOS
+
 	
 	private Point locRonda[] = {new Point(1061,914),new Point(1018,914),new Point(977,914),new Point(934,914),new Point(892,914),new Point(849,914),
 								new Point(808,914),new Point(765,914),new Point(723,914),new Point(680,914)};
