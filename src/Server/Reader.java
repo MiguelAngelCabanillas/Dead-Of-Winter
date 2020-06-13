@@ -271,6 +271,7 @@ private BufferedReader buffer;
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
 						  user.getSala().getPartida().inicSupervivientesEnColonia();
+						  user.getSala().getPartida().inicDados();
 						  System.out.println(mensIds);
 						  
 						   user.enviarALaSala("exit|tablero|" + split[4]);
@@ -282,7 +283,6 @@ private BufferedReader buffer;
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  //ENVIA LOS DADOS A CADA JUGADOR//
 
-							  user.getSala().getPartida().inicDados();
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							  
