@@ -244,7 +244,7 @@ private BufferedReader buffer;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 130; i++) {
+						  for(int i = 100; i < 131; i++) {
 							  sups.add(i);
 						  }
 						  
@@ -262,11 +262,12 @@ private BufferedReader buffer;
 								  user.setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
 							  }
 							  
-							  user.getSala().getPartida().getJugador((int)i/2).addSuperviviente(new Carta_Supervivientes(sups.get(i), 0, 0, 99));
+							  user.getSala().getPartida().addSuperviviente((int)i/2, sups.get(i));
 							 
 							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
+						  user.getSala().getPartida().inicSupervivientesEnColonia();
 						  System.out.println(mensIds);
 						  
 						   user.enviarALaSala("exit|tablero|" + split[4]);
@@ -327,6 +328,12 @@ private BufferedReader buffer;
 						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
 						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
 					}
+					break;
+				case "mover":
+					System.out.println("mover|" + split[3] + "|" + split[4]);
+					String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+					System.out.println("mover|" + split[3] + "|" + split[4]);
+					user.enviarALaSala("mover|"+ comando);
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {

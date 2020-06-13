@@ -160,11 +160,12 @@ public class ClientReader implements Runnable {
                 	System.out.println("Entran " + split[1] + ", " + split[2]);
                 	FrameTablero.setHeridas(heridas);
                 	break;
-                	
                 case "tuturno": 
                 	tablero.miTurno();
                 	break;
-                	
+                case "finpartida":
+                	//tablero.finPartida();
+                	break;
                 default:
                     break;
                 }
