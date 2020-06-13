@@ -106,8 +106,10 @@ public class Jugador {
 		Dado menor = null;
 		
 		for(Dado d : dados) {
-			if(!d.usado() && d.getValor() >= valor && menor.getValor() > d.getValor()) {
-				menor = d;
+			if(!d.usado() && d.getValor() >= valor) {
+				if(menor == null || menor.getValor() > d.getValor()) {
+					menor = d;
+				}
 			}
 		}
 		
