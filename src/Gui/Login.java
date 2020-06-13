@@ -102,15 +102,21 @@ public class Login {
 		frmDeadOfWinter.getContentPane().add(menuBar);
 		
 		JMenu mnSonido = new JMenu("Sonido");
+		mnSonido.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		menuBar.add(mnSonido);
 		
 		
 		
 		
 		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar/Reanudar m\u00FAsica");
+		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mntmSilenciarMusica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if (musica.isActive()) {
+					musica.stop();
+				}else {
+					musica.start();
+				}
 			}
 		});
 		mnSonido.add(mntmSilenciarMusica);
