@@ -68,8 +68,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Comisaria.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/PoliceStation.png")));
-		Comisaria.setBounds(538, 94, 243, 171);
+		Comisaria.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Comisaria.png")));
+		Comisaria.setBounds(538, 94, 240, 119);
 		contentPane.add(Comisaria);
 		
 		Tienda = new JButton("");
@@ -79,8 +79,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Tienda.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GroceryStore.png")));
-		Tienda.setBounds(538, 402, 243, 171);
+		Tienda.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Supermercado.png")));
+		Tienda.setBounds(538, 402, 240, 119);
 		contentPane.add(Tienda);
 		
 		Colegio = new JButton("");
@@ -90,8 +90,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Colegio.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/School.jpg")));
-		Colegio.setBounds(538, 708, 243, 171);
+		Colegio.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Colegio.png")));
+		Colegio.setBounds(538, 708, 240, 119);
 		contentPane.add(Colegio);
 		
 		Gasolinera = new JButton("");
@@ -101,8 +101,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Gasolinera.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GasStation.jpg")));
-		Gasolinera.setBounds(1469, 92, 243, 171);
+		Gasolinera.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Gasolinera.png")));
+		Gasolinera.setBounds(1469, 92, 240, 119);
 		contentPane.add(Gasolinera);
 		
 		Hospital = new JButton("");
@@ -112,8 +112,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Hospital.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GasStation.png")));
-		Hospital.setBounds(1469, 402, 243, 171);
+		Hospital.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Hospital.png")));
+		Hospital.setBounds(1469, 402, 240, 119);
 		contentPane.add(Hospital);
 		
 		Biblioteca = new JButton("");
@@ -123,8 +123,8 @@ public class FrameLocalizaciones extends JFrame {
 				dispose();
 			}
 		});
-		Biblioteca.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Library.png")));
-		Biblioteca.setBounds(1469, 710, 243, 171);
+		Biblioteca.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Biblioteca.png")));
+		Biblioteca.setBounds(1469, 710, 240, 119);
 		contentPane.add(Biblioteca);
 		
 		JButton btnNewButton_2 = new JButton("Volver");
@@ -145,7 +145,7 @@ public class FrameLocalizaciones extends JFrame {
 			}
 		});
 		Colonia.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Colony.png")));
-		Colonia.setBounds(971, 241, 305, 136);
+		Colonia.setBounds(971, 241, 302, 136);
 		contentPane.add(Colonia);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 	}
