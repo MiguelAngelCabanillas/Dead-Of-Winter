@@ -119,7 +119,8 @@ public class FrameTablero extends JFrame {
 	 * @throws InterruptedException 
 	 */
 	public FrameTablero(int objetivo, Usuario user) throws InterruptedException{
-		BarraProgreso progressBar = new BarraProgreso(); ////////////////////////
+		BarraProgreso progressBar = new BarraProgreso();
+		progressBar.setValor(0);////////////////////////
 		progressBar.setVisible(true);
 		progressBar.setString("Inicializando colonia");
 		setFont(new Font("Dialog", Font.PLAIN, 18));
@@ -129,9 +130,13 @@ public class FrameTablero extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		
+	
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
+		for (int i = 1; i <= 10; i++) {
+			Thread.sleep(20);
+			progressBar.setValor(i);  ///////////////////
+		}
 		
-		progressBar.setValor(10); ///////////////////
 		
 		FrameTablero.objetivo = objetivo;
 		FrameTablero.usuario = user;
@@ -165,10 +170,10 @@ public class FrameTablero extends JFrame {
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnSonido.add(mntmSilenciarMusica);
-		
-		progressBar.setValor(25); ////////////////
-		
-		
+		for (int i = 11; i <= 25; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i); ////////////////
+		}
 		
 		mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
@@ -378,8 +383,12 @@ public class FrameTablero extends JFrame {
 		btnInfoJugador.setBounds(840, 71, 129, 41);
 		contentPane.add(btnInfoJugador);
 		
-		progressBar.setValor(60); /////////////////////////////////////////////
+		 /////////////////////////////////////////////
 		progressBar.setString("Reclutando supervivientes");
+		for (int i = 26; i <= 60; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i);
+		}
 		
 		Thread.sleep(400);
 		
@@ -459,9 +468,14 @@ public class FrameTablero extends JFrame {
 		AccNotRecDice.setBounds(150, 59, 160, 22);
 		contentPane.add(AccNotRecDice);
 		
-		
-		progressBar.setValor(75); //////////////////////////
+////////////////////////////////////////////////////////////
 		progressBar.setString("Limpiando sangre de zombi");
+		for (int i = 61; i <= 75; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i);
+		}
+////////////////////////////////////////////////////////////
+		
 		Thread.sleep(400);
 		
 		JSeparator separator_2 = new JSeparator();
@@ -564,10 +578,14 @@ public class FrameTablero extends JFrame {
 			}
 		});
 		
-		
-		
-		progressBar.setValor(90);///////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 		progressBar.setString("Llenando coches de gasolina");
+		for (int i = 76; i <= 90; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i);
+		}
+//////////////////////////////////////////////////////////////////////
+		
 		Thread.sleep(400);
 		
 		btnCartaCrisis.setBounds(1062, 699, 123, 158);
@@ -601,11 +619,14 @@ public class FrameTablero extends JFrame {
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
+//////////////////////////////////////////////////////////////////////
+		progressBar.setString("Comienza la aventura...");
+		for (int i = 91; i <= 100; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i);
+		}
+//////////////////////////////////////////////////////////////////////	
 		
-		
-		
-		
-		progressBar.setValor(100);
 		progressBar.dispose();
 		
 	}
