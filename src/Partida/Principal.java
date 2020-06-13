@@ -269,8 +269,10 @@ public class Principal {
 		return jugadorActual.atacar(idSuperviviente);
 	}
 	
-	public int mover(int idSuperviviente, int localizacion) {	
-		return jugadorActual.mover(idSuperviviente, localizacion);
+	public String mover(int idSuperviviente, int localizacion) {	
+		return Integer.toString(idSuperviviente) + "|" + 
+	Integer.toString(localizacion) + "|" + 
+				Integer.toString(jugadorActual.mover(idSuperviviente, localizacion));
 	}
 	
 	public String buscar(int idJugador) {
@@ -284,21 +286,37 @@ public class Principal {
 	public boolean aportarCrisis(int id) {
 		boolean estado = false;
 		if(jugadorActual.anyadirCrisis(id)) {
-			crisisActual.ayadir(id);
+			crisisActual.anyadir(id, jugadorActual.getId()	);
 			
 			estado = true;
 		}
 		return estado;
 	}
 	
+	public String ponerBarricada(int sup) {
+		return jugadorActual.barricada(sup);
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public void addSuperviviente(int idJug, int idSup) {
+		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
+	}
+	
+	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
+	public void inicSupervivientesEnColonia() {
+		for(Jugador j : jugadores) {
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(0));
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(1));
+		}
+	}
+	
 	//INICIA LOS JUGADORES
 	public void inicPartida(int numJugadores) {
 		inicMazos();
-		inicJugadores(numJugadores);
 		inicTablero(numJugadores);
+		inicJugadores(numJugadores);
 		jugadorActual = jugadores.get(0);
 	}
 	

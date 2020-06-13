@@ -24,7 +24,7 @@ public class Jugador {
 	private Objetivo_Principal objetivo;
 	
 	//DATOS DE CONTROL
-	private static Tablero tablero;
+	private Tablero tablero;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -106,8 +106,10 @@ public class Jugador {
 		Dado menor = null;
 		
 		for(Dado d : dados) {
-			if(!d.usado() && d.getValor() >= valor && menor.getValor() > d.getValor()) {
-				menor = d;
+			if(!d.usado() && d.getValor() >= valor) {
+				if(menor == null || menor.getValor() > d.getValor()) {
+					menor = d;
+				}
 			}
 		}
 		
@@ -233,6 +235,7 @@ public class Jugador {
 			break;
 		case 5 : sitio = tablero.getBiblioteca();
 			break;
+		default : sitio = tablero.getColonia();
 		}
 		
 		return sitio;
@@ -278,10 +281,21 @@ public class Jugador {
 //		return valorDado(getSupConId(personaje).getAtaque()).usar();
 //	}
 	
-	public void barricada(Localizacion l) {
-		if(comprobarLocalizacion(l) != null) {
-			l.ponerBarricada();
+	public String barricada(int id) {
+		Carta_Supervivientes personaje = getSupConId(id);
+		Localizacion loc = localizacion(personaje);
+		Dado dado = valorDado(1);
+		int res = loc.ponerBarricada();
+		
+		if(dado == null) {
+			res = -1;
 		}
+		
+		if(res != -1) {
+			dado.usar();
+		}
+		
+		return Integer.toString(loc.getId()) + "|" + Integer.toString(res);
 	}
 	
 	public String buscar(int id) {
@@ -319,11 +333,11 @@ public class Jugador {
 	public int mover(int id, int l) {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion lugar = getLocalizacion(l);
-		int posicion = lugar.llegar(personaje);
+		int posicion = -1;
 		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(posicion != -1 && !lugar.getSupervivientes().containsValue(personaje)) {
-			localizacion(personaje).irse(personaje);;
+		if(lugar.getSupervivientes().size() < lugar.getMaximo() && !lugar.getSupervivientes().containsValue(personaje)) {
+			localizacion(personaje).irse(personaje);
 			posicion = lugar.llegar(personaje);
 			
 			if(personaje.tiraAlMoverse()) {

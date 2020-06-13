@@ -29,7 +29,7 @@ public class Colonia extends Localizacion {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Colonia(Objetivo_Principal c, int jugadores) {
-		super(null, 24, 3, 6);	
+		super(null, 24, 3, 6, 0);	
 		
 		this.ObjetivoPrincipal = c;
 		
@@ -56,11 +56,16 @@ public class Colonia extends Localizacion {
 			
 			this.puertas.add(aux);
 		}
+		
+		if(ObjetivoPrincipal.getId() == 1) {
+			this.puertas.get(0).get(0).setHayZombie(true);
+			this.puertas.get(1).get(0).setHayZombie(true);
+		}
 	}
 	
-	public int anyadirSupervivientes(int i) {
+	public int anyadirSupervivientes(Carta_Supervivientes personaje) {
 		int aux = super.getPimeraValida();
-		//super.getSupervivientes().put(aux, new Carta_Supervivientes(i));
+		super.getSupervivientes().put(aux, personaje);
 		return aux;
 	}
 	

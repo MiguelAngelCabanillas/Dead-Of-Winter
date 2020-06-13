@@ -19,7 +19,7 @@ public class Usuario{
 	private ClientReader conector;
 	private Sala sala;
 	private Jugador jugador;
-	private Clip musica;
+	public static Clip musica;
 	AudioInputStream musicInputStream;
 	
 	public Usuario(String nombre, ClientReader conector) {

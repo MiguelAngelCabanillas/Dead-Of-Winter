@@ -11,6 +11,8 @@ public class Objetivo_Principal {
 	private int moral;
 	private int[] vacios;
 	
+	private int zombies;
+	
 	private int contadorObjetivo = 0;	//SERÁ UN CONTADOR DE ZOMBIES O DE MAZOS VACÍOS
 	
 	public Objetivo_Principal(int objetivo) {
@@ -19,9 +21,11 @@ public class Objetivo_Principal {
 		if(objetivo == 0) {
 			moral = 6;
 			rondas = 6;
+			zombies = 1;
 		}else {
 			moral = 5;
 			rondas = 6;
+			zombies = 2;
 			vacios = new int[6];
 		}
 	}
@@ -68,5 +72,9 @@ public class Objetivo_Principal {
 	
 	public int getRondas() {
 		return rondas;
+	}
+	
+	public int getZombies() {
+		return zombies;
 	}
 }

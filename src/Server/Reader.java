@@ -247,7 +247,7 @@ private BufferedReader buffer;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 130; i++) {
+						  for(int i = 100; i < 131; i++) {
 							  sups.add(i);
 						  }
 						  
@@ -265,11 +265,12 @@ private BufferedReader buffer;
 								  user.setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
 							  }
 							  
-							  user.getSala().getPartida().getJugador((int)i/2).addSuperviviente(new Carta_Supervivientes(sups.get(i), 0, 0, 99));
+							  user.getSala().getPartida().addSuperviviente((int)i/2, sups.get(i));
 							 
 							//  user.getSala().getUsuarios().get((int)i/2).getJugador().addSuperviviente(sups.get(i));
 							  System.out.println((int)i/2 + ", " + sups.get(i));
 						  }
+						  user.getSala().getPartida().inicSupervivientesEnColonia();
 						  System.out.println(mensIds);
 						  
 						   user.enviarALaSala("exit|tablero|" + split[4]);
@@ -307,23 +308,39 @@ private BufferedReader buffer;
 					cont--;
 					user.getSala().setContTurnos(cont);
 					if(cont == 0) {
-						Random rnd = new Random();
-						int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
 						user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 						user.getSala().getPartida().pasaRonda();
-						user.getSala().getPartida().pasaTurno(primero);
-						for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
-							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
+						if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
+							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
+							}
+						} else {
+							Random rnd = new Random();
+							int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
+							user.getSala().getPartida().pasaTurno(primero);
+							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
+							}
+							user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
+							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
 						}
-						user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
-						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
 					} else {
 						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
 						user.getSala().getPartida().pasaTurno(idSig);
 						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
 						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
 					}
+					break;
+				case "mover":
+					System.out.println("mover|" + split[3] + "|" + split[4]);
+					String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+					user.enviarALaSala("mover|"+ comando);
+					break;
+				case "barricada":
+					System.out.println("barricada|"+split[3]);
+					String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
+					user.enviarALaSala("addBarricada|" + com);
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
