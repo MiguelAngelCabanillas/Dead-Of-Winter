@@ -118,7 +118,10 @@ public class FrameTablero extends JFrame {
 	 * Create the frame.
 	 * @throws InterruptedException 
 	 */
-	public FrameTablero(int objetivo, Usuario user){
+	public FrameTablero(int objetivo, Usuario user) throws InterruptedException{
+		BarraProgreso progressBar = new BarraProgreso(); ////////////////////////
+		progressBar.setVisible(true);
+		progressBar.setString("Inicializando colonia");
 		setFont(new Font("Dialog", Font.PLAIN, 18));
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
@@ -127,6 +130,8 @@ public class FrameTablero extends JFrame {
 		setBounds(100, 100, 1940, 1048);
 		
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
+		
+		progressBar.setValor(10); ///////////////////
 		
 		FrameTablero.objetivo = objetivo;
 		FrameTablero.usuario = user;
@@ -160,6 +165,10 @@ public class FrameTablero extends JFrame {
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnSonido.add(mntmSilenciarMusica);
+		
+		progressBar.setValor(25); ////////////////
+		
+		
 		
 		mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
@@ -219,6 +228,8 @@ public class FrameTablero extends JFrame {
 		lblBusquedaObj_3.setBounds(1725, 664, 129, 158);
 		lblBusquedaObj_3.setIcon(reSizeImg("images/busqueda.jpeg",129,158));
 		contentPane.add(lblBusquedaObj_3);
+		
+		progressBar.setValor(45); ///////////////////////////////
 		
 		JLabel lblBusquedaObj_5 = new JLabel("");
 		lblBusquedaObj_5.setBounds(1725, 48, 129, 158);
@@ -367,6 +378,11 @@ public class FrameTablero extends JFrame {
 		btnInfoJugador.setBounds(840, 71, 129, 41);
 		contentPane.add(btnInfoJugador);
 		
+		progressBar.setValor(60); /////////////////////////////////////////////
+		progressBar.setString("Reclutando supervivientes");
+		
+		Thread.sleep(400);
+		
 		btnInfoTablero = new JButton("INFO TABLERO");
 		btnInfoTablero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -442,6 +458,11 @@ public class FrameTablero extends JFrame {
 		AccNotRecDice.setForeground(Color.WHITE);
 		AccNotRecDice.setBounds(150, 59, 160, 22);
 		contentPane.add(AccNotRecDice);
+		
+		
+		progressBar.setValor(75); //////////////////////////
+		progressBar.setString("Limpiando sangre de zombi");
+		Thread.sleep(400);
 		
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setBounds(150, 79, 160, 2);
@@ -542,6 +563,13 @@ public class FrameTablero extends JFrame {
 				crisis.setVisible(true);
 			}
 		});
+		
+		
+		
+		progressBar.setValor(90);///////////////////////////////////////////////
+		progressBar.setString("Llenando coches de gasolina");
+		Thread.sleep(400);
+		
 		btnCartaCrisis.setBounds(1062, 699, 123, 158);
 		System.out.println("IDCRISIS: " +idCrisis);
 		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(idCrisis).getIcon();
@@ -573,7 +601,18 @@ public class FrameTablero extends JFrame {
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
+		
+		
+		
+		
+		progressBar.setValor(100);
+		progressBar.dispose();
+		
 	}
+	
+	
+	
+	
 	
 	//Método para adaptar el tamaño de una imagen a su JLabel
 	//Pasamos como parámetro el String con el path, un int con el nuevo ancho y un int con la nueva altura

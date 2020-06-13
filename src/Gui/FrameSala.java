@@ -293,7 +293,7 @@ public class FrameSala extends JFrame {
 			EscribirChat.setText("");
 		}
 	}
-	public void avanzarATablero(int objetivo) throws IOException {
+	public void avanzarATablero(int objetivo) throws IOException, InterruptedException {
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();
