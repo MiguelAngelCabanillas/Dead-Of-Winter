@@ -202,7 +202,7 @@ public class Localizacion {
 		boolean encontrado = false;
 		
 		while(!encontrado && i < supervivientes.size()) {
-			if(supervivientes.get(i).equals(personaje)) {
+			if(supervivientes.get(i) != null && supervivientes.get(i).equals(personaje)) {
 				encontrado = true;
 			}else {
 				i++;
