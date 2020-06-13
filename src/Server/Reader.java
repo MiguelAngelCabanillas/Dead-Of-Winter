@@ -332,8 +332,12 @@ private BufferedReader buffer;
 				case "mover":
 					System.out.println("mover|" + split[3] + "|" + split[4]);
 					String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
-					System.out.println("mover|" + split[3] + "|" + split[4]);
 					user.enviarALaSala("mover|"+ comando);
+					break;
+				case "barricada":
+					System.out.println("barricada|"+split[3]);
+					String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
+					user.enviarALaSala("addBarricada|" + com);
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
