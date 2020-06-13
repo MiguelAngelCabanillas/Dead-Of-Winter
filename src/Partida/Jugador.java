@@ -106,8 +106,10 @@ public class Jugador {
 		Dado menor = null;
 		
 		for(Dado d : dados) {
-			if(!d.usado() && d.getValor() >= valor && menor.getValor() > d.getValor()) {
-				menor = d;
+			if(!d.usado() && d.getValor() >= valor) {
+				if(menor == null || menor.getValor() > d.getValor()) {
+					menor = d;
+				}
 			}
 		}
 		
@@ -282,9 +284,15 @@ public class Jugador {
 	public String barricada(int id) {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
+		Dado dado = valorDado(1);
 		int res = loc.ponerBarricada();
+		
+		if(dado == null) {
+			res = -1;
+		}
+		
 		if(res != -1) {
-			valorDado(1).usar();
+			dado.usar();
 		}
 		
 		return Integer.toString(loc.getId()) + "|" + Integer.toString(res);
