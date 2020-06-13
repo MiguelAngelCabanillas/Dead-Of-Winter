@@ -24,7 +24,7 @@ public class BarraProgreso extends JFrame {
 	private JPanel contentPane;
 	private Timer t;
 	private ActionListener ac;
-	private int x = 0;
+
 	public JProgressBar progressBar;
 
 	/**
