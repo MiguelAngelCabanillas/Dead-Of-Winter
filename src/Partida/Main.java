@@ -7,8 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		Principal p = new Principal(0);
 		
-		p.inicPartida(2);
-
+		p.inicPartida(1);
 		//System.out.println(p.getIdCartas(0));
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
@@ -16,8 +15,10 @@ public class Main {
 		p.addSuperviviente(0, 103);
 		p.addSuperviviente(0, 105);
 		
-		p.addSuperviviente(1, 102);
-		p.addSuperviviente(1, 104);
+		p.inicDados();
+		
+//		p.addSuperviviente(1, 102);
+//		p.addSuperviviente(1, 104);
 		
 		p.inicSupervivientesEnColonia();
 		
@@ -25,9 +26,9 @@ public class Main {
 		p.mover(103, 2);
 		p.mover(105, 0);
 		
-		p.ponerBarricada(103);
-		p.ponerBarricada(103);
-		p.ponerBarricada(103);
+		System.out.println(p.ponerBarricada(103));
+		System.out.println(p.ponerBarricada(103));
+		System.out.println(p.ponerBarricada(103));
 		p.ponerBarricada(103);
 		
 		p.ponerBarricada(105);
