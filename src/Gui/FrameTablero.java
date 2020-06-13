@@ -4,7 +4,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -32,6 +40,7 @@ public class FrameTablero extends JFrame {
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
 	private List<Integer> dados; //puntuación de los dado del jugador
+	private List<Integer> aportacionesCrisis;
 	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
 	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
@@ -44,6 +53,9 @@ public class FrameTablero extends JFrame {
 	private InfoJugador infoJug;
 	private FrameMoverse frameMoverse;
 	private InfoTablero infoTab;
+	private FrameAportacionesCrisis aportCrisis;
+	private FrameDados frameDados;
+	private FrameTuTurno miguelito;
 
 	private static int[] heridas = new int[2];
 	
@@ -83,6 +95,8 @@ public class FrameTablero extends JFrame {
 			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,387)};
 	
 	private static Thread hilo;
+	private JMenu mnAyuda;
+	private JMenuItem mntmLibroReglas;
 
 	/**
 	 * Launch the application.
@@ -122,9 +136,10 @@ public class FrameTablero extends JFrame {
 		supMap = aso.getSupMap();
 		supJugadores = new HashMap<>();
 		cartasJugador = new ArrayList<>();
+		aportacionesCrisis = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
-		turno = false;
+		turno = false;	
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
 		
@@ -136,15 +151,33 @@ public class FrameTablero extends JFrame {
 		mnSonido.setToolTipText("Ajustes de sonido");
 		menuBar.add(mnSonido);
 		
-		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar m\u00FAsica");
+		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar/Reanudar m\u00FAsica");
+		mntmSilenciarMusica.setToolTipText("Silencia o reanuda la banda sonora");
 		mntmSilenciarMusica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				user.pararMusica();
 			}
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mntmSilenciarMusica.setToolTipText("Muestra informacion sobre el jugador y sus cartas");
 		mnSonido.add(mntmSilenciarMusica);
+		
+		mnAyuda = new JMenu("Ayuda");
+		menuBar.add(mnAyuda);
+		
+		mntmLibroReglas = new JMenuItem("Libro de reglas");
+		mntmLibroReglas.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmLibroReglas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+				     File path = new File ("docs/DoWReglas.pdf");
+				     Desktop.getDesktop().open(path);
+				}catch (IOException ex) {
+				     ex.printStackTrace();
+				}
+			}
+		});
+		mnAyuda.add(mntmLibroReglas);
+		mnAyuda.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -306,6 +339,15 @@ public class FrameTablero extends JFrame {
 		
 		btnGastarComida = new JButton("GASTAR COMIDA");
 		btnGastarComida.setBounds(184, 196, 115, 41);
+		btnGastarComida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(frameDados != null) {
+					frameDados.dispose();
+				}
+				frameDados = new FrameDados(dados,aso);
+				frameDados.setVisible(true);
+			}
+		});
 		btnGastarComida.setToolTipText("Desecha una ficha de comida de la colonia con el objetivo de incrementar el resultado de un dado");
 		btnGastarComida.setEnabled(false);
 		contentPane.add(btnGastarComida);
@@ -462,18 +504,6 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnVertedero);
 		contentPane.setComponentZOrder(btnVertedero, contentPane.getComponentZOrder(lblTablero)-1);
 		
-		btnContribucionesCrisis = new JButton("");
-		btnContribucionesCrisis.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: CAMBIAR
-			}
-		});
-		btnContribucionesCrisis.setBounds(1210, 699, 129, 158);
-		btnContribucionesCrisis.setOpaque(false);
-		btnContribucionesCrisis.setContentAreaFilled(false);
-		contentPane.add(btnContribucionesCrisis);
-		contentPane.setComponentZOrder(btnContribucionesCrisis, contentPane.getComponentZOrder(lblTablero)-1);
-		
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/Objetivos-Principales/NecesitamosEjemplares.jpg"));
 		Image img2 = ima2.getImage().getScaledInstance(121, 158, java.awt.Image.SCALE_SMOOTH);
 		
@@ -519,6 +549,27 @@ public class FrameTablero extends JFrame {
 		btnCartaCrisis.setIcon(new ImageIcon(img));
 		contentPane.add(btnCartaCrisis);
 		contentPane.setComponentZOrder(btnCartaCrisis, contentPane.getComponentZOrder(lblTablero)-1);
+		
+		for(int i=0;i<nombresJugadores.size();i++) {
+			aportacionesCrisis.add(0);
+		}
+		
+		btnContribucionesCrisis = new JButton("");
+		//JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: enviar lista nombres jugadores, lista aportaciones cada jugador
+		btnContribucionesCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(aportCrisis != null) {
+					aportCrisis.dispose();
+				}
+				aportCrisis = new FrameAportacionesCrisis(nombresJugadores,aportacionesCrisis);
+				aportCrisis.setVisible(true);
+			}
+		});
+		btnContribucionesCrisis.setBounds(1210, 699, 129, 158);
+		btnContribucionesCrisis.setOpaque(false);
+		btnContribucionesCrisis.setContentAreaFilled(false);
+		contentPane.add(btnContribucionesCrisis);
+		contentPane.setComponentZOrder(btnContribucionesCrisis, contentPane.getComponentZOrder(lblTablero)-1);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
 		
@@ -716,10 +767,11 @@ public class FrameTablero extends JFrame {
 		nCartasJugadores.set(idJug, nCartasJugadores.get(idJug)+nCart);
 	}
 	
+	public void inicDados() {
+		dados = new ArrayList<>();
+	}
+	
 	public void tiradaDados(int res) {
-		if(dados == null) {
-			dados = new ArrayList<>();
-		}
 		dados.add(res);
 	}
 	
@@ -771,18 +823,49 @@ public class FrameTablero extends JFrame {
 	
 	public void miTurno() {
 		turno = true;
-		btnAtacar.setEnabled(true);
-		btnMoverse.setEnabled(true);
-		btnBuscar.setEnabled(true);
-		btnBarricada.setEnabled(true);
-		btnContribuir.setEnabled(true);
-		btnLimpiarVertedero.setEnabled(true);
-		btnAtraerZombie.setEnabled(true);
-		btnFinalizarTurno.setEnabled(true);
-		btnDarCarta.setEnabled(true);
-		btnPedirCarta.setEnabled(true);
-		btnGastarComida.setEnabled(true);
+		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
+		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
+		
+		
+       
+		try {
+			Thread.sleep(500);
+			miguelito = new FrameTuTurno();
+			miguelito.setVisible(true);
+			try {
+				AudioInputStream audioInputStream;
+				audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
+				 Clip clip = AudioSystem.getClip();
+			        clip.open(audioInputStream);
+			        clip.start();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Thread.sleep(2500);
+			miguelito.dispose();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	
+	public void goToURL(String URL){
+		URL url=null;
+		try {
+		    url = new URL(URL);
+		    try {
+		        Desktop.getDesktop().browse(url.toURI());
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    } catch (URISyntaxException e) {
+		        e.printStackTrace();
+		    }
+		} catch (MalformedURLException e1) {
+		    e1.printStackTrace();
+		}
+ }
 }
 
 

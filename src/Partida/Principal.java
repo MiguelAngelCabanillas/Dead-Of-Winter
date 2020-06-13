@@ -299,6 +299,7 @@ public class Principal {
 		inicMazos();
 		inicJugadores(numJugadores);
 		inicTablero(numJugadores);
+		jugadorActual = jugadores.get(0);
 	}
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
@@ -365,6 +366,10 @@ public class Principal {
 
 	public int getRondasRestantes() {
 		return rondasRestantes;
+	}
+	
+	public int getCrisisActual() {
+		return crisisActual.getId();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

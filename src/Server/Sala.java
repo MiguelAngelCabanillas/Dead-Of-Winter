@@ -14,6 +14,7 @@ public class Sala {
 	Principal partida;
 	private List<Usuario> muted;
 	boolean puedeEntrar;
+	private int contTurnos; //variable que indica los turnos restantes para que cambie la ronda
 	
 	public Sala(Usuario usuario, int id) {
 		usuarios.add(usuario);
@@ -84,5 +85,12 @@ public class Sala {
 		}
 	}
 	
+	public int getContTurnos() {
+		return contTurnos;
+	}
 	
+	
+	public void setContTurnos(int c) {
+		contTurnos = c;
+	}
 }

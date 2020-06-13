@@ -215,11 +215,12 @@ private BufferedReader buffer;
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
-						 
+						  
 						  String mensInit = "initSup";
 						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
 						  user.getSala().setPartida(new Principal(Integer.parseInt(split[4])));
+						  user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 						  user.getSala().getPartida().inicPartida(user.getSala().getUsuarios().size());
 						  List<Integer> objetivosSecretos = new ArrayList<>(); 
 						  for(int i = 200; i < 213; i++) {
@@ -243,7 +244,7 @@ private BufferedReader buffer;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 125; i++) {
+						  for(int i = 100; i < 130; i++) {
 							  sups.add(i);
 						  }
 						  
@@ -278,8 +279,8 @@ private BufferedReader buffer;
 							  //ENVIA LOS DADOS A CADA JUGADOR//
 
 							  user.getSala().getPartida().inicDados();
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
-
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							  
 							  for(Usuario usu : user.getSala().getUsuarios()){
 								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());
@@ -288,17 +289,42 @@ private BufferedReader buffer;
 							  
 							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|303|" + user.getSala().getPartida().getDados(i));
+							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 						  }
+						  
+						  user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
+						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
+						  
 					   }
-						  
-						  
-						  
-						 }
+					
+					}
 					 break;
+				case "finturno": //finturno|idJugAnterior
+					int cont = user.getSala().getContTurnos();
+					cont--;
+					user.getSala().setContTurnos(cont);
+					if(cont == 0) {
+						Random rnd = new Random();
+						int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
+						user.getSala().setContTurnos(user.getSala().getUsuarios().size());
+						user.getSala().getPartida().pasaRonda();
+						user.getSala().getPartida().pasaTurno(primero);
+						for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
+						}
+						user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
+						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
+					} else {
+						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
+						user.getSala().getPartida().pasaTurno(idSig);
+						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
+						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
+					}
+					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
-					usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|1" /*user.getSala().getPartida().getCrisis()*/ + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
+						usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|"  + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
 					}
 					break;
 				case "moral":
