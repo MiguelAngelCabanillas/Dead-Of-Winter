@@ -55,7 +55,7 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Principal(int objetivo) {
-		this.objetivo = new Objetivo_Principal(objetivo);
+		this.objetivo = new Objetivo_Principal(objetivo-1);
 		moral = this.objetivo.getMoral();
 		rondasRestantes = this.objetivo.getRondas();
 		

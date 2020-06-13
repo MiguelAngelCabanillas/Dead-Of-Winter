@@ -1,6 +1,6 @@
 package Partida;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public class Dado {
 	
@@ -11,6 +11,7 @@ public class Dado {
 	private final int caras = 6;
 	private int valor;
 	private boolean usado;
+	private Random r = new Random();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -26,7 +27,7 @@ public class Dado {
 	
 	public void tirarDado() {
 		usado = false;
-		this.valor = ThreadLocalRandom.current().nextInt(1,this.caras + 1);
+		this.valor = r.nextInt(caras) + 1;
 	}
 	
 	public int getValor() {
