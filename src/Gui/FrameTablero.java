@@ -170,6 +170,8 @@ public class FrameTablero extends JFrame {
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnSonido.add(mntmSilenciarMusica);
+		
+		
 		for (int i = 11; i <= 25; i++) {
 			Thread.sleep(10);
 			progressBar.setValor(i); ////////////////
@@ -234,7 +236,6 @@ public class FrameTablero extends JFrame {
 		lblBusquedaObj_3.setIcon(reSizeImg("images/busqueda.jpeg",129,158));
 		contentPane.add(lblBusquedaObj_3);
 		
-		progressBar.setValor(45); ///////////////////////////////
 		
 		JLabel lblBusquedaObj_5 = new JLabel("");
 		lblBusquedaObj_5.setBounds(1725, 48, 129, 158);
@@ -401,7 +402,7 @@ public class FrameTablero extends JFrame {
 			Thread.sleep(10);
 			progressBar.setValor(i);
 		}
-		
+		 /////////////////////////////////////////////
 		Thread.sleep(400);
 		
 		btnInfoTablero = new JButton("INFO TABLERO");
@@ -637,9 +638,11 @@ public class FrameTablero extends JFrame {
 			Thread.sleep(10);
 			progressBar.setValor(i);
 		}
+		Thread.sleep(100);
+		progressBar.dispose();
 //////////////////////////////////////////////////////////////////////	
 		
-		progressBar.dispose();
+		
 		
 	}
 	
@@ -912,10 +915,8 @@ public class FrameTablero extends JFrame {
 		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
 		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
 		
-		
-       
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1500);
 			miguelito = new FrameTuTurno();
 			miguelito.setVisible(true);
 			try {
