@@ -780,7 +780,9 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void setMoral(int moral) {
-		fichMoral.setLocation(locMoral[moral-1]);
+		if (moral != 0) {
+			fichMoral.setLocation(locMoral[moral-1]);
+		}
 	}
 	
 	public static void setCrisis(int crisis) {
