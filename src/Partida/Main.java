@@ -5,7 +5,7 @@ import Cartas.Carta_Supervivientes;
 public class Main {
 
 	public static void main(String[] args) {
-		Principal p = new Principal(0);
+		Principal p = new Principal(1);
 		
 		p.inicPartida(1);
 		//System.out.println(p.getIdCartas(0));
