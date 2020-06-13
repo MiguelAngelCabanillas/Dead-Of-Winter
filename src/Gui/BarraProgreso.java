@@ -59,22 +59,23 @@ public class BarraProgreso extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
+		setUndecorated(true);
 		
 		progressBar = new JProgressBar();
-		progressBar.setBounds(144, 179, 297, 30);
+		progressBar.setBounds(164, 191, 297, 30);
 		contentPane.add(progressBar);
 		progressBar.setStringPainted(true);
 		
 		JLabel lblCargando = new JLabel("Cargando...");
 		lblCargando.setForeground(Color.WHITE);
 		lblCargando.setFont(new Font("Castellar", Font.BOLD, 23));
-		lblCargando.setBounds(192, 114, 211, 37);
+		lblCargando.setBounds(224, 141, 211, 37);
 		contentPane.add(lblCargando);
 		
 		JLabel lblFondo = new JLabel("");
-		lblFondo.setBounds(0, 0, 589, 337);
+		lblFondo.setBounds(0, 0, 607, 384);
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/Varios/fondoBProgreso.jpg"));
-		Image img = ima.getImage().getScaledInstance(589, 337, java.awt.Image.SCALE_SMOOTH); 
+		Image img = ima.getImage().getScaledInstance(607, 384, java.awt.Image.SCALE_SMOOTH); 
 		lblFondo.setIcon(new ImageIcon(img));
 		contentPane.add(lblFondo);
 		
@@ -84,6 +85,7 @@ public class BarraProgreso extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (progressBar.getValue() == 100) {
 					dispose();
 					t.stop();
