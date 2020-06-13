@@ -269,8 +269,10 @@ public class Principal {
 		return jugadorActual.atacar(idSuperviviente);
 	}
 	
-	public int mover(int idSuperviviente, int localizacion) {	
-		return jugadorActual.mover(idSuperviviente, localizacion);
+	public String mover(int idSuperviviente, int localizacion) {	
+		return Integer.toString(idSuperviviente) + "|" + 
+	Integer.toString(localizacion) + "|" + 
+				Integer.toString(jugadorActual.mover(idSuperviviente, localizacion));
 	}
 	
 	public String buscar(int idJugador) {
@@ -284,7 +286,7 @@ public class Principal {
 	public boolean aportarCrisis(int id) {
 		boolean estado = false;
 		if(jugadorActual.anyadirCrisis(id)) {
-			crisisActual.ayadir(id);
+			crisisActual.anyadir(id, jugadorActual.getId()	);
 			
 			estado = true;
 		}
@@ -294,11 +296,21 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
+	public void inicSupervivientesEnColonia() {
+		for(Jugador j : jugadores) {
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(0).getId());
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(1).getId());
+		}
+	}
+	
 	//INICIA LOS JUGADORES
 	public void inicPartida(int numJugadores) {
 		inicMazos();
-		inicJugadores(numJugadores);
 		inicTablero(numJugadores);
+		inicJugadores(numJugadores);
+		
+		jugadorActual = jugadores.get(0);
 	}
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
