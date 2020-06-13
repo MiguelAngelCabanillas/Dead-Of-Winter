@@ -14,11 +14,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.UIManager;
+import javax.swing.ImageIcon;
 
-public class FrameMoverse2 extends JFrame {
+public class FrameLocalizaciones extends JFrame {
 
 	private JPanel contentPane;
 	private JButton Comisaria, Tienda, Colegio, Gasolinera, Hospital, Biblioteca, Colonia;
+	private static String comando;
+	private static String superv;
 
 	/**
 	 * Launch the application.
@@ -27,7 +30,7 @@ public class FrameMoverse2 extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameMoverse2 frame = new FrameMoverse2();
+					FrameLocalizaciones frame = new FrameLocalizaciones(comando, superv);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,8 +41,10 @@ public class FrameMoverse2 extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param string 
+	 * @param comando 
 	 */
-	public FrameMoverse2() {
+	public FrameLocalizaciones(String comand, String superviviente) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 1940, 1048);
@@ -51,40 +56,78 @@ public class FrameMoverse2 extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		//new Color(0, 0, 0, 100)
+		String res = comand + superviviente;
+		
+		//TODO: Recortar botones y poner fotos nuevas
+		
 		
 		Comisaria = new JButton("");
-		Comisaria.setContentAreaFilled(false);
+		Comisaria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|0");
+				dispose();
+			}
+		});
+		Comisaria.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/PoliceStation.png")));
 		Comisaria.setBounds(538, 94, 243, 171);
 		contentPane.add(Comisaria);
 		
 		Tienda = new JButton("");
+		Tienda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|1");
+				dispose();
+			}
+		});
+		Tienda.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GroceryStore.png")));
 		Tienda.setBounds(538, 402, 243, 171);
-		Tienda.setContentAreaFilled(false);
 		contentPane.add(Tienda);
 		
 		Colegio = new JButton("");
-		Colegio.setContentAreaFilled(false);
+		Colegio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|2");
+				dispose();
+			}
+		});
+		Colegio.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/School.jpg")));
 		Colegio.setBounds(538, 708, 243, 171);
 		contentPane.add(Colegio);
 		
 		Gasolinera = new JButton("");
-		Gasolinera.setContentAreaFilled(false);
+		Gasolinera.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|3");
+				dispose();
+			}
+		});
+		Gasolinera.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GasStation.jpg")));
 		Gasolinera.setBounds(1469, 92, 243, 171);
 		contentPane.add(Gasolinera);
 		
 		Hospital = new JButton("");
-		Hospital.setContentAreaFilled(false);
+		Hospital.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|4");
+				dispose();
+			}
+		});
+		Hospital.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/GasStation.png")));
 		Hospital.setBounds(1469, 402, 243, 171);
 		contentPane.add(Hospital);
 		
 		Biblioteca = new JButton("");
-		Biblioteca.setContentAreaFilled(false);
+		Biblioteca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|5");
+				dispose();
+			}
+		});
+		Biblioteca.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Library.png")));
 		Biblioteca.setBounds(1469, 710, 243, 171);
 		contentPane.add(Biblioteca);
 		
 		JButton btnNewButton_2 = new JButton("Volver");
-		btnNewButton_2.setBackground(Color.WHITE);
 		btnNewButton_2.setFont(new Font("Castellar", Font.BOLD, 17));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -95,8 +138,14 @@ public class FrameMoverse2 extends JFrame {
 		contentPane.add(btnNewButton_2);
 		
 		Colonia = new JButton("");
+		Colonia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(res+"|6");
+				dispose();
+			}
+		});
+		Colonia.setIcon(new ImageIcon(FrameLocalizaciones.class.getResource("/Localizaciones/Colony.png")));
 		Colonia.setBounds(971, 241, 305, 136);
-		Colonia.setContentAreaFilled(false);
 		contentPane.add(Colonia);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 	}
