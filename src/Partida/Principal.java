@@ -308,8 +308,11 @@ public class Principal {
 	public void inicPartida(int numJugadores) {
 		inicMazos();
 		inicTablero(numJugadores);
+<<<<<<< HEAD
 		inicJugadores(numJugadores);
 		
+=======
+>>>>>>> c43fcf3cb78b2ce8cb1122e84b5ff352bc8b1217
 		jugadorActual = jugadores.get(0);
 	}
 	
@@ -377,6 +380,10 @@ public class Principal {
 
 	public int getRondasRestantes() {
 		return rondasRestantes;
+	}
+	
+	public int getCrisisActual() {
+		return crisisActual.getId();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

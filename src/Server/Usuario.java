@@ -1,8 +1,15 @@
 package Server;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.Socket;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Partida.Jugador;
 
@@ -12,6 +19,8 @@ public class Usuario{
 	private ClientReader conector;
 	private Sala sala;
 	private Jugador jugador;
+	public static Clip musica;
+	AudioInputStream musicInputStream;
 	
 	public Usuario(String nombre, ClientReader conector) {
 		this.nombre = nombre;
@@ -55,5 +64,34 @@ public class Usuario{
 	
 	public void enviarALaSala(String peticion) throws IOException {
 		sala.enviarAUsuariosDeLaSala(peticion);
+	}
+	
+	public void activarMusica() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		activarMusica("music/intro.wav");
+	}
+	
+	public void activarMusica(String ruta) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		if(!musica.isOpen()) {
+			musicInputStream = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			musica= AudioSystem.getClip();
+			musica.open(musicInputStream);
+		}
+		musica.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public void quitarMusica() { 
+		musica.close();
+	}
+	
+	public void pararMusica() {
+		if(musica.isActive()) {
+			musica.stop();
+		} else {
+			musica.start();
+		}
+	}
+	
+	public void setMusica(Clip musica) {
+		this.musica = musica;
 	}
 }
