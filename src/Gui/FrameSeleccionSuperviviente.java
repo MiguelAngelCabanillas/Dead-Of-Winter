@@ -119,7 +119,8 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				dispose();
 				break;
 			case "barricada":
-				FrameTablero.enviarComando(comando + "|" + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				dispose();
 				break;
 			default:
 				break;
