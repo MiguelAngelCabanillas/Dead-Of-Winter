@@ -40,6 +40,7 @@ public class Localizacion {
 		this.mazo = m;
 		this.tokensDeRuido = 0;
 		
+
 		for(int i = 0; i < zombies; i++) {
 			anyadirZombie();
 		}
@@ -144,7 +145,9 @@ public class Localizacion {
 				aux.setHayZombie(true);
 				casillas += i;
 				colocado = true;
+				
 			}
+			i++;
 		}
 
 		i = 0;
@@ -157,6 +160,7 @@ public class Localizacion {
 				casillas += i;
 				colocado = true;
 			}
+			i++;
 		}
 		
 		if(!colocado) {
