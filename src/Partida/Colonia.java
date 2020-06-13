@@ -58,9 +58,9 @@ public class Colonia extends Localizacion {
 		}
 	}
 	
-	public int anyadirSupervivientes(int i) {
+	public int anyadirSupervivientes(Carta_Supervivientes personaje) {
 		int aux = super.getPimeraValida();
-		//super.getSupervivientes().put(aux, new Carta_Supervivientes(i));
+		super.getSupervivientes().put(aux, personaje);
 		return aux;
 	}
 	

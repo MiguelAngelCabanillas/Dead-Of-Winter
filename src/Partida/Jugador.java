@@ -24,7 +24,7 @@ public class Jugador {
 	private Objetivo_Principal objetivo;
 	
 	//DATOS DE CONTROL
-	private static Tablero tablero;
+	private Tablero tablero;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -233,6 +233,7 @@ public class Jugador {
 			break;
 		case 5 : sitio = tablero.getBiblioteca();
 			break;
+		default : sitio = tablero.getColonia();
 		}
 		
 		return sitio;
@@ -319,11 +320,11 @@ public class Jugador {
 	public int mover(int id, int l) {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion lugar = getLocalizacion(l);
-		int posicion = lugar.llegar(personaje);
+		int posicion = -1;
 		
 		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(posicion != -1 && !lugar.getSupervivientes().containsValue(personaje)) {
-			localizacion(personaje).irse(personaje);;
+		if(lugar.getSupervivientes().size() < lugar.getMaximo() && !lugar.getSupervivientes().containsValue(personaje)) {
+			localizacion(personaje).irse(personaje);
 			posicion = lugar.llegar(personaje);
 			
 			if(personaje.tiraAlMoverse()) {
