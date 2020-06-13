@@ -279,10 +279,15 @@ public class Jugador {
 //		return valorDado(getSupConId(personaje).getAtaque()).usar();
 //	}
 	
-	public void barricada(Localizacion l) {
-		if(comprobarLocalizacion(l) != null) {
-			l.ponerBarricada();
+	public String barricada(int id) {
+		Carta_Supervivientes personaje = getSupConId(id);
+		Localizacion loc = localizacion(personaje);
+		int res = loc.ponerBarricada();
+		if(res != -1) {
+			valorDado(1).usar();
 		}
+		
+		return Integer.toString(loc.getId()) + "|" + Integer.toString(res);
 	}
 	
 	public String buscar(int id) {
