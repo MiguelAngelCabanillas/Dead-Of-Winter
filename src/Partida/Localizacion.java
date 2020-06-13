@@ -242,16 +242,18 @@ public class Localizacion {
 		return i;
 	}
 	
-	public void ponerBarricada() {
+	public int ponerBarricada() {
 		int i = 0;
 		boolean barricadaPuesta = false;
 		while (i < this.casillasZombie.size() && barricadaPuesta == false) {
 			if (!this.casillasZombie.get(i).getHayBarricada() && !this.casillasZombie.get(i).getHayZombie()) {
 				this.casillasZombie.get(i).setHayBarricada(true);
 				barricadaPuesta = true;
+			}else {
+				i++;
 			}
-			i++;
 		}
+		return i;
 	}
 	
 	//METODOS DE BUSQUEDA
