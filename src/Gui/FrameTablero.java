@@ -4,6 +4,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -91,6 +95,8 @@ public class FrameTablero extends JFrame {
 			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,387)};
 	
 	private static Thread hilo;
+	private JMenu mnAyuda;
+	private JMenuItem mntmLibroReglas;
 
 	/**
 	 * Launch the application.
@@ -154,6 +160,24 @@ public class FrameTablero extends JFrame {
 		});
 		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnSonido.add(mntmSilenciarMusica);
+		
+		mnAyuda = new JMenu("Ayuda");
+		menuBar.add(mnAyuda);
+		
+		mntmLibroReglas = new JMenuItem("Libro de reglas");
+		mntmLibroReglas.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmLibroReglas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+				     File path = new File ("docs/DoWReglas.pdf");
+				     Desktop.getDesktop().open(path);
+				}catch (IOException ex) {
+				     ex.printStackTrace();
+				}
+			}
+		});
+		mnAyuda.add(mntmLibroReglas);
+		mnAyuda.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
@@ -825,6 +849,23 @@ public class FrameTablero extends JFrame {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void goToURL(String URL){
+		URL url=null;
+		try {
+		    url = new URL(URL);
+		    try {
+		        Desktop.getDesktop().browse(url.toURI());
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    } catch (URISyntaxException e) {
+		        e.printStackTrace();
+		    }
+		} catch (MalformedURLException e1) {
+		    e1.printStackTrace();
+		}
+ }
 }
 
 
