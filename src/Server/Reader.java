@@ -187,6 +187,9 @@ private BufferedReader buffer;
 								System.out.println(a);
 								}
 							break;
+							case "end":
+								
+								break;
 							default:
 								user.hacerPeticionAlServidor("\nchat|Comando incorrecto. /mute, /unmute, /kick");
 //								user.hacerPeticionAlServidor("chat|/unmute jugador --> Desmutea al jugador proporcionado");
