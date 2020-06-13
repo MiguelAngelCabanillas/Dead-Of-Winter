@@ -296,11 +296,15 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public void addSuperviviente(int idJug, int idSup) {
+		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
+	}
+	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
 	public void inicSupervivientesEnColonia() {
 		for(Jugador j : jugadores) {
-			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(0).getId());
-			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(1).getId());
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(0));
+			tablero.getColonia().anyadirSupervivientes(j.getMazoSuperviviente().get(1));
 		}
 	}
 	
@@ -308,11 +312,7 @@ public class Principal {
 	public void inicPartida(int numJugadores) {
 		inicMazos();
 		inicTablero(numJugadores);
-<<<<<<< HEAD
 		inicJugadores(numJugadores);
-		
-=======
->>>>>>> c43fcf3cb78b2ce8cb1122e84b5ff352bc8b1217
 		jugadorActual = jugadores.get(0);
 	}
 	
