@@ -51,7 +51,7 @@ public class FrameTablero extends JFrame {
 	private Crisis crisis;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
-	private FrameMoverse frameMoverse;
+	private FrameSeleccionSuperviviente frameMoverse;
 	private InfoTablero infoTab;
 	private FrameAportacionesCrisis aportCrisis;
 	private FrameDados frameDados;
@@ -267,7 +267,7 @@ public class FrameTablero extends JFrame {
 		btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {		
-				frameMoverse = new FrameMoverse(supJugadores.get(idJug), aso);
+				frameMoverse = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|mover|", supJugadores.get(idJug), aso);
 				frameMoverse.setVisible(true);
 			}
 		});
@@ -707,26 +707,30 @@ public class FrameTablero extends JFrame {
 		supIndMap.put(id,aux);
 	}
 	
-	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER
+	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER, POS DENTRO DE LA LOCALIZACION
 	public void moverSuperviviente(int id, int loc, int pos) {
 		aux = supMap.get(id)[0];
-		switch(loc) {
-			case 0 : p = locComisaria[pos];
-			break;
-			case 1 : p = locSupermercado[pos];
-			break;
-			case 2 : p = locColegio[pos];
-			break;
-			case 3 : p = locGasolinera[pos];
-			break;
-			case 4 : p = locHospital[pos];
-			break;
-			case 5 : p = locBiblioteca[pos];
-			break;
-			case 6 : p = locColonia[pos];
-			break;
+		if(pos != -1) {
+			switch(loc) {
+				case 0 : p = locComisaria[pos];
+				break;
+				case 1 : p = locSupermercado[pos];
+				break;
+				case 2 : p = locColegio[pos];
+				break;
+				case 3 : p = locGasolinera[pos];
+				break;
+				case 4 : p = locHospital[pos];
+				break;
+				case 5 : p = locBiblioteca[pos];
+				break;
+				case 6 : p = locColonia[pos];
+				break;
+			}
+			aux.setLocation(p);
+		}else {
+			JOptionPane.showMessageDialog(null, "La accion no se puede realizar");
 		}
-		aux.setLocation(p);
 	}
 	
 	public static void setObjetivoSecreto(int id) {
@@ -821,6 +825,14 @@ public class FrameTablero extends JFrame {
 	
 	public static int[] getHeridas() {
 		return heridas;
+	}
+	
+	public static void enviarComando(String command) {
+		try {
+			usuario.hacerPeticionAlServidor(command);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void miTurno() {
