@@ -30,7 +30,7 @@ public class Localizacion {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Localizacion(Mazo m, int max, int numCasillasZombie, int id) {
+	public Localizacion(Mazo m, int max, int numCasillasZombie, int id, int zombies) {
 		this.id = id;
 		
 		inicCasillasZombie(numCasillasZombie);
@@ -39,6 +39,10 @@ public class Localizacion {
 		
 		this.mazo = m;
 		this.tokensDeRuido = 0;
+		
+		for(int i = 0; i < zombies; i++) {
+			anyadirZombie();
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
