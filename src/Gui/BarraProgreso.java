@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import javafx.scene.control.ProgressBar;
-
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.JLabel;

@@ -32,6 +32,7 @@ public class Tablero {
 		hospital = new Localizacion(mHospital, 4, 4, 4, objetivoPrincipal.getZombies());
 		biblioteca = new Localizacion(mBiblioteca, 3, 4, 5, objetivoPrincipal.getZombies());
 		colonia = new Colonia(objetivoPrincipal, jugadores);
+
 		
 	}
 	
