@@ -20,6 +20,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import javax.swing.SwingConstants;
 
@@ -29,9 +30,9 @@ public class FrameMoverse extends JFrame {
 	private JButton botoneSuperviviente[];
 	private static List<Integer> supJugadores;
 	private static Asociaciones asociaciones;
-	private Point posCartaSuperV[] = {new Point(10, 72), new Point(187, 72), new Point(365, 72), new Point(545, 72), new Point(726, 72)};
-	private FrameSupervivientes auxSuper;
-	private FrameMoverse2 invisible;
+	private Point posCartaSuperviviente[] = {new Point(32, 11), new Point(230, 11), new Point(433, 11), new Point(643, 11), new Point(841, 11)
+			, new Point(32, 251), new Point(230, 251), new Point(433, 251), new Point(643, 251), new Point(841, 251)};
+	private FrameMoverse2 auxMover;
 
 	/**
 	 * Launch the application.
@@ -55,23 +56,23 @@ public class FrameMoverse extends JFrame {
 	public FrameMoverse(List<Integer> supJugadores, Asociaciones aso) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
-		setBounds(100, 100, 1323, 791);
+		setBounds(100, 100, 1041, 529);
 		setBackground(new Color(0, 0, 0, 10));
-		ajustarAPantalla();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(new Color(0, 0, 0, 10));
+		contentPane.setBackground(new Color(0, 0, 0, 100));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
-		JButton btnNewButton = new JButton("OK\r\n");
+		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setBounds(276, 657, 89, 34);
+		btnNewButton.setBounds(433, 489, 155, 34);
 		contentPane.add(btnNewButton);
 		
 		SupDerHandler supervivientesHandler = new SupDerHandler();
@@ -86,7 +87,7 @@ public class FrameMoverse extends JFrame {
 		Point p;
 		
 		for(int z = 0; z < tamSupervivientes; z++) {
-			p = posCartaSuperV[z];
+			p = posCartaSuperviviente[z];
 			botoneSuperviviente[z] = new JButton(String.valueOf(supJugadores.get(z)));
 			icon = (ImageIcon) aso.getSupMap().get(supJugadores.get(z))[1].getIcon();
 			img = icon.getImage().getScaledInstance(157, 205, java.awt.Image.SCALE_SMOOTH);
@@ -96,103 +97,22 @@ public class FrameMoverse extends JFrame {
 			botoneSuperviviente[z].setActionCommand(""+z);
 			contentPane.add(botoneSuperviviente[z]);
 		}
-		
+			
+
 	}
 	
 	private class SupDerHandler implements ActionListener{
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
-			switch (e.getActionCommand()) {
-			case "0":
-				invisible = new FrameMoverse2();
-				invisible.setVisible(true);
-				dispose();
-				break;
-			case "1":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[1].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "2":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[2].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "3":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[3].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "4":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[4].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "5":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[5].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "6":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[6].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "7":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[7].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "8":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[8].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "9":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[9].getText());
-				auxSuper.setVisible(true);
-				break;
-			case "10":
-				if(auxSuper != null) {
-					auxSuper.dispose();
-				} 
-				auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[10].getText());
-				auxSuper.setVisible(true);
-				break;
-
-			default:
-				break;
-			}
+			if(auxMover != null) {
+				auxMover.dispose();
+			} 
+			auxMover = new FrameMoverse2();
+			auxMover.setVisible(true);
+			dispose();
 		}
 		
-	}
-	private void ajustarAPantalla() {
-		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-	      int height = pantalla.height;
-	      int width = pantalla.width;
-	      setSize(578, 742);
-
-	      setLocationRelativeTo(null);
 	}
 }

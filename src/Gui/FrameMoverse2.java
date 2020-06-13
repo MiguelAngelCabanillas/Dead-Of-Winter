@@ -12,10 +12,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.UIManager;
 
 public class FrameMoverse2 extends JFrame {
 
 	private JPanel contentPane;
+	private JButton Comisaria, Tienda, Colegio, Gasolinera, Hospital, Biblioteca, Colonia;
 
 	/**
 	 * Launch the application.
@@ -41,78 +44,61 @@ public class FrameMoverse2 extends JFrame {
 		setUndecorated(true);
 		setBounds(100, 100, 1940, 1048);
 		setBackground(new Color(0, 0, 0, 10));
-		ajustarAPantalla();
+		 setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(0, 0, 0, 10));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Comisaria");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton.setBounds(553, 99, 124, 43);
-		contentPane.add(btnNewButton);
+		//new Color(0, 0, 0, 100)
 		
-		JButton btnNewButton_1 = new JButton("Tienda");
-		btnNewButton_1.setBounds(553, 392, 124, 43);
-		contentPane.add(btnNewButton_1);
+		Comisaria = new JButton("");
+		Comisaria.setContentAreaFilled(false);
+		Comisaria.setBounds(538, 94, 243, 171);
+		contentPane.add(Comisaria);
 		
-		JButton btnNewButton_1_1 = new JButton("Colegio");
-		btnNewButton_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_1_1.setBounds(553, 713, 124, 43);
-		contentPane.add(btnNewButton_1_1);
+		Tienda = new JButton("");
+		Tienda.setBounds(538, 402, 243, 171);
+		Tienda.setContentAreaFilled(false);
+		contentPane.add(Tienda);
 		
-		JButton btnNewButton_1_2 = new JButton("Gasolinera");
-		btnNewButton_1_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_1_2.setBounds(1511, 99, 124, 43);
-		contentPane.add(btnNewButton_1_2);
+		Colegio = new JButton("");
+		Colegio.setContentAreaFilled(false);
+		Colegio.setBounds(538, 708, 243, 171);
+		contentPane.add(Colegio);
 		
-		JButton btnNewButton_1_3 = new JButton("Hospital");
-		btnNewButton_1_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_1_3.setBounds(1511, 392, 124, 43);
-		contentPane.add(btnNewButton_1_3);
+		Gasolinera = new JButton("");
+		Gasolinera.setContentAreaFilled(false);
+		Gasolinera.setBounds(1469, 92, 243, 171);
+		contentPane.add(Gasolinera);
 		
-		JButton btnNewButton_1_4 = new JButton("Biblioteca");
-		btnNewButton_1_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_1_4.setBounds(1511, 713, 124, 43);
-		contentPane.add(btnNewButton_1_4);
+		Hospital = new JButton("");
+		Hospital.setContentAreaFilled(false);
+		Hospital.setBounds(1469, 402, 243, 171);
+		contentPane.add(Hospital);
 		
-		JButton btnNewButton_2 = new JButton("OK");
+		Biblioteca = new JButton("");
+		Biblioteca.setContentAreaFilled(false);
+		Biblioteca.setBounds(1469, 710, 243, 171);
+		contentPane.add(Biblioteca);
+		
+		JButton btnNewButton_2 = new JButton("Volver");
+		btnNewButton_2.setBackground(Color.WHITE);
+		btnNewButton_2.setFont(new Font("Castellar", Font.BOLD, 17));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnNewButton_2.setBounds(997, 952, 124, 43);
+		btnNewButton_2.setBounds(971, 952, 305, 43);
 		contentPane.add(btnNewButton_2);
 		
-		JButton btnNewButton_1_5 = new JButton("Colonia");
-		btnNewButton_1_5.setBounds(997, 240, 124, 43);
-		contentPane.add(btnNewButton_1_5);
+		Colonia = new JButton("");
+		Colonia.setBounds(971, 241, 305, 136);
+		Colonia.setContentAreaFilled(false);
+		contentPane.add(Colonia);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 	}
-	
-	private void ajustarAPantalla() {
-		  Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-	      int height = pantalla.height;
-	      int width = pantalla.width;
-	      setSize(1940, 1048);
 
-	      setLocationRelativeTo(null);
-	}
 }
