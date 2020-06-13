@@ -95,6 +95,25 @@ public class Login {
 				frmDeadOfWinter.dispose();
 			}
 		});
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBorderPainted(false);
+		menuBar.setBounds(0, 0, 1218, 20);
+		frmDeadOfWinter.getContentPane().add(menuBar);
+		
+		JMenu mnSonido = new JMenu("Sonido");
+		menuBar.add(mnSonido);
+		
+		
+		
+		
+		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar/Reanudar m\u00FAsica");
+		mntmSilenciarMusica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mnSonido.add(mntmSilenciarMusica);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton_1.setBounds(441, 711, 309, 33);
 		frmDeadOfWinter.getContentPane().add(btnNewButton_1);
