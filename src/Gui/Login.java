@@ -65,6 +65,8 @@ public class Login {
 		initialize();
 		
 		playSound();
+
+
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
 		
