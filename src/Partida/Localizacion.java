@@ -253,6 +253,11 @@ public class Localizacion {
 				i++;
 			}
 		}
+		
+		if(!barricadaPuesta) {
+			i = -1;
+		}
+		
 		return i;
 	}
 	
