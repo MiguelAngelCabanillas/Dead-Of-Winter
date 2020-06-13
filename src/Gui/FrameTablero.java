@@ -51,7 +51,7 @@ public class FrameTablero extends JFrame {
 	private Crisis crisis;
 	private Asociaciones aso;
 	private InfoJugador infoJug;
-	private FrameSeleccionSuperviviente frameMoverse;
+	private FrameSeleccionSuperviviente frameSeleccionar;
 	private InfoTablero infoTab;
 	private FrameAportacionesCrisis aportCrisis;
 	private FrameDados frameDados;
@@ -266,9 +266,12 @@ public class FrameTablero extends JFrame {
 		
 		btnMoverse = new JButton("MOVERSE");
 		btnMoverse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {		
-				frameMoverse = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|mover|", supJugadores.get(idJug), aso);
-				frameMoverse.setVisible(true);
+			public void actionPerformed(ActionEvent arg0) {	
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|mover|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
 			}
 		});
 		btnMoverse.setBounds(184, 144, 115, 41);
@@ -283,6 +286,15 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnBuscar);
 		
 		btnBarricada = new JButton("BARRICADA");
+		btnBarricada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|barricada|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
+			}
+		});
 		btnBarricada.setBounds(12, 196, 115, 41);
 		btnBarricada.setToolTipText("Construir una barricada protegiendo un espacio para Zombies");
 		btnBarricada.setEnabled(false);

@@ -108,14 +108,22 @@ public class FrameSeleccionSuperviviente extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			if(auxMover != null) {
-				auxMover.dispose();
-			} 
-			auxMover = new FrameLocalizaciones(comando, botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
-			auxMover.setVisible(true);
-			dispose();
-		}
-		
+			String[] aux = comando.split("\\|");
+			switch (aux[2]) {
+			case "mover":
+				if(auxMover != null) {
+					auxMover.dispose();
+				} 
+				auxMover = new FrameLocalizaciones(comando, botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				auxMover.setVisible(true);
+				dispose();
+				break;
+			case "barricada":
+				FrameTablero.enviarComando(comando + "|" + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				break;
+			default:
+				break;
+			}
+		}	
 	}
 }
