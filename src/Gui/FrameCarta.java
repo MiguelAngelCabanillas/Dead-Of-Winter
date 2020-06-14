@@ -92,6 +92,7 @@ public class FrameCarta extends JFrame {
 		JButton btnAportarCrisis = new JButton("Aportar");
 		btnAportarCrisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|aportarCrisis|" + Integer.parseInt(id));
 				InfoJugador.Dispose();
 				dispose();
 			}

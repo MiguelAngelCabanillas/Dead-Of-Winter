@@ -24,9 +24,9 @@ public class VerificacionYPruebas {
 	@Before
 	public void inicializarLocalizacion() {
 		this.l = new Localizacion(null,4,3,1,1);
-		this.superviviente = new Carta_Supervivientes(130,2,4,30);
-		this.superviviente1 = new Carta_Supervivientes(401,3,3,40);
-		this.superviviente2 = new Carta_Supervivientes(402,3,3,40);
+		//this.superviviente = new Carta_Supervivientes(130,2,4,30);
+		//this.superviviente1 = new Carta_Supervivientes(401,3,3,40);
+		//this.superviviente2 = new Carta_Supervivientes(402,3,3,40);
 		this.op = new Objetivo_Principal(1);
 		
 		this.t = new Tablero(5, null,null,null,null,null,null,this.op);
@@ -66,7 +66,7 @@ public class VerificacionYPruebas {
 	@Test
 	public void testCasillasZombieSegundoCaso() {
 		//Ponemos una barricada(se ponen en la primera casilla disponible, en este caso pos. 0).
-			l.ponerBarricada();
+		//	l.ponerBarricada();
 				
 			//Añadimos un superviviente.
 			l.getSupervivientes().put(0, this.superviviente);
@@ -96,8 +96,8 @@ public class VerificacionYPruebas {
 	@Test
 	public void testCasillasZombieTercerCaso() {
 		//Ponemos dos barricadas
-		l.ponerBarricada();
-		l.ponerBarricada();
+		//l.ponerBarricada();
+		//l.ponerBarricada();
 				
 		//Añadimos tres supervivientes.
 		for (int i = 0; i < l.getMaximo(); i++) {
@@ -108,7 +108,7 @@ public class VerificacionYPruebas {
 		l.actualizarCasillasZombiePasoDeRonda();
 		
 		//Ponemos una barricada después.
-		l.ponerBarricada();
+		//l.ponerBarricada();
 			
 		/*Debería quedarnos un zombie en la pos. 0 y una barricada en la pos. 1 */
 		for (int i = 0; i < l.getCasillasZombie().size(); ++i) {
