@@ -929,6 +929,10 @@ public class FrameTablero extends JFrame {
 		tirRiesgo.setVisible(true);
 	}
 	
+	public void errorPartida(String msg) {
+		JOptionPane.showMessageDialog(null, msg);
+	}
+	
 	public void miTurno() {
 		turno = true;
 		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);

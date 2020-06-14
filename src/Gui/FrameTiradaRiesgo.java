@@ -77,29 +77,29 @@ public class FrameTiradaRiesgo extends JFrame {
 		contentPane.add(lblMensaje);
 		
 		JLabel lblResultado = new JLabel("");
-		lblResultado.setBounds(188, 126, 155, 73);
+		lblResultado.setBounds(188, 93, 155, 125);
 		ImageIcon ima;
 		Image img;
 		
 		switch (resDado) {
 		case 0:
 			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/NeutroRiesgo.png"));
-			img = ima.getImage().getScaledInstance(155, 73, java.awt.Image.SCALE_SMOOTH); 
+			img = ima.getImage().getScaledInstance(155, 125, java.awt.Image.SCALE_SMOOTH); 
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 1:
 			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/HeridaRiesgo.png"));
-			img = ima.getImage().getScaledInstance(155, 73, java.awt.Image.SCALE_SMOOTH);
+			img = ima.getImage().getScaledInstance(155, 125, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 2:
 			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/CongelacionRiesgo.png"));
-			img = ima.getImage().getScaledInstance(155, 73, java.awt.Image.SCALE_SMOOTH);
+			img = ima.getImage().getScaledInstance(155, 125, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 3:
 			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/ColmilloRiesgo.png"));
-			img = ima.getImage().getScaledInstance(155, 73, java.awt.Image.SCALE_SMOOTH);
+			img = ima.getImage().getScaledInstance(155, 125, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		default:
