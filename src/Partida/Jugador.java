@@ -302,7 +302,7 @@ public class Jugador {
 			dado.usar();
 		}
 		
-		return Integer.toString(loc.getId()) + "|" + Integer.toString(res);
+		return Integer.toString(loc.getId()) + "|" + Integer.toString(res) + "|" + dados.indexOf(dado);
 	}
 	
 	public String buscar(int id) {
