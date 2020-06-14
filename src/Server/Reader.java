@@ -341,13 +341,13 @@ private BufferedReader buffer;
 						System.out.println(comando);
 						System.out.println(splitsplit[3]);
 						switch(splitsplit[3]) {
-						case "0": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
+						case "0": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
 							break;
-						case "1": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
+						case "1": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
 							break;
-						case "2": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha recibido una herida por congelación" );
+						case "2": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
 							break;
-						case "3": user.enviarALaSala("chat|" + user.getNombre() + ":"  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha muerto..." );
+						case "3": user.enviarALaSala("chat|[ " + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
 							break;
 						}
@@ -423,7 +423,11 @@ private BufferedReader buffer;
 			//e1.printStackTrace();
 		} catch (IOException e) {
 			//e.printStackTrace();
-		} finally {
+		} catch(MoverException e){
+			user.hacerPeticionAlServidor("error|" + e.getMessage() );
+		}
+			finally {
+		}
 			if(user != null) {
 				 if(user.getSala() != null) {
 				 try {
