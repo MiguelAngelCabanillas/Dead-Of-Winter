@@ -316,13 +316,15 @@ private BufferedReader buffer;
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
 							}
 						} else {
-							user.getSala().getPartida().pasaTurno(0);
+							Random rnd = new Random();
+							int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
+							user.getSala().getPartida().pasaTurno(primero);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
 							}
-							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
-							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
+							user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
+							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
 						}
 					} else {
 						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
@@ -333,7 +335,6 @@ private BufferedReader buffer;
 					break;
 				case "mover":
 					System.out.println("mover|" + split[3] + "|" + split[4]);
-					try {
 						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 						String[] splitsplit = comando.split("\\|");
 						System.out.println(comando);
@@ -351,13 +352,6 @@ private BufferedReader buffer;
 						}
 						
 						user.enviarALaSala("mover|"+ comando);
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						user.hacerPeticionAlServidor("error|" + e.getMessage());
-					} catch (MoverException e) {
-						// TODO Auto-generated catch block
-						user.hacerPeticionAlServidor("error|" + e.getMessage());
-					}
 					// sup, loc, cas, dado
 					
 					break;
@@ -454,7 +448,6 @@ private BufferedReader buffer;
 					}
 				 }
 			}
-	}
 	public String recibirMensaje() throws IOException {
 		return buffer.readLine();
 	}
