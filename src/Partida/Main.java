@@ -1,6 +1,7 @@
 package Partida;
 
 import Cartas.Carta_Supervivientes;
+import Excepciones.MoverException;
 
 public class Main {
 
