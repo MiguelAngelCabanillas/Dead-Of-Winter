@@ -406,8 +406,14 @@ private BufferedReader buffer;
 					}
 					break;
 				case "aportarCrisis":
-					user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
-					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");
+					/*user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");*/
+					break;
+				case "buscar": //buscar|idSup
+					/*String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
+					System.out.println("Buscar: " + comm);
+					user.hacerPeticionAlServidor("addCarta|");
+					user.enviarALaSala("updtCartas|");*/
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
