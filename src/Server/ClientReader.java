@@ -146,10 +146,9 @@ public class ClientReader implements Runnable {
                     FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
                 	break;
                 	
-                case "addBarricada": //addBarricada|idLoc|idPos|idDadoUsado
+                case "addBarricada": //addBarricada|idLoc|idPos
                 	System.out.println("barricada " + split[1] + " " + split[2]);
                 	tablero.addBarricada(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-                	tablero.removeDado(Integer.parseInt(split[3]));
                 	break;
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
@@ -166,7 +165,7 @@ public class ClientReader implements Runnable {
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
                 	
-                case "heridas":
+                case "heridas": //heridas|numHeridasNormales|numHerdiasCongelacion
                 	int[] heridas = new int[2];
                 	heridas[0] = Integer.parseInt(split[1]);
                 	heridas[1] = Integer.parseInt(split[2]);
@@ -181,9 +180,12 @@ public class ClientReader implements Runnable {
                 	tablero.finPartida();
                 	break;
                 	
-                case "vertedero": //vetedero|nuevoValor|idDado
+                case "vertedero": //vetedero|nuevoValor
                 	tablero.setVertedero(Integer.parseInt(split[1]));
-                	tablero.removeDado(Integer.parseInt(split[2]));
+                	break;
+                	
+                case "rmDado":	//rmDado|idDado
+                	tablero.removeDado(Integer.parseInt(split[1]));
                 	break;
                 	
                 default:

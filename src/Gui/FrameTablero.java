@@ -870,6 +870,11 @@ public class FrameTablero extends JFrame {
 
 	}
 	
+	public void rmCartaJug(int idCarta) {
+		int c = cartasJugador.indexOf(idCarta);
+		cartasJugador.remove(c);
+	}
+	
 	public static void setId(int id) {
 		idJug = id;
 	}
@@ -1018,6 +1023,10 @@ public class FrameTablero extends JFrame {
 		frameFinPartida = new FrameFinPartida();
 		frameFinPartida.setVisible(true);
 		dispose();
+	}
+	
+	public static Usuario getUsuario() {
+		return usuario;
 	}
 }
 
