@@ -4,7 +4,7 @@ import Cartas.Carta_Supervivientes;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MoverException {
 		Principal p = new Principal(2);
 		
 		p.inicPartida(1);
