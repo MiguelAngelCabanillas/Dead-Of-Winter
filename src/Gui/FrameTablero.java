@@ -57,6 +57,7 @@ public class FrameTablero extends JFrame {
 	private FrameDados frameDados;
 	private FrameTuTurno frameTuTurno;
 	private FrameFinPartida frameFinPartida;
+	private FrameTiradaRiesgo tirRiesgo;
 
 	private static int[] heridas = new int[2];
 	
@@ -128,7 +129,7 @@ public class FrameTablero extends JFrame {
 		setForeground(Color.BLACK);
 		setTitle("Dead of Winter\r\n");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE | JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		
 	
@@ -931,17 +932,23 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void tiradaDeRiesgo(int idRiesgo) {
-		FrameTiradaRiesgo tirRiesgo = new FrameTiradaRiesgo(idRiesgo);
+		tirRiesgo = new FrameTiradaRiesgo(idRiesgo);
 		tirRiesgo.setVisible(true);
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		tirRiesgo.dispose();
 	}
 	
-	public void errorPartida(String msg) {
+	public static void errorPartida(String msg) {
 		JOptionPane.showMessageDialog(null, msg);
 	}
 	
 	public void miTurno() {
 		try {
-			Thread.sleep(1200);
+			Thread.sleep(700);
 		} catch (InterruptedException e2) {
 			e2.printStackTrace();
 		}
@@ -950,7 +957,7 @@ public class FrameTablero extends JFrame {
 		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
 		
 		try {
-			Thread.sleep(1500);
+			Thread.sleep(700);
 			frameTuTurno = new FrameTuTurno();
 			frameTuTurno.setVisible(true);
 			try {
@@ -962,7 +969,7 @@ public class FrameTablero extends JFrame {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			Thread.sleep(2500);
+			Thread.sleep(1700);
 			frameTuTurno.dispose();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
