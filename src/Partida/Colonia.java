@@ -109,6 +109,31 @@ public class Colonia extends Localizacion {
 	}
 	
 	@Override
+	public int ponerBarricada() {
+		int i = 0;
+		boolean barricadaPuesta = false;
+		while (!barricadaPuesta && i < this.puertas.size()) {
+			List<CasillasZombie> casillasZombie = puertas.get(i);
+			int j = 0;
+			while(!barricadaPuesta && j < casillasZombie.size()) {
+				if (!casillasZombie.get(j).getHayBarricada() && !casillasZombie.get(j).getHayZombie()) {
+					casillasZombie.get(j).setHayBarricada(true);
+					barricadaPuesta = true;
+				}else {
+					j++;
+				}
+			}
+			i++;
+		}
+		
+		if(!barricadaPuesta) {
+			i = -1;
+		}
+		
+		return i;
+	}
+	
+	@Override
 	public String anyadirZombie() {
 		boolean colocado = false;
 		int[] posiciones = new int[6];

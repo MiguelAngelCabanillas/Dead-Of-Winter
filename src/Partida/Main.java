@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) throws MoverException {
 		Principal p = new Principal(2);
 		
-		p.inicPartida(1);
+		p.inicPartida(2);
 		//System.out.println(p.getIdCartas(0));
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
@@ -17,13 +17,13 @@ public class Main {
 		
 		p.inicDados();
 		
-//		p.addSuperviviente(1, 102);
-//		p.addSuperviviente(1, 104);
+		p.addSuperviviente(1, 102);
+		p.addSuperviviente(1, 104);
 		
 		p.inicSupervivientesEnColonia();
 		
 		
-		System.out.println(p.mover(103, 2));
+		//System.out.println(p.mover(103, 2));
 		System.out.println(p.mover(105, 0));
 		
 		System.out.println(p.ponerBarricada(103));
