@@ -30,7 +30,7 @@ public class Localizacion {
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Localizacion(Mazo m, int max, int numCasillasZombie, int id) {
+	public Localizacion(Mazo m, int max, int numCasillasZombie, int id, int zombies) {
 		this.id = id;
 		
 		inicCasillasZombie(numCasillasZombie);
@@ -39,6 +39,11 @@ public class Localizacion {
 		
 		this.mazo = m;
 		this.tokensDeRuido = 0;
+		
+
+		for(int i = 0; i < zombies; i++) {
+			anyadirZombie();
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +145,9 @@ public class Localizacion {
 				aux.setHayZombie(true);
 				casillas += i;
 				colocado = true;
+				
 			}
+			i++;
 		}
 
 		i = 0;
@@ -153,6 +160,7 @@ public class Localizacion {
 				casillas += i;
 				colocado = true;
 			}
+			i++;
 		}
 		
 		if(!colocado) {
@@ -202,7 +210,7 @@ public class Localizacion {
 		boolean encontrado = false;
 		
 		while(!encontrado && i < supervivientes.size()) {
-			if(supervivientes.get(i).equals(personaje)) {
+			if(supervivientes.get(i) != null && supervivientes.get(i).equals(personaje)) {
 				encontrado = true;
 			}else {
 				i++;
@@ -242,16 +250,23 @@ public class Localizacion {
 		return i;
 	}
 	
-	public void ponerBarricada() {
+	public int ponerBarricada() {
 		int i = 0;
 		boolean barricadaPuesta = false;
-		while (i < this.casillasZombie.size() && barricadaPuesta == false) {
+		while (!barricadaPuesta && i < this.casillasZombie.size()) {
 			if (!this.casillasZombie.get(i).getHayBarricada() && !this.casillasZombie.get(i).getHayZombie()) {
 				this.casillasZombie.get(i).setHayBarricada(true);
 				barricadaPuesta = true;
+			}else {
+				i++;
 			}
-			i++;
 		}
+		
+		if(!barricadaPuesta) {
+			i = -1;
+		}
+		
+		return i;
 	}
 	
 	//METODOS DE BUSQUEDA

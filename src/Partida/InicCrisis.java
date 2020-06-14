@@ -15,8 +15,9 @@ public class InicCrisis {
 	
 	private void inicCrisis(int numJug) {
 		Crisis aux;
-		for(int i = 300; i < 308; i ++) {
-			aux = new Crisis(i, numJug);
+
+		for(int i = 0; i < 8; i ++) {
+			aux = new Crisis(i+300, numJug);
 			crisis.add(aux);
 		}
 	}

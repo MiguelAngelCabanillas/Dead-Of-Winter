@@ -43,7 +43,7 @@ public class FrameTuTurno extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
-		setBackground(new Color(0, 0, 0, 0));
+		setBackground(new Color(0, 0, 0, 110));
 		
 		JLabel lblturno = new JLabel("");
 		ImageIcon ima = new ImageIcon(this.getClass().getResource("/TuTurno.png"));

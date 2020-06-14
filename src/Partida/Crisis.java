@@ -14,9 +14,13 @@ public class Crisis {
 	private boolean pasada;
 	private boolean sobra;
 	
+	private int [] donaciones;
+	
 	public Crisis(int id, int jugadores) {
 		this.id = id;
 		cantidad = jugadores;
+		
+		donaciones = new int[jugadores];
 		
 		inic();
 	}
@@ -59,7 +63,7 @@ public class Crisis {
 		}
 	}
 	
-	public void ayadir(int id) {
+	public void anyadir(int id, int jugador) {
 		if(tipo1 == id || tipo2 == id || tipo3 == id) {
 			actuales++;
 		}else {
@@ -73,6 +77,8 @@ public class Crisis {
 		if(cantidad + 2 == actuales) {
 			sobra = true;
 		}
+		
+		donaciones[jugador]++;
 	}
 	
 	public boolean pasada() {
@@ -85,5 +91,9 @@ public class Crisis {
 	
 	public int getId() {
 		return id;
+	}
+	
+	public int[] getDonaciones() {
+		return donaciones;
 	}
 }

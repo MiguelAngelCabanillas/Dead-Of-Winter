@@ -19,8 +19,8 @@ public class Usuario{
 	private ClientReader conector;
 	private Sala sala;
 	private Jugador jugador;
-	private Clip musica;
-	AudioInputStream audioInputStream;
+	public static Clip musica;
+	AudioInputStream musicInputStream;
 	
 	public Usuario(String nombre, ClientReader conector) {
 		this.nombre = nombre;
@@ -72,9 +72,9 @@ public class Usuario{
 	
 	public void activarMusica(String ruta) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		if(!musica.isOpen()) {
-			audioInputStream = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
+			musicInputStream = AudioSystem.getAudioInputStream(new File(ruta).getAbsoluteFile());
 			musica= AudioSystem.getClip();
-			musica.open(audioInputStream);
+			musica.open(musicInputStream);
 		}
 		musica.loop(Clip.LOOP_CONTINUOUSLY);
 	}

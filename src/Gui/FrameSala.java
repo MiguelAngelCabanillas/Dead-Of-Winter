@@ -205,8 +205,12 @@ public class FrameSala extends JFrame {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
 					Thread.sleep(20);
 					if(host) { //TODO: PROGRESS BAR, DISPOSE SALA
-						usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
-						btnIniciarPartida.setEnabled(false);
+						if(ObjetivoElegido != 1 && ObjetivoElegido != 2) {
+							JOptionPane.showMessageDialog(null, "Elige un objetivo principal antes de iniciar la partida");
+						} else {
+							usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
+							btnIniciarPartida.setEnabled(false);
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
 					}
@@ -289,7 +293,7 @@ public class FrameSala extends JFrame {
 			EscribirChat.setText("");
 		}
 	}
-	public void avanzarATablero(int objetivo) throws IOException {
+	public void avanzarATablero(int objetivo) throws IOException, InterruptedException {
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();

@@ -65,6 +65,8 @@ public class Login {
 		initialize();
 		
 		playSound();
+
+
 		iS = new IniciarSesion(conexion);
 		rIS = new RegistroInicioSesion(conexion);
 		
@@ -93,6 +95,31 @@ public class Login {
 				frmDeadOfWinter.dispose();
 			}
 		});
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBorderPainted(false);
+		menuBar.setBounds(0, 0, 1218, 20);
+		frmDeadOfWinter.getContentPane().add(menuBar);
+		
+		JMenu mnSonido = new JMenu("Sonido");
+		mnSonido.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		menuBar.add(mnSonido);
+		
+		
+		
+		
+		JMenuItem mntmSilenciarMusica = new JMenuItem("Silenciar/Reanudar m\u00FAsica");
+		mntmSilenciarMusica.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmSilenciarMusica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (musica.isActive()) {
+					musica.stop();
+				}else {
+					musica.start();
+				}
+			}
+		});
+		mnSonido.add(mntmSilenciarMusica);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButton_1.setBounds(441, 711, 309, 33);
 		frmDeadOfWinter.getContentPane().add(btnNewButton_1);
@@ -227,6 +254,7 @@ public class Login {
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
 	        clip.loop(Clip.LOOP_CONTINUOUSLY);
+	  
 	        musica = clip;
 	        //clip.start();
 	       

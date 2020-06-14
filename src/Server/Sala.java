@@ -14,7 +14,7 @@ public class Sala {
 	Principal partida;
 	private List<Usuario> muted;
 	boolean puedeEntrar;
-	private int cuchillo; //variable que indica por donde va el cuchillo de la partida
+	private int contTurnos; //variable que indica los turnos restantes para que cambie la ronda
 	
 	public Sala(Usuario usuario, int id) {
 		usuarios.add(usuario);
@@ -85,12 +85,12 @@ public class Sala {
 		}
 	}
 	
-	public int getCuchillo() {
-		return cuchillo;
+	public int getContTurnos() {
+		return contTurnos;
 	}
 	
 	
-	public void setCuchillo(int c) {
-		cuchillo = c;
+	public void setContTurnos(int c) {
+		contTurnos = c;
 	}
 }

@@ -78,7 +78,7 @@ public class FrameAportacionesCrisis extends JFrame {
 		
 		JLabel fondoAportaciones = new JLabel("");
 		fondoAportaciones.setBounds(0, 0, 714, 301);
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/fondoAportaciones.jpg"));
+		ImageIcon ima = new ImageIcon(this.getClass().getResource("/fondoAportaciones.jpg")); //La imagen pesa la vida
 		Image img = ima.getImage().getScaledInstance(714, 301, java.awt.Image.SCALE_SMOOTH); 
 		fondoAportaciones.setIcon(new ImageIcon(img));
 		contentPane.add(fondoAportaciones);

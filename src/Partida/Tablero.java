@@ -25,13 +25,15 @@ public class Tablero {
 	
 	public Tablero(int jugadores, Mazo mComisaria, Mazo mSupermercado, Mazo mColegio, Mazo mGasolinera,
 			Mazo mHospital, Mazo mBiblioteca, Objetivo_Principal objetivoPrincipal) {
-		comisaria = new Localizacion(mComisaria, 3, 4, 0);
-		supermercado= new Localizacion(mSupermercado, 3, 4, 1);
-		colegio = new Localizacion(mColegio, 4, 4, 2);
-		gasolinera = new Localizacion(mGasolinera, 2, 4, 3);
-		hospital = new Localizacion(mHospital, 4, 4, 4);
-		biblioteca = new Localizacion(mBiblioteca, 3, 4, 5);
+		comisaria = new Localizacion(mComisaria, 3, 4, 0, objetivoPrincipal.getZombies());
+		supermercado= new Localizacion(mSupermercado, 3, 4, 1, objetivoPrincipal.getZombies());
+		colegio = new Localizacion(mColegio, 4, 4, 2, objetivoPrincipal.getZombies());
+		gasolinera = new Localizacion(mGasolinera, 2, 4, 3, objetivoPrincipal.getZombies());
+		hospital = new Localizacion(mHospital, 4, 4, 4, objetivoPrincipal.getZombies());
+		biblioteca = new Localizacion(mBiblioteca, 3, 4, 5, objetivoPrincipal.getZombies());
 		colonia = new Colonia(objetivoPrincipal, jugadores);
+
+		
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
