@@ -45,7 +45,7 @@ public class FrameFinPartida extends JFrame {
 	 * Create the frame.
 	 */
 	public FrameFinPartida() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1154, 736);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,6 +77,7 @@ public class FrameFinPartida extends JFrame {
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
+				System.exit(0);
 			}
 		});
 		btnSalir.setBounds(848, 381, 137, 37);

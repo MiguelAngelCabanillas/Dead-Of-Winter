@@ -78,7 +78,7 @@ public class ClientReader implements Runnable {
                 	sala.setIsHost(true);
                 	break;
                 case "error": //Para mensajes de error: error|mensajeerror
-                	tablero.errorPartida(split[1]);
+                	FrameTablero.errorPartida(split[1]);
                 	break;
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
