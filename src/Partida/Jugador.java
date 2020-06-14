@@ -242,18 +242,24 @@ public class Jugador {
 	}
 	 
 	//REALIZA UNA TIRADA DEL DADO DE RIESGO Y REGULA LAS ACCIONES POSTERIORES A ESTA
-	private void tiradaRiesgo(Carta_Supervivientes personaje) {
+	private int tiradaRiesgo(Carta_Supervivientes personaje) {
 		int dado = riesgo.tirarDado();
+		int salida = 0;
 		
 		if (dado > 5 && dado <= 8) {
 			personaje.recibirHerida(false);
+			salida = 1;
 		} else if (dado > 8 && dado <= 10){
 			personaje.recibirHerida(true);
+			salida = 2;
 		} else if (dado == 11) {
 			dados.remove(dados.size() - 1);
 			localizacion(personaje).eliminarSuperviviente(personaje);
 			mazoSuperviviente.remove(personaje);
+			salida = 3;
 		}
+		
+		return salida;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -330,22 +336,32 @@ public class Jugador {
 		return salida;
 	}
 	
-	public int mover(int id, int l) {
+	public String mover(int id, int l) throws MoverException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion lugar = getLocalizacion(l);
+		int dado = 0;
 		int posicion = -1;
 		
-		//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
-		if(lugar.getSupervivientes().size() < lugar.getMaximo() && !lugar.getSupervivientes().containsValue(personaje)) {
-			localizacion(personaje).irse(personaje);
-			posicion = lugar.llegar(personaje);
-			
-			if(personaje.tiraAlMoverse()) {
-				tiradaRiesgo(personaje);
+		if(!personaje.getMovido()) {
+			//INTENTA MOVER SI HAY CASILLAS LIBRE Y SI EL PERSONAJE NO ESTA YA EN ESE LUGAR
+			if(lugar.getSupervivientes().size() < lugar.getMaximo() && !lugar.getSupervivientes().containsValue(personaje)) {
+				localizacion(personaje).irse(personaje);
+				posicion = lugar.llegar(personaje);
+				
+				if(personaje.tiraAlMoverse()) {
+					dado = tiradaRiesgo(personaje);
+				}
+				personaje.setMovido(true);
 			}
+		}else {
+			throw new MoverException("Solo puedes moverte una vez por ronda");
 		}
 		
-		return posicion;
+		if(posicion == -1) {
+			throw new MoverException("Ya estás en esta posición");
+		}
+		
+		return Integer.toString(posicion) + "|" + Integer.toString(dado);
 	}
 	
 	public void votacion() {
