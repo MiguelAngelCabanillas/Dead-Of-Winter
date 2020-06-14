@@ -14,6 +14,8 @@ import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrameTiradaRiesgo extends JFrame {
 
@@ -59,6 +61,11 @@ public class FrameTiradaRiesgo extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
 		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnAceptar.setFont(new Font("Castellar", Font.BOLD, 17));
 		btnAceptar.setBounds(188, 278, 155, 34);
 		contentPane.add(btnAceptar);
