@@ -101,7 +101,13 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public int getVertedero() {
-		return vaciaVertedero;
+		int aux;
+		if(usada) {
+			aux = 3;
+		}else {
+			aux = vaciaVertedero;
+		}
+		return aux;
 	}
 	
 	public boolean getMovido() {
