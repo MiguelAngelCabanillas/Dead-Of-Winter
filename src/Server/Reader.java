@@ -355,10 +355,10 @@ private BufferedReader buffer;
 						user.enviarALaSala("mover|"+ comando);
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					} catch (MoverException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
 					// sup, loc, cas, dado
 					
