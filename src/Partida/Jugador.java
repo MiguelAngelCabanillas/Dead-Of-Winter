@@ -291,17 +291,17 @@ public class Jugador {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
 		int dado = valorDado(1);
-		int res = loc.ponerBarricada();
+		String res = loc.ponerBarricada();
 		
 		if(dado == -1) {
-			res = -1;
+			res = null;
 		}
 		
-		if(res != -1) {
+		if(res != null) {
 			dados.usar(dado);
 		}
 		
-		return Integer.toString(loc.getId()) + "|" + Integer.toString(res) + "|" + Integer.toString(dado);
+		return Integer.toString(loc.getId()) + "|" + res + "|" + Integer.toString(dado);
 	}
 	
 	public String buscar(int id) {

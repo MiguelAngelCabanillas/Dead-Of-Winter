@@ -65,6 +65,7 @@ public class Principal {
 		enPartida = new PriorityQueue<>();
 		
 		crisisActual = crisis.getCrisis();
+		vertedero = 3;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -287,8 +288,8 @@ public class Principal {
 		int dado = -1;
 		
 		if(tablero.getColonia().esta(aux)) {
-//			dado = jugadorActual.valorDado(1);
-//			dado.usar();		
+			dado = jugadorActual.valorDado(1);
+			jugadorActual.getDados().usar(dado);
 			
 			vertedero -= aux.getVertedero();
 			if(aux.getId() == 106) {
@@ -302,7 +303,7 @@ public class Principal {
 			throw new VertederoException("No estas en la colonia");
 		}
 		
-		return Integer.toString(vertedero) + "|" + Integer.toString(jugadorActual.getDados().getValor(dado));
+		return Integer.toString(vertedero) + "|" + Integer.toString(dado);
 	}
 	
 	public String usarPasiva() {

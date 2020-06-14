@@ -5,7 +5,7 @@ import Excepciones.MoverException;
 
 public class Main {
 
-	public static void main(String[] args) throws MoverException, BarricadaException {
+	public static void main(String[] args) throws MoverException, BarricadaException, VertederoException {
 		Principal p = new Principal(1);
 		
 		p.inicPartida(2);
@@ -36,6 +36,7 @@ public class Main {
 //		p.ponerBarricada(105);
 //		p.ponerBarricada(105);
 //		p.ponerBarricada(105);
+		System.out.println(p.vaciarVertedero(105));
 		
 	}
 
