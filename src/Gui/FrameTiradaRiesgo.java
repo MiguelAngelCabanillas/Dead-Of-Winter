@@ -81,17 +81,17 @@ public class FrameTiradaRiesgo extends JFrame {
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 1:
-			ima = new ImageIcon(this.getClass().getResource("/Fichas-Supervivientes/Alexis-Grey-FICHA.png"));
+			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/HeridaRiesgo.png"));
 			img = ima.getImage().getScaledInstance(36, 33, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 2:
-			ima = new ImageIcon(this.getClass().getResource("/Fichas-Supervivientes/Alexis-Grey-FICHA.png"));
+			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/CongelacionRiesgo.png"));
 			img = ima.getImage().getScaledInstance(36, 33, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
 		case 3:
-			ima = new ImageIcon(this.getClass().getResource("/Fichas-Supervivientes/Alexis-Grey-FICHA.png"));
+			ima = new ImageIcon(this.getClass().getResource("/DadoRiesgo/ColmilloRiesgo.png"));
 			img = ima.getImage().getScaledInstance(36, 33, java.awt.Image.SCALE_SMOOTH);
 			lblResultado.setIcon(new ImageIcon(img));
 			break;
