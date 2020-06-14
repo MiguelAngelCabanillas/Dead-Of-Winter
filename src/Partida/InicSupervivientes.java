@@ -150,6 +150,6 @@ public class InicSupervivientes {
 	}
 	
 	public Carta_Supervivientes getSuperviviente(int id) {
-		return cartas.get(id -100);
+		return cartas.get(id - 100);
 	}
 }

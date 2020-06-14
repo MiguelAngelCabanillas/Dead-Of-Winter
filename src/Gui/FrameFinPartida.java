@@ -50,6 +50,7 @@ public class FrameFinPartida extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		setUndecorated(true);
 		setBackground(new Color(0, 0, 0, 0));
 		setTitle("Fin de la partida");
 		

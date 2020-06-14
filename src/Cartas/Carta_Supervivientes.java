@@ -142,9 +142,11 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public void recibirHerida(boolean esCongelamiento) {
-		this.heridas++;
+		
 		if (esCongelamiento) {
 			this.congelamiento++;
+		}else {
+			this.heridas++;
 		}
 	}
 	

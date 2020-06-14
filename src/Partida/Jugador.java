@@ -136,6 +136,7 @@ public class Jugador {
 	public void resetHab() {
 		for(Carta_Supervivientes sup : mazoSuperviviente) {
 			sup.setUsado(false);
+			sup.setMovido(false);
 		}
 	}
 	

@@ -96,11 +96,11 @@ public class ClientReader implements Runnable {
                 	tablero.rmSupJuga(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
                 	
-                case "mover": // mover|superviviente|destino|posicionValida --- Superviviente es una ID única para cada tipo de superviviente
+                case "mover": // mover|superviviente|destino|posicionValida|dadoRiesgo --- Superviviente es una ID única para cada tipo de superviviente
                 	System.out.println("Mover superviviente " + split[1] + " a la localizacion " + split[2] + ", posicion " + split[3]);
                 	tablero.moverSuperviviente(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+                	tablero.tiradaDeRiesgo(Integer.parseInt(split[4]));
                 	break;
-                	
                 case "secreto": // secreto|id -- ID única para cada objetivo secreto
                 	System.out.println("Objetivo Secreto: " + split[1]);
                 	FrameTablero.setObjetivoSecreto(Integer.parseInt(split[1]));
@@ -170,7 +170,6 @@ public class ClientReader implements Runnable {
                 	System.out.println("Entran " + split[1] + ", " + split[2]);
                 	FrameTablero.setHeridas(heridas);
                 	break;
-                	
                 case "tuturno": 
                 	tablero.miTurno();
                 	break;
