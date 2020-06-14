@@ -256,11 +256,11 @@ public class Localizacion {
 		int i = 0;
 		boolean barricadaPuesta = false;
 		while (!barricadaPuesta && i < this.casillasZombie.size()) {
-			if (!this.casillasZombie.get(i).getHayBarricada() && !this.casillasZombie.get(i).getHayZombie()) {
+			if (this.casillasZombie.get(i).getHayBarricada() || this.casillasZombie.get(i).getHayZombie()) {
+				i++;
+			}else {
 				this.casillasZombie.get(i).setHayBarricada(true);
 				barricadaPuesta = true;
-			}else {
-				i++;
 			}
 		}
 		

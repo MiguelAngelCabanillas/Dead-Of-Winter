@@ -388,6 +388,10 @@ public class Principal {
 			moral++;
 		}
 		
+		if(vertedero >= 10) {
+			moral--;
+		}
+		
 		rondasRestantes--;
 		
 		return datos;
