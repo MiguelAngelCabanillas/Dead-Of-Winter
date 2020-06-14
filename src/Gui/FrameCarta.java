@@ -79,11 +79,23 @@ public class FrameCarta extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JButton btnUsarCarta = new JButton("Usar carta");
+		btnUsarCarta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InfoJugador.Dispose();
+				dispose();
+			}
+		});
 		btnUsarCarta.setToolTipText("Se aplica el efecto de la carta seleccionada");
 		btnUsarCarta.setBounds(166, 548, 95, 38);
 		contentPane.add(btnUsarCarta);
 		
 		JButton btnAportarCrisis = new JButton("Aportar");
+		btnAportarCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InfoJugador.Dispose();
+				dispose();
+			}
+		});
 		btnAportarCrisis.setToolTipText("Aporta esta carta para contribuir a la crisis");
 		btnAportarCrisis.setBounds(304, 548, 95, 38);
 		contentPane.add(btnAportarCrisis);

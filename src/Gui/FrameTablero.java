@@ -277,6 +277,11 @@ public class FrameTablero extends JFrame {
 		btnAtacar = new JButton("ATACAR");
 		btnAtacar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|atacar|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
 			}
 		});
 		btnAtacar.setBounds(12, 92, 115, 41);
@@ -300,6 +305,15 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnMoverse);
 		
 		btnBuscar = new JButton("BUSCAR");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
+			}
+		});
 		btnBuscar.setBounds(12, 144, 115, 41);
 		btnBuscar.setToolTipText("Lanzar uno o varios dados");
 		btnBuscar.setEnabled(false);
