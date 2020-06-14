@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+//import javafx.scene.control.ProgressBar;
+
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 import javax.swing.JLabel;
@@ -22,7 +24,7 @@ public class BarraProgreso extends JFrame {
 	private JPanel contentPane;
 	private Timer t;
 	private ActionListener ac;
-
+	private int x = 0;
 	public JProgressBar progressBar;
 
 	/**

@@ -234,16 +234,18 @@ public class Localizacion {
 	}
 	
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
+	
+	//ESTABA MAL (i++ y NO i-1).
 	public int matarZombie() {
 		int i = casillasZombie.size();
 		boolean zombieMuerto = false;
 		
 		while (!zombieMuerto && i >= 0) {
-			if (this.casillasZombie.get(i).getHayZombie()) {
-				this.casillasZombie.get(i).setHayZombie(false);
+			if (this.casillasZombie.get(i-1).getHayZombie()) {
+				this.casillasZombie.get(i-1).setHayZombie(false);
 				zombieMuerto = true;
-			}else {
-				i++;
+			} else {
+				i--;
 			}
 		}
 		
