@@ -20,6 +20,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private boolean movido = false;
 	private boolean usada;
 	private int buscarDoble;
+	private int vaciaVertedero;
 	/*
 	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
 	 * PARA SUPERVIVIENTES SIN HABILIDAD DE BÚSQUEDA ESTE VALOR VALE -1
@@ -50,6 +51,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		usada = false;
 		movido = false;
 		buscarDoble = -1;
+		vaciaVertedero = 3;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +96,14 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	///////////////////////////////////////////////////////////////////////
+	public void setVertedero(int v) {
+		vaciaVertedero = v;
+	}
+	
+	public int getVertedero() {
+		return vaciaVertedero;
+	}
+	
 	public boolean getMovido() {
 		return movido;
 	}
