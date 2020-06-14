@@ -316,15 +316,13 @@ private BufferedReader buffer;
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
 							}
 						} else {
-							Random rnd = new Random();
-							int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
-							user.getSala().getPartida().pasaTurno(primero);
+							user.getSala().getPartida().pasaTurno(0);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
 							}
-							user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
-							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
+							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
+							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						}
 					} else {
 						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
@@ -335,31 +333,23 @@ private BufferedReader buffer;
 					break;
 				case "mover":
 					System.out.println("mover|" + split[3] + "|" + split[4]);
-					try {
 						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 						String[] splitsplit = comando.split("\\|");
 						System.out.println(comando);
 						System.out.println(splitsplit[3]);
 						switch(splitsplit[3]) {
-						case "0": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
+						case "0": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
 							break;
-						case "1": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
+						case "1": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
 							break;
-						case "2": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha recibido una herida por congelación" );
+						case "2": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
 							break;
-						case "3": user.enviarALaSala("chat|" + user.getNombre() + ":"  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha muerto..." );
+						case "3": user.enviarALaSala("chat|[ " + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
 							break;
 						}
 						
 						user.enviarALaSala("mover|"+ comando);
-					} catch (NumberFormatException e) {
-						// TODO Auto-generated catch block
-						user.hacerPeticionAlServidor("error|" + e.getMessage());
-					} catch (MoverException e) {
-						// TODO Auto-generated catch block
-						user.hacerPeticionAlServidor("error|" + e.getMessage());
-					}
 					// sup, loc, cas, dado
 					
 					break;
@@ -423,7 +413,16 @@ private BufferedReader buffer;
 			//e1.printStackTrace();
 		} catch (IOException e) {
 			//e.printStackTrace();
-		} finally {
+		} catch(MoverException e){
+			try {
+				user.hacerPeticionAlServidor("error|" + e.getMessage() );
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+			finally {
+		}
 			if(user != null) {
 				 if(user.getSala() != null) {
 				 try {
@@ -452,7 +451,6 @@ private BufferedReader buffer;
 					}
 				 }
 			}
-	}
 	public String recibirMensaje() throws IOException {
 		return buffer.readLine();
 	}
