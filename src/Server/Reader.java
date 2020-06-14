@@ -316,15 +316,13 @@ private BufferedReader buffer;
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
 							}
 						} else {
-							Random rnd = new Random();
-							int primero = rnd.nextInt(user.getSala().getUsuarios().size()); //el primer jugador de la ronda es aleatorio
-							user.getSala().getPartida().pasaTurno(primero);
+							user.getSala().getPartida().pasaTurno(0);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
 							}
-							user.getSala().getUsuarios().get(primero).hacerPeticionAlServidor("tuturno");
-							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(primero).getNombre());
+							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
+							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						}
 					} else {
 						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
