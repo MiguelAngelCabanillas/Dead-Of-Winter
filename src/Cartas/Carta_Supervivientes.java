@@ -12,6 +12,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private int influencia;
 	private int ataque;
 	private int busqueda;
+	private String nombre;
 	
 	//HABILIDADES PASIVAS
 	private boolean tirarAlMover;
@@ -26,18 +27,20 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	private List<Carta_Objeto> equipamiento;	//puede que no sea necesario despues
 	private int heridas;
-	private boolean congelamiento;
+	private int congelamiento;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Carta_Supervivientes(int id, int ataque, int busqueda, int influencia) {
+	public Carta_Supervivientes(int id, int ataque, int busqueda, int influencia, String nombre) {
 		super(id);
 		this.ataque = ataque;
 		this.busqueda = busqueda;
+		this.nombre = nombre;
+		
 		this.heridas = 0;
-		this.congelamiento = false;
+		this.congelamiento = 0;
 		this.influencia = influencia;
 		this.equipamiento = new ArrayList<>();
 		
@@ -90,6 +93,10 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	///////////////////////////////////////////////////////////////////////
 	
+	public String getNombre() {
+		return nombre;
+	}
+	
 	public boolean tiraAlAtacar() {
 		return tirarAlMatar;
 	}
@@ -114,9 +121,13 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		return this.heridas;
 	}
 	
+	public int getCongelamiento() {
+		return congelamiento;
+	}
+	
 	//METODOS DE SALUD DEL PERSONAJE
 	public void congelamiento() {
-		if (this.congelamiento == true) {
+		if (this.congelamiento != 0) {
 			this.heridas++;
 		}
 	}
@@ -124,7 +135,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	public void recibirHerida(boolean esCongelamiento) {
 		this.heridas++;
 		if (esCongelamiento) {
-			this.congelamiento = true;
+			this.congelamiento++;
 		}
 	}
 	

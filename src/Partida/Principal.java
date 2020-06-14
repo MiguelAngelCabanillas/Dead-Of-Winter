@@ -272,7 +272,7 @@ public class Principal {
 	public String mover(int idSuperviviente, int localizacion) {	
 		return Integer.toString(idSuperviviente) + "|" + 
 	Integer.toString(localizacion) + "|" + 
-				Integer.toString(jugadorActual.mover(idSuperviviente, localizacion));
+				jugadorActual.mover(idSuperviviente, localizacion);
 	}
 	
 	public String buscar(int idJugador) {
@@ -300,6 +300,15 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public String getNombre(int id) {
+		return supervivientes.getSuperviviente(id).getNombre();
+	}
+	
+	public String getHeridas(int id) {
+		Carta_Supervivientes sup = supervivientes.getSuperviviente(id);
+		return Integer.toString(sup.getHeridas()) + "|" + Integer.toString(sup.getCongelamiento());
+	}
+	
 	public void addSuperviviente(int idJug, int idSup) {
 		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
 	}
