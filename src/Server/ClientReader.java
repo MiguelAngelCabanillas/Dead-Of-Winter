@@ -91,6 +91,11 @@ public class ClientReader implements Runnable {
                 	}
                 	break;
                 	
+                case "rmSup": // rmSup|idJug|idSup
+                	tablero.borrarSuperviviente(Integer.parseInt(split[2]));
+                	tablero.rmSupJuga(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	break;
+                	
                 case "mover": // mover|superviviente|destino|posicionValida --- Superviviente es una ID única para cada tipo de superviviente
                 	System.out.println("Mover superviviente " + split[1] + " a la localizacion " + split[2] + ", posicion " + split[3]);
                 	tablero.moverSuperviviente(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
@@ -138,10 +143,12 @@ public class ClientReader implements Runnable {
                 case "updtCartas": //updtCartas|idJug|nCartas
                     FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
                 	break;
+                	
                 case "addBarricada": //addBarricada|idLoc|idPos
                 	System.out.println("barricada " + split[1] + " " + split[2]);
                 	tablero.addBarricada(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
+                	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
                 	FrameTablero.setCrisis(Integer.parseInt(split[2]));
@@ -163,12 +170,15 @@ public class ClientReader implements Runnable {
                 	System.out.println("Entran " + split[1] + ", " + split[2]);
                 	FrameTablero.setHeridas(heridas);
                 	break;
+                	
                 case "tuturno": 
                 	tablero.miTurno();
                 	break;
+                	
                 case "finpartida":
-                	//tablero.finPartida();
+                	tablero.finPartida();
                 	break;
+                	
                 default:
                     break;
                 }
