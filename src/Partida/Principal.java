@@ -285,17 +285,24 @@ public class Principal {
 			throw new VertederoException("El vertedero ya está vacío");
 		}
 		
-		Dado dado = jugadorActual.valorDado(1);
-		dado.usar();
 		Carta_Supervivientes aux = supervivientes.getSuperviviente(sup);
+		Dado dado = null;
 		
-		vertedero -= aux.getVertedero();
-		if(aux.getId() == 106) {
-			aux.setUsado(true);
-		}
-		
-		if(vertedero < 0) {
-			vertedero = 0;
+		if(tablero.getColonia().esta(aux)) {
+			dado = jugadorActual.valorDado(1);
+			dado.usar();
+			
+			
+			vertedero -= aux.getVertedero();
+			if(aux.getId() == 106) {
+				aux.setUsado(true);
+			}
+			
+			if(vertedero < 0) {
+				vertedero = 0;
+			}
+		}else {
+			throw new VertederoException("No estas en la colonia");
 		}
 		
 		return Integer.toString(vertedero) + "|" + Integer.toString(jugadorActual.getDados().indexOf(dado));
