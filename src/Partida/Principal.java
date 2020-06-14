@@ -108,9 +108,7 @@ public class Principal {
 	public void inicDados() {
 		int i = 0;
 		for(Jugador j : jugadores) {
-			j.anyadirDados();
-			dados[i] = j.tirarDados();
-			i++;
+			j.getDados().resetDados(j.getMazoSuperviviente().size());
 		}
 	}
 	
@@ -286,12 +284,11 @@ public class Principal {
 		}
 		
 		Carta_Supervivientes aux = supervivientes.getSuperviviente(sup);
-		Dado dado = null;
+		int dado = -1;
 		
 		if(tablero.getColonia().esta(aux)) {
-			dado = jugadorActual.valorDado(1);
-			dado.usar();
-			
+//			dado = jugadorActual.valorDado(1);
+//			dado.usar();		
 			
 			vertedero -= aux.getVertedero();
 			if(aux.getId() == 106) {
@@ -305,7 +302,7 @@ public class Principal {
 			throw new VertederoException("No estas en la colonia");
 		}
 		
-		return Integer.toString(vertedero) + "|" + Integer.toString(jugadorActual.getDados().indexOf(dado));
+		return Integer.toString(vertedero) + "|" + Integer.toString(jugadorActual.getDados().getValor(dado));
 	}
 	
 	public String usarPasiva() {

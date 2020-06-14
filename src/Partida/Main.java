@@ -5,7 +5,7 @@ import Excepciones.MoverException;
 
 public class Main {
 
-	public static void main(String[] args) throws MoverException {
+	public static void main(String[] args) throws MoverException, BarricadaException {
 		Principal p = new Principal(1);
 		
 		p.inicPartida(2);
