@@ -65,7 +65,7 @@ public class Principal {
 		enPartida = new PriorityQueue<>();
 		
 		crisisActual = crisis.getCrisis();
-		vertedero = 3;
+		vertedero = 6;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -31,6 +31,7 @@ public class Dado {
 		String sal = "";
 		cantidad = supervivientes + 1;
 		int val = 0;
+		dados.clear();
 		
 		for(int i = 0; i < cantidad; i++) {
 			if(i != 0) {
