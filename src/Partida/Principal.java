@@ -346,6 +346,12 @@ public class Principal {
 			j.matar();
 			dados[i] = j.tirarDados();
 			i++;
+			
+			for(Carta_Supervivientes sup : j.getMazoSuperviviente()) {
+				if(sup.getCongelamiento() != 0) {
+					sup.recibirHerida(false);
+				}
+			}
 		}
 		
 		if(!crisisActual.pasada()) {
