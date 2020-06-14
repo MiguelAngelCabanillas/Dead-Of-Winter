@@ -5,7 +5,7 @@ import Cartas.Carta_Supervivientes;
 public class Main {
 
 	public static void main(String[] args) {
-		Principal p = new Principal(1);
+		Principal p = new Principal(2);
 		
 		p.inicPartida(1);
 		//System.out.println(p.getIdCartas(0));
@@ -23,8 +23,8 @@ public class Main {
 		p.inicSupervivientesEnColonia();
 		
 		
-		p.mover(103, 2);
-		p.mover(105, 0);
+		System.out.println(p.mover(103, 2));
+		System.out.println(p.mover(105, 0));
 		
 		System.out.println(p.ponerBarricada(103));
 		System.out.println(p.ponerBarricada(103));
@@ -35,6 +35,8 @@ public class Main {
 		p.ponerBarricada(105);
 		p.ponerBarricada(105);
 		p.ponerBarricada(105);
+		
+		
 	}
 
 }
