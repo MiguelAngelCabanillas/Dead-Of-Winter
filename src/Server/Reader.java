@@ -351,11 +351,22 @@ private BufferedReader buffer;
 					user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
 					break;
 				case "heridas":
-					Random rand = new Random();
-					int numero = rand.nextInt(3);
-					user.hacerPeticionAlServidor("heridas|" + numero + "|0");
-					System.out.println("heridas|" + numero + "|0");
+					int id = Integer.parseInt(split[3]);
+					//user.hacerPeticionAlServidor("heridas|" + user.getSala().getPartida().getHeridas(id));
+					//System.out.println("heridas|" + user.getSala().getPartida().getHeridas(id));
 					System.out.println(split[3]);
+					break;
+				case "dadoRiesgo": // 0 = nada, 1 = herida normal, 2 = congelacion, 3 = muerte ----- usuario|1|dadoRiesgo|numDadoRiesgo
+					switch(split[3]) {
+					case "0":
+						break;
+					case "1": user.enviarALaSala("chat|" + user.getNombre() + "|" + ": " + " ha recibido una herida normal" );
+						break;
+					case "2": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha recibido una herida por congelación" );
+						break;
+					case "3": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha muerto..." );
+						break;
+					}
 					break;
 				case "host":
 					if(user.getSala().getHost().equals(user)) {
