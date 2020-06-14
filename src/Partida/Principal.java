@@ -109,7 +109,8 @@ public class Principal {
 	public void inicDados() {
 		int i = 0;
 		for(Jugador j : jugadores) {
-			j.getDados().resetDados(j.getMazoSuperviviente().size());
+			dados[i] = j.getDados().resetDados(j.getMazoSuperviviente().size());
+			i++;
 		}
 	}
 	

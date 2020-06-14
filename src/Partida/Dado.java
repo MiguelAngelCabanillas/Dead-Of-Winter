@@ -27,12 +27,22 @@ public class Dado {
 	////METODOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void resetDados(int supervivientes) {
+	public String resetDados(int supervivientes) {
+		String sal = "";
 		cantidad = supervivientes + 1;
+		int val = 0;
 		
 		for(int i = 0; i < cantidad; i++) {
-			dados.add(r.nextInt(6) + 1);
+			if(i != 0) {
+				sal += "|";
+			}
+			
+			val = r.nextInt(6) + 1;
+			dados.add(val);
+			sal += val;
 		}
+		
+		return sal;
 	}
 	
 	public int getValor(int id) {
