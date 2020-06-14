@@ -2,7 +2,8 @@ package Server;
 
 import BD.*;
 import Cartas.Carta_Supervivientes;
-import Partida.MoverException;
+import Excepciones.MoverException;
+import Excepciones.ServerException;
 import Partida.Principal;
 
 import java.io.BufferedReader;
@@ -75,6 +76,9 @@ private BufferedReader buffer;
 				} else if(sala != null && user.getSala() == null){ //Si la sala esta creada y el jugador no pertenece a la sala
 //					user.hacerPeticionAlServidor("nusuarios|" + sala.getUsuarios().size());
 //					user.hacerPeticionAlServidor("id|" + sala.getId());
+					if(sala.puedeEntrar == false) {
+						user.hacerPeticionAlServidor("error|La sala a la que intentas acceder está llena");
+					}
 					user.setSala(sala);
 					sala.anyadirUsuario(user);
 					
@@ -220,6 +224,11 @@ private BufferedReader buffer;
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
 						  
+						  if(user.getSala().getUsuarios().size() < 2) {
+							  user.hacerPeticionAlServidor("error|Hacen falta al menos dos jugadores para iniciar la partida");
+							  break;
+						  }
+						  
 						  String mensInit = "initSup";
 						  String mensIds = "ids";
 					   if(user.getSala().getHost().getNombre().equals(user.getNombre())) {
@@ -293,6 +302,7 @@ private BufferedReader buffer;
 							  System.out.println(mensInit);
 							  
 							  
+							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 						  }
@@ -334,25 +344,35 @@ private BufferedReader buffer;
 					}
 					break;
 				case "mover":
-					System.out.println("mover|" + split[3] + "|" + split[4]);
+					try {
 						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
 						String[] splitsplit = comando.split("\\|");
 						System.out.println(comando);
 						System.out.println(splitsplit[3]);
 						switch(splitsplit[3]) {
-						case "0": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
+						case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
 							break;
-						case "1": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
+						case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
 							break;
-						case "2": user.enviarALaSala("chat|[ " + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
+						case "2": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
 							break;
-						case "3": user.enviarALaSala("chat|[ " + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
+						case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
 							break;
 						}
 						
 						user.enviarALaSala("mover|"+ comando);
 					// sup, loc, cas, dado
+					} catch(MoverException e){
+						try {
+							user.hacerPeticionAlServidor("error|" + e.getMessage() );
+							
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+						
 					
 					break;
 				case "barricada":
@@ -415,18 +435,19 @@ private BufferedReader buffer;
 			//e1.printStackTrace();
 		} catch (IOException e) {
 			//e.printStackTrace();
-		} catch(MoverException e){
-			user.hacerPeticionAlServidor("error|" + e.getMessage() );
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 			finally {
-		}
+		
 			if(user != null) {
 				 if(user.getSala() != null) {
 				 try {
 					salirDeSala(user, user.getSala());
-				} catch (IOException e) {
+				} catch (IOException e2) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e2.printStackTrace();
 				}
 				 }
 				 us.remove(user);
@@ -442,12 +463,14 @@ private BufferedReader buffer;
 				 
 				 try {
 					user.getClientReader().close();
-				    } catch (IOException e) {
+				    } catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 					}
 				 }
 			}
+		}
+			
 	public String recibirMensaje() throws IOException {
 		return buffer.readLine();
 	}
