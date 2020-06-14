@@ -924,6 +924,11 @@ public class FrameTablero extends JFrame {
 		}
 	}
 	
+	public void tiradaDeRiesgo(int idRiesgo) {
+		FrameTiradaRiesgo tirRiesgo = new FrameTiradaRiesgo(idRiesgo);
+		tirRiesgo.setVisible(true);
+	}
+	
 	public void miTurno() {
 		turno = true;
 		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);

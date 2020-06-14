@@ -335,6 +335,19 @@ private BufferedReader buffer;
 				case "mover":
 					System.out.println("mover|" + split[3] + "|" + split[4]);
 					String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+					// sup, loc, cas, dado
+					String[] splitsplit = comando.split("\\|");
+					switch(splitsplit[3]) {
+					case "0":
+						break;
+					case "1": user.enviarALaSala("chat|" + user.getNombre() + "|" + ": " + " ha recibido una herida normal" );
+						break;
+					case "2": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha recibido una herida por congelación" );
+						break;
+					case "3": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha muerto..." );
+						break;
+					}
+					
 					user.enviarALaSala("mover|"+ comando);
 					break;
 				case "barricada":
@@ -357,16 +370,7 @@ private BufferedReader buffer;
 					System.out.println(split[3]);
 					break;
 				case "dadoRiesgo": // 0 = nada, 1 = herida normal, 2 = congelacion, 3 = muerte ----- usuario|1|dadoRiesgo|numDadoRiesgo
-					switch(split[3]) {
-					case "0":
-						break;
-					case "1": user.enviarALaSala("chat|" + user.getNombre() + "|" + ": " + " ha recibido una herida normal" );
-						break;
-					case "2": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha recibido una herida por congelación" );
-						break;
-					case "3": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha muerto..." );
-						break;
-					}
+					
 					break;
 				case "host":
 					if(user.getSala().getHost().equals(user)) {
