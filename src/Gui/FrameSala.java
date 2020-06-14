@@ -41,6 +41,7 @@ public class FrameSala extends JFrame {
 	private static String[] objetivos = {"Más ejemplares", "Raiding Party"};
 	private int numJugadores;
 	private ObjetivosPrincipales obj;
+	private JButton btnIniciarPartida;
 
 	/**
 	 * Launch the application.
@@ -196,7 +197,7 @@ public class FrameSala extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		
-		JButton btnIniciarPartida = new JButton("Iniciar la partida con los jugadores conectados");
+		btnIniciarPartida = new JButton("Iniciar la partida con los jugadores conectados");
 		btnIniciarPartida.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnIniciarPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -209,7 +210,6 @@ public class FrameSala extends JFrame {
 							JOptionPane.showMessageDialog(null, "Elige un objetivo principal antes de iniciar la partida");
 						} else {
 							usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|exit|tablero|" + ObjetivoElegido );
-							btnIniciarPartida.setEnabled(false);
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Solo el host puede comenzar la partida");
@@ -294,6 +294,7 @@ public class FrameSala extends JFrame {
 		}
 	}
 	public void avanzarATablero(int objetivo) throws IOException, InterruptedException {
+		btnIniciarPartida.setEnabled(false);
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();
@@ -311,4 +312,5 @@ public class FrameSala extends JFrame {
 		fseleccion.setVisible(true);
 		dispose();
 	}
+	
 }
