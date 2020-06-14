@@ -6,6 +6,7 @@ import java.util.List;
 import Cartas.Carta;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
+import Excepciones.MoverException;
 
 public class Jugador {
 	
