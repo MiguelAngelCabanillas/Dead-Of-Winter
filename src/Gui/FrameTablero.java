@@ -338,6 +338,14 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnContribuir);
 		
 		btnLimpiarVertedero = new JButton("VACIAR VERTEDERO");
+		btnLimpiarVertedero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|vaciar|",supJugadores.get(idJug), aso);
+			}
+		});
 		btnLimpiarVertedero.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnLimpiarVertedero.setBounds(12, 250, 140, 41);
 		btnLimpiarVertedero.setToolTipText("Limpia 3 objetos del vertedero");
