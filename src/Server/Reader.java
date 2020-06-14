@@ -344,7 +344,7 @@ private BufferedReader buffer;
 					break;
 				case "mover":
 					try {
-						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4])); 
 						String[] splitsplit = comando.split("\\|");
 						System.out.println(comando);
 						System.out.println(splitsplit[3]);
@@ -360,7 +360,7 @@ private BufferedReader buffer;
 							break;
 						}
 						
-						user.enviarALaSala("mover|"+ comando);
+						user.enviarALaSala("mover|"+ comando); //mover|idSup|idloc|posic|dadoRiesgo
 					// sup, loc, cas, dado
 					} catch(MoverException e){
 						try {
@@ -380,7 +380,7 @@ private BufferedReader buffer;
 						String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
 						user.enviarALaSala("addBarricada|" + com);
 					} catch(BarricadaException e) {
-						//e.printStackTrace();
+						user.hacerPeticionAlServidor("error|" + e.getMessage() );
 					}
 					break;
 				case "newRound": // Me hace falta la crisis

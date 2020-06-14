@@ -33,7 +33,8 @@ import java.awt.Font;
  */
 
 public class InfoJugador extends JFrame {
-
+	
+	private static InfoJugador prueba;
 	private JPanel contentPane;
 	private static Asociaciones asociaciones;
 	private FrameCarta auxCarta;
@@ -199,6 +200,8 @@ public class InfoJugador extends JFrame {
 		contentPane.add(lblFondoInfo);
 		
 		setExtendedState(JFrame.MAXIMIZED_BOTH); //maximizar pantalla inicialmente
+		
+		prueba = this;
 	}
 	private class DerHandler implements ActionListener{
 
@@ -233,5 +236,8 @@ public class InfoJugador extends JFrame {
 			auxSuper.setVisible(true);
 			
     	}
+	}
+	public static void Dispose() {
+		prueba.dispose();
 	}
 }

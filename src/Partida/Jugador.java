@@ -20,7 +20,7 @@ public class Jugador {
 	//DATOS DEL JUGADOR
 	private List<Carta_Supervivientes> mazoSuperviviente;
 	private List<Carta> mazoObjeto;
-	private List<Dado> dados;
+	private Dado dados;
 	private DadoDeRiesgo riesgo;
 	private Objetivo_Principal objetivo;
 	
@@ -36,8 +36,7 @@ public class Jugador {
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
 		this.mazoObjeto  = mazoJugador;
-		this.dados = new ArrayList<Dado>();
-		dados.add(new Dado());
+		this.dados = new Dado();
 		
 		this.riesgo = new DadoDeRiesgo();
 		
@@ -51,7 +50,7 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//GETTERS Y SETTERS
-	public List<Dado> getDados() {
+	public Dado getDados() {
 		return this.dados;
 	}
 	
@@ -74,47 +73,48 @@ public class Jugador {
 	//METODOS DE RONDA
 	public String tirarDados() {
 		String salida = ""; int i = 0;
+		dados.resetDados(this.mazoSuperviviente.size());
 		
-		for(Dado d : dados) {
-			d.tirarDado();
+		for(int d : dados.getDados()) {
 			if(i != 0) {
 				salida += "|";
 			}
 			i++;
-			salida += d.getValor();
+			salida += d;
 		}
 		
 		return salida;
 	}
-	
-	public void anyadirDados() {
-		while(dados.size() <= mazoSuperviviente.size()) {
-			this.dados.add(new Dado());
-		}
-	}
+//	
+//	public void anyadirDados() {
+//		while(dados.size() <= mazoSuperviviente.size()) {
+//			this.dados.add(new Dado());
+//		}
+//	}
 	
 	public void matar() {
 		for (int i = 0; i < this.mazoSuperviviente.size(); i++) {
 			if (this.mazoSuperviviente.get(i).estaMuerto()) {
 				this.mazoSuperviviente.remove(i);
-				this.dados.remove(dados.size() - 1);
 			}
 		}
 	}
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
-	public Dado valorDado(int valor) {
-		Dado menor = null;
+	public int valorDado(int valor) {
+		int menor = -1; int i = 0; int sal = -1;
 		
-		for(Dado d : dados) {
-			if(!d.usado() && d.getValor() >= valor) {
-				if(menor == null || menor.getValor() > d.getValor()) {
+		for(int d : dados.getDados()) {
+			if(d >= valor) {
+				if(menor == -1 || menor > d) {
 					menor = d;
+					sal = i;
 				}
 			}
+			i++;
 		}
 		
-		return menor;
+		return sal;
 	}
 	
 	//METODO PARA SABER EL INDICE DE UN SUPERVIVIENTE
@@ -199,7 +199,6 @@ public class Jugador {
 
 	public void addSuperviviente(Carta_Supervivientes personaje) {
 		mazoSuperviviente.add(personaje);
-		dados.add(new Dado());
 	}
 	
 	//DEVUELVE EL SUPERVIVIENTE QUE EL JUGADOR TIENE EN LA LOCALIZACION
@@ -255,7 +254,6 @@ public class Jugador {
 			personaje.recibirHerida(true);
 			salida = 2;
 		} else if (dado == 11) {
-			dados.remove(dados.size() - 1);
 			localizacion(personaje).eliminarSuperviviente(personaje);
 			mazoSuperviviente.remove(personaje);
 			salida = 3;
@@ -273,7 +271,7 @@ public class Jugador {
 		Carta_Supervivientes superviviente = getSupConId(personaje);
 		
 		//USAMOS EL MENOR DADO POSIBLE
-		valorDado(superviviente.getAtaque()).usar();
+		dados.usar(superviviente.getAtaque());
 		if(superviviente.tiraAlAtacar()) {
 			tiradaRiesgo(superviviente);
 		}
@@ -292,28 +290,28 @@ public class Jugador {
 	public String barricada(int id) throws BarricadaException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
-		Dado dado = valorDado(1);
-		int res = loc.ponerBarricada();
+		int dado = valorDado(1);
+		String res = loc.ponerBarricada();
 		
-		if(dado == null) {
-			res = -1;
+		if(dado == -1) {
+			res = null;
 		}
 		
-		if(res != -1) {
-			dado.usar();
+		if(res != null) {
+			dados.usar(dado);
 		}
 		
-		return Integer.toString(loc.getId()) + "|" + Integer.toString(res) + "|" + dados.indexOf(dado);
+		return Integer.toString(loc.getId()) + "|" + res + "|" + Integer.toString(dado);
 	}
 	
 	public String buscar(int id) {
 		Carta_Supervivientes personaje = getSupConId(id);
-		Dado dado = valorDado(personaje.getAtaque());
+		int dado = valorDado(personaje.getAtaque());
 		String salida = "";
 		Carta aux;
 		
 		//SI HAY DADO Y EL SUPERVIVIENTE NO ESTA EN LA COLONIA
-		if(dado != null && !getLocalizacion(6).equals(localizacion(personaje))) {
+		if(dado != -1 && !getLocalizacion(6).equals(localizacion(personaje))) {
 			if(localizacion(personaje).getMazo().vacio()) {
 				salida = null;
 			}else {

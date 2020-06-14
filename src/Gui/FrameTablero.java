@@ -35,6 +35,7 @@ public class FrameTablero extends JFrame {
 	private Point p;
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
+	private int vertedero;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
@@ -289,6 +290,11 @@ public class FrameTablero extends JFrame {
 		btnAtacar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAtacar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|atacar|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
 			}
 		});
 		btnAtacar.setBounds(12, 92, 140, 41);
@@ -313,6 +319,16 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnMoverse);
 		
 		btnBuscar = new JButton("BUSCAR");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
+			}
+		});
+		btnBuscar.setBounds(12, 144, 115, 41);
 		btnBuscar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnBuscar.setBounds(12, 144, 140, 41);
 		btnBuscar.setToolTipText("Lanzar uno o varios dados");
@@ -570,7 +586,7 @@ public class FrameTablero extends JFrame {
 		btnVertedero.setBounds(973, 539, 173, 112);
 		btnVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + 3); //TODO: CAMBIAR
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero); //TODO: CAMBIAR
 			}
 		});
 		btnVertedero.setOpaque(false);
@@ -875,6 +891,11 @@ public class FrameTablero extends JFrame {
 
 	}
 	
+	public void rmCartaJug(int idCarta) {
+		int c = cartasJugador.indexOf(idCarta);
+		cartasJugador.remove(c);
+	}
+	
 	public static void setId(int id) {
 		idJug = id;
 	}
@@ -944,6 +965,10 @@ public class FrameTablero extends JFrame {
 	
 	public static int[] getHeridas() {
 		return heridas;
+	}
+	
+	public void setVertedero(int valor) {
+		vertedero = valor;
 	}
 	
 	public static void enviarComando(String command) {
@@ -1019,6 +1044,10 @@ public class FrameTablero extends JFrame {
 		frameFinPartida = new FrameFinPartida();
 		frameFinPartida.setVisible(true);
 		dispose();
+	}
+	
+	public static Usuario getUsuario() {
+		return usuario;
 	}
 }
 
