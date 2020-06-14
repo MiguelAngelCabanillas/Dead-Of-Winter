@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrameFinPartida extends JFrame {
 
@@ -72,6 +74,11 @@ public class FrameFinPartida extends JFrame {
 		contentPane.add(lblInfo);
 		
 		JButton btnSalir = new JButton("Salir del juego");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnSalir.setBounds(848, 381, 137, 37);
 		contentPane.add(btnSalir);
 		
