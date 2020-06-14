@@ -111,7 +111,7 @@ public class FrameSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					usuario.hacerPeticionAlServidor(usuario.getNombre() + "|1|host");
-					Thread.sleep(200); //espera a recibir la confirmación del servidor
+					Thread.sleep(300); //espera a recibir la confirmación del servidor
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
