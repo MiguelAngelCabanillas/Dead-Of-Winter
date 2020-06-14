@@ -78,7 +78,7 @@ public class ClientReader implements Runnable {
                 	sala.setIsHost(true);
                 	break;
                 case "error": //Para mensajes de error: error|mensajeerror
-                	//tablero.errorPartida(split[1]);
+                	tablero.errorPartida(split[1]);
                 	break;
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
@@ -146,9 +146,10 @@ public class ClientReader implements Runnable {
                     FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
                 	break;
                 	
-                case "addBarricada": //addBarricada|idLoc|idPos
+                case "addBarricada": //addBarricada|idLoc|idPos|idDadoUsado
                 	System.out.println("barricada " + split[1] + " " + split[2]);
                 	tablero.addBarricada(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	tablero.removeDado(Integer.parseInt(split[3]));
                 	break;
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...

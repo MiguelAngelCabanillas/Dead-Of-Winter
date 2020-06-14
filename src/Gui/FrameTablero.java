@@ -775,8 +775,10 @@ public class FrameTablero extends JFrame {
 	
 	public void borrarSuperviviente(int idSup) {
 		aux = labelsSup.get(idSup);
-		labelsSup.put(idSup,null);
+		aux.setVisible(false);
 		contentPane.remove(aux);
+		labelsSup.put(idSup,null);
+		
 	}
 	
 	//AÑADIR SUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
@@ -835,6 +837,10 @@ public class FrameTablero extends JFrame {
 	public void rmSupJuga(int idJug, int idSup) {
 		int s = supJugadores.get(idJug).indexOf(idSup);
 		supJugadores.get(idJug).remove(s);
+	}
+	
+	public void removeDado(int pos) {
+		dados.remove(pos);
 	}
 	
 	public void addCartaJug(int idCarta) {
@@ -929,7 +935,16 @@ public class FrameTablero extends JFrame {
 		tirRiesgo.setVisible(true);
 	}
 	
+	public void errorPartida(String msg) {
+		JOptionPane.showMessageDialog(null, msg);
+	}
+	
 	public void miTurno() {
+		try {
+			Thread.sleep(1200);
+		} catch (InterruptedException e2) {
+			e2.printStackTrace();
+		}
 		turno = true;
 		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
 		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
@@ -973,6 +988,7 @@ public class FrameTablero extends JFrame {
 	public void finPartida() {
 		frameFinPartida = new FrameFinPartida();
 		frameFinPartida.setVisible(true);
+		dispose();
 	}
 }
 
