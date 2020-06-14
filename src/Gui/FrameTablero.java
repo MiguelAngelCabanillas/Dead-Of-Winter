@@ -98,7 +98,7 @@ public class FrameTablero extends JFrame {
 	
 	private static Thread hilo;
 	private JMenu mnAyuda;
-	private JMenuItem mntmLibroReglas;
+	private JMenuItem mntmManual;
 	private JMenuItem mntmResumen;
 
 	/**
@@ -184,9 +184,9 @@ public class FrameTablero extends JFrame {
 		mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 		
-		mntmLibroReglas = new JMenuItem("Libro de reglas");
-		mntmLibroReglas.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		mntmLibroReglas.addActionListener(new ActionListener() {
+		mntmManual = new JMenuItem("Manual");
+		mntmManual.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		mntmManual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 				     File path = new File ("docs/DoWReglas.pdf");
@@ -196,10 +196,16 @@ public class FrameTablero extends JFrame {
 				}
 			}
 		});
-		mnAyuda.add(mntmLibroReglas);
+		mnAyuda.add(mntmManual);
 		mnAyuda.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		
-		mntmResumen = new JMenuItem("Resumen de ronda");
+		mntmResumen = new JMenuItem("Fases de la colonia");
+		mntmResumen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FrameResumen fr = new FrameResumen();
+				fr.setVisible(true);
+			}
+		});
 		mntmResumen.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		mnAyuda.add(mntmResumen);
 		
