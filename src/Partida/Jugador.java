@@ -103,7 +103,7 @@ public class Jugador {
 	}
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
-	private Dado valorDado(int valor) {
+	public Dado valorDado(int valor) {
 		Dado menor = null;
 		
 		for(Dado d : dados) {
@@ -289,7 +289,7 @@ public class Jugador {
 //		return valorDado(getSupConId(personaje).getAtaque()).usar();
 //	}
 	
-	public String barricada(int id) {
+	public String barricada(int id) throws BarricadaException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
 		Dado dado = valorDado(1);

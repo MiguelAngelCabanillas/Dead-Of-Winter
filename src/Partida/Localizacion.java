@@ -252,7 +252,7 @@ public class Localizacion {
 		return i;
 	}
 	
-	public int ponerBarricada() {
+	public int ponerBarricada() throws BarricadaException {
 		int i = 0;
 		boolean barricadaPuesta = false;
 		while (!barricadaPuesta && i < this.casillasZombie.size()) {
@@ -265,7 +265,7 @@ public class Localizacion {
 		}
 		
 		if(!barricadaPuesta) {
-			i = -1;
+			throw new BarricadaException("No hay casillas disponibles");
 		}
 		
 		return i;

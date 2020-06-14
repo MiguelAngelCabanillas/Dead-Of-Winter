@@ -280,6 +280,34 @@ public class Principal {
 		return jugadorActual.buscar(idJugador);
 	}
 	
+	public String vaciarVertedero(int sup) throws VertederoException {
+		if(vertedero == 0) {
+			throw new VertederoException("El vertedero ya está vacío");
+		}
+		
+		Carta_Supervivientes aux = supervivientes.getSuperviviente(sup);
+		Dado dado = null;
+		
+		if(tablero.getColonia().esta(aux)) {
+			dado = jugadorActual.valorDado(1);
+			dado.usar();
+			
+			
+			vertedero -= aux.getVertedero();
+			if(aux.getId() == 106) {
+				aux.setUsado(true);
+			}
+			
+			if(vertedero < 0) {
+				vertedero = 0;
+			}
+		}else {
+			throw new VertederoException("No estas en la colonia");
+		}
+		
+		return Integer.toString(vertedero) + "|" + Integer.toString(jugadorActual.getDados().indexOf(dado));
+	}
+	
 	public String usarPasiva() {
 		return null;
 	}
@@ -294,7 +322,7 @@ public class Principal {
 		return estado;
 	}
 	
-	public String ponerBarricada(int sup) {
+	public String ponerBarricada(int sup) throws BarricadaException {
 		return jugadorActual.barricada(sup);
 	}
 	

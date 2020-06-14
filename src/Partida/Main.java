@@ -6,7 +6,7 @@ import Excepciones.MoverException;
 public class Main {
 
 	public static void main(String[] args) throws MoverException {
-		Principal p = new Principal(2);
+		Principal p = new Principal(1);
 		
 		p.inicPartida(2);
 		//System.out.println(p.getIdCartas(0));
@@ -24,19 +24,18 @@ public class Main {
 		p.inicSupervivientesEnColonia();
 		
 		
-		//System.out.println(p.mover(103, 2));
-		System.out.println(p.mover(105, 0));
+		System.out.println(p.mover(103, 0));
+		//System.out.println(p.mover(105, 0));
 		
-		System.out.println(p.ponerBarricada(103));
-		System.out.println(p.ponerBarricada(103));
-		System.out.println(p.ponerBarricada(103));
-		p.ponerBarricada(103);
-		
-		p.ponerBarricada(105);
-		p.ponerBarricada(105);
-		p.ponerBarricada(105);
-		p.ponerBarricada(105);
-		
+//		System.out.println(p.ponerBarricada(103));
+//		System.out.println(p.ponerBarricada(103));
+//		System.out.println(p.ponerBarricada(103));
+//		p.ponerBarricada(103);
+//		
+//		p.ponerBarricada(105);
+//		p.ponerBarricada(105);
+//		p.ponerBarricada(105);
+//		p.ponerBarricada(105);
 		
 	}
 

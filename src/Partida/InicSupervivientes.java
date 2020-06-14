@@ -44,6 +44,7 @@ public class InicSupervivientes {
 		
 		//CONSERJE (106)	//TODO habilidad (crear una variable para saber cuantas cartas se limpian del vertedero)
 		Carta_Supervivientes conserje = new Carta_Supervivientes(106, 2, 4, 26, "Bandon Kane");
+		conserje.setVertedero(5);
 		cartas.add(conserje);
 		
 		//ALCALDE (107)	//TODO habilidad (crear un metodo para aumentar el dado)
