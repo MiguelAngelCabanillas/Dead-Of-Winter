@@ -29,14 +29,14 @@ public class Main {
 		
 		System.out.println(p.ponerBarricada(103));
 		System.out.println(p.ponerBarricada(103));
-//		System.out.println(p.ponerBarricada(103));
+		System.out.println(p.ponerBarricada(103));
 //		p.ponerBarricada(103);
 //		
 //		p.ponerBarricada(105);
 //		p.ponerBarricada(105);
 //		p.ponerBarricada(105);
 //		p.ponerBarricada(105);
-		System.out.println(p.vaciarVertedero(105));
+		//System.out.println(p.vaciarVertedero(105));
 		
 	}
 
