@@ -4,6 +4,7 @@ import BD.*;
 import Cartas.Carta_Supervivientes;
 import Excepciones.MoverException;
 import Excepciones.ServerException;
+import Partida.BarricadaException;
 import Partida.Principal;
 
 import java.io.BufferedReader;
@@ -224,10 +225,10 @@ private BufferedReader buffer;
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
 						  
-						  if(user.getSala().getUsuarios().size() < 2) {
+						  /*if(user.getSala().getUsuarios().size() < 2) {
 							  user.hacerPeticionAlServidor("error|Hacen falta al menos dos jugadores para iniciar la partida");
 							  break;
-						  }
+						  }*/
 						  
 						  String mensInit = "initSup";
 						  String mensIds = "ids";
@@ -374,9 +375,13 @@ private BufferedReader buffer;
 					
 					break;
 				case "barricada":
-					System.out.println("barricada|"+split[3]);
-					String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
-					user.enviarALaSala("addBarricada|" + com);
+					try {
+						System.out.println("barricada|"+split[3]);
+						String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
+						user.enviarALaSala("addBarricada|" + com);
+					} catch(BarricadaException e) {
+						//e.printStackTrace();
+					}
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
