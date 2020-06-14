@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -44,6 +43,7 @@ public class FrameTablero extends JFrame {
 	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
 	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
+	private HashMap<Integer,JLabel> labelsSup;
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private List<List<JLabel>> labelsZombies;
 	private List<Point[]> locZombies;
@@ -55,7 +55,8 @@ public class FrameTablero extends JFrame {
 	private InfoTablero infoTab;
 	private FrameAportacionesCrisis aportCrisis;
 	private FrameDados frameDados;
-	private FrameTuTurno miguelito;
+	private FrameTuTurno frameTuTurno;
+	private FrameFinPartida frameFinPartida;
 
 	private static int[] heridas = new int[2];
 	
@@ -149,6 +150,7 @@ public class FrameTablero extends JFrame {
 		aportacionesCrisis = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
+		labelsSup = new HashMap<>();
 		turno = false;	
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
@@ -762,12 +764,19 @@ public class FrameTablero extends JFrame {
 	
 	//AÑADIMOS SUPERVIVIENTES NUEVOS AL TABLERO (COLONIA)
 	//ARG0 ID SUPERVIVIENTE, ARG1 POSICION VALIDA EN LA COLONIA
-	public void anyadirSuperviviente(int id,int posI) {
+	public void anyadirSuperviviente(int idSup,int posI) {
 		p = locColonia[posI];
-		aux = supMap.get(id)[0];
+		aux = supMap.get(idSup)[0];
 		aux.setBounds(p.x,p.y, 36, 34);
 		contentPane.add(aux);
 		contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
+		labelsSup.put(idSup, aux);
+	}
+	
+	public void borrarSuperviviente(int idSup) {
+		aux = labelsSup.get(idSup);
+		labelsSup.put(idSup,null);
+		contentPane.remove(aux);
 	}
 	
 	//AÑADIR SUPERVIVIENTES INDEFENSOS EN POSICIONES FINALES DE LA COLONIA
@@ -821,6 +830,11 @@ public class FrameTablero extends JFrame {
 		aux = supJugadores.get(idJug);
 		aux.add(idSup);
 		supJugadores.put(idJug, aux);
+	}
+	
+	public void rmSupJuga(int idJug, int idSup) {
+		int s = supJugadores.get(idJug).indexOf(idSup);
+		supJugadores.get(idJug).remove(s);
 	}
 	
 	public void addCartaJug(int idCarta) {
@@ -917,27 +931,24 @@ public class FrameTablero extends JFrame {
 		
 		try {
 			Thread.sleep(1500);
-			miguelito = new FrameTuTurno();
-			miguelito.setVisible(true);
+			frameTuTurno = new FrameTuTurno();
+			frameTuTurno.setVisible(true);
 			try {
 				AudioInputStream audioInputStream;
 				audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
-				 Clip clip = AudioSystem.getClip();
-			        clip.open(audioInputStream);
-			        clip.start();
+				Clip clip = AudioSystem.getClip();
+			    clip.open(audioInputStream);
+			    clip.start();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			Thread.sleep(2500);
-			miguelito.dispose();
+			frameTuTurno.dispose();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
+		
 	public void goToURL(String URL){
 		URL url=null;
 		try {
@@ -952,7 +963,12 @@ public class FrameTablero extends JFrame {
 		} catch (MalformedURLException e1) {
 		    e1.printStackTrace();
 		}
- }
+	}
+	
+	public void finPartida() {
+		frameFinPartida = new FrameFinPartida();
+		frameFinPartida.setVisible(true);
+	}
 }
 
 
