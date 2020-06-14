@@ -181,6 +181,11 @@ public class ClientReader implements Runnable {
                 	tablero.finPartida();
                 	break;
                 	
+                case "vertedero": //vetedero|nuevoValor|idDado
+                	tablero.setVertedero(Integer.parseInt(split[1]));
+                	tablero.removeDado(Integer.parseInt(split[2]));
+                	break;
+                	
                 default:
                     break;
                 }

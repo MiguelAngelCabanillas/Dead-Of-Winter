@@ -35,6 +35,7 @@ public class FrameTablero extends JFrame {
 	private Point p;
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
+	private int vertedero;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
@@ -547,7 +548,7 @@ public class FrameTablero extends JFrame {
 		btnVertedero.setBounds(973, 539, 173, 112);
 		btnVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + 3); //TODO: CAMBIAR
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero); //TODO: CAMBIAR
 			}
 		});
 		btnVertedero.setOpaque(false);
@@ -921,6 +922,10 @@ public class FrameTablero extends JFrame {
 	
 	public static int[] getHeridas() {
 		return heridas;
+	}
+	
+	public void setVertedero(int valor) {
+		vertedero = valor;
 	}
 	
 	public static void enviarComando(String command) {
