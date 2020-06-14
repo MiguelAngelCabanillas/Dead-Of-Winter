@@ -17,6 +17,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	//HABILIDADES PASIVAS
 	private boolean tirarAlMover;
 	private boolean tirarAlMatar;
+	private boolean movido = false;
 	private boolean usada;
 	private int buscarDoble;
 	/*
@@ -47,6 +48,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		tirarAlMatar = true;
 		tirarAlMover = true;
 		usada = false;
+		movido = false;
 		buscarDoble = -1;
 	}
 	
@@ -92,6 +94,13 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	///////////////////////////////////////////////////////////////////////
+	public boolean getMovido() {
+		return movido;
+	}
+	
+	public void setMovido(boolean movido) {
+		this.movido = movido;
+	}
 	
 	public String getNombre() {
 		return nombre;

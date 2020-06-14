@@ -269,7 +269,7 @@ public class Principal {
 		return jugadorActual.atacar(idSuperviviente);
 	}
 	
-	public String mover(int idSuperviviente, int localizacion) {	
+	public String mover(int idSuperviviente, int localizacion) throws MoverException {	
 		return Integer.toString(idSuperviviente) + "|" + 
 	Integer.toString(localizacion) + "|" + 
 				jugadorActual.mover(idSuperviviente, localizacion);
