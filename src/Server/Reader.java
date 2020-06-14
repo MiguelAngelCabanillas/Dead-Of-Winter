@@ -6,6 +6,7 @@ import Excepciones.MoverException;
 import Excepciones.ServerException;
 import Partida.BarricadaException;
 import Partida.Principal;
+import Partida.VertederoException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -296,6 +297,7 @@ private BufferedReader buffer;
 
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("vertedero|" + user.getSala().getPartida().getVertedero());
 							  
 							  for(Usuario usu : user.getSala().getUsuarios()){
 								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());
@@ -330,6 +332,7 @@ private BufferedReader buffer;
 							user.getSala().getPartida().pasaTurno(0);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
 							}
 							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
@@ -378,10 +381,33 @@ private BufferedReader buffer;
 					try {
 						System.out.println("barricada|"+split[3]);
 						String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
-						user.enviarALaSala("addBarricada|" + com);
+						System.out.println("Valor devuelto por barricada " + com);
+						String[] spl = com.split("\\|"); //loc|pos|dadoaquitar
+						if(spl[0].equals("null")) {
+							user.hacerPeticionAlServidor("error|No tienes más dados");
+						} else {
+							user.enviarALaSala("addBarricada|" + spl[0] + "|" + spl[1]);
+							user.hacerPeticionAlServidor("rmDado|" + spl[2]);
+						}
 					} catch(BarricadaException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage() );
+					} 
+					break;
+				case "vaciar": //vaciar|idSup (vaciar vertedero)
+					try {
+						String c = user.getSala().getPartida().vaciarVertedero(Integer.parseInt(split[3]));
+						System.out.println("Vertedero: " + c);
+						String[] sp = c.split("\\|");
+						user.enviarALaSala("vertedero|" + sp[0]);
+						user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha vaciado el vertedero." );
+						user.hacerPeticionAlServidor("rmDado|" + sp[1]);
+					} catch (VertederoException e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage() );
 					}
+					break;
+				case "aportarCrisis":
+					user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
