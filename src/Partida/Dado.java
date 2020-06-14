@@ -1,5 +1,7 @@
 package Partida;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Dado {
@@ -9,38 +11,42 @@ public class Dado {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private final int caras = 6;
-	private int valor;
-	private boolean usado;
+	private int cantidad;
 	private Random r = new Random();
+	private List<Integer> dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public Dado() {
-		
+		dados = new ArrayList<>();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public void tirarDado() {
-		usado = false;
-		this.valor = r.nextInt(caras) + 1;
+	public void resetDados(int supervivientes) {
+		cantidad = supervivientes + 1;
+		
+		for(int i = 0; i < cantidad; i++) {
+			dados.add(r.nextInt(6) + 1);
+		}
 	}
 	
-	public int getValor() {
-		return valor;
+	public int getValor(int id) {
+		return dados.get(id);
 	}
 	
-	public int usar() {
-		usado = true;
-		return valor;
+	public int usar(int id) {
+		cantidad--;
+		int val = dados.indexOf(id);
+		dados.remove(id);
+		return val;
 	}
 	
-	public boolean usado() {
-		return usado;
+	public List<Integer> getDados(){
+		return dados;
 	}
-	
 }

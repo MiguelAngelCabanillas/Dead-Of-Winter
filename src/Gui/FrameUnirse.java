@@ -110,13 +110,13 @@ public class FrameUnirse extends JFrame {
 		btnConfirmar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
 					
-					confirmarSala();
-					
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Introduzca un código de partida válido");
-				}
+					try {
+						confirmarSala();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}	
+				
 			}
 		});
 		btnConfirmar.setBounds(858, 262, 130, 33);
@@ -134,8 +134,8 @@ public class FrameUnirse extends JFrame {
 					fseleccion.setVisible(true);
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+					System.out.println(e.getMessage());
 				} 
 			}
 		});
@@ -159,12 +159,23 @@ public class FrameUnirse extends JFrame {
 	      setLocationRelativeTo(null);
 	}
 	private void confirmarSala() throws IOException {
-		String partidarequest, trim;
-		partidarequest = textFieldUnirse.getText();
-		trim = partidarequest.trim();
+		System.out.println("llega");
+		String partidarequest = textFieldUnirse.getText();
+		String trim = partidarequest.trim();
+		System.out.println(trim);
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
-		FrameSala fCrear = new FrameSala(usuario);
-		fCrear.setVisible(true);
-		dispose();
+		System.out.println(usuario.getNombre() + "|" + trim);
+		String aceptacion = usuario.recibirMensajeDelServidor();
+		
+		if(aceptacion != null && aceptacion.equals("no")) {
+			JOptionPane.showMessageDialog(null, "Error: La sala está llena");
+		}
+		else {
+			FrameSala fCrear = new FrameSala(usuario);
+			fCrear.setVisible(true);
+			dispose();
+		}
+		textFieldUnirse.setText("");
+		System.out.println("Sale");
 	}
 }
