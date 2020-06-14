@@ -2,6 +2,7 @@ package Server;
 
 import BD.*;
 import Cartas.Carta_Supervivientes;
+import Partida.MoverException;
 import Partida.Principal;
 
 import java.io.BufferedReader;
@@ -334,21 +335,33 @@ private BufferedReader buffer;
 					break;
 				case "mover":
 					System.out.println("mover|" + split[3] + "|" + split[4]);
-					String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
-					// sup, loc, cas, dado
-					String[] splitsplit = comando.split("\\|");
-					switch(splitsplit[3]) {
-					case "0":
-						break;
-					case "1": user.enviarALaSala("chat|" + user.getNombre() + "|" + ": " + " ha recibido una herida normal" );
-						break;
-					case "2": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha recibido una herida por congelación" );
-						break;
-					case "3": user.enviarALaSala("chat|" + user.getNombre() + "|" + " ha muerto..." );
-						break;
+					try {
+						String comando = user.getSala().getPartida().mover(Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+						String[] splitsplit = comando.split("\\|");
+						System.out.println(comando);
+						System.out.println(splitsplit[3]);
+						switch(splitsplit[3]) {
+						case "0": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
+							break;
+						case "1": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
+							break;
+						case "2": user.enviarALaSala("chat|" + user.getNombre() + ": " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha recibido una herida por congelación" );
+							break;
+						case "3": user.enviarALaSala("chat|" + user.getNombre() + ":"  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + "ha muerto..." );
+									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
+							break;
+						}
+						
+						user.enviarALaSala("mover|"+ comando);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (MoverException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+					// sup, loc, cas, dado
 					
-					user.enviarALaSala("mover|"+ comando);
 					break;
 				case "barricada":
 					System.out.println("barricada|"+split[3]);
@@ -365,8 +378,8 @@ private BufferedReader buffer;
 					break;
 				case "heridas":
 					int id = Integer.parseInt(split[3]);
-					//user.hacerPeticionAlServidor("heridas|" + user.getSala().getPartida().getHeridas(id));
-					//System.out.println("heridas|" + user.getSala().getPartida().getHeridas(id));
+					user.hacerPeticionAlServidor("heridas|" + user.getSala().getPartida().getHeridas(id));
+					System.out.println("heridas|" + user.getSala().getPartida().getHeridas(id));
 					System.out.println(split[3]);
 					break;
 				case "dadoRiesgo": // 0 = nada, 1 = herida normal, 2 = congelacion, 3 = muerte ----- usuario|1|dadoRiesgo|numDadoRiesgo
