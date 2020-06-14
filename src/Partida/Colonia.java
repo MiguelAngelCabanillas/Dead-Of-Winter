@@ -131,7 +131,7 @@ public class Colonia extends Localizacion {
 			i = -1;
 		}
 		
-		return Integer.toString(i) + "|" + Integer.toString(j);
+		return Integer.toString(i-1) + "|" + Integer.toString(j);
 	}
 	
 	@Override

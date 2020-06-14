@@ -301,7 +301,13 @@ public class Jugador {
 			dados.usar(dado);
 		}
 		
-		return Integer.toString(loc.getId()) + "|" + res + "|" + Integer.toString(dado);
+		String salida = "";
+		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+			salida += Integer.toString(loc.getId()) + "|";
+		}
+		 salida += res + "|" + Integer.toString(dado);
+		
+		return salida;
 	}
 	
 	public String buscar(int id) {
