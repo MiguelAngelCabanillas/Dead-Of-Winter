@@ -111,7 +111,6 @@ public class Crisis {
             return false;
         }
     }
-
 	
 	public int getId() {
 		return id;
