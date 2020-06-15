@@ -153,11 +153,10 @@ public class Localizacion {
 		}
 		
 		int muertos = numZombies;
+		Carta_Supervivientes muerto;
 		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
 		while(numZombies > 0 && supervivientes.size() > 0) {
-			System.out.println("-----------------------------------------");
-			System.out.println(numZombies);
-			Carta_Supervivientes muerto = menorInfluencia();
+			 muerto = menorInfluencia();
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
@@ -267,11 +266,13 @@ public class Localizacion {
 		Carta_Supervivientes aux = null;
 		int act = 0;
 		
+		System.out.println(supervivientes.size());
+		
 		for(int i = 0; i < maximoNumSupervivientes; i++) {
 			if(aux != null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto() && aux.compareTo(supervivientes.get(i)) >= 1) {
 				aux = supervivientes.get(i);
 				act = i;
-			}else if(aux == null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto()){
+			}else if(aux == null && supervivientes.get(i) != null){
 				aux = supervivientes.get(i);
 				act = i;
 			}
