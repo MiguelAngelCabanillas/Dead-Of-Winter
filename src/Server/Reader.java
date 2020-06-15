@@ -296,7 +296,7 @@ private BufferedReader buffer;
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  //ENVIA LOS DADOS A CADA JUGADOR//
 
-							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("vertedero|" + user.getSala().getPartida().getVertedero());
 							  
@@ -308,7 +308,7 @@ private BufferedReader buffer;
 							  
 							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
-							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 						  }
 						  
 						  user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
@@ -346,8 +346,8 @@ private BufferedReader buffer;
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|1|0|2");
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies);
 								System.out.println("addZombies|" + zombies);
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
-								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
+								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							}
 							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
@@ -425,10 +425,10 @@ private BufferedReader buffer;
 					}
 					break;
 				case "aportarCrisis":
-					//user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
 					user.hacerPeticionAlServidor("rmCarta|" + split[3]);
-					user.enviarALaSala("updtCartas|0|-1");   //updtCartas|idJug|-1 --> resta una carta
-					user.enviarALaSala("numAportaciones|1"); //numAportaciones|aportacionesjug0|aportacionesjug1....
+					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");   //updtCartas|idJug|-1 --> resta una carta
+					user.enviarALaSala("numAportaciones|"); //numAportaciones|aportacionesjug0|aportacionesjug1....
 					break;
 				case "buscar": //buscar|idSup
 					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
@@ -449,7 +449,7 @@ private BufferedReader buffer;
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
-						usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|"  + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
+						usario.hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRonda() + "|"  + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(usario.getJugador().getId()));
 					}
 					break;
 				case "moral":
