@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import Gui.FrameSala;
@@ -15,7 +14,6 @@ import Gui.FrameTablero;
 
 public class ClientReader implements Runnable {
 
-	private Random rnd;
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -77,9 +75,11 @@ public class ClientReader implements Runnable {
                 case "host" :
                 	sala.setIsHost(true);
                 	break;
+                	
                 case "error": //Para mensajes de error: error|mensajeerror
                 	FrameTablero.errorPartida(split[1]);
                 	break;
+                	
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
                 	idJug = Integer.parseInt(split[1]);
@@ -172,6 +172,7 @@ public class ClientReader implements Runnable {
                 	System.out.println("Entran " + split[1] + ", " + split[2]);
                 	FrameTablero.setHeridas(heridas);
                 	break;
+                	
                 case "tuturno": 
                 	tablero.miTurno();
                 	break;
@@ -180,14 +181,32 @@ public class ClientReader implements Runnable {
                 	tablero.finPartida();
                 	break;
                 	
-                case "vertedero": //vetedero|nuevoValor
+                case "vertedero": //vertedero|nuevoValor
+                	System.out.println("BEGGGTEDEGGGGO DI MAMMAA: " + split[1]);
                 	tablero.setVertedero(Integer.parseInt(split[1]));
                 	break;
                 	
-                case "rmDado":	//rmDado|idDado
+                case "rmDado":	//rmDado|posDado
+                	System.out.println(split[1]);
                 	tablero.removeDado(Integer.parseInt(split[1]));
                 	break;
                 	
+                case "addCarta": //addCarta|idCarta
+                	tablero.addCartaJug(Integer.parseInt(split[1]));
+                	break;
+                	
+                case "setDado": //setDado|idDado|nuevoValor
+                	tablero.setDado(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	break;
+                	
+                case "rmZombie": //rmZombie|loc|pos
+                	tablero.deleteZombie(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	break;
+                
+                case "rmCarta": //rmCarta|pos
+                	tablero.rmCartaJug(Integer.parseInt(split[1]));
+                	break;
+                	                	
                 default:
                     break;
                 }

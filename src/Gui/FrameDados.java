@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -22,7 +23,7 @@ public class FrameDados extends JFrame {
 	private JPanel contentPane;
 	private static List<Integer> dados;
 	private static Asociaciones asociaciones;
-	private JButton labelsDados[];
+	private List<JButton> labelsDados;
 	private Point posDado[] = {new Point(10, 57), new Point(136, 57), new Point(262, 57), new Point(399, 57), new Point(545, 57)
 			, new Point(685, 57), new Point(818, 57)};
 	/**
@@ -58,7 +59,7 @@ public class FrameDados extends JFrame {
 		setContentPane(contentPane);
 		
 		DerHandler handler = new DerHandler();
-		labelsDados = new JButton[7];
+		labelsDados = new ArrayList<>();
 		
 		Point p;
 		ImageIcon icon;
@@ -67,13 +68,13 @@ public class FrameDados extends JFrame {
 		
 		for (int d = 0; d < numDados.size(); d++) {
 			p = posDado[d];
-			labelsDados[d] = new JButton(String.valueOf(numDados.get(d)));
+			labelsDados.add(new JButton(String.valueOf(numDados.get(d))));
 			icon = (ImageIcon) aso.getDados().get(numDados.get(d)+399).getIcon();
 			img = icon.getImage().getScaledInstance(78, 70, java.awt.Image.SCALE_SMOOTH);
-			labelsDados[d].setIcon(new ImageIcon(img));
-			labelsDados[d].setBounds(p.x, p.y, 70, 68);
-			labelsDados[d].addActionListener(handler);
-			contentPane.add(labelsDados[d]);
+			labelsDados.get(d).setIcon(new ImageIcon(img));
+			labelsDados.get(d).setBounds(p.x, p.y, 70, 68);
+			labelsDados.get(d).addActionListener(handler);
+			contentPane.add(labelsDados.get(d));
 		}
 		
 		
@@ -102,8 +103,9 @@ public class FrameDados extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			System.out.println("ACTION COMAND: "+e.getActionCommand());
+			FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|gastarComida|" + labelsDados.indexOf(Integer.parseInt(e.getActionCommand())));
+			dispose();
 		}
 		
 	}

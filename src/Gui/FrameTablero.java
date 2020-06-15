@@ -139,8 +139,7 @@ public class FrameTablero extends JFrame {
 		for (int i = 1; i <= 10; i++) {
 			Thread.sleep(20);
 			progressBar.setValor(i);  ///////////////////
-		}
-		
+		}	
 		
 		FrameTablero.objetivo = objetivo;
 		FrameTablero.usuario = user;
@@ -216,9 +215,8 @@ public class FrameTablero extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
 		
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS LOCALIZACIONES
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS ZOMBIES
 		
-		//LABELS ZOMBIES
 		locZombies = new ArrayList<>();
 		locZombies.add(locZComisaria);locZombies.add(locZSuperm);locZombies.add(locZColegio);locZombies.add(locZGasolinera);locZombies.add(locZHospital);locZombies.add(locZBiblioteca);
 		locZombies.add(locZColoniaZ1);locZombies.add(locZColoniaZ2);locZombies.add(locZColoniaZ3);locZombies.add(locZColoniaZ4);locZombies.add(locZColoniaZ5);locZombies.add(locZColoniaZ6);
@@ -359,6 +357,15 @@ public class FrameTablero extends JFrame {
 		contentPane.add(btnContribuir);
 		
 		btnLimpiarVertedero = new JButton("VACIAR VERTEDERO");
+		btnLimpiarVertedero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|vaciar|",supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
+			}
+		});
 		btnLimpiarVertedero.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnLimpiarVertedero.setBounds(12, 250, 140, 41);
 		btnLimpiarVertedero.setToolTipText("Limpia 3 objetos del vertedero");
@@ -586,7 +593,7 @@ public class FrameTablero extends JFrame {
 		btnVertedero.setBounds(973, 539, 173, 112);
 		btnVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero); //TODO: CAMBIAR
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero); //TODO: HACER FRAME
 			}
 		});
 		btnVertedero.setOpaque(false);
@@ -634,6 +641,7 @@ public class FrameTablero extends JFrame {
 		});
 		
 //////////////////////////////////////////////////////////////////////
+		
 		progressBar.setString("Llenando coches de gasolina");
 		for (int i = 76; i <= 90; i++) {
 			Thread.sleep(10);
@@ -656,7 +664,6 @@ public class FrameTablero extends JFrame {
 		}
 		
 		btnContribucionesCrisis = new JButton("");
-		//JOptionPane.showMessageDialog(null, "Contribuciones de FranBono al proyecto: " + "-500"); //TODO: enviar lista nombres jugadores, lista aportaciones cada jugador
 		btnContribucionesCrisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(aportCrisis != null) {
@@ -682,15 +689,9 @@ public class FrameTablero extends JFrame {
 		}
 		Thread.sleep(100);
 		progressBar.dispose();
-//////////////////////////////////////////////////////////////////////	
-		
-		
+//////////////////////////////////////////////////////////////////////			
 		
 	}
-	
-	
-	
-	
 	
 	//Método para adaptar el tamaño de una imagen a su JLabel
 	//Pasamos como parámetro el String con el path, un int con el nuevo ancho y un int con la nueva altura
@@ -790,6 +791,8 @@ public class FrameTablero extends JFrame {
 		labelsZombies.get(7).get(0).setVisible(true);
 	}
 	
+	/////////////////////////////////////////////////////////TODO: METODOS FRAMETABLERO
+	
 	public void actualizaChat(String mensaje) {
 		txtrHistorial.setText(txtrHistorial.getText().trim() + "\n" + mensaje);
 	}
@@ -883,6 +886,10 @@ public class FrameTablero extends JFrame {
 		dados.remove(pos);
 	}
 	
+	public void setDado(int pos, int valor) {
+		dados.set(pos, valor);
+	}
+	
 	public void addCartaJug(int idCarta) {
 		if(cartasJugador == null) {
 			cartasJugador = new ArrayList<>();
@@ -891,6 +898,7 @@ public class FrameTablero extends JFrame {
 
 	}
 	
+	//TODO: HABLAR CON NIETO -> idCarta || posCarta
 	public void rmCartaJug(int idCarta) {
 		int c = cartasJugador.indexOf(idCarta);
 		cartasJugador.remove(c);
@@ -1024,7 +1032,7 @@ public class FrameTablero extends JFrame {
 		}
 	}
 		
-	public void goToURL(String URL){
+	/*public void goToURL(String URL){
 		URL url=null;
 		try {
 		    url = new URL(URL);
@@ -1038,7 +1046,7 @@ public class FrameTablero extends JFrame {
 		} catch (MalformedURLException e1) {
 		    e1.printStackTrace();
 		}
-	}
+	}*/
 	
 	public void finPartida() {
 		frameFinPartida = new FrameFinPartida();
