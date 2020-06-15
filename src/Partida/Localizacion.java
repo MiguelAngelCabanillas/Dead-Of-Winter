@@ -113,8 +113,6 @@ public class Localizacion {
 					aux[0] = Integer.toString(i);
 				}
 				
-				System.out.println(i);
-				
 				numZombies--;
 			}
 			i++;
@@ -267,14 +265,19 @@ public class Localizacion {
 	//METODO PARA BUSCAR AL SUPERVIVIENTE CON MENOS INFLUENCIA
 	public Carta_Supervivientes menorInfluencia() {
 		Carta_Supervivientes aux = null;
+		int act = 0;
 		
 		for(int i = 0; i < maximoNumSupervivientes; i++) {
 			if(aux != null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto() && aux.compareTo(supervivientes.get(i)) >= 1) {
 				aux = supervivientes.get(i);
+				act = i;
 			}else if(aux == null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto()){
 				aux = supervivientes.get(i);
+				act = i;
 			}
 		}
+		
+		supervivientes.remove(act);
 		
 		return aux;
 	}
