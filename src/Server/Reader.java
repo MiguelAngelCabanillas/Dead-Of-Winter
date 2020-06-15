@@ -376,7 +376,7 @@ private BufferedReader buffer;
 							break;
 						case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
-									user.enviarALaSala("moral|" + + user.getSala().getPartida().getMoral());
+									user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
 							break;
 						}
 						
