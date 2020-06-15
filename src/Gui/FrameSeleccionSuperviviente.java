@@ -110,6 +110,7 @@ public class FrameSeleccionSuperviviente extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String[] aux = comando.split("\\|");
 			switch (aux[2]) {
+			
 			case "mover":
 				if(auxMover != null) {
 					auxMover.dispose();
@@ -118,13 +119,27 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				auxMover.setVisible(true);
 				dispose();
 				break;
+				
 			case "barricada":
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				dispose();
 				break;
+				
 			case "vaciar":
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				dispose();
+				break;
+				
+			case "buscar":
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				dispose();
+				break;
+			//en principio atacamos a un zombie
+			case "atacar":
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				dispose();
+				break;
+				
 			default:
 				break;
 			}
