@@ -410,10 +410,21 @@ private BufferedReader buffer;
 					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");*/
 					break;
 				case "buscar": //buscar|idSup
-					/*String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
-					System.out.println("Buscar: " + comm);
-					user.hacerPeticionAlServidor("addCarta|");
-					user.enviarALaSala("updtCartas|");*/
+					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
+					//System.out.println("Buscar: " + comm);
+//					user.hacerPeticionAlServidor("addCarta|0");
+//					user.enviarALaSala("updtCartas|0|1");
+					break;
+				case "atacar":
+//					user.enviarALaSala("rmZombie|0|0");
+//					user.hacerPeticionAlServidor("setDado|0|6");
+//					user.hacerPeticionAlServidor("setDado|1|6");
+//					user.hacerPeticionAlServidor("setDado|2|6");
+//					user.enviarALaSala(user.getNombre() + " ha atacado un zombie");
+					break;
+				case "gastarComida":
+//					user.hacerPeticionAlServidor("rmCarta|0");
+//					user.enviarALaSala("updtCartas|0|-1");
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
