@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 public class FrameTuTurno extends JFrame {
 
 	private JPanel contentPane;
+	private static String imagen;
 
 	/**
 	 * Launch the application.
@@ -23,7 +24,7 @@ public class FrameTuTurno extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTuTurno frame = new FrameTuTurno();
+					FrameTuTurno frame = new FrameTuTurno(imagen);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -35,7 +36,7 @@ public class FrameTuTurno extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameTuTurno() {
+	public FrameTuTurno(String image) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		contentPane = new JPanel();
@@ -46,7 +47,7 @@ public class FrameTuTurno extends JFrame {
 		setBackground(new Color(0, 0, 0, 110));
 		
 		JLabel lblturno = new JLabel("");
-		ImageIcon ima = new ImageIcon(this.getClass().getResource("/TuTurno.png"));
+		ImageIcon ima = new ImageIcon(this.getClass().getResource(image));
 		Image img = ima.getImage().getScaledInstance(912, 133, java.awt.Image.SCALE_SMOOTH); 
 		lblturno.setBounds(12, 13, 912, 133);
 		lblturno.setIcon(new ImageIcon(img));
