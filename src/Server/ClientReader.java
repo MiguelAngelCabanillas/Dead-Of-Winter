@@ -41,7 +41,7 @@ public class ClientReader implements Runnable {
                 String[] split = msgllegada.split("\\|");
                 switch (split[0]) {
                 
-                case "idsala":
+                case "idsala": //idsala|id
                     if(sala != null) sala.actIdSala(Integer.parseInt(split[1]));
                     break;
                     
@@ -103,6 +103,7 @@ public class ClientReader implements Runnable {
                 	tablero.moverSuperviviente(Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
                 	tablero.tiradaDeRiesgo(Integer.parseInt(split[4]));
                 	break;
+                	
                 case "secreto": // secreto|id -- ID única para cada objetivo secreto
                 	System.out.println("Objetivo Secreto: " + split[1]);
                 	FrameTablero.setObjetivoSecreto(Integer.parseInt(split[1]));
@@ -146,7 +147,7 @@ public class ClientReader implements Runnable {
                     FrameTablero.updateCartas(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
                 	break;
                 	
-                case "addBarricada": //addBarricada|idLoc|idPos
+                case "addBarricada": //addBarricada|idLoc|posVal
                 	System.out.println("barricada " + split[1] + " " + split[2]);
                 	tablero.addBarricada(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
@@ -155,6 +156,7 @@ public class ClientReader implements Runnable {
                 	tablero.setRonda(Integer.parseInt(split[1]));
                 	FrameTablero.setCrisis(Integer.parseInt(split[2]));
                 	tablero.inicDados();
+                	tablero.inicAportaciones();
                 	for(int j = 3; j<split.length;j++) {
                 		tablero.tiradaDados(Integer.parseInt(split[j]));
                 		System.out.println("Dado: " + Integer.parseInt(split[j]));
@@ -199,12 +201,39 @@ public class ClientReader implements Runnable {
                 	tablero.setDado(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
                 	
+                case "addZombie": //addZombie|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11
+                	for(int k = 1; k < split.length; k++){
+                		 for(int j = 0; j < split[k].length(); j++){
+                		   tablero.addZombie(k-1,Integer.parseInt(split[k].charAt(j)+""));
+                		 }
+                	}
+                break;
+                	
                 case "rmZombie": //rmZombie|loc|pos
                 	tablero.deleteZombie(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
                 
-                case "rmCarta": //rmCarta|pos
+                case "rmCarta": //rmCarta|idCarta
                 	tablero.rmCartaJug(Integer.parseInt(split[1]));
+                	break;
+                	
+                case "numAportaciones": //numAportaciones|aporJug1|aportJug2|aportJug3...
+                	List<Integer> list = new ArrayList<>();
+                	for(int j=1; j < split.length; j++) {
+                		list.add(Integer.parseInt(split[j]));
+                	}
+                	tablero.setNumAport(list);
+                	break;
+                	
+                case "cartasAportadas":	//cartasAportadas|idCarta1|idCarta2|idCarta3...
+                	for(int j=1; j < split.length; j++) {
+                		tablero.cartasAportadas(Integer.parseInt(split[j]));
+                	}
+                	//TODO: tablero.resolucionCrisis();
+                	break;
+                	
+                case "fichasComida": //fichasComida|num
+                	tablero.setFichComida(Integer.parseInt(split[1]));
                 	break;
                 	                	
                 default:

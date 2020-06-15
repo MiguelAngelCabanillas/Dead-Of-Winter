@@ -32,22 +32,23 @@ public class FrameTablero extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
-	private Point p;
+	private Point p; //punto auxiliar
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
-	private int vertedero;
+	private int vertedero,nFichComida;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
 	private List<Integer> dados; //puntuación de los dado del jugador
-	private List<Integer> aportacionesCrisis;
+	private List<Integer> aportacionesCrisis; //numero de cartas que ha aportado cada jugador a la crisis
 	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
 	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
-	private HashMap<Integer,JLabel> labelsSup;
+	private HashMap<Integer,JLabel> labelsSup; //mapa que relaciona los id de los supervivientes que se encuentran en partida con su respectiva ficha circular
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
-	private List<List<JLabel>> labelsZombies;
-	private List<Point[]> locZombies;
+	private List<List<JLabel>> labelsZombies; //fichas circulares zombies/barricadas
+	private List<Point[]> locZombies; //localizaciones zombies/barricadas
+	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
 	private Asociaciones aso;
@@ -149,7 +150,6 @@ public class FrameTablero extends JFrame {
 		supMap = aso.getSupMap();
 		supJugadores = new HashMap<>();
 		cartasJugador = new ArrayList<>();
-		aportacionesCrisis = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
 		labelsSup = new HashMap<>();
@@ -580,7 +580,7 @@ public class FrameTablero extends JFrame {
 		btnFichasComida = new JButton("");
 		btnFichasComida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + 5); //TODO: CAMBIAR
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + nFichComida); 
 			}
 		});
 		btnFichasComida.setBounds(1165, 538, 107, 113);
@@ -898,7 +898,6 @@ public class FrameTablero extends JFrame {
 
 	}
 	
-	//TODO: HABLAR CON NIETO -> idCarta || posCarta
 	public void rmCartaJug(int idCarta) {
 		int c = cartasJugador.indexOf(idCarta);
 		cartasJugador.remove(c);
@@ -978,6 +977,27 @@ public class FrameTablero extends JFrame {
 	public void setVertedero(int valor) {
 		vertedero = valor;
 	}
+	
+	public void setFichComida(int valor) {
+		nFichComida = valor;
+	}
+	
+	public void inicAportaciones() {
+		aportacionesCrisis = new ArrayList<>();
+		cartasResolucionCrisis = new ArrayList<>();
+	}
+	
+	public void cartasAportadas(int idCarta) {
+		cartasResolucionCrisis.add(idCarta);
+	}
+	
+	public void setNumAport(List<Integer> list) {
+		aportacionesCrisis = list;
+	}
+	
+	//TODO: FRAME QUE MUESTRE SI LA CRISIS HA SIDO RESUELTA
+	/*public void resolucionCrisis() {
+	}*/
 	
 	public static void enviarComando(String command) {
 		try {

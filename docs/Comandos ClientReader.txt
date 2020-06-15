@@ -1,0 +1,61 @@
+COMANDOS CLIENTREADER
+
+idsala|id
+
+nusuarios|num
+
+chat|msg -> muestra el mensaje en el chat de tablero
+
+exit
+
+host -> setea el usuario como host
+
+error|msgError
+
+asignar|idJug|idSup|posValCol|idSup|posValCol... -> asigna un nuevo superviviente a un jugador
+
+rmSup|idJug|idSup -> elimina un determinado superviviente de un jugador
+
+mover|idSup|locDest|posValLoc|dadoRiesgo -> mueve un superviviente a una posición válida dentro de la localización destino, devolviendo tambien el resultado de la tirada de riesgo
+
+secreto|idObjSec -> setea el objetivo secreto del jugador
+
+initSup|sup1Jug1|sup2Jug1|sup1Jug2|sup2Jug2|sup1Jug3|sup2Jug3... -> inicializa la partida añadiendo los supervivientes de cada jugador
+
+ids|nombreJug1|nombreJug2|nombreJug3... -> asocia id de todos los jugadores con su nombre
+
+initCartas|idCarta|idCarta|idCarta... -> incializa las cartas del jugador al inicio de la partida
+
+updtCartas|idJug|nCartas -> actualiza el número de cartas de un jugador en específico
+
+addBarricada|idLoc|posVal -> añade una barricada en una posición válida de una localización específica
+
+newRound|numRonda|idCrisis|dado1|dado2... -> setea el número de ronda, la nueva carta de crisis para la ronda y los nuevos dados al jugador para esta ronda
+
+moral|valorMoral -> setea el número de moral
+
+heridas|numHeridasNormales|numHeridasCongelación -> setea el numero de heridas normales y por congelación que tiene un superviviente para mostrarlas en infoJugador
+
+tuturno -> muestra FrameTuTurno
+
+finpartida -> muestra FrameFinPartida
+
+vertedero|valor -> setea el número de cartas en el vertedero
+
+rmDado|posDado -> descarta el dado en la posición dada
+
+addCarta|idCarta -> añade la carta especificada a la mano del jugador
+
+setDado|posDado|nuevoValor -> cambia el valor del dado en la posición espeficada, gastar comida aumenta el valor del dado
+
+addZombie|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11 -> añade zombies en las psoiciones especificadas en cada localización
+
+rmZombie|loc|pos -> elimina el zombie situado en la posición válida de la localización
+
+rmCarta|idCarta -> elimina la primera carta con esa id de la mano del jugador
+
+numAportaciones|aportJug1|aportJug2|aportJug3... -> setea numero de cartas que ha aportado cada jugador en esa ronda
+
+cartasAportadas|idCarta1|idCarta2|idCarta3... -> cartas aportadas a la crisis una vez se ha terminado la ronda y resuelto la crisis
+
+fichasComida|num -> setea número de fichas de comida actuales en la colonia
