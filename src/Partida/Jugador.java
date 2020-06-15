@@ -297,9 +297,7 @@ public class Jugador {
 			res = null;
 		}
 		
-		if(res != null) {
-			dados.usar(dado);
-		}
+		dados.usar(dado);
 		
 		String salida = "";
 		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {

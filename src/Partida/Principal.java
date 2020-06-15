@@ -304,6 +304,9 @@ public class Principal {
 			throw new VertederoException("No estas en la colonia");
 		}
 		
+		//RESETEAMOS LOS DADOS
+		resetDados();
+		
 		return Integer.toString(vertedero) + "|" + Integer.toString(dado);
 	}
 	
@@ -322,7 +325,10 @@ public class Principal {
 	}
 	
 	public String ponerBarricada(int sup) throws BarricadaException {
-		return jugadorActual.barricada(sup);
+		String msg = jugadorActual.barricada(sup);
+		//RESETEAMOS LOS DADOS
+		resetDados();
+		return msg;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -397,11 +403,6 @@ public class Principal {
 		return datos;
 	}
 	
-	//TODO queda que Roldán diga como me pasa los datos
-	public void supervivientesIniciales() {
-		
-	}
-	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO
 	
 	//PUEDE QUE HAYA QUE ELIMINAR ESTA FUNCION
@@ -471,7 +472,17 @@ public class Principal {
 		return aux;
 	}
 	
-	
+	private void resetDados() {
+		List<Integer> d = jugadorActual.getDados().getDados();
+		dados[jugadorActual.getId()] = "";
+		
+		for(int i = 0; i < d.size(); i++) {
+			if(i != 0) {
+				dados[jugadorActual.getId()] += "|";
+			}
+			dados[jugadorActual.getId()] += d.get(i);
+		}
+	}
 	
 	private String actualizarSupervivientesActual() {
 		String muertos = "";
