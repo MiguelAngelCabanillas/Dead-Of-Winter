@@ -383,7 +383,7 @@ private BufferedReader buffer;
 						String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
 						System.out.println("Valor devuelto por barricada " + com);
 						String[] spl = com.split("\\|"); //loc|pos|dadoaquitar
-						if(spl[0].equals("null")) {
+						if(spl[0].equals("null") || spl[1].equals("null")) {
 							user.hacerPeticionAlServidor("error|No tienes más dados");
 						} else {
 							user.enviarALaSala("addBarricada|" + spl[0] + "|" + spl[1]);
