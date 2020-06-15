@@ -13,7 +13,7 @@ public class Sala {
 	Usuario host;
 	Principal partida;
 	private List<Usuario> muted;
-	boolean puedeEntrar;
+	private boolean puedeEntrar;
 	private int contTurnos; //variable que indica los turnos restantes para que cambie la ronda
 	
 	public Sala(Usuario usuario, int id) {
@@ -35,10 +35,6 @@ public class Sala {
 		return false;
 	}
 	
-	public void iniciarPartida() throws IOException {
-		host.hacerPeticionAlServidor(host.getNombre() + ": He empezado la partida numero" + id);
-	}
-	
 	public Usuario getHost() {
 		return host;
 	}
@@ -57,6 +53,7 @@ public class Sala {
 	
 	public void setPartida(Principal p) {
 		this.partida = p;
+		puedeEntrar = false;
 	}
 	
 	public Principal getPartida() {
@@ -92,5 +89,9 @@ public class Sala {
 	
 	public void setContTurnos(int c) {
 		contTurnos = c;
+	}
+	
+	public boolean getPuedeEntrar() {
+		return puedeEntrar;
 	}
 }

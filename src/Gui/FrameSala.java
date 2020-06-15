@@ -267,9 +267,11 @@ public class FrameSala extends JFrame {
 		ChatArea.setText(ChatArea.getText().trim() + "\n" + mensaje);
 		}
 	}
-	public void actNumJugadores(int numJugadores) {
-		lblNDeJugadores.setText("N\u00BA de jugadores:    " + numJugadores);
-		this.numJugadores = numJugadores;
+	public void actNumJugadores(String numJugadores) {
+		lblNDeJugadores.setText(numJugadores);
+		if(!numJugadores.equals("Error: Sala llena")) {
+		this.numJugadores = Integer.parseInt(numJugadores.charAt(numJugadores.length()-1) + "");
+		}
 	}
 	public void actIdSala(int idSala) {
 		lblNewLabel.setText("El numero de sala es: " + idSala);

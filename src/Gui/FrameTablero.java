@@ -1034,7 +1034,7 @@ public class FrameTablero extends JFrame {
 		
 		try {
 			Thread.sleep(700);
-			frameTuTurno = new FrameTuTurno();
+			frameTuTurno = new FrameTuTurno("/TuTurno.png");
 			frameTuTurno.setVisible(true);
 			try {
 				AudioInputStream audioInputStream;

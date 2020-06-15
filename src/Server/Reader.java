@@ -73,21 +73,22 @@ private BufferedReader buffer;
 					user.setSala(sala);
 					salas.add(sala);
 					System.out.println("Creada sala " + idSala + " con " + user.getNombre() + " como host");
-					sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
+					sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + user.getSala().getUsuarios().size());
 					user.hacerPeticionAlServidor("chat|" + user.getNombre() + " ha entrado a la sala.");
 				} else if(sala != null && user.getSala() == null){ //Si la sala esta creada y el jugador no pertenece a la sala
 //					user.hacerPeticionAlServidor("nusuarios|" + sala.getUsuarios().size());
 //					user.hacerPeticionAlServidor("id|" + sala.getId());
-					if(sala.puedeEntrar == false) {
-						user.hacerPeticionAlServidor("error|La sala a la que intentas acceder está llena");
-					}
+					if(sala.getPuedeEntrar() == false) {
+						user.hacerPeticionAlServidor("nusuarios|Error: Sala llena");
+					} else {
 					user.setSala(sala);
 					sala.anyadirUsuario(user);
-					
-					user.getSala().enviarAUsuariosDeLaSala("nusuarios|" + user.getSala().getUsuarios().size());
+					//
+					user.getSala().enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + user.getSala().getUsuarios().size());
 					System.out.println("Enviado numero de usuarios de sala a " + user.getNombre() + " porque se acaba de unir.");
 					user.getSala().enviarAUsuariosDeLaSala("chat|" + user.getNombre() + " ha entrado a la sala.");
 					System.out.println("Enviado que acaba de entrar a " + user.getNombre() + " porque se acaba de unir");
+					}
 				}
 				
 				if(split.length >= 3) {
@@ -225,7 +226,7 @@ private BufferedReader buffer;
 					  if(split[3].equalsIgnoreCase("sala")) {
 						 salirDeSala(user, user.getSala());
 					  } else if(split[3].equalsIgnoreCase("tablero")) { // Inicializar partida
-						  
+						  if(user.getSala() != null) {
 						  /*if(user.getSala().getUsuarios().size() < 2) {
 							  user.hacerPeticionAlServidor("error|Hacen falta al menos dos jugadores para iniciar la partida");
 							  break;
@@ -314,7 +315,7 @@ private BufferedReader buffer;
 						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						  
 					   }
-					
+						  }
 					}
 					 break;
 				case "finturno": //finturno|idJugAnterior
@@ -410,10 +411,21 @@ private BufferedReader buffer;
 					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");*/
 					break;
 				case "buscar": //buscar|idSup
-					/*String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
-					System.out.println("Buscar: " + comm);
-					user.hacerPeticionAlServidor("addCarta|");
-					user.enviarALaSala("updtCartas|");*/
+					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
+					//System.out.println("Buscar: " + comm);
+//					user.hacerPeticionAlServidor("addCarta|0");
+//					user.enviarALaSala("updtCartas|0|1");
+					break;
+				case "atacar":
+//					user.enviarALaSala("rmZombie|0|0");
+//					user.hacerPeticionAlServidor("setDado|0|6");
+//					user.hacerPeticionAlServidor("setDado|1|6");
+//					user.hacerPeticionAlServidor("setDado|2|6");
+//					user.enviarALaSala(user.getNombre() + " ha atacado un zombie");
+					break;
+				case "gastarComida":
+//					user.hacerPeticionAlServidor("rmCarta|0");
+//					user.enviarALaSala("updtCartas|0|-1");
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
@@ -433,17 +445,23 @@ private BufferedReader buffer;
 					
 					break;
 				case "host":
+					if(user.getSala() != null) {
 					if(user.getSala().getHost().equals(user)) {
 						user.hacerPeticionAlServidor("host|");
 					}
+					}
 					break;	
 				case "idsala":
+					if(user.getSala() != null) {
 					 user.hacerPeticionAlServidor("idsala|" + user.getSala().getId());
 					 System.out.println("Enviado id de sala a " + user.getNombre());
+					}
 					 break;
 				case "nusuarios":
-					user.hacerPeticionAlServidor("nusuarios|" + user.getSala().getUsuarios().size());
+					if(user.getSala() != null) {
+					user.hacerPeticionAlServidor("nusuarios|Numero de jugadores: " + user.getSala().getUsuarios().size());
 					System.out.println("Enviado numero de usuarios de sala a " + user.getNombre());
+					}
 				}
 			 }
 			if(user.getSala()!=null) {
@@ -555,6 +573,7 @@ private BufferedReader buffer;
 	}
 	
 	public void salirDeSala(Usuario usuario, Sala sala) throws IOException {
+		if(sala != null) {
 	if(sala.getUsuarios().size() == 1) {
 		sala.getUsuarios().remove(0);
 		salas.remove(sala);
@@ -563,7 +582,7 @@ private BufferedReader buffer;
 	} else if (sala.getUsuarios().size() > 1 && sala.getHost().getNombre().equals(usuario.getNombre())){
 		sala.getUsuarios().remove(usuario);
 		usuario.enviarALaSala("chat|El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
-		sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
+		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
 		usuario.setSala(null);
 		sala.setHost(sala.getUsuarios().get(0));
 		
@@ -571,9 +590,10 @@ private BufferedReader buffer;
 	} else {
 		sala.getUsuarios().remove(usuario);
 		usuario.enviarALaSala("chat|" + usuario.getNombre() + " ha salido de la sala " + sala.getId());
-		sala.enviarAUsuariosDeLaSala("nusuarios|" + sala.getUsuarios().size());
+		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
 		usuario.setSala(null);
 	}
 	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
+		}
   }
 }
