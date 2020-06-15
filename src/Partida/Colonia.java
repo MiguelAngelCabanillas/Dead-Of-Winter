@@ -117,11 +117,11 @@ public class Colonia extends Localizacion {
 			List<CasillasZombie> casillasZombie = puertas.get(i);
 			j = 0;
 			while(!barricadaPuesta && j < casillasZombie.size()) {
-				if (!casillasZombie.get(j).getHayBarricada() && !casillasZombie.get(j).getHayZombie()) {
+				if (casillasZombie.get(j).getHayBarricada() || casillasZombie.get(j).getHayZombie()) {
+					j++;
+				}else {
 					casillasZombie.get(j).setHayBarricada(true);
 					barricadaPuesta = true;
-				}else {
-					j++;
 				}
 			}
 			i++;
@@ -131,7 +131,7 @@ public class Colonia extends Localizacion {
 			i = -1;
 		}
 		
-		return Integer.toString(i) + "|" + Integer.toString(j);
+		return Integer.toString(i-1+6) + "|" + Integer.toString(j);
 	}
 	
 	@Override

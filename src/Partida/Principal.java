@@ -65,7 +65,7 @@ public class Principal {
 		enPartida = new PriorityQueue<>();
 		
 		crisisActual = crisis.getCrisis();
-		vertedero = 3;
+		vertedero = 6;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,8 @@ public class Principal {
 	public void inicDados() {
 		int i = 0;
 		for(Jugador j : jugadores) {
-			j.getDados().resetDados(j.getMazoSuperviviente().size());
+			dados[i] = j.getDados().resetDados(j.getMazoSuperviviente().size());
+			i++;
 		}
 	}
 	
@@ -387,6 +388,10 @@ public class Principal {
 			moral++;
 		}
 		
+		if(vertedero >= 10) {
+			moral--;
+		}
+		
 		rondasRestantes--;
 		
 		return datos;
@@ -430,6 +435,10 @@ public class Principal {
 	
 	public int getCrisisActual() {
 		return crisisActual.getId();
+	}
+	
+	public int getVertedero() {
+		return vertedero;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
