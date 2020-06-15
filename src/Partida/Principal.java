@@ -47,7 +47,7 @@ public class Principal {
 	private String [] idCartas;
 	private Jugador jugadorActual;
 	private boolean finalBueno = false;
-	private int muertos = 0;
+	private String muertos = "";
 	private Crisis crisisActual;
 	private String[] dados;
 	
@@ -305,7 +305,6 @@ public class Principal {
 		}
 		
 		//RESETEAMOS LOS DADOS
-		resetDados();
 		
 		return Integer.toString(vertedero) + "|" + Integer.toString(dado);
 	}
@@ -314,26 +313,37 @@ public class Principal {
 		return null;
 	}
 	
-	public boolean aportarCrisis(int id) {
-		boolean estado = false;
-		if(jugadorActual.anyadirCrisis(id)) {
-			crisisActual.anyadir(id, jugadorActual.getId()	);
-			
-			estado = true;
-		}
-		return estado;
-	}
+	public void aportarCrisis(int id) {
+
+        crisisActual.anyadir(id); //TODO: metodo que añade la carta a la crisis (solo la carta)
+        jugadorActual.eliminarCarta(id);
+    }
+//Set crisis para tests
+    public void setCrisis(Crisis crisis) {
+        this.crisisActual = crisis;
+    }
+    
+    public int getCrisisActualId() { //Devuelve el id de la crisis
+        return crisisActual.getId();
+    }
+
+    public Crisis getCrisisActual() { //Devuelve la crisis actual
+        return crisisActual;
+    }
+	
 	
 	public String ponerBarricada(int sup) throws BarricadaException {
 		String msg = jugadorActual.barricada(sup);
-		//RESETEAMOS LOS DADOS
-		resetDados();
 		return msg;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public String getMuertos() {
+		return muertos;
+	}
+	
 	public String getNombre(int id) {
 		return supervivientes.getSuperviviente(id).getNombre();
 	}
@@ -368,25 +378,14 @@ public class Principal {
 		jugadorActual.resetHab();
 		jugadorActual = jugadores.get(id);
 		inicTurno();
+		resetDados();
 	}
 	
 	public String pasaRonda() {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
 		String datos = actualizarTablero();
-		int i = 0;
 		
-		for(Jugador j : jugadores) {
-			//ELIMINAMOS LOS SUPERVIVIENTES MUERTOS AL ACTUALIZAR LOS ZOMBIES
-			j.matar();
-			dados[i] = j.tirarDados();
-			i++;
-			
-			for(Carta_Supervivientes sup : j.getMazoSuperviviente()) {
-				if(sup.getCongelamiento() != 0) {
-					sup.recibirHerida(false);
-				}
-			}
-		}
+		muertos += actualizarTodosSupervivientes();
 		
 		if(!crisisActual.pasada()) {
 			fallo();
@@ -410,8 +409,8 @@ public class Principal {
 		return jugadores.get(id);
 	}
 	
-	public void inicTurno() {
-		actualizarSupervivientesActual();
+	public String inicTurno() {
+		return actualizarSupervivientesActual();
 	}
 	
 	public String getIdCartas (int jugador) {
@@ -432,10 +431,6 @@ public class Principal {
 
 	public int getRondasRestantes() {
 		return rondasRestantes;
-	}
-	
-	public int getCrisisActual() {
-		return crisisActual.getId();
 	}
 	
 	public int getVertedero() {
@@ -465,18 +460,33 @@ public class Principal {
 		aux += "|" + coll[0];
 		
 		//ACTUALIZAMOS LOS MUERTOS EN LA PARTIDA
-		muertos += Integer.parseInt(com[1]);
-		muertos += Integer.parseInt(sup[1]);
-		muertos += Integer.parseInt(col[1]);
-		muertos += Integer.parseInt(gas[1]);
-		muertos += Integer.parseInt(hos[1]);
-		muertos += Integer.parseInt(bib[1]);
-		muertos += Integer.parseInt(coll[1]);
+		if(com[0].contentEquals("0")) {
+			muertos += Integer.parseInt(com[1]);
+		}
+		if(sup[0].contentEquals("0")) {
+			muertos += Integer.parseInt(sup[1]);
+		}
+		if(col[0].contentEquals("0")) {
+			muertos += Integer.parseInt(col[1]);
+		}
+		if(gas[0].contentEquals("0")) {
+			muertos += Integer.parseInt(gas[1]);
+		}
+		if(hos[0].contentEquals("0")) {
+			muertos += Integer.parseInt(hos[1]);
+		}
+		if(bib[0].contentEquals("0")) {
+			muertos += Integer.parseInt(bib[1]);
+		}
+		if(coll[0].contentEquals("0")) {
+			muertos += Integer.parseInt(coll[1]);
+		}
 		
 		return aux;
 	}
 	
 	private void resetDados() {
+		jugadorActual.getDados().resetDados(jugadorActual.getMazoSuperviviente().size());
 		List<Integer> d = jugadorActual.getDados().getDados();
 		dados[jugadorActual.getId()] = "";
 		
@@ -488,7 +498,7 @@ public class Principal {
 		}
 	}
 	
-	private String actualizarSupervivientesActual() {
+	public String actualizarSupervivientesActual() {
 		String muertos = "";
 		List<Carta_Supervivientes> aux = jugadorActual.getMazoSuperviviente();
 		
@@ -501,8 +511,12 @@ public class Principal {
 		for(Carta_Supervivientes personaje : aux) {
 			if(personaje.estaMuerto()) {
 				muertos += personaje.getId() + "|";
-				aux.remove(personaje);
+				jugadorActual.matar();
 			}
+		}
+		
+		if(muertos == "") {
+			muertos = null;
 		}
 		
 		return muertos;
@@ -518,10 +532,13 @@ public class Principal {
 			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
 			for(Carta_Supervivientes personaje : aux) {
 				if(personaje.estaMuerto()) {
-					muertos += personaje.getId() + "|";
-					aux.remove(personaje);
+					if(muertos != "") {
+						muertos += "|";
+					}
+					muertos += + j.getId() + "|" + personaje.getId();
 				}
 			}
+			j.matar();
 		}
 		
 		return muertos;

@@ -1,6 +1,7 @@
 package Partida;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Cartas.Carta;
@@ -85,17 +86,20 @@ public class Jugador {
 		
 		return salida;
 	}
-//	
-//	public void anyadirDados() {
-//		while(dados.size() <= mazoSuperviviente.size()) {
-//			this.dados.add(new Dado());
-//		}
-//	}
 	
 	public void matar() {
-		for (int i = 0; i < this.mazoSuperviviente.size(); i++) {
-			if (this.mazoSuperviviente.get(i).estaMuerto()) {
-				this.mazoSuperviviente.remove(i);
+		int tam = this.mazoSuperviviente.size();
+		Carta_Supervivientes aux;
+		Localizacion loc;
+		for(int i = 0; i < tam;) {
+			 aux = this.mazoSuperviviente.get(i);
+			if (aux.estaMuerto()) {
+				loc = localizacion(aux);
+				loc.eliminarSuperviviente(aux);
+				this.mazoSuperviviente.remove(aux);
+				tam--;
+			}else {
+				i++;
 			}
 		}
 	}
@@ -159,6 +163,27 @@ public class Jugador {
 		
 		return salida;
 	}
+	
+	public void eliminarCarta(int id) { //El jugador no va a poder seleccionar una carta que no tiene
+        Iterator<Carta> ite = mazoObjeto.iterator();
+        boolean encontrado = false;
+        while(ite.hasNext() && !encontrado) {
+            Carta carta = ite.next();
+            if(carta.getId() == id) {
+                mazoObjeto.remove(mazoObjeto.indexOf(carta));
+                encontrado = true;
+            }
+        }
+    }
+
+	public void darCarta(int id) {
+	        //POR DETERMINAR (usado para test)
+	        Carta aux = new Carta(id);
+	        mazoObjeto.add(aux);
+	    }
+	public List<Carta> getMazoObjetos() {
+	        return mazoObjeto;
+	    }
 	
 	//METODO PARA APLICAR UNA HERIDA
 	public void herir(Carta_Supervivientes carta, boolean hielo) {
@@ -384,17 +409,6 @@ public class Jugador {
 //		
 //		tablero.getColonia().setTokensDeHambre(tablero.getColonia().getTokensDeHambre() + 1);
 //	}
-	
-	public boolean anyadirCrisis(int id) {
-		boolean tiene = false;
-		Carta carta = new Carta_Objeto(id, 0, 0);
-		
-		if(mazoObjeto.contains(carta)) {
-			mazoObjeto.remove(carta);
-		}
-		
-		return tiene;
-	}
 	
 	public void darCarta() {
 		//POR DETERMINAR

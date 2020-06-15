@@ -142,6 +142,7 @@ public class Colonia extends Localizacion {
 		int j;
 		List<CasillasZombie> aux;
 		
+		
 		while(!colocado && i < 6) {
 			aux = puertas.get(i);
 			CasillasZombie aux2;
@@ -169,10 +170,14 @@ public class Colonia extends Localizacion {
 	public String [] actualizarCasillasZombiePasoDeRonda() {
 		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2);
 		int noColocados = 0;
-		int [] colocados = new int[6];
+		String [] colocados = new String[6];
 		boolean colocado;
 		List<CasillasZombie> puerta;
 		int puertaActual;
+		String [] salida = new String[2];
+		for(int i = 0; i < colocados.length; i++) {
+			colocados[i] = "";
+		}
 		
 		for(int j = 0; j < numZombies; j++) {
 			puertaActual = j % 6;
@@ -183,10 +188,10 @@ public class Colonia extends Localizacion {
 			//INTENTA COLOCAR EN CASILLAS VACÍAS
 			while(!colocado && i < puerta.size()) {
 				CasillasZombie aux = puerta.get(i);
-				if (!aux.getHayZombie()) {
+				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;
-					colocados[puertaActual]++;
+					colocados[puertaActual] += i;
 				} else {
 					i++;
 				}
@@ -198,6 +203,8 @@ public class Colonia extends Localizacion {
 				CasillasZombie aux = puerta.get(i);
 				if (aux.getHayBarricada()) {
 					aux.setHayBarricada(false);
+					colocado = true;
+					colocados[puertaActual] += (i + puerta.size());
 				} else {
 					i++;
 				}
@@ -207,10 +214,10 @@ public class Colonia extends Localizacion {
 			i = 0;
 			while (!colocado && i < puerta.size()) {
 				CasillasZombie aux = puerta.get(i);
-				if (!aux.getHayZombie()) {
+				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;
-					colocados[puertaActual]++;
+					colocados[puertaActual] += i;
 				} else {
 					i++;
 				}
@@ -225,7 +232,7 @@ public class Colonia extends Localizacion {
 		
 		//MATAMOS A LOS JUGADORES NECESARIOS
 		while(noColocados > 0) {
-			Carta_Supervivientes muerto = super.getSupervivientes().get(getPosicion(menorInfluencia()));
+			Carta_Supervivientes muerto = super.menorInfluencia();
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
@@ -233,20 +240,21 @@ public class Colonia extends Localizacion {
 		}
 		
 		//DEVOLVEMOS EL NUMERO DE ZOMBIES COLOCADOS
-		String [] aux = new String[2];
-		aux[0] = "";
-		aux[1] = "";
+		salida[0] = "";
+		salida[1] = "";
 		
 		for(int i = 0; i < colocados.length; i++) {
 			if(i != 0) {
-				aux[0] += "|";
+				salida[0] += "|";
 			}
-			aux[0] += colocados[i]; 
+			if(colocados[i] != "") {
+				salida[0] += colocados[i]; 
+			}
 		}
 		
-		aux [1] = Integer.toString(muertos);
+		salida [1] = Integer.toString(muertos);
 		
-		return aux;
+		return salida;
 	}
 	
 	//GETTERS Y SETTERS

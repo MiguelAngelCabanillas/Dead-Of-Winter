@@ -28,9 +28,9 @@ public class Tablero {
 		comisaria = new Localizacion(mComisaria, 3, 4, 0, objetivoPrincipal.getZombies());
 		supermercado= new Localizacion(mSupermercado, 3, 4, 1, objetivoPrincipal.getZombies());
 		colegio = new Localizacion(mColegio, 4, 4, 2, objetivoPrincipal.getZombies());
-		gasolinera = new Localizacion(mGasolinera, 2, 4, 3, objetivoPrincipal.getZombies());
+		gasolinera = new Localizacion(mGasolinera, 2, 3, 3, objetivoPrincipal.getZombies());
 		hospital = new Localizacion(mHospital, 4, 4, 4, objetivoPrincipal.getZombies());
-		biblioteca = new Localizacion(mBiblioteca, 3, 4, 5, objetivoPrincipal.getZombies());
+		biblioteca = new Localizacion(mBiblioteca, 3, 3, 5, objetivoPrincipal.getZombies());
 		colonia = new Colonia(objetivoPrincipal, jugadores);
 
 		

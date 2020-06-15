@@ -16,14 +16,21 @@ public class Crisis {
 	
 	private int [] donaciones;
 	
-	public Crisis(int id, int jugadores) {
-		this.id = id;
-		cantidad = jugadores;
-		
-		donaciones = new int[jugadores];
-		
-		inic();
-	}
+	private final int TAM_DONACIONES = 15;
+
+    public Crisis(int id, int jugadores) {
+        this.id = id;
+        cantidad = jugadores;
+
+        donaciones = new int[TAM_DONACIONES];
+
+        //Inicializo el array a -1
+        for(int i = 0; i < TAM_DONACIONES; i++) {
+            donaciones[i] = -1;
+        }
+
+        inic();
+    }
 	//TODO
 	
 	private void inic() {
@@ -63,31 +70,40 @@ public class Crisis {
 		}
 	}
 	
-	public void anyadir(int id, int jugador) {
-		if(tipo1 == id || tipo2 == id || tipo3 == id) {
-			actuales++;
-		}else {
-			actuales--;
-		}
-		
-		if(cantidad == actuales) {
-			pasada = true;
-		}
-		
-		if(cantidad + 2 == actuales) {
-			sobra = true;
-		}
-		
-		donaciones[jugador]++;
-	}
-	
-	public boolean pasada() {
-		return pasada;
-	}
-	
-	public boolean sobra() {
-		return sobra;
-	}
+    public void anyadir(int id) {
+        if(tipo1 == id || tipo2 == id || tipo3 == id) {
+            actuales++;
+        }else {
+            actuales--;
+        }
+        //Busca la poscion en el array distinto -1 y añade la carta
+        int i = 0;
+        boolean anyadida = false;
+        while(i < donaciones.length && !anyadida) {
+            if(donaciones[i] == -1) {
+                donaciones[i] = id;
+                anyadida = true;
+            }
+            i++;
+        }
+    }
+
+    public boolean pasada() {
+        if(cantidad <= actuales) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean sobra() {
+        if((cantidad + 2) <= actuales) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 	
 	public int getId() {
 		return id;

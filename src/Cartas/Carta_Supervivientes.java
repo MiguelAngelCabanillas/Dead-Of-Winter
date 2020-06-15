@@ -168,7 +168,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	public boolean estaMuerto() {
 		boolean res = false;
-		if (this.heridas >= 3) {
+		if (this.heridas + this.congelamiento >= 3) {
 			res = true;
 		}
 		return res;

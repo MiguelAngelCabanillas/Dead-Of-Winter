@@ -98,35 +98,79 @@ public class Localizacion {
 	
 	//METODOS DE RONDA
 	public String [] actualizarCasillasZombiePasoDeRonda() {
+		String [] aux = new String[2];
 		int numZombies = this.supervivientes.size();
-
-		for(CasillasZombie hueco : casillasZombie) {
+		CasillasZombie hueco;
+		int i = 0;
+		
+		while(numZombies > 0 && i < casillasZombie.size()) {
+			hueco = casillasZombie.get(i);
 			if(numZombies > 0 && !hueco.getHayZombie() && !hueco.getHayBarricada()) {
 				hueco.setHayZombie(true);
+				if(aux[0] != null) {
+					aux[0] += i;
+				}else {
+					aux[0] = Integer.toString(i);
+				}
+				
+				System.out.println(i);
+				
 				numZombies--;
 			}
+			i++;
 		}
+		
+		i = 0;
 
-		for(CasillasZombie hueco : casillasZombie) {
+		while(numZombies > 0 && i < casillasZombie.size()) {
+			hueco = casillasZombie.get(i);
 			if(numZombies > 0 && hueco.getHayBarricada()) {
 				hueco.setHayBarricada(false);
+				if(aux[0] != null) {
+					aux[0] += (i + casillasZombie.size());
+				}else {
+					aux[0] = Integer.toString(i + casillasZombie.size());
+				}
+				
 				numZombies--;
 			}
+			i++;
+		}
+		
+		i = 0;
+		
+		while(numZombies > 0 && i < casillasZombie.size()) {
+			hueco = casillasZombie.get(i);
+			if(numZombies > 0 && !hueco.getHayZombie() && !hueco.getHayBarricada()) {
+				hueco.setHayZombie(true);
+				if(aux[0] != null) {
+					aux[0] += i;
+				}else {
+					aux[0] = Integer.toString(i);
+				}
+				
+				numZombies--;
+			}
+			i++;
 		}
 		
 		int muertos = numZombies;
 		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
-		while(numZombies > 0) {
-			Carta_Supervivientes muerto = this.supervivientes.get(getPosicion(menorInfluencia()));
+		while(numZombies > 0 && supervivientes.size() > 0) {
+			System.out.println("-----------------------------------------");
+			System.out.println(numZombies);
+			Carta_Supervivientes muerto = menorInfluencia();
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
 			muerto.recibirHerida(false);
 			numZombies--;
 		}
 		
-		//DEVOLVEMOS EL NÚMERO DE ZOMBIES COLOCADOS
-		String [] aux = new String[2];
-		aux[0] = Integer.toString(this.supervivientes.size());
+		//CAMBIAMOS LOS NULL POR ESPACIOS
+		if(aux[0] == null) {
+			aux[0] = "";
+		}
+		
 		aux[1] = Integer.toString(muertos);
 		
 		return aux;
@@ -175,9 +219,9 @@ public class Localizacion {
 	//METODOS DE CONTROL
 	public void eliminarSuperviviente(Carta_Supervivientes personaje) {
 		boolean encontrado = false; int i = 0;
-		while(!encontrado) {
+		while(!encontrado && i < maximoNumSupervivientes) {
 			Carta_Supervivientes aux = supervivientes.get(i);
-			if(aux.equals(personaje)) {
+			if(aux != null && aux.equals(personaje)) {
 				supervivientes.remove(i);
 				encontrado = true;
 			}else {
@@ -210,7 +254,7 @@ public class Localizacion {
 		boolean encontrado = false;
 		
 		while(!encontrado && i < supervivientes.size()) {
-			if(supervivientes.get(i) != null && supervivientes.get(i).equals(personaje)) {
+			if(supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto() && supervivientes.get(i).equals(personaje)) {
 				encontrado = true;
 			}else {
 				i++;
@@ -222,10 +266,12 @@ public class Localizacion {
 	
 	//METODO PARA BUSCAR AL SUPERVIVIENTE CON MENOS INFLUENCIA
 	public Carta_Supervivientes menorInfluencia() {
-		Carta_Supervivientes aux = supervivientes.get(0);
+		Carta_Supervivientes aux = null;
 		
-		for(int i = 0; i < supervivientes.size(); i++) {
-			if(aux.compareTo(supervivientes.get(i)) > 1) {
+		for(int i = 0; i < maximoNumSupervivientes; i++) {
+			if(aux != null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto() && aux.compareTo(supervivientes.get(i)) >= 1) {
+				aux = supervivientes.get(i);
+			}else if(aux == null && supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto()){
 				aux = supervivientes.get(i);
 			}
 		}
