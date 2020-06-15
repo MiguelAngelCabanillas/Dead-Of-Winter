@@ -321,15 +321,23 @@ private BufferedReader buffer;
 					int cont = user.getSala().getContTurnos();
 					cont--;
 					user.getSala().setContTurnos(cont);
-					if(cont == 0) {
+					if(cont == 0) { //acaba una ronda
 						user.getSala().setContTurnos(user.getSala().getUsuarios().size());
-						user.getSala().getPartida().pasaRonda();
+						String muertes = user.getSala().getPartida().pasaRonda();
 						if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
 							}
 						} else {
 							user.getSala().getPartida().pasaTurno(0);
+							if(muertes != null) {
+								String [] splt = muertes.split("\\|");
+								int i = 0;
+								while(i < splt.length) {
+									user.enviarALaSala("rmSup|" + splt[i] + "|" + splt[i+1]);
+									i += 2;
+								}
+							}
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
@@ -407,7 +415,7 @@ private BufferedReader buffer;
 					break;
 				case "aportarCrisis":
 					/*user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
-					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");*/
+					user.enviarALaSala("numAportaciones|" + usuario.getSala().getPartida().getAportaciones();*/
 					break;
 				case "buscar": //buscar|idSup
 					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
