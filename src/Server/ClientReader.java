@@ -46,7 +46,7 @@ public class ClientReader implements Runnable {
                     break;
                     
                 case "nusuarios":
-                    if(sala != null) sala.actNumJugadores(Integer.parseInt(split[1]));
+                    if(sala != null) sala.actNumJugadores(split[1]);
                     break;
                     
                 case "chat":
