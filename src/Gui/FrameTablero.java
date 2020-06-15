@@ -285,7 +285,8 @@ public class FrameTablero extends JFrame {
 		lblAcciones.setBounds(103, 13, 105, 26);
 		contentPane.add(lblAcciones);
 		
-		btnAtacar = new JButton("ATACAR");
+		btnAtacar = new JButton("");
+		btnAtacar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Atacar.png")));
 		btnAtacar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAtacar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -301,7 +302,8 @@ public class FrameTablero extends JFrame {
 		btnAtacar.setEnabled(false);
 		contentPane.add(btnAtacar);
 		
-		btnMoverse = new JButton("MOVERSE");
+		btnMoverse = new JButton("");
+		btnMoverse.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Moverse.png")));
 		btnMoverse.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {	
@@ -317,7 +319,8 @@ public class FrameTablero extends JFrame {
 		btnMoverse.setEnabled(false);
 		contentPane.add(btnMoverse);
 		
-		btnBuscar = new JButton("BUSCAR");
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Buscar.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(frameSeleccionar != null) {
@@ -334,7 +337,8 @@ public class FrameTablero extends JFrame {
 		btnBuscar.setEnabled(false);
 		contentPane.add(btnBuscar);
 		
-		btnBarricada = new JButton("BARRICADA");
+		btnBarricada = new JButton("");
+		btnBarricada.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Barricada.png")));
 		btnBarricada.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnBarricada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -357,7 +361,8 @@ public class FrameTablero extends JFrame {
 		btnContribuir.setToolTipText("Aportar un objeto a la crisis");
 		contentPane.add(btnContribuir);
 		
-		btnLimpiarVertedero = new JButton("VACIAR VERTEDERO");
+		btnLimpiarVertedero = new JButton("");
+		btnLimpiarVertedero.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/VaciarVertedero.png")));
 		btnLimpiarVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(frameSeleccionar != null) {
@@ -413,9 +418,11 @@ public class FrameTablero extends JFrame {
 		btnPedirCarta.setBounds(181, 195, 129, 41);
 		btnPedirCarta.setToolTipText("Pide una determinada carta a otro jugador");
 		btnPedirCarta.setEnabled(false);
+		btnPedirCarta.setVisible(false);
 		contentPane.add(btnPedirCarta);
 		
-		btnGastarComida = new JButton("GASTAR COMIDA");
+		btnGastarComida = new JButton("");
+		btnGastarComida.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/GastarComida.png")));
 		btnGastarComida.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnGastarComida.setBounds(181, 146, 129, 41);
 		btnGastarComida.addActionListener(new ActionListener() {
