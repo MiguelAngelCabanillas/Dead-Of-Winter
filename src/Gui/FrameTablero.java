@@ -60,6 +60,7 @@ public class FrameTablero extends JFrame {
 	private FrameTuTurno frameTuTurno;
 	private FrameFinPartida frameFinPartida;
 	private FrameTiradaRiesgo tirRiesgo;
+	private FrameCartasAportadas frameCartasAportadas;
 
 	private static int[] heridas = new int[2];
 	
@@ -953,8 +954,8 @@ public class FrameTablero extends JFrame {
 	}
 
 	public void addBarricada(int loc, int pos) {
-		labelsZombies.get(loc).get(pos).setVisible(true);
 		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/Fichas/barricada.png",36,34));
+		labelsZombies.get(loc).get(pos).setVisible(true);
 	}
 	
 	public void deleteBarricada(int loc, int pos) {
@@ -995,9 +996,10 @@ public class FrameTablero extends JFrame {
 		aportacionesCrisis = list;
 	}
 	
-	//TODO: FRAME QUE MUESTRE SI LA CRISIS HA SIDO RESUELTA
-	/*public void resolucionCrisis() {
-	}*/
+	public void resolucionCrisis() {
+		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso);
+		frameCartasAportadas.setVisible(true);
+	}
 	
 	public static void enviarComando(String command) {
 		try {
@@ -1025,29 +1027,23 @@ public class FrameTablero extends JFrame {
 	public void miTurno() {
 		try {
 			Thread.sleep(700);
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
-		}
-		turno = true;
-		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
-		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
-		
-		try {
+			turno = true;
+			btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
+			btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
+	
 			Thread.sleep(700);
 			frameTuTurno = new FrameTuTurno("/TuTurno.png");
 			frameTuTurno.setVisible(true);
-			try {
-				AudioInputStream audioInputStream;
-				audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
-				Clip clip = AudioSystem.getClip();
-			    clip.open(audioInputStream);
-			    clip.start();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+				
+			AudioInputStream audioInputStream;
+			audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+		    clip.open(audioInputStream);
+		    clip.start();
+			
 			Thread.sleep(1700);
 			frameTuTurno.dispose();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

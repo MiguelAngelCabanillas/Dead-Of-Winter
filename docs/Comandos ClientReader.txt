@@ -48,7 +48,7 @@ addCarta|idCarta -> añade la carta especificada a la mano del jugador
 
 setDado|posDado|nuevoValor -> cambia el valor del dado en la posición espeficada, gastar comida aumenta el valor del dado
 
-addZombie|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11 -> añade zombies en las psoiciones especificadas en cada localización
+addZombies|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11 -> añade zombies en las psoiciones especificadas en cada localización
 
 rmZombie|loc|pos -> elimina el zombie situado en la posición válida de la localización
 

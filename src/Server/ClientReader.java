@@ -201,10 +201,17 @@ public class ClientReader implements Runnable {
                 	tablero.setDado(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
                 	
-                case "addZombie": //addZombie|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11
+                case "addZombies": //addZombies|posValLoc0|posValLoc1|posValLoc2|posValLoc3...posValLoc11
                 	for(int k = 1; k < split.length; k++){
                 		 for(int j = 0; j < split[k].length(); j++){
-                		   tablero.addZombie(k-1,Integer.parseInt(split[k].charAt(j)+""));
+                		   int posV =  Integer.parseInt(split[k].charAt(j)+"");
+                		   if(Integer.parseInt(split[k].charAt(j)+"") < 4) {
+                			   System.out.println("Añadir zombie en la pos " + posV + " de la localizacion " + (k-1));
+                			   tablero.addZombie(k-1,posV);
+                		   }else { //pos0barricada = 4, pos1barricada = 5,pos2barricada = 6, pos3barricada = 7
+                			   System.out.println("Eliminar barricada en la pos " + (posV-4) + " de la localizacion " + (k-1));
+                			   tablero.deleteBarricada(k-1, posV-4);
+                		   }
                 		 }
                 	}
                 break;
@@ -229,7 +236,7 @@ public class ClientReader implements Runnable {
                 	for(int j=1; j < split.length; j++) {
                 		tablero.cartasAportadas(Integer.parseInt(split[j]));
                 	}
-                	//TODO: tablero.resolucionCrisis();
+                	tablero.resolucionCrisis();
                 	break;
                 	
                 case "fichasComida": //fichasComida|num
@@ -237,6 +244,7 @@ public class ClientReader implements Runnable {
                 	break;
                 	                	
                 default:
+                	System.err.println("ERROR IN COMMAND-> " + split[0]);
                     break;
                 }
             }
