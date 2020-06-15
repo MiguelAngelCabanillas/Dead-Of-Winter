@@ -165,16 +165,9 @@ public class FrameUnirse extends JFrame {
 		System.out.println(trim);
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + trim);
 		System.out.println(usuario.getNombre() + "|" + trim);
-		String aceptacion = usuario.recibirMensajeDelServidor();
-		
-		if(aceptacion != null && aceptacion.equals("no")) {
-			JOptionPane.showMessageDialog(null, "Error: La sala está llena");
-		}
-		else {
-			FrameSala fCrear = new FrameSala(usuario);
-			fCrear.setVisible(true);
-			dispose();
-		}
+		FrameSala fCrear = new FrameSala(usuario);
+		fCrear.setVisible(true);
+		dispose();
 		textFieldUnirse.setText("");
 		System.out.println("Sale");
 	}

@@ -32,22 +32,23 @@ public class FrameTablero extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtChat;
 	private JTextArea txtrHistorial;
-	private Point p;
+	private Point p; //punto auxiliar
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
-	private int vertedero;
+	private int vertedero,nFichComida;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
 	private List<Integer> dados; //puntuación de los dado del jugador
-	private List<Integer> aportacionesCrisis;
+	private List<Integer> aportacionesCrisis; //numero de cartas que ha aportado cada jugador a la crisis
 	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
 	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
 	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
-	private HashMap<Integer,JLabel> labelsSup;
+	private HashMap<Integer,JLabel> labelsSup; //mapa que relaciona los id de los supervivientes que se encuentran en partida con su respectiva ficha circular
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
-	private List<List<JLabel>> labelsZombies;
-	private List<Point[]> locZombies;
+	private List<List<JLabel>> labelsZombies; //fichas circulares zombies/barricadas
+	private List<Point[]> locZombies; //localizaciones zombies/barricadas
+	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
 	private Asociaciones aso;
@@ -59,6 +60,7 @@ public class FrameTablero extends JFrame {
 	private FrameTuTurno frameTuTurno;
 	private FrameFinPartida frameFinPartida;
 	private FrameTiradaRiesgo tirRiesgo;
+	private FrameCartasAportadas frameCartasAportadas;
 
 	private static int[] heridas = new int[2];
 	
@@ -149,7 +151,6 @@ public class FrameTablero extends JFrame {
 		supMap = aso.getSupMap();
 		supJugadores = new HashMap<>();
 		cartasJugador = new ArrayList<>();
-		aportacionesCrisis = new ArrayList<>();
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
 		labelsSup = new HashMap<>();
@@ -284,7 +285,8 @@ public class FrameTablero extends JFrame {
 		lblAcciones.setBounds(103, 13, 105, 26);
 		contentPane.add(lblAcciones);
 		
-		btnAtacar = new JButton("ATACAR");
+		btnAtacar = new JButton("");
+		btnAtacar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Atacar.png")));
 		btnAtacar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnAtacar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -300,7 +302,8 @@ public class FrameTablero extends JFrame {
 		btnAtacar.setEnabled(false);
 		contentPane.add(btnAtacar);
 		
-		btnMoverse = new JButton("MOVERSE");
+		btnMoverse = new JButton("");
+		btnMoverse.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Moverse.png")));
 		btnMoverse.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnMoverse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {	
@@ -316,7 +319,8 @@ public class FrameTablero extends JFrame {
 		btnMoverse.setEnabled(false);
 		contentPane.add(btnMoverse);
 		
-		btnBuscar = new JButton("BUSCAR");
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Buscar.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(frameSeleccionar != null) {
@@ -333,7 +337,8 @@ public class FrameTablero extends JFrame {
 		btnBuscar.setEnabled(false);
 		contentPane.add(btnBuscar);
 		
-		btnBarricada = new JButton("BARRICADA");
+		btnBarricada = new JButton("");
+		btnBarricada.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Barricada.png")));
 		btnBarricada.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnBarricada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -356,7 +361,8 @@ public class FrameTablero extends JFrame {
 		btnContribuir.setToolTipText("Aportar un objeto a la crisis");
 		contentPane.add(btnContribuir);
 		
-		btnLimpiarVertedero = new JButton("VACIAR VERTEDERO");
+		btnLimpiarVertedero = new JButton("");
+		btnLimpiarVertedero.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/VaciarVertedero.png")));
 		btnLimpiarVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(frameSeleccionar != null) {
@@ -412,9 +418,11 @@ public class FrameTablero extends JFrame {
 		btnPedirCarta.setBounds(181, 195, 129, 41);
 		btnPedirCarta.setToolTipText("Pide una determinada carta a otro jugador");
 		btnPedirCarta.setEnabled(false);
+		btnPedirCarta.setVisible(false);
 		contentPane.add(btnPedirCarta);
 		
-		btnGastarComida = new JButton("GASTAR COMIDA");
+		btnGastarComida = new JButton("");
+		btnGastarComida.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/GastarComida.png")));
 		btnGastarComida.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnGastarComida.setBounds(181, 146, 129, 41);
 		btnGastarComida.addActionListener(new ActionListener() {
@@ -580,7 +588,7 @@ public class FrameTablero extends JFrame {
 		btnFichasComida = new JButton("");
 		btnFichasComida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + 5); //TODO: CAMBIAR
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + nFichComida); 
 			}
 		});
 		btnFichasComida.setBounds(1165, 538, 107, 113);
@@ -898,7 +906,6 @@ public class FrameTablero extends JFrame {
 
 	}
 	
-	//TODO: HABLAR CON NIETO -> idCarta || posCarta
 	public void rmCartaJug(int idCarta) {
 		int c = cartasJugador.indexOf(idCarta);
 		cartasJugador.remove(c);
@@ -954,8 +961,8 @@ public class FrameTablero extends JFrame {
 	}
 
 	public void addBarricada(int loc, int pos) {
-		labelsZombies.get(loc).get(pos).setVisible(true);
 		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/Fichas/barricada.png",36,34));
+		labelsZombies.get(loc).get(pos).setVisible(true);
 	}
 	
 	public void deleteBarricada(int loc, int pos) {
@@ -977,6 +984,28 @@ public class FrameTablero extends JFrame {
 	
 	public void setVertedero(int valor) {
 		vertedero = valor;
+	}
+	
+	public void setFichComida(int valor) {
+		nFichComida = valor;
+	}
+	
+	public void inicAportaciones() {
+		aportacionesCrisis = new ArrayList<>();
+		cartasResolucionCrisis = new ArrayList<>();
+	}
+	
+	public void cartasAportadas(int idCarta) {
+		cartasResolucionCrisis.add(idCarta);
+	}
+	
+	public void setNumAport(List<Integer> list) {
+		aportacionesCrisis = list;
+	}
+	
+	public void resolucionCrisis() {
+		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso);
+		frameCartasAportadas.setVisible(true);
 	}
 	
 	public static void enviarComando(String command) {
@@ -1005,29 +1034,23 @@ public class FrameTablero extends JFrame {
 	public void miTurno() {
 		try {
 			Thread.sleep(700);
-		} catch (InterruptedException e2) {
-			e2.printStackTrace();
-		}
-		turno = true;
-		btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
-		btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
-		
-		try {
+			turno = true;
+			btnAtacar.setEnabled(true);btnMoverse.setEnabled(true);btnBuscar.setEnabled(true);btnBarricada.setEnabled(true);btnContribuir.setEnabled(true);btnLimpiarVertedero.setEnabled(true);
+			btnAtraerZombie.setEnabled(true);btnFinalizarTurno.setEnabled(true);btnDarCarta.setEnabled(true);btnPedirCarta.setEnabled(true);btnGastarComida.setEnabled(true);
+	
 			Thread.sleep(700);
-			frameTuTurno = new FrameTuTurno();
+			frameTuTurno = new FrameTuTurno("/TuTurno.png");
 			frameTuTurno.setVisible(true);
-			try {
-				AudioInputStream audioInputStream;
-				audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
-				Clip clip = AudioSystem.getClip();
-			    clip.open(audioInputStream);
-			    clip.start();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+				
+			AudioInputStream audioInputStream;
+			audioInputStream = AudioSystem.getAudioInputStream(new File("music/Cerrojo.wav").getAbsoluteFile());
+			Clip clip = AudioSystem.getClip();
+		    clip.open(audioInputStream);
+		    clip.start();
+			
 			Thread.sleep(1700);
 			frameTuTurno.dispose();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
