@@ -175,11 +175,13 @@ public class VerificacionYPruebas {
 
 		this.j.getMazoSuperviviente().add(superviviente);
 
+
 //		this.j.getMazoSuperviviente().add(superviviente);
 //		this.j.anyadirDados();
 //		
 //		//Tiramos el dado
 //		this.j.getDados().get(0).tirarDado();
+
 		
 		//Movemos al superviviente a la localización de prueba.
 		l.llegar(this.j.getMazoSuperviviente().get(0));
@@ -358,6 +360,7 @@ public class VerificacionYPruebas {
 		assertEquals(100,this.p.getJugador(0).getMazoSuperviviente().get(0).getId());
 		assertEquals(101,this.p.getJugador(0).getMazoSuperviviente().get(1).getId());
 
+
 		//Comprobamos que cada jugador tiene sus dados.
 //				for (int i = 0; i < 5; i++) {
 //					assertEquals(1, this.p.getJugador(i).getDados().size());
@@ -365,6 +368,7 @@ public class VerificacionYPruebas {
 //		
 		//No tienen dados.
 		assertEquals(null,this.p.getDados(0));
+
 		
 		//AÑADIR DADOS DESPUÉS DE LOS SUPERVIVIENTES.
 		//Añadimos los dados

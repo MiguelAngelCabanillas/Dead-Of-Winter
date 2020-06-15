@@ -94,8 +94,6 @@ public class Jugador {
 		for(int i = 0; i < tam;) {
 			 aux = this.mazoSuperviviente.get(i);
 			if (aux.estaMuerto()) {
-				loc = localizacion(aux);
-				loc.eliminarSuperviviente(aux);
 				this.mazoSuperviviente.remove(aux);
 				tam--;
 			}else {

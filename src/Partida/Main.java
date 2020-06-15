@@ -31,6 +31,7 @@ public class Main {
 		p.mover(102, 2);
 		
 		System.out.println(p.pasaRonda());
+		System.out.println(p.pasaRonda());
 		
 		
 //		System.out.println(p.pasaRonda());
