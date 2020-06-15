@@ -322,31 +322,38 @@ private BufferedReader buffer;
 					int cont = user.getSala().getContTurnos();
 					cont--;
 					user.getSala().setContTurnos(cont);
-					if(cont == 0) { //acaba una ronda
-						user.getSala().setContTurnos(user.getSala().getUsuarios().size());
-						String muertes = user.getSala().getPartida().pasaRonda();
+					if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
+						String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
 						if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
 							}
 						} else {
-							user.getSala().getPartida().pasaTurno(0);
-							if(muertes != null) {
-								String [] splt = muertes.split("\\|");
+							user.getSala().setContTurnos(user.getSala().getUsuarios().size());
+							String muertos = user.getSala().getPartida().getMuertos(); //muertos
+							System.out.println(muertos);
+							if(!muertos.equals("")) {
 								int i = 0;
-								while(i < splt.length) {
-									user.enviarALaSala("rmSup|" + splt[i] + "|" + splt[i+1]);
-									i += 2;
+								String[] sp = muertos.split("\\|");
+								while(i < sp.length) {
+									user.enviarALaSala("rmSup|" + sp[i] + "|" + sp[i+1]);
+									i+=2;
 								}
 							}
+							
+							user.getSala().getPartida().pasaTurno(0);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|1|0|2");
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies);
+								System.out.println("addZombies|" + zombies);
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
 								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActual() + "|" + user.getSala().getPartida().getDados(i));
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral" + user.getSala().getPartida().getMoral());
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							}
 							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
 							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						}
+						/////////////////////////////////////////////////////////////////////////////
 					} else {
 						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
 						user.getSala().getPartida().pasaTurno(idSig);
@@ -369,6 +376,7 @@ private BufferedReader buffer;
 							break;
 						case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
+									user.enviarALaSala("moral|" + + user.getSala().getPartida().getMoral());
 							break;
 						}
 						
@@ -393,14 +401,16 @@ private BufferedReader buffer;
 						System.out.println("Valor devuelto por barricada " + com);
 						String[] spl = com.split("\\|"); //loc|pos|dadoaquitar
 						if(spl[0].equals("null") || spl[1].equals("null")) {
-							user.hacerPeticionAlServidor("error|No tienes más dados");
+							user.hacerPeticionAlServidor("error|No puedes poner esa barricada");
 						} else {
 							user.enviarALaSala("addBarricada|" + spl[0] + "|" + spl[1]);
 							user.hacerPeticionAlServidor("rmDado|" + spl[2]);
 						}
 					} catch(BarricadaException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage() );
-					} 
+					} catch (ArrayIndexOutOfBoundsException err) {
+						user.hacerPeticionAlServidor("error|No tienes más dados");
+					}
 					break;
 				case "vaciar": //vaciar|idSup (vaciar vertedero)
 					try {
@@ -415,8 +425,10 @@ private BufferedReader buffer;
 					}
 					break;
 				case "aportarCrisis":
-					/*user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
-					user.enviarALaSala("numAportaciones|" + usuario.getSala().getPartida().getAportaciones();*/
+					//user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					user.hacerPeticionAlServidor("rmCarta|" + split[3]);
+					user.enviarALaSala("updtCartas|0|-1");   //updtCartas|idJug|-1 --> resta una carta
+					user.enviarALaSala("numAportaciones|1"); //numAportaciones|aportacionesjug0|aportacionesjug1....
 					break;
 				case "buscar": //buscar|idSup
 					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
