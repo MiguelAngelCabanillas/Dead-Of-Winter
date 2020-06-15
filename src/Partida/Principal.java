@@ -313,10 +313,11 @@ public class Principal {
 		return null;
 	}
 	
-	public void aportarCrisis(int id) {
-
-        crisisActual.anyadir(id); //TODO: metodo que añade la carta a la crisis (solo la carta)
+	public String aportarCrisis(int id) {
+		int idJug = jugadorActual.getId();
+        crisisActual.anyadir(id,idJug); //TODO: metodo que añade la carta a la crisis (solo la carta)
         jugadorActual.eliminarCarta(id);
+        return crisisActual.getContribJug();
     }
 //Set crisis para tests
     public void setCrisis(Crisis crisis) {
@@ -400,6 +401,30 @@ public class Principal {
 		rondasRestantes--;
 		
 		return datos;
+	}
+	
+	public String resultadoCrisis() {
+		StringBuilder sB = new StringBuilder();
+		if(crisisActual.sobra()) {
+			sB.append("sobra");
+		}else if(crisisActual.pasada()) {
+			sB.append("pasada");
+		}else {
+			sB.append("fallo");
+		}
+		return sB.toString();
+	}
+	
+	public String cartasContrib() {
+		int[] donaciones = crisisActual.getDonaciones();
+		StringBuilder sB = new StringBuilder();
+		int i = 0;
+		while(donaciones[i] != -1) {
+			sB.append(donaciones[i]+"|");
+			i++;
+		}
+		sB.replace(sB.length()-1, sB.length(), "");
+		return sB.toString();
 	}
 	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO
@@ -642,6 +667,10 @@ public class Principal {
 		}
 		
 		return estado;
+	}
+	
+	public int getComida() {
+		return comida;
 	}
 	
 }

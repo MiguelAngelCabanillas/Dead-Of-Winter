@@ -1,5 +1,8 @@
 package Partida;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Crisis {
 
 	private int id;
@@ -16,6 +19,8 @@ public class Crisis {
 	
 	private int [] donaciones;
 	
+	private int[] contribJug;
+	
 	private final int TAM_DONACIONES = 15;
 
     public Crisis(int id, int jugadores) {
@@ -29,6 +34,8 @@ public class Crisis {
             donaciones[i] = -1;
         }
 
+        contribJug = new int[jugadores];
+        
         inic();
     }
 	//TODO
@@ -70,7 +77,7 @@ public class Crisis {
 		}
 	}
 	
-    public void anyadir(int id) {
+    public void anyadir(int id, int idJug) {
         if(tipo1 == id || tipo2 == id || tipo3 == id) {
             actuales++;
         }else {
@@ -82,6 +89,7 @@ public class Crisis {
         while(i < donaciones.length && !anyadida) {
             if(donaciones[i] == -1) {
                 donaciones[i] = id;
+                contribJug[idJug]++;
                 anyadida = true;
             }
             i++;
@@ -111,5 +119,14 @@ public class Crisis {
 	
 	public int[] getDonaciones() {
 		return donaciones;
+	}
+	
+	public String getContribJug() {
+		StringBuilder sB = new StringBuilder();
+		for(int i=0;i<contribJug.length-1;i++) {
+			sB.append(contribJug[i]+"|");
+		}
+		sB.append(contribJug[contribJug.length-1]);
+		return sB.toString();
 	}
 }

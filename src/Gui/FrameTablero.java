@@ -36,6 +36,7 @@ public class FrameTablero extends JFrame {
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
 	private int vertedero,nFichComida;
+	private String crisisRes;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
@@ -1003,9 +1004,13 @@ public class FrameTablero extends JFrame {
 		aportacionesCrisis = list;
 	}
 	
-	public void resolucionCrisis() {
+	public void cartasResCrisis() {
 		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso);
 		frameCartasAportadas.setVisible(true);
+	}
+	
+	public void crisisResult(String s) {
+		crisisRes = s;
 	}
 	
 	public static void enviarComando(String command) {
