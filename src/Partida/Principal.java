@@ -49,6 +49,8 @@ public class Principal {
 	private boolean finalBueno = false;
 	private String muertos = "";
 	private Crisis crisisActual;
+	
+	//ESTOS SOLO SON LOS DADOS QUE SE DAN AL JUGADOR AL INICIO DE RONDA
 	private String[] dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,10 +63,8 @@ public class Principal {
 		rondasRestantes = this.objetivo.getRondas();
 		
 		supervivientes = new InicSupervivientes();
-		crisis = new InicCrisis(jugadores.size());
 		enPartida = new PriorityQueue<>();
 		
-		crisisActual = crisis.getCrisis();
 		vertedero = 6;
 	}
 	
@@ -266,7 +266,7 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS DE JUGADOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	public int atacar(int idSuperviviente) {
+	public String atacar(int idSuperviviente) throws MatarException, DadoException {
 		return jugadorActual.atacar(idSuperviviente);
 	}
 	
@@ -276,11 +276,11 @@ public class Principal {
 				jugadorActual.mover(idSuperviviente, localizacion);
 	}
 	
-	public String buscar(int idJugador) {
-		return jugadorActual.buscar(idJugador);
+	public String buscar(int idSuperviviente) throws BuscarException, DadoException {
+		return jugadorActual.buscar(idSuperviviente);
 	}
 	
-	public String vaciarVertedero(int sup) throws VertederoException {
+	public String vaciarVertedero(int sup) throws VertederoException, DadoException {
 		if(vertedero == 0) {
 			throw new VertederoException("El vertedero ya está vacío");
 		}
@@ -313,10 +313,11 @@ public class Principal {
 		return null;
 	}
 	
-	public void aportarCrisis(int id) {
-
-        crisisActual.anyadir(id); //TODO: metodo que añade la carta a la crisis (solo la carta)
+	public String aportarCrisis(int id) {
+		int idJug = jugadorActual.getId();
+        crisisActual.anyadir(id,idJug); //TODO: metodo que añade la carta a la crisis (solo la carta)
         jugadorActual.eliminarCarta(id);
+        return crisisActual.getContribJug();
     }
 //Set crisis para tests
     public void setCrisis(Crisis crisis) {
@@ -332,9 +333,47 @@ public class Principal {
     }
 	
 	
-	public String ponerBarricada(int sup) throws BarricadaException {
+	public String ponerBarricada(int sup) throws BarricadaException, DadoException {
 		String msg = jugadorActual.barricada(sup);
 		return msg;
+	}
+	
+	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException, GasolinaException {
+		String salida = "";
+		
+			
+		switch (idCarta) {
+		case 0: comida += 1;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 1 : comida += 2;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 2 : comida += 3;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 3 : {
+			Carta_Supervivientes aux = jugadorActual.getSupConId(idSup);
+			if(aux.getHeridas() == 0) {
+				throw new HeridaException("El superviviente no tiene heridas");
+			}
+			aux.curarHerida();
+		}
+			break;
+		case 4 : jugadorActual.getDados().resetUnDado(idDado);;
+			break;
+		case 5 : {
+			if(!jugadorActual.getGasolina()) {
+				jugadorActual.setGasolina(true);
+			}else {
+				throw new GasolinaException("Ya has usado gasolina");
+			}
+		}
+			break;
+		default : System.err.println(idCarta + " " + idSup);
+		}
+		
+		return salida;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +394,7 @@ public class Principal {
 	
 	public void addSuperviviente(int idJug, int idSup) {
 		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
+		supervivientes.getSupervivientes().remove(idSup);
 	}
 	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
@@ -370,6 +410,10 @@ public class Principal {
 		inicMazos();
 		inicTablero(numJugadores);
 		inicJugadores(numJugadores);
+		
+		crisis = new InicCrisis(jugadores.size());
+		crisisActual = crisis.getCrisis();
+
 		jugadorActual = jugadores.get(0);
 	}
 	
@@ -397,9 +441,42 @@ public class Principal {
 			moral--;
 		}
 		
+		crisisActual = crisis.getCrisis();
+		
 		rondasRestantes--;
 		
 		return datos;
+	}
+	
+	public String resultadoCrisis() {
+		StringBuilder sB = new StringBuilder();
+		if(crisisActual.sobra()) {
+			sB.append("sobra");
+		}else if(crisisActual.pasada()) {
+			sB.append("pasada");
+		}else {
+			sB.append("fallo");
+		}
+		return sB.toString();
+	}
+	
+	public String cartasContrib() {
+		int[] donaciones = crisisActual.getDonaciones();
+		
+		if(donaciones[0] == -1) {
+			return null;
+		} else {
+			StringBuilder sB = new StringBuilder();
+			int i = 0;
+			while(donaciones[i] != -1) {
+				sB.append(donaciones[i]+"|");
+				i++;
+			}
+			
+			sB.replace(sB.length()-1, sB.length(), "");
+			
+			return sB.toString();
+		}
 	}
 	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO
@@ -650,6 +727,10 @@ public class Principal {
 		}
 		
 		return estado;
+	}
+	
+	public int getComida() {
+		return comida;
 	}
 	
 }

@@ -286,20 +286,25 @@ public class Localizacion {
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
 	
 	//ESTABA MAL (i++ y NO i-1).
-	public int matarZombie() {
-		int i = casillasZombie.size();
+	public String matarZombie() throws MatarException {
+		int i = casillasZombie.size() - 1;
 		boolean zombieMuerto = false;
 		
 		while (!zombieMuerto && i >= 0) {
-			if (this.casillasZombie.get(i-1).getHayZombie()) {
-				this.casillasZombie.get(i-1).setHayZombie(false);
+			if (this.casillasZombie.get(i).getHayZombie()) {
+				this.casillasZombie.get(i).setHayZombie(false);
 				zombieMuerto = true;
 			} else {
 				i--;
 			}
 		}
 		
-		return i;
+		//DAMOS ERROR SI NO SE HA MATADO NINGUN ZOMBIE
+		if(!zombieMuerto) {
+			throw new MatarException("No hay zombies en esa posicion");
+		}
+		
+		return Integer.toString(i);
 	}
 	
 	public String ponerBarricada() throws BarricadaException {

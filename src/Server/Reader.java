@@ -5,6 +5,7 @@ import Cartas.Carta_Supervivientes;
 import Excepciones.MoverException;
 import Excepciones.ServerException;
 import Partida.BarricadaException;
+import Partida.DadoException;
 import Partida.Principal;
 import Partida.VertederoException;
 
@@ -359,7 +360,9 @@ private BufferedReader buffer;
 				case "barricada":
 					try {
 						System.out.println("barricada|"+split[3]);
-						String com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
+						String com;
+
+						com = user.getSala().getPartida().ponerBarricada(Integer.parseInt(split[3]));
 						System.out.println("Valor devuelto por barricada " + com);
 						String[] spl = com.split("\\|"); //loc|pos|dadoaquitar
 						if(spl[0].equals("null") || spl[1].equals("null")) {
@@ -370,8 +373,8 @@ private BufferedReader buffer;
 						}
 					} catch(BarricadaException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage() );
-					} catch (ArrayIndexOutOfBoundsException err) {
-						user.hacerPeticionAlServidor("error|No tienes más dados");
+					} catch (DadoException e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
 					break;
 				case "vaciar": //vaciar|idSup (vaciar vertedero)
@@ -382,15 +385,16 @@ private BufferedReader buffer;
 						user.enviarALaSala("vertedero|" + sp[0]);
 						user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha vaciado el vertedero." );
 						user.hacerPeticionAlServidor("rmDado|" + sp[1]);
-					} catch (VertederoException e) {
+					} catch (VertederoException| DadoException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage() );
-					}
+					} 
 					break;
 				case "aportarCrisis":
-					user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					System.out.println("Aportar: " + split[3]);
+					String contribuciones = user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
 					user.hacerPeticionAlServidor("rmCarta|" + split[3]);
 					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");   //updtCartas|idJug|-1 --> resta una carta
-					user.enviarALaSala("numAportaciones|"); //numAportaciones|aportacionesjug0|aportacionesjug1....
+					user.enviarALaSala("numAportaciones|" + contribuciones); //numAportaciones|aportacionesjug0|aportacionesjug1....
 					break;
 				case "buscar": //buscar|idSup
 					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));

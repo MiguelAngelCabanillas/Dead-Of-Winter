@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FrameTablero extends JFrame {
+	
+	private FrameCartasEncontradas auxCartasEncontradas;
 
 	private static int objetivo,objetivoSecreto,idJug,idCrisis;
 	private static Usuario usuario;
@@ -36,6 +38,7 @@ public class FrameTablero extends JFrame {
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
 	private int vertedero,nFichComida;
+	private String crisisRes;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
@@ -323,11 +326,26 @@ public class FrameTablero extends JFrame {
 		btnBuscar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Buscar.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(frameSeleccionar != null) {
-					frameSeleccionar.dispose();
+//				if(frameSeleccionar != null) {
+//					frameSeleccionar.dispose();
+//				}
+//				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
+//				frameSeleccionar.setVisible(true);
+				/////////
+				//Para probar el frameCartasEncontradas (hay que ver como conectarlo)
+				////////
+				if(auxCartasEncontradas != null) {
+					auxCartasEncontradas.dispose();
 				}
-				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
-				frameSeleccionar.setVisible(true);
+				List<Integer> cartitasDeMiguelito = new ArrayList<Integer>();
+				cartitasDeMiguelito.add(0);
+				cartitasDeMiguelito.add(5);
+				cartitasDeMiguelito.add(3);
+				cartitasDeMiguelito.add(10);
+				cartitasDeMiguelito.add(4);
+				cartitasDeMiguelito.add(11);
+				auxCartasEncontradas = new FrameCartasEncontradas(cartitasDeMiguelito, aso);
+				auxCartasEncontradas.setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(12, 144, 115, 41);
@@ -944,8 +962,16 @@ public class FrameTablero extends JFrame {
 		}
 	}
 	
-	public static void setCrisis(int crisis) {
+	public void setCrisis(int crisis) {
 		idCrisis = crisis;
+		try {
+			Thread.sleep(400); //TODO: JUGAR CON EL TIEMPO SI SE RALLA EL BOTON
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(idCrisis).getIcon();
+		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
+		btnCartaCrisis.setIcon(new ImageIcon(img));
 	}
 	
 	public static void setNombreJugadores(String n) {
@@ -1003,9 +1029,13 @@ public class FrameTablero extends JFrame {
 		aportacionesCrisis = list;
 	}
 	
-	public void resolucionCrisis() {
+	public void cartasResCrisis() {
 		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso);
 		frameCartasAportadas.setVisible(true);
+	}
+	
+	public void crisisResult(String s) {
+		crisisRes = s;
 	}
 	
 	public static void enviarComando(String command) {
@@ -1081,5 +1111,6 @@ public class FrameTablero extends JFrame {
 		return usuario;
 	}
 }
+
 
 
