@@ -364,7 +364,9 @@ public class Jugador {
 		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
 			salida += Integer.toString(loc.getId()) + "|";
 		}
-		salida += res + "|" + Integer.toString(dado);
+
+		 salida += res + "|" + Integer.toString(dado);
+
 		
 		return salida;
 	}
