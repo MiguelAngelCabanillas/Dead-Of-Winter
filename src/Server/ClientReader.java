@@ -225,7 +225,7 @@ public class ClientReader implements Runnable {
                 case "rmCarta": //rmCarta|idCarta
                 	tablero.rmCartaJug(Integer.parseInt(split[1]));
                 	break;
-                	
+          	
                 case "numAportaciones": //numAportaciones|aporJug1|aportJug2|aportJug3...
                 	if(!split[1].equals("null")) {
                 		List<Integer> list = new ArrayList<>();
@@ -244,7 +244,21 @@ public class ClientReader implements Runnable {
 	                	tablero.cartasResCrisis();
                 	}
                 	break;
-                	
+                case "cartasEncont": //cartasEncont|idC1|idC2|...|nCartas	
+                	FrameTablero.setNCartasABuscar(split.length-1);
+                	List<Integer> cartas = new ArrayList<>();
+                	for(int m = 1; m < split.length - 1; m++) {
+                		cartas.add(Integer.parseInt(split[m]));
+                	}
+                	FrameTablero.setCartasEncontradas(cartas);;
+                	break;
+                case "hacerRuido":
+                	List<Integer> c = new ArrayList<>();
+                	for(int m = 1; m < split.length; m++) {
+                		c.add(Integer.parseInt(split[m]));
+                	}
+                	FrameTablero.setCartasEncontradas(c);
+                	break;
                 case "fichasComida": //fichasComida|num
                 	tablero.setFichComida(Integer.parseInt(split[1]));
                 	break;
@@ -296,5 +310,6 @@ public class ClientReader implements Runnable {
 	public Socket getSocket() {
 		return socket;
 	}
-
+		
+	
 }

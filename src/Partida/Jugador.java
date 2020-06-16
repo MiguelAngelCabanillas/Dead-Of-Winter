@@ -431,7 +431,7 @@ public class Jugador {
 			objetivo.actualizar(localizacion(personaje).getId());
 		}
 		
-		return salida + "|" + Integer.toString(cartasBuscadas);
+		return salida + "|" + Integer.toString(cartasBuscadas) + "|" + Integer.toString(dado);
 	}
 	
 	public String hacerRuido() {
