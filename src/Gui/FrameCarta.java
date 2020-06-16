@@ -23,6 +23,7 @@ public class FrameCarta extends JFrame {
 	private JPanel contentPane;
 	private static HashMap<Integer, JLabel> carta;
 	private static String id;
+	private static boolean turno;
 //	private Asociaciones asociaciones;
 	/**
 	 * Launch the application.
@@ -32,7 +33,7 @@ public class FrameCarta extends JFrame {
 			public void run() {
 				try {
 //					FrameCarta frame = new FrameCarta(carta);
-					FrameCarta frame = new FrameCarta(carta, id);
+					FrameCarta frame = new FrameCarta(carta, id,turno);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,7 @@ public class FrameCarta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameCarta(HashMap<Integer, JLabel> carta, String id) {
+	public FrameCarta(HashMap<Integer, JLabel> carta, String id, boolean t) {
 		
 //		asociaciones = new Asociaciones();
 		
@@ -100,6 +101,14 @@ public class FrameCarta extends JFrame {
 		btnAportarCrisis.setToolTipText("Aporta esta carta para contribuir a la crisis");
 		btnAportarCrisis.setBounds(304, 548, 95, 38);
 		contentPane.add(btnAportarCrisis);
+		
+		if(t) {
+			btnAportarCrisis.setEnabled(true);
+			btnUsarCarta.setEnabled(true);
+		}else {
+			btnAportarCrisis.setEnabled(false);
+			btnUsarCarta.setEnabled(false);
+		}
 		
 		
 	}
