@@ -61,10 +61,8 @@ public class Principal {
 		rondasRestantes = this.objetivo.getRondas();
 		
 		supervivientes = new InicSupervivientes();
-		crisis = new InicCrisis(jugadores.size());
 		enPartida = new PriorityQueue<>();
 		
-		crisisActual = crisis.getCrisis();
 		vertedero = 6;
 	}
 	
@@ -371,6 +369,10 @@ public class Principal {
 		inicMazos();
 		inicTablero(numJugadores);
 		inicJugadores(numJugadores);
+		
+		crisis = new InicCrisis(jugadores.size());
+		crisisActual = crisis.getCrisis();
+
 		jugadorActual = jugadores.get(0);
 	}
 	
@@ -398,6 +400,8 @@ public class Principal {
 			moral--;
 		}
 		
+		crisisActual = crisis.getCrisis();
+		
 		rondasRestantes--;
 		
 		return datos;
@@ -417,14 +421,21 @@ public class Principal {
 	
 	public String cartasContrib() {
 		int[] donaciones = crisisActual.getDonaciones();
-		StringBuilder sB = new StringBuilder();
-		int i = 0;
-		while(donaciones[i] != -1) {
-			sB.append(donaciones[i]+"|");
-			i++;
+		
+		if(donaciones[0] == -1) {
+			return null;
+		} else {
+			StringBuilder sB = new StringBuilder();
+			int i = 0;
+			while(donaciones[i] != -1) {
+				sB.append(donaciones[i]+"|");
+				i++;
+			}
+			
+			sB.replace(sB.length()-1, sB.length(), "");
+			
+			return sB.toString();
 		}
-		sB.replace(sB.length()-1, sB.length(), "");
-		return sB.toString();
 	}
 	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO

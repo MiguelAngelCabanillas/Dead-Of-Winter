@@ -20,6 +20,7 @@ public class InicCrisis {
 			aux = new Crisis(i+300, numJug);
 			crisis.add(aux);
 		}
+		
 	}
 	
 	public Crisis getCrisis() {
