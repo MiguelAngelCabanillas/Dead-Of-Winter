@@ -154,8 +154,7 @@ public class ClientReader implements Runnable {
                 	
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
-                	FrameTablero.setCrisis(Integer.parseInt(split[2]));
-                	tablero.setImgCrisis(Integer.parseInt(split[2]));
+                	tablero.setCrisis(Integer.parseInt(split[2]));
                 	tablero.inicDados();
                 	tablero.inicAportaciones();
                 	for(int j = 3; j<split.length;j++) {
