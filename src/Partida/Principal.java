@@ -384,6 +384,7 @@ public class Principal {
 	}
 	
 	public String getNombre(int id) {
+		System.out.println("Id: " + id);
 		return supervivientes.getSuperviviente(id).getNombre();
 	}
 	

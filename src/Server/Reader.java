@@ -592,13 +592,13 @@ private BufferedReader buffer;
 	}
 	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
 	
-	if(sala != null && sala.getPartida() != null) {
-		if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
-			pasarTurnoORonda(usuario.getJugador().getId());
-		}
-		sala.getUsuarios().remove(user);
-		sala.getPartida().getJugadores().remove(usuario.getJugador());
-	}
+//	if(sala != null && sala.getPartida() != null) {
+//		if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
+//			pasarTurnoORonda(usuario.getJugador().getId());
+//		}
+//		sala.getUsuarios().remove(user);
+//		sala.getPartida().getJugadores().remove(usuario.getJugador());
+//	}
 		}
   }
 	
