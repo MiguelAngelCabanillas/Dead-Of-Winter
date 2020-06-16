@@ -109,7 +109,7 @@ public class Colonia extends Localizacion {
 	}
 	
 	@Override
-	public String ponerBarricada() {
+	public String ponerBarricada() throws BarricadaException {
 		int i = 0;
 		int j = 0;
 		boolean barricadaPuesta = false;
@@ -128,7 +128,7 @@ public class Colonia extends Localizacion {
 		}
 		
 		if(!barricadaPuesta) {
-			i = -1;
+			throw new BarricadaException("No hay casillas disponibles");
 		}
 		
 		return Integer.toString(i-1+6) + "|" + Integer.toString(j);
@@ -184,10 +184,11 @@ public class Colonia extends Localizacion {
 			puerta = puertas.get(puertaActual);
 			colocado = false;
 			int i = 0;
+			CasillasZombie aux;
 			
 			//INTENTA COLOCAR EN CASILLAS VACÍAS
 			while(!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;
@@ -200,11 +201,11 @@ public class Colonia extends Localizacion {
 			//INTENTA COLOCAR EN BARRICADAS
 			i = 0;
 			while (!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (aux.getHayBarricada()) {
 					aux.setHayBarricada(false);
 					colocado = true;
-					colocados[puertaActual] += (i + puerta.size());
+					colocados[puertaActual] += (i + 4);
 				} else {
 					i++;
 				}
@@ -213,7 +214,7 @@ public class Colonia extends Localizacion {
 			//INTENTA COLOCAR EN LAS CASILLAS VACÍAS QUE QUEDEN DE QUITAR BARRICADAS
 			i = 0;
 			while (!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;
@@ -255,6 +256,39 @@ public class Colonia extends Localizacion {
 		salida [1] = Integer.toString(muertos);
 		
 		return salida;
+	}
+	
+	@Override
+	//POR AHORA MATA EL PRIMER ZOMBIE QUE PILLA
+	public String matarZombie() throws MatarException {
+		boolean matado = false;
+		int i = 0, j = 0;
+		List<CasillasZombie> puerta;
+		
+		while(!matado && i < puertas.size()) {
+			puerta = puertas.get(i);
+			CasillasZombie casilla;
+			j = 0;
+			while(!matado && j < puerta.size()) {
+				casilla = puerta.get(j);
+				if(!casilla.getHayBarricada() && casilla.getHayZombie()) {
+					casilla.setHayZombie(false);
+					matado = true;
+				}else {
+					j++;
+				}
+			}
+			if(!matado) {
+				i++;
+			}
+		}
+		
+		if(!matado) {
+			throw new MatarException("No hay zombies en esa posicion");
+		}
+		
+		//DEVUELVE LA PUERTA Y LA CASILLA EN LA QUE SE HA COLOCADO
+		return Integer.toString(i) + "|" + Integer.toString(j);
 	}
 	
 	//GETTERS Y SETTERS

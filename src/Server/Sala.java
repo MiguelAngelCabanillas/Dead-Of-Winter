@@ -94,4 +94,8 @@ public class Sala {
 	public boolean getPuedeEntrar() {
 		return puedeEntrar;
 	}
+	
+	public void setPuedeEntrar(boolean puede) {
+		this.puedeEntrar = puede;
+	}
 }

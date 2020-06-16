@@ -3,6 +3,7 @@ package Partida;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import Cartas.Carta;
@@ -25,6 +26,9 @@ public class Localizacion {
 	//DATOS PARA LA BUSQUEDA
 	private Mazo mazo;
 	private int tokensDeRuido;
+	
+	//OTROS DADOS
+	private Random r = new Random();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -100,6 +104,7 @@ public class Localizacion {
 	public String [] actualizarCasillasZombiePasoDeRonda() {
 		String [] aux = new String[2];
 		int numZombies = this.supervivientes.size();
+		numZombies += zombiesPorRuido();
 		CasillasZombie hueco;
 		int i = 0;
 		
@@ -125,9 +130,9 @@ public class Localizacion {
 			if(numZombies > 0 && hueco.getHayBarricada()) {
 				hueco.setHayBarricada(false);
 				if(aux[0] != null) {
-					aux[0] += (i + casillasZombie.size());
+					aux[0] += (i + 4);
 				}else {
-					aux[0] = Integer.toString(i + casillasZombie.size());
+					aux[0] = Integer.toString(i + 4);
 				}
 				
 				numZombies--;
@@ -171,6 +176,18 @@ public class Localizacion {
 		aux[1] = Integer.toString(muertos);
 		
 		return aux;
+	}
+	
+	private int zombiesPorRuido(){
+		int salida = 0;
+		for(int i = 0; i < tokensDeRuido; i++) {
+			int dado = r.nextInt(2);
+			if(dado == 1) {
+				salida++;
+			}
+		}
+		
+		return salida;
 	}
 	
 	public String anyadirZombie() {
@@ -286,20 +303,25 @@ public class Localizacion {
 	//METODOS INTERFAZ ENTRE JUGADOR Y CASILLASZOMBIE
 	
 	//ESTABA MAL (i++ y NO i-1).
-	public int matarZombie() {
-		int i = casillasZombie.size();
+	public String matarZombie() throws MatarException {
+		int i = casillasZombie.size() - 1;
 		boolean zombieMuerto = false;
 		
 		while (!zombieMuerto && i >= 0) {
-			if (this.casillasZombie.get(i-1).getHayZombie()) {
-				this.casillasZombie.get(i-1).setHayZombie(false);
+			if (this.casillasZombie.get(i).getHayZombie()) {
+				this.casillasZombie.get(i).setHayZombie(false);
 				zombieMuerto = true;
 			} else {
 				i--;
 			}
 		}
 		
-		return i;
+		//DAMOS ERROR SI NO SE HA MATADO NINGUN ZOMBIE
+		if(!zombieMuerto) {
+			throw new MatarException("No hay zombies en esa posicion");
+		}
+		
+		return Integer.toString(i);
 	}
 	
 	public String ponerBarricada() throws BarricadaException {

@@ -27,7 +27,7 @@ import javax.swing.JCheckBox;
 public class FrameCartasEncontradas extends JFrame {
 
 	private JPanel contentPane;
-	private int numCartasPoderBuscar = 2;
+	private static int numCartasPoderBuscar;
 	private static List<Integer> cartas;
 	private List<Integer> cartaSeleccionada;
 	private static Asociaciones asociaciones;
@@ -45,7 +45,7 @@ public class FrameCartasEncontradas extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCartasEncontradas frame = new FrameCartasEncontradas(cartas, asociaciones);
+					FrameCartasEncontradas frame = new FrameCartasEncontradas(cartas, asociaciones, numCartasPoderBuscar);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +59,7 @@ public class FrameCartasEncontradas extends JFrame {
 	 * @param cartasEncontradas 
 	 * @param aso 
 	 */
-	public FrameCartasEncontradas(List<Integer> cartasEncontradas, Asociaciones aso) {
+	public FrameCartasEncontradas(List<Integer> cartasEncontradas, Asociaciones aso, int cartasABuscar) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 1041, 575);
@@ -71,6 +71,8 @@ public class FrameCartasEncontradas extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		
+		numCartasPoderBuscar = cartasABuscar;
 		
 		cartasEncon = new JLabel[10];
 		checkB = new JCheckBox[10];
