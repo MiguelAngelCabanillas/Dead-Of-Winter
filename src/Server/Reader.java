@@ -323,12 +323,17 @@ private BufferedReader buffer;
 					cont--;
 					user.getSala().setContTurnos(cont);
 					if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
+						
+						String crisisResult = user.getSala().getPartida().resultadoCrisis();
+						System.out.println(crisisResult);
+						String cartasContribuidas = user.getSala().getPartida().cartasContrib();
+						System.out.println("Cartas aportadas: " + cartasContribuidas);
 						String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
+						
 						if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
-							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
-							}
+							user.enviarALaSala("finpartida");
 						} else {
+							
 							user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 							String muertos = user.getSala().getPartida().getMuertos(); //muertos
 							System.out.println(muertos);
@@ -343,7 +348,8 @@ private BufferedReader buffer;
 							
 							user.getSala().getPartida().pasaTurno(0);
 							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|1|0|2");
+//								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("crisisResult|" + crisisResult);
+								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + user.getSala().getPartida().cartasContrib());
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies);
 								System.out.println("addZombies|" + zombies);
 								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
@@ -425,10 +431,11 @@ private BufferedReader buffer;
 					}
 					break;
 				case "aportarCrisis":
-					user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
+					System.out.println("Aportar: " + split[3]);
+					String contribuciones = user.getSala().getPartida().aportarCrisis(Integer.parseInt(split[3]));
 					user.hacerPeticionAlServidor("rmCarta|" + split[3]);
 					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");   //updtCartas|idJug|-1 --> resta una carta
-					user.enviarALaSala("numAportaciones|"); //numAportaciones|aportacionesjug0|aportacionesjug1....
+					user.enviarALaSala("numAportaciones|" + contribuciones); //numAportaciones|aportacionesjug0|aportacionesjug1....
 					break;
 				case "buscar": //buscar|idSup
 					//String comm = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
