@@ -338,7 +338,7 @@ public class Principal {
 		return msg;
 	}
 	
-	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException {
+	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException, GasolinaException {
 		String salida = "";
 		
 			
@@ -362,7 +362,13 @@ public class Principal {
 			break;
 		case 4 : jugadorActual.getDados().resetUnDado(idDado);;
 			break;
-		case 5 : jugadorActual.setGasolina(true);
+		case 5 : {
+			if(!jugadorActual.getGasolina()) {
+				jugadorActual.setGasolina(true);
+			}else {
+				throw new GasolinaException("Ya has usado gasolina");
+			}
+		}
 			break;
 		default : System.err.println(idCarta + " " + idSup);
 		}
