@@ -35,7 +35,7 @@ public class FrameTablero extends JFrame {
 	private Point p; //punto auxiliar
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
-	private int vertedero,nFichComida;
+	private int vertedero,nFichComida,order;
 	private String crisisRes;
 
 	private HashMap<Integer,JLabel[]> supMap;
@@ -635,7 +635,19 @@ public class FrameTablero extends JFrame {
 			e1.printStackTrace();
 		}
 		
-		//HAY QUE PONERLO DESPUES DE INICIAR EL HILO
+		
+		
+//////////////////////////////////////////////////////////////////////
+		
+		progressBar.setString("Llenando coches de gasolina");
+		for (int i = 76; i <= 90; i++) {
+			Thread.sleep(10);
+			progressBar.setValor(i);
+		}
+//////////////////////////////////////////////////////////////////////TODO: SLEEP
+		
+		Thread.sleep(400);
+		
 		btnCartaCrisis = new JButton("");
 		btnCartaCrisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -648,25 +660,16 @@ public class FrameTablero extends JFrame {
 				crisis.setVisible(true);
 			}
 		});
-		
-//////////////////////////////////////////////////////////////////////
-		
-		progressBar.setString("Llenando coches de gasolina");
-		for (int i = 76; i <= 90; i++) {
-			Thread.sleep(10);
-			progressBar.setValor(i);
-		}
-//////////////////////////////////////////////////////////////////////
-		
-		Thread.sleep(400);
-		
+
 		btnCartaCrisis.setBounds(1062, 699, 123, 158);
 		System.out.println("IDCRISIS: " +idCrisis);
 		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(idCrisis).getIcon();
 		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
 		btnCartaCrisis.setIcon(new ImageIcon(img));
+		
 		contentPane.add(btnCartaCrisis);
-		contentPane.setComponentZOrder(btnCartaCrisis, contentPane.getComponentZOrder(lblTablero)-1);
+		
+//		order = contentPane.getComponentZOrder(lblTablero);
 		
 		for(int i=0;i<nombresJugadores.size();i++) {
 			aportacionesCrisis.add(0);
@@ -947,6 +950,41 @@ public class FrameTablero extends JFrame {
 	
 	public static void setCrisis(int crisis) {
 		idCrisis = crisis;
+	}
+	
+	public void setImgCrisis(int c) {
+		if(btnCartaCrisis != null) {
+			contentPane.remove(btnCartaCrisis);
+			btnCartaCrisis.setVisible(false);
+		}
+		
+		btnCartaCrisis = new JButton("");
+		btnCartaCrisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(crisis != null) {
+					crisis.dispose();
+				}
+				System.out.println("IDCRISIS: " +idCrisis);
+
+				crisis = new Crisis(idCrisis, aso);
+				crisis.setVisible(true);
+			}
+		});
+
+		btnCartaCrisis.setBounds(1062, 699, 123, 158);
+		System.out.println("IDCRISIS: " +c);
+		ImageIcon ima = (ImageIcon) aso.getCartasCrisis().get(idCrisis).getIcon();
+		Image img = ima.getImage().getScaledInstance(123, 158, java.awt.Image.SCALE_SMOOTH);
+		btnCartaCrisis.setIcon(new ImageIcon(img));
+		contentPane.add(btnCartaCrisis);
+		//btnCartaCrisis.setVisible(true);
+		btnCartaCrisis.repaint();
+
+		contentPane.setComponentZOrder(btnCartaCrisis, contentPane.getComponentZOrder(lblTablero)-1);
+//		contentPane.setComponentZOrder(btnCartaCrisis, order-1);
+		
+		
+//		order = contentPane.getComponentZOrder(btnCartaCrisis);
 	}
 	
 	public static void setNombreJugadores(String n) {

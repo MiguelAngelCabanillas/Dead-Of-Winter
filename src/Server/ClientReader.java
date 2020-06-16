@@ -155,6 +155,7 @@ public class ClientReader implements Runnable {
                 case "newRound": //newRound|numeroRonda|idCrisis|dado1|dado2...
                 	tablero.setRonda(Integer.parseInt(split[1]));
                 	FrameTablero.setCrisis(Integer.parseInt(split[2]));
+                	tablero.setImgCrisis(Integer.parseInt(split[2]));
                 	tablero.inicDados();
                 	tablero.inicAportaciones();
                 	for(int j = 3; j<split.length;j++) {
@@ -164,6 +165,7 @@ public class ClientReader implements Runnable {
                 	break;
                 	
                 case "moral": //moral|nuevoValorMoral
+                	System.out.println("Nuevo valor de la moral:" + split[1]);
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
                 	
@@ -225,18 +227,22 @@ public class ClientReader implements Runnable {
                 	break;
                 	
                 case "numAportaciones": //numAportaciones|aporJug1|aportJug2|aportJug3...
-                	List<Integer> list = new ArrayList<>();
-                	for(int j=1; j < split.length; j++) {
-                		list.add(Integer.parseInt(split[j]));
+                	if(!split[1].equals("null")) {
+                		List<Integer> list = new ArrayList<>();
+	                	for(int j=1; j < split.length; j++) {
+	                		list.add(Integer.parseInt(split[j]));
+	                	}
+	                	tablero.setNumAport(list);
                 	}
-                	tablero.setNumAport(list);
                 	break;
                 	
                 case "cartasAportadas":	//cartasAportadas|idCarta1|idCarta2|idCarta3...
-                	for(int j=1; j < split.length; j++) {
-                		tablero.cartasAportadas(Integer.parseInt(split[j]));
+                	if(!split[1].equals("null")) {
+	                	for(int j=1; j < split.length; j++) {
+	                		tablero.cartasAportadas(Integer.parseInt(split[j]));
+	                	}
+	                	tablero.cartasResCrisis();
                 	}
-                	tablero.cartasResCrisis();
                 	break;
                 	
                 case "fichasComida": //fichasComida|num
