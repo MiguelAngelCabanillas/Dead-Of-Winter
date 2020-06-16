@@ -24,11 +24,13 @@ public class Jugador {
 	private Dado dados;
 	private DadoDeRiesgo riesgo;
 	private Objetivo_Principal objetivo;
+	private List<Carta> buffer;
 	
 	private boolean gasolina;
 	
 	//DATOS DE CONTROL
 	private Tablero tablero;
+	private Localizacion locCartas;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -42,6 +44,7 @@ public class Jugador {
 		this.dados = new Dado();
 		
 		this.riesgo = new DadoDeRiesgo();
+		buffer = new ArrayList<>();
 		
 		gasolina = false;
 		this.objetivo = o;
@@ -309,6 +312,7 @@ public class Jugador {
 	public String atacar(int id) throws MatarException, DadoException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
+		int riesgo = 0;
 		String salida = "";
 		//EL UNICO CASO EN EL QUE RES ES NULL SE MANDA UNA MATAREXCEPTION
 		String res = null;
@@ -325,7 +329,7 @@ public class Jugador {
 			
 			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
 			if(personaje.tiraAlAtacar()) {
-				tiradaRiesgo(personaje);
+				riesgo = tiradaRiesgo(personaje);
 			}
 			dados.usar(dado);
 		}
@@ -338,7 +342,7 @@ public class Jugador {
 		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
 			salida += Integer.toString(loc.getId()) + "|";
 		}
-		salida += res + "|" + Integer.toString(dado);
+		salida += res + "|" + Integer.toString(dado) + "|" + Integer.toString(riesgo);
 		
 		return salida;
 	}
@@ -376,6 +380,8 @@ public class Jugador {
 		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
 		Carta aux;
+		locCartas = localizacion(personaje);
+		int cartasBuscadas = 0;
 		
 		if(getLocalizacion(6).equals(localizacion(personaje))){
 			throw new BuscarException("No puedes buscar en la colonia");
@@ -385,11 +391,11 @@ public class Jugador {
 		if(dado == -1) {
 			throw new DadoException("Tus dados son muy pequeños");
 		}else {
-			if(localizacion(personaje).getMazo().vacio()) {
+			if(locCartas.getMazo().vacio()) {
 				throw new BuscarException("El mazo esta vacio");
 			}else {
 				//COGEMOS LA CARTA Y LA AÑADIMOS AL MAZO
-				aux = localizacion(personaje).cogerCarta();
+				aux = locCartas.cogerCarta();
 				
 				if(aux.getId() == 6) {
 					//salida += 
@@ -398,19 +404,22 @@ public class Jugador {
 				}else if(aux.getId() == 8) {
 					
 				}else {
+					//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
 					salida += aux.getId();
-					mazoObjeto.add((Carta) aux);
+					buffer.add(aux);
+					cartasBuscadas++;
 				}
 				
 				dados.usar(dado);
 				
 				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
 				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
-				if(!localizacion(personaje).getMazo().vacio() && !personaje.getUsado() && 
-						getLocalizacion(personaje.doble()).equals(localizacion(personaje))) {	
-					aux = localizacion(personaje).cogerCarta();
+				if(!locCartas.getMazo().vacio() && !personaje.getUsado() && 
+						getLocalizacion(personaje.doble()).equals(locCartas)) {	
+					aux = locCartas.cogerCarta();
 					salida += "|" + aux.getId();
-					mazoObjeto.add((Carta) aux);
+					buffer.add(aux);
+					cartasBuscadas++;
 					
 					//YA HA USADO SU PASIVA (HABILIDAD)
 					personaje.setUsado(true);
@@ -422,7 +431,43 @@ public class Jugador {
 			objetivo.actualizar(localizacion(personaje).getId());
 		}
 		
+		return salida + "|" + Integer.toString(cartasBuscadas);
+	}
+	
+	public String hacerRuido() {
+		Carta aux = locCartas.cogerCarta();
+		locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
+		
+		String salida = "";
+		for(Carta c : buffer) {
+			salida += c.getId() + "|";
+		}
+		
+		salida += aux.getId();
+		buffer.add(aux);
+		
 		return salida;
+	}
+	
+	public void confirmarCarta(int idCarta) {
+		Iterator<Carta> iter = buffer.iterator();
+		boolean encontrado = false;
+		
+		while(!encontrado && iter.hasNext()) {
+			Carta aux = iter.next();
+			if(aux.getId() == idCarta) {
+				mazoObjeto.add(aux);
+				buffer.remove(aux);
+				encontrado = true;
+			}
+		}
+	}
+	
+	public void resetBuffer() {
+		int cantidad = buffer.size();
+		for(int i = 0; i < cantidad; i++) {
+			locCartas.getMazo().anyadirAlFinal(buffer.remove(i));
+		}
 	}
 	
 	public String mover(int id, int l) throws MoverException {

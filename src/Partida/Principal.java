@@ -266,6 +266,14 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS DE JUGADOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public void ConfirmarCarta(int idCarta) {
+		jugadorActual.confirmarCarta(idCarta);
+	}
+	
+	public String hacerRuido() {
+		return jugadorActual.hacerRuido();
+	}
+	
 	public String atacar(int idSuperviviente) throws MatarException, DadoException {
 		return jugadorActual.atacar(idSuperviviente);
 	}
@@ -277,6 +285,7 @@ public class Principal {
 	}
 	
 	public String buscar(int idSuperviviente) throws BuscarException, DadoException {
+		jugadorActual.resetBuffer();
 		return jugadorActual.buscar(idSuperviviente);
 	}
 	
@@ -384,22 +393,7 @@ public class Principal {
 	}
 	
 	public String getNombre(int id) {
-		String salida = null;
-		boolean encontrado = false;
-		int i = 0, j = 0;
-		while(!encontrado && i < jugadores.size()) {
-			List<Carta_Supervivientes> sup = jugadores.get(i).getMazoSuperviviente();
-			j = 0;
-			while(!encontrado && j < sup.size()) {
-				if(sup.get(j).getId() == id) {
-					salida = sup.get(j).getNombre();
-					encontrado = true;
-				}
-			}
-			i++;
-		}
-		
-		return salida;
+		return supervivientes.getSuperviviente(id).getNombre();
 	}
 	
 	public String getHeridas(int id) {
@@ -408,7 +402,7 @@ public class Principal {
 	}
 	
 	public void addSuperviviente(int idJug, int idSup) {
-		jugadores.get(idJug).addSuperviviente(supervivientes.getSupervivientes().remove(idSup));
+		jugadores.get(idJug).addSuperviviente(supervivientes.getPersonajes().remove(idSup));
 	}
 	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
@@ -433,7 +427,11 @@ public class Principal {
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
+		//RESETEAMOS HABILIDAD Y MOVIMIENTO
 		jugadorActual.resetHab();
+		
+		//RESETEAMOS EL BUFFER DE CARTAS
+		jugadorActual.resetBuffer();
 		jugadorActual = jugadores.get(id);
 		inicTurno();
 		resetDados();

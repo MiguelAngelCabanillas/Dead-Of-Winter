@@ -32,4 +32,8 @@ public class Mazo {
 		return Mazo.isEmpty();
 	}
 	
+	public void anyadirAlFinal(Carta carta) {
+		Mazo.add(carta);
+	}
+	
 }
