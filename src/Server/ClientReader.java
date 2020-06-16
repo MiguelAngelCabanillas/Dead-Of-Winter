@@ -194,7 +194,7 @@ public class ClientReader implements Runnable {
                 	tablero.removeDado(Integer.parseInt(split[1]));
                 	break;
                 	
-                case "addCarta": //addCarta|idCarta
+                case "addCarta": //addCarta|idCarta|posDadoGastado
                 	tablero.addCartaJug(Integer.parseInt(split[1]));
                 	break;
                 	
