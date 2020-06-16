@@ -402,10 +402,10 @@ private BufferedReader buffer;
 				case "buscar": //buscar|idSup
 					try {
 						String cartasEnc = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
-						System.out.println("Buscar: " + cartasEnc); //cartas|cartas|nCartas|dado|dados
+						System.out.println("Buscar: " + cartasEnc); //cartas|cartas|nCartas|dado
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
-						int indNCartas = (int) enc.length/2;
+						int indNCartas = enc.length - 2;
 						String cEnc = "";
 						int i = 0;
 						while(i < indNCartas) {
