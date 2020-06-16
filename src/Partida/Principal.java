@@ -266,6 +266,14 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS DE JUGADOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public void ConfirmarCarta(int idCarta) {
+		jugadorActual.confirmarCarta(idCarta);
+	}
+	
+	public String hacerRuido() {
+		return jugadorActual.hacerRuido();
+	}
+	
 	public String atacar(int idSuperviviente) throws MatarException, DadoException {
 		return jugadorActual.atacar(idSuperviviente);
 	}
@@ -277,6 +285,7 @@ public class Principal {
 	}
 	
 	public String buscar(int idSuperviviente) throws BuscarException, DadoException {
+		jugadorActual.resetBuffer();
 		return jugadorActual.buscar(idSuperviviente);
 	}
 	
@@ -418,7 +427,11 @@ public class Principal {
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
+		//RESETEAMOS HABILIDAD Y MOVIMIENTO
 		jugadorActual.resetHab();
+		
+		//RESETEAMOS EL BUFFER DE CARTAS
+		jugadorActual.resetBuffer();
 		jugadorActual = jugadores.get(id);
 		inicTurno();
 		resetDados();

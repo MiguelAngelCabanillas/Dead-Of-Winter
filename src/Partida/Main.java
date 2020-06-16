@@ -20,30 +20,46 @@ public class Main {
 		p.inicSupervivientesEnColonia();
 		p.inicDados();
 		p.pasaTurno(0);
+		
+		
 		try {
-		System.out.println(p.getNombre(103));
-		p.ponerBarricada(103);
-		p.mover(103, 2);
-		p.buscar(103);
-		p.atacar(103);
-		p.ponerBarricada(105);
-		p.pasaTurno(1);
-		
-		p.mover(104, 3);
-		p.ponerBarricada(104);
-		p.mover(102, 4);
-		p.buscar(102);
-		p.atacar(102);
-		p.pasaTurno(0);
-		
-		p.pasaRonda();
-		} catch (BuscarException e) {
-			System.err.println(e.getMessage());
-		}catch (MatarException e) {
-			System.err.println(e.getMessage());
-		}catch(DadoException e) {
+			p.mover(103, 2);
+			System.out.println(p.buscar(103));
+			String msg = p.hacerRuido();
+			String [] aux = msg.split("\\|");
+			int carta = Integer.parseInt(aux[0]);
+			System.out.println(msg);
+			p.ConfirmarCarta(carta);
+			p.pasaTurno(0);
+		} catch (BuscarException | DadoException e) {
 			System.err.println(e.getMessage());
 		}
+		
+		
+//		try {
+//		System.out.println(p.getNombre(103));
+//		p.ponerBarricada(103);
+//		p.mover(103, 2);
+//		p.buscar(103);
+//		p.atacar(103);
+//		p.ponerBarricada(105);
+//		p.pasaTurno(1);
+//		
+//		p.mover(104, 3);
+//		p.ponerBarricada(104);
+//		p.mover(102, 4);
+//		p.buscar(102);
+//		p.atacar(102);
+//		p.pasaTurno(0);
+//		
+//		p.pasaRonda();
+//		} catch (BuscarException e) {
+//			System.err.println(e.getMessage());
+//		}catch (MatarException e) {
+//			System.err.println(e.getMessage());
+//		}catch(DadoException e) {
+//			System.err.println(e.getMessage());
+//		}
 		
 		
 

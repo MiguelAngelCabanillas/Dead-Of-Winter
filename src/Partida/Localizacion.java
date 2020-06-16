@@ -3,6 +3,7 @@ package Partida;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import Cartas.Carta;
@@ -25,6 +26,9 @@ public class Localizacion {
 	//DATOS PARA LA BUSQUEDA
 	private Mazo mazo;
 	private int tokensDeRuido;
+	
+	//OTROS DADOS
+	private Random r = new Random();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -100,6 +104,7 @@ public class Localizacion {
 	public String [] actualizarCasillasZombiePasoDeRonda() {
 		String [] aux = new String[2];
 		int numZombies = this.supervivientes.size();
+		numZombies += zombiesPorRuido();
 		CasillasZombie hueco;
 		int i = 0;
 		
@@ -125,9 +130,9 @@ public class Localizacion {
 			if(numZombies > 0 && hueco.getHayBarricada()) {
 				hueco.setHayBarricada(false);
 				if(aux[0] != null) {
-					aux[0] += (i + casillasZombie.size());
+					aux[0] += (i + 4);
 				}else {
-					aux[0] = Integer.toString(i + casillasZombie.size());
+					aux[0] = Integer.toString(i + 4);
 				}
 				
 				numZombies--;
@@ -171,6 +176,18 @@ public class Localizacion {
 		aux[1] = Integer.toString(muertos);
 		
 		return aux;
+	}
+	
+	private int zombiesPorRuido(){
+		int salida = 0;
+		for(int i = 0; i < tokensDeRuido; i++) {
+			int dado = r.nextInt(2);
+			if(dado == 1) {
+				salida++;
+			}
+		}
+		
+		return salida;
 	}
 	
 	public String anyadirZombie() {
