@@ -236,11 +236,15 @@ public class ClientReader implements Runnable {
                 	for(int j=1; j < split.length; j++) {
                 		tablero.cartasAportadas(Integer.parseInt(split[j]));
                 	}
-                	tablero.resolucionCrisis();
+                	tablero.cartasResCrisis();
                 	break;
                 	
                 case "fichasComida": //fichasComida|num
                 	tablero.setFichComida(Integer.parseInt(split[1]));
+                	break;
+                	
+                case "crisisResult": //crisisResult|result
+                	tablero.crisisResult(split[1]);
                 	break;
                 	                	
                 default:
