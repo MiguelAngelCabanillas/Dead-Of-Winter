@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 public class FrameSeleccionSuperviviente extends JFrame {
 	
 	private static String comando;
+	private FrameCartasEncontradas auxCartasEncontradas;
 	private JPanel contentPane;
 	private JButton botoneSuperviviente[];
 	private static List<Integer> supJugadores;
@@ -66,6 +67,8 @@ public class FrameSeleccionSuperviviente extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		
+		asociaciones = aso;
 		
 		comando = comand;
 		
@@ -131,7 +134,17 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				break;
 				
 			case "buscar":
-				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+//				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				
+				if(auxCartasEncontradas != null) {
+					auxCartasEncontradas.dispose();
+				}
+				
+				List<Integer> cartas = null;
+				int numCartasAbuscar = 0;
+				
+				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, numCartasAbuscar);
+				auxCartasEncontradas.setVisible(true);
 				dispose();
 				break;
 			//en principio atacamos a un zombie
