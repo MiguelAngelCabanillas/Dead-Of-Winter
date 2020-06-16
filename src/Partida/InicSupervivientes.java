@@ -154,8 +154,12 @@ public class InicSupervivientes {
 		
 	}
 	
+	public Carta_Supervivientes getSupervivienteServer(int id) {
+		return cartas.get(id);
+	}
+	
 	public Carta_Supervivientes getSuperviviente(int id) {
-		return cartas.get(id - 100);
+		return cartas.get(id);
 	}
 	
 	public Map<Integer, Carta_Supervivientes> getSupervivientes(){

@@ -384,7 +384,22 @@ public class Principal {
 	}
 	
 	public String getNombre(int id) {
-		return supervivientes.getSuperviviente(id).getNombre();
+		String salida = null;
+		boolean encontrado = false;
+		int i = 0, j = 0;
+		while(!encontrado && i < jugadores.size()) {
+			List<Carta_Supervivientes> sup = jugadores.get(i).getMazoSuperviviente();
+			j = 0;
+			while(!encontrado && j < sup.size()) {
+				if(sup.get(j).getId() == id) {
+					salida = sup.get(j).getNombre();
+					encontrado = true;
+				}
+			}
+			i++;
+		}
+		
+		return salida;
 	}
 	
 	public String getHeridas(int id) {
