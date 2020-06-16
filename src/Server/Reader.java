@@ -277,7 +277,8 @@ private BufferedReader buffer;
 							  
 							  if(i%2 == 0) {
 								  mensIds += "|" + user.getSala().getUsuarios().get(i/2).getNombre(); // ids|FranMJ|Umbra|zunk|NiemaJ|Miguel1995
-								  user.setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
+								  user.getSala().getUsuarios().get((int)i/2).setJugador(user.getSala().getPartida().getJugador((int)i/2)); // Se asigna un jugador para cada usuario
+								  
 							  }
 							  
 							  user.getSala().getPartida().addSuperviviente((int)i/2, sups.get(i));
@@ -337,7 +338,8 @@ private BufferedReader buffer;
 						case "2": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
 							break;
 						case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
-									user.hacerPeticionAlServidor("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
+									user.enviarALaSala("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
+									System.out.println(user.getNombre() + " ha llamado esta función");
 									user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
 							break;
 						}
@@ -592,13 +594,13 @@ private BufferedReader buffer;
 	}
 	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
 	
-	if(sala != null && sala.getPartida() != null) {
-		if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
-			pasarTurnoORonda(usuario.getJugador().getId());
-		}
-		sala.getUsuarios().remove(user);
-		sala.getPartida().getJugadores().remove(usuario.getJugador());
-	}
+//	if(sala != null && sala.getPartida() != null) {
+//		if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
+//			pasarTurnoORonda(usuario.getJugador().getId());
+//		}
+//		sala.getUsuarios().remove(user);
+//		sala.getPartida().getJugadores().remove(usuario.getJugador());
+//	}
 		}
   }
 	

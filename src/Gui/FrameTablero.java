@@ -865,6 +865,7 @@ public class FrameTablero extends JFrame {
 	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER, POS DENTRO DE LA LOCALIZACION
 	public void moverSuperviviente(int id, int loc, int pos) {
 		aux = supMap.get(id)[0];
+		if(aux != null) {
 		if(pos != -1) {
 			switch(loc) {
 				case 0 : p = locComisaria[pos];
@@ -886,6 +887,7 @@ public class FrameTablero extends JFrame {
 		}else {
 			JOptionPane.showMessageDialog(null, "La accion no se puede realizar");
 		}
+		}
 	}
 	
 	public static void setObjetivoSecreto(int id) {
@@ -904,7 +906,10 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void rmSupJuga(int idJug, int idSup) {
+		System.out.println("ID Sup: " + idSup + ", Jugador: " + idJug);
+
 		int s = supJugadores.get(idJug).indexOf(idSup);
+		System.out.println(s);
 		supJugadores.get(idJug).remove(s);
 	}
 	
@@ -1109,6 +1114,13 @@ public class FrameTablero extends JFrame {
 	
 	public static Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public void mostrarJugadorSupervivientes() {
+		for(int i = 0; i < supJugadores.size(); i++) {
+			System.out.println("Jugador: " + nombresJugadores.get(i) + ", Supervivientes: " + supJugadores.get(i).toString());
+			
+		}
 	}
 }
 
