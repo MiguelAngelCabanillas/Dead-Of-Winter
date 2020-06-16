@@ -393,8 +393,7 @@ public class Principal {
 	}
 	
 	public void addSuperviviente(int idJug, int idSup) {
-		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
-		supervivientes.getSupervivientes().remove(idSup);
+		jugadores.get(idJug).addSuperviviente(supervivientes.getSupervivientes().remove(idSup));
 	}
 	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA
