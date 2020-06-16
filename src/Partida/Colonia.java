@@ -205,7 +205,7 @@ public class Colonia extends Localizacion {
 				if (aux.getHayBarricada()) {
 					aux.setHayBarricada(false);
 					colocado = true;
-					colocados[puertaActual] += (i + puerta.size());
+					colocados[puertaActual] += (i + 4);
 				} else {
 					i++;
 				}

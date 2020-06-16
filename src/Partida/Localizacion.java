@@ -125,9 +125,9 @@ public class Localizacion {
 			if(numZombies > 0 && hueco.getHayBarricada()) {
 				hueco.setHayBarricada(false);
 				if(aux[0] != null) {
-					aux[0] += (i + casillasZombie.size());
+					aux[0] += (i + 4);
 				}else {
-					aux[0] = Integer.toString(i + casillasZombie.size());
+					aux[0] = Integer.toString(i + 4);
 				}
 				
 				numZombies--;

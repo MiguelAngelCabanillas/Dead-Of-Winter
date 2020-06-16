@@ -82,9 +82,9 @@ public class ClientReader implements Runnable {
                 	
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
-                	idJug = Integer.parseInt(split[1]);
                 	int idSup,posValCol;
                 	while(split[i] != null) {
+                		idJug = Integer.parseInt(split[i-1]);
                 		idSup = Integer.parseInt(split[i]);
                 		posValCol = Integer.parseInt(split[i+1]);
                 		tablero.addSupJug(idJug,idSup); //añadimos superviviente a la lista del jugador al que se le asigna
@@ -116,7 +116,7 @@ public class ClientReader implements Runnable {
                 	for(int id = 0; id < (split.length/2) - 1; id++) {
                 		sup1 = Integer.parseInt(split[2*id+1]);
                 		sup2 = Integer.parseInt(split[2*id+2]);
-                		System.out.println("Jugador " + id +": " + sup1 + " " + sup2);
+                		
                 		//IMPRESION EN JFRAME
                 		tablero.anyadirSuperviviente(sup1, pos);pos++;
                 		tablero.anyadirSuperviviente(sup2, pos);pos++;
@@ -124,6 +124,7 @@ public class ClientReader implements Runnable {
                 		tablero.addSupJug(id,sup1);
                 		tablero.addSupJug(id,sup2);
                 	}
+                	tablero.mostrarJugadorSupervivientes();
                 	break;
                 	
                 //PASAR NOMBRES ASIGNADOS A IDs	
