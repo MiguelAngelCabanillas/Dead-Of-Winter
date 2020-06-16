@@ -384,22 +384,7 @@ public class Principal {
 	}
 	
 	public String getNombre(int id) {
-		String salida = null;
-		boolean encontrado = false;
-		int i = 0, j = 0;
-		while(!encontrado && i < jugadores.size()) {
-			List<Carta_Supervivientes> sup = jugadores.get(i).getMazoSuperviviente();
-			j = 0;
-			while(!encontrado && j < sup.size()) {
-				if(sup.get(j).getId() == id) {
-					salida = sup.get(j).getNombre();
-					encontrado = true;
-				}
-			}
-			i++;
-		}
-		
-		return salida;
+		return supervivientes.getSuperviviente(id).getNombre();
 	}
 	
 	public String getHeridas(int id) {
@@ -408,7 +393,7 @@ public class Principal {
 	}
 	
 	public void addSuperviviente(int idJug, int idSup) {
-		jugadores.get(idJug).addSuperviviente(supervivientes.getSupervivientes().remove(idSup));
+		jugadores.get(idJug).addSuperviviente(supervivientes.getPersonajes().remove(idSup));
 	}
 	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA

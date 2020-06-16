@@ -21,7 +21,7 @@ public class Main {
 		p.inicDados();
 		p.pasaTurno(0);
 		try {
-		p.getNombre(103);
+		System.out.println(p.getNombre(103));
 		p.ponerBarricada(103);
 		p.mover(103, 2);
 		p.buscar(103);
