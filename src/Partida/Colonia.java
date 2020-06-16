@@ -184,10 +184,11 @@ public class Colonia extends Localizacion {
 			puerta = puertas.get(puertaActual);
 			colocado = false;
 			int i = 0;
+			CasillasZombie aux;
 			
 			//INTENTA COLOCAR EN CASILLAS VACÍAS
 			while(!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;
@@ -200,7 +201,7 @@ public class Colonia extends Localizacion {
 			//INTENTA COLOCAR EN BARRICADAS
 			i = 0;
 			while (!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (aux.getHayBarricada()) {
 					aux.setHayBarricada(false);
 					colocado = true;
@@ -213,7 +214,7 @@ public class Colonia extends Localizacion {
 			//INTENTA COLOCAR EN LAS CASILLAS VACÍAS QUE QUEDEN DE QUITAR BARRICADAS
 			i = 0;
 			while (!colocado && i < puerta.size()) {
-				CasillasZombie aux = puerta.get(i);
+				aux = puerta.get(i);
 				if (!aux.getHayZombie() && !aux.getHayBarricada()) {
 					aux.setHayZombie(true);
 					colocado = true;

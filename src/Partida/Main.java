@@ -15,8 +15,8 @@ public class Main {
 		
 		p.addSuperviviente(0, 103);
 		p.addSuperviviente(0, 105);
-		p.addSuperviviente(0, 102);
-		p.addSuperviviente(0, 104);
+//		p.addSuperviviente(0, 102);
+	//	p.addSuperviviente(0, 104);
 		p.inicSupervivientesEnColonia();
 		p.inicDados();
 		
@@ -26,12 +26,22 @@ public class Main {
 		//ZZBZ
 		//ZZHZ
 		
-		p.mover(103, 2);
-		p.mover(105, 2);
-		p.mover(102, 2);
-		
+		p.mover(103, 3);
+//		p.mover(105, 2);
+//		p.mover(102, 2);
+		p.ponerBarricada(103);
+		p.ponerBarricada(103);
+		//p.ponerBarricada(103);
 		System.out.println(p.pasaRonda());
+		p.pasaTurno(0);
+		p.ponerBarricada(103);
+		p.ponerBarricada(103);
+		p.ponerBarricada(103);
 		System.out.println(p.pasaRonda());
+		p.pasaTurno(0);
+		p.ponerBarricada(103);
+		p.ponerBarricada(103);
+		p.ponerBarricada(103);
 		
 		
 //		System.out.println(p.pasaRonda());
