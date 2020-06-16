@@ -75,6 +75,8 @@ public class FrameCartasEncontradas extends JFrame {
 		
 		numCartasPoderBuscar = cartasABuscar;
 		
+		System.out.println("Lorena solo puedes buscar: " + cartasABuscar);
+		
 		cartasEncon = new JLabel[10];
 		checkB = new JCheckBox[10];
 		
@@ -87,9 +89,10 @@ public class FrameCartasEncontradas extends JFrame {
 		Image img;
 		Point p;
 		
+		
 		for(int z = 0; z < tamCartas; z++) {
 			p = posCartaEncontradas[z];
-			cartasEncon[z] = new JLabel(String.valueOf(cartasEncontradas.get(z)));
+			cartasEncon[z] = new JLabel(String.valueOf(cartasEncontradas.get(z)));	
 			icon = (ImageIcon) aso.getCartasObjetos().get(cartasEncontradas.get(z)).getIcon();
 			img = icon.getImage().getScaledInstance(157, 205, java.awt.Image.SCALE_SMOOTH);
 			cartasEncon[z].setIcon(new ImageIcon(img));
@@ -141,7 +144,7 @@ public class FrameCartasEncontradas extends JFrame {
 				List<Integer> cartas = new ArrayList<>();
 				cartas = FrameTablero.getCartasEncontradas();
 				
-				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, numCartasPoderBuscar);
+				auxCartasEncontradas = new FrameCartasEncontradas(cartas, aso, cartasABuscar);
 				auxCartasEncontradas.setVisible(true);
 			}
 		});

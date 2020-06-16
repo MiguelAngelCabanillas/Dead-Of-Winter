@@ -465,6 +465,7 @@ public class FrameTablero extends JFrame {
 					infoJug.dispose();
 				}
 				System.out.println("DADOS "+dados.toString());
+				System.out.println("Tam de la mano del jugador: " + cartasJugador.size());
 				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
 				infoJug.setVisible(true);
 			}
@@ -1018,6 +1019,7 @@ public class FrameTablero extends JFrame {
 	public static void setCartasEncontradas(List<Integer> l){
 		cartEncont = new ArrayList<>();
 		cartEncont.addAll(l);
+		System.out.println("Cartas Encontradas: " + cartEncont.toString()); //TODO: CartEncontr
 	}
 	
 	public static List<Integer> getCartasEncontradas(){
@@ -1044,7 +1046,7 @@ public class FrameTablero extends JFrame {
 		aportacionesCrisis = new ArrayList<>();
 		cartasResolucionCrisis = new ArrayList<>();
 		for(int i=0;i<nombresJugadores.size();i++) {
-			aportacionesCrisis.set(i, 0);
+			aportacionesCrisis.add(0);
 		}
 	}
 	

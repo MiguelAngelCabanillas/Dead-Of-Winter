@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 public class FrameSeleccionSuperviviente extends JFrame {
 	
 	private static String comando;
+	private List<Integer> cartas = new ArrayList<>();
 	private FrameCartasEncontradas auxCartasEncontradas;
 	private JPanel contentPane;
 	private JButton botoneSuperviviente[];
@@ -137,15 +138,23 @@ public class FrameSeleccionSuperviviente extends JFrame {
 			case "buscar":
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
 				if(auxCartasEncontradas != null) {
 					auxCartasEncontradas.dispose();
 				}
 				
-				List<Integer> cartas = new ArrayList<>();
 				cartas = FrameTablero.getCartasEncontradas();
-				
-				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, FrameTablero.getNCartasABuscar());
-				auxCartasEncontradas.setVisible(true);
+				try {
+					auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, FrameTablero.getNCartasABuscar());
+					auxCartasEncontradas.setVisible(true);
+				}catch(Exception e1) {
+					System.err.println(e1.getMessage());
+				}
 				dispose();
 				break;
 			//en principio atacamos a un zombie
