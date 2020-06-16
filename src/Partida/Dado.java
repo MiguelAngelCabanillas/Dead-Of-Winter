@@ -57,6 +57,14 @@ public class Dado {
 		return val;
 	}
 	
+	public void resetUnDado(int dado) {
+		dados.set(dado, (r.nextInt(6) + 1));
+	}
+	
+	public void aumentarDado(int dado) {
+		dados.set(dado, dados.get(dado) + 1);
+	}
+	
 	public List<Integer> getDados(){
 		return dados;
 	}

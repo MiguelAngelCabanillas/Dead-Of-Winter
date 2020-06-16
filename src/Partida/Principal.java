@@ -49,6 +49,8 @@ public class Principal {
 	private boolean finalBueno = false;
 	private String muertos = "";
 	private Crisis crisisActual;
+	
+	//ESTOS SOLO SON LOS DADOS QUE SE DAN AL JUGADOR AL INICIO DE RONDA
 	private String[] dados;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,7 +266,7 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS DE JUGADOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	public int atacar(int idSuperviviente) {
+	public String atacar(int idSuperviviente) throws MatarException, DadoException {
 		return jugadorActual.atacar(idSuperviviente);
 	}
 	
@@ -274,11 +276,11 @@ public class Principal {
 				jugadorActual.mover(idSuperviviente, localizacion);
 	}
 	
-	public String buscar(int idJugador) {
-		return jugadorActual.buscar(idJugador);
+	public String buscar(int idSuperviviente) throws BuscarException, DadoException {
+		return jugadorActual.buscar(idSuperviviente);
 	}
 	
-	public String vaciarVertedero(int sup) throws VertederoException {
+	public String vaciarVertedero(int sup) throws VertederoException, DadoException {
 		if(vertedero == 0) {
 			throw new VertederoException("El vertedero ya está vacío");
 		}
@@ -331,9 +333,41 @@ public class Principal {
     }
 	
 	
-	public String ponerBarricada(int sup) throws BarricadaException {
+	public String ponerBarricada(int sup) throws BarricadaException, DadoException {
 		String msg = jugadorActual.barricada(sup);
 		return msg;
+	}
+	
+	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException {
+		String salida = "";
+		
+			
+		switch (idCarta) {
+		case 0: comida += 1;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 1 : comida += 2;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 2 : comida += 3;
+		jugadorActual.eliminarCarta(idCarta);
+			break;
+		case 3 : {
+			Carta_Supervivientes aux = jugadorActual.getSupConId(idSup);
+			if(aux.getHeridas() == 0) {
+				throw new HeridaException("El superviviente no tiene heridas");
+			}
+			aux.curarHerida();
+		}
+			break;
+		case 4 : jugadorActual.getDados().resetUnDado(idDado);;
+			break;
+		case 5 : jugadorActual.setGasolina(true);
+			break;
+		default : System.err.println(idCarta + " " + idSup);
+		}
+		
+		return salida;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,6 +388,7 @@ public class Principal {
 	
 	public void addSuperviviente(int idJug, int idSup) {
 		jugadores.get(idJug).addSuperviviente(supervivientes.getSuperviviente(idSup));
+		supervivientes.getSupervivientes().remove(idSup);
 	}
 	
 	//INICIA LOS SUPERVIVIENTES EN LA COLONIA

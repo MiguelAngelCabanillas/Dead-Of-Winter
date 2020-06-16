@@ -25,6 +25,8 @@ public class Jugador {
 	private DadoDeRiesgo riesgo;
 	private Objetivo_Principal objetivo;
 	
+	private boolean gasolina;
+	
 	//DATOS DE CONTROL
 	private Tablero tablero;
 	
@@ -41,6 +43,7 @@ public class Jugador {
 		
 		this.riesgo = new DadoDeRiesgo();
 		
+		gasolina = false;
 		this.objetivo = o;
 		
 		tablero = t;
@@ -51,6 +54,14 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//GETTERS Y SETTERS
+	public boolean getGasolina() {
+		return gasolina;
+	}
+	
+	public void setGasolina(boolean g) {
+		gasolina = g;
+	}
+	
 	public Dado getDados() {
 		return this.dados;
 	}
@@ -103,8 +114,13 @@ public class Jugador {
 	}
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
-	public int valorDado(int valor) {
+	public int valorDado(int valor) throws DadoException {
 		int menor = -1; int i = 0; int sal = -1;
+		
+		//SI NO HAY DADOS MANDO MENSAJE DISTINTO
+		if(dados.getDados().size() == 0) {
+			throw new DadoException("No tienes mas dados");
+		}
 		
 		for(int d : dados.getDados()) {
 			if(d >= valor) {
@@ -144,7 +160,7 @@ public class Jugador {
 	}
 	
 	//DEVUELVE LA CARTA DE SUPERVIVIENTE CORRESPONDIENTE A LA ID
-	private Carta_Supervivientes getSupConId(int id) {
+	public Carta_Supervivientes getSupConId(int id) {
 		Carta_Supervivientes salida = null;
 		boolean encontrado = false;
 		int i = 0;
@@ -290,39 +306,35 @@ public class Jugador {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//ESTE METODO ELIMINA UN ZOMBIE O SUPERVIVIENTE DE LA LOCALIZACION DONDE SE ENCUENTRA EL SUPERVIVIENTE
-	public int atacar(int personaje) {
-		Carta_Supervivientes superviviente = getSupConId(personaje);
+	public String atacar(int id) throws MatarException, DadoException {
+		Carta_Supervivientes personaje = getSupConId(id);
+		Localizacion loc = localizacion(personaje);
+		String salida = "";
+		//EL UNICO CASO EN EL QUE RES ES NULL SE MANDA UNA MATAREXCEPTION
+		String res = null;
 		
 		//USAMOS EL MENOR DADO POSIBLE
-		dados.usar(superviviente.getAtaque());
-		if(superviviente.tiraAlAtacar()) {
-			tiradaRiesgo(superviviente);
+		int dado = valorDado(personaje.getAtaque());
+		
+		//SI EL DADO ES VÁLIDO LO USAMOS Y HACEMOS TIRADA DE RIESGO
+		if(dado == -1) {
+			throw new DadoException("Tus dados son muy pequeños");
+		}else {
+			//MANDA UN ERROR SI NO HAY ZOMBIES
+			res = localizacion(personaje).matarZombie();
+			
+			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
+			if(personaje.tiraAlAtacar()) {
+				tiradaRiesgo(personaje);
+			}
+			dados.usar(dado);
 		}
 		
 		if(objetivo.getId() == 0) {
 			objetivo.actualizar(0);
 		}
 		
-		return localizacion(superviviente).matarZombie();
-	}
-	
-//	public int atacarPersona(int personaje) {
-//		return valorDado(getSupConId(personaje).getAtaque()).usar();
-//	}
-	
-	public String barricada(int id) throws BarricadaException {
-		Carta_Supervivientes personaje = getSupConId(id);
-		Localizacion loc = localizacion(personaje);
-		int dado = valorDado(1);
-		String res = loc.ponerBarricada();
-		
-		if(dado == -1) {
-			res = null;
-		}
-		
-		dados.usar(dado);
-		
-		String salida = "";
+		//EN LA COLONIA SE AÑADE LA ID DE LA PUERTA EN EL MISMO METODO
 		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
 			salida += Integer.toString(loc.getId()) + "|";
 		}
@@ -331,26 +343,74 @@ public class Jugador {
 		return salida;
 	}
 	
-	public String buscar(int id) {
+//	public int atacarPersona(int personaje) {
+//		return valorDado(getSupConId(personaje).getAtaque()).usar();
+//	}
+	
+	public String barricada(int id) throws BarricadaException, DadoException {
 		Carta_Supervivientes personaje = getSupConId(id);
-		int dado = valorDado(personaje.getAtaque());
+		Localizacion loc = localizacion(personaje);
+		int dado = valorDado(1);
+		String res = loc.ponerBarricada();
+		
+		if(dado == -1) {
+			res = null;
+		}else {
+			dados.usar(dado);
+		}
+		
+		String salida = "";
+		//EN LA COLONIA SE AÑADE LA ID DE LA PUERTA EN EL MISMO METODO
+		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+			salida += Integer.toString(loc.getId()) + "|";
+		}
+		salida += res + "|" + Integer.toString(dado);
+		
+		return salida;
+	}
+	
+	public String buscar(int id) throws BuscarException, DadoException {
+		Carta_Supervivientes personaje = getSupConId(id);
+		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
 		Carta aux;
 		
+		if(getLocalizacion(6).equals(localizacion(personaje))){
+			throw new BuscarException("No puedes buscar en la colonia");
+		}
+		
 		//SI HAY DADO Y EL SUPERVIVIENTE NO ESTA EN LA COLONIA
-		if(dado != -1 && !getLocalizacion(6).equals(localizacion(personaje))) {
+		if(dado == -1) {
+			throw new DadoException("Tus dados son muy pequeños");
+		}else {
 			if(localizacion(personaje).getMazo().vacio()) {
-				salida = null;
+				throw new BuscarException("El mazo esta vacio");
 			}else {
+				//COGEMOS LA CARTA Y LA AÑADIMOS AL MAZO
 				aux = localizacion(personaje).cogerCarta();
-				salida += aux.getId();
-				mazoObjeto.add((Carta) aux);
+				
+				if(aux.getId() == 6) {
+					//salida += 
+				}else if(aux.getId() == 7){
+					
+				}else if(aux.getId() == 8) {
+					
+				}else {
+					salida += aux.getId();
+					mazoObjeto.add((Carta) aux);
+				}
+				
+				dados.usar(dado);
 				
 				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
-				if(!personaje.getUsado() && (getLocalizacion(personaje.doble()).equals(localizacion(personaje)) || personaje.doble() == 7)) {	//VALE 7 SOLO PARA EL DIRECTOR
+				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
+				if(!localizacion(personaje).getMazo().vacio() && !personaje.getUsado() && 
+						getLocalizacion(personaje.doble()).equals(localizacion(personaje))) {	
 					aux = localizacion(personaje).cogerCarta();
 					salida += "|" + aux.getId();
 					mazoObjeto.add((Carta) aux);
+					
+					//YA HA USADO SU PASIVA (HABILIDAD)
 					personaje.setUsado(true);
 				}
 			}
@@ -376,7 +436,11 @@ public class Jugador {
 				posicion = lugar.llegar(personaje);
 				
 				if(personaje.tiraAlMoverse()) {
-					dado = tiradaRiesgo(personaje);
+					if(!gasolina) {
+						dado = tiradaRiesgo(personaje);
+					}else {
+						gasolina = false;
+					}
 				}
 				personaje.setMovido(true);
 			}
@@ -407,23 +471,7 @@ public class Jugador {
 //		
 //		tablero.getColonia().setTokensDeHambre(tablero.getColonia().getTokensDeHambre() + 1);
 //	}
-	
-	public void darCarta() {
-		//POR DETERMINAR
-	}
-	
-	public void pedirCarta() {
-		//POR DETERMINAR
-	}
-	
-	//POR IMPLEMENTAR. HABLAR SOBRE ESTO MAÑANA
-	public void usarObjeto(Carta_Objeto carta) {
-		
-	
-		
-		mazoObjeto.remove(carta);
-	}
-	
+
 	public void equiparObjeto(Carta_Objeto carta, Carta_Supervivientes personaje) {
 		personaje.equipar(carta);
 		mazoObjeto.remove(carta);

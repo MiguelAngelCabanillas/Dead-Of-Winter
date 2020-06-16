@@ -100,6 +100,15 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		vaciaVertedero = v;
 	}
 	
+	public void curarHerida() {
+		//PRIORIZA CURAR UNA HERIDA POR CONGELAMIENTO
+		if(congelamiento != 0) {
+			congelamiento--;
+		}else {
+			heridas--;
+		}
+	}
+	
 	public int getVertedero() {
 		int aux;
 		if(usada) {
