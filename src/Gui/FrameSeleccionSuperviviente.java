@@ -21,6 +21,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingConstants;
 
@@ -140,10 +141,10 @@ public class FrameSeleccionSuperviviente extends JFrame {
 					auxCartasEncontradas.dispose();
 				}
 				
-				List<Integer> cartas = null;
-				int numCartasAbuscar = 0;
+				List<Integer> cartas = new ArrayList<>();
+				cartas = FrameTablero.getCartasEncontradas();
 				
-				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, numCartasAbuscar);
+				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, FrameTablero.getNCartasABuscar());
 				auxCartasEncontradas.setVisible(true);
 				dispose();
 				break;
