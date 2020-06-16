@@ -413,13 +413,11 @@ private BufferedReader buffer;
 							i++;
 						}
 						cEnc += "|" + enc[i];
-						i++;
 						user.hacerPeticionAlServidor("cartasEncont" + cEnc);
+						System.out.println("cartasEncont" + cEnc);
 						
-						while(i < enc.length) {
-							user.hacerPeticionAlServidor("rmDado|" + enc[i]);
-							i++;
-						}
+						user.hacerPeticionAlServidor("rmDado|" + enc[enc.length-1]);
+						
 					} catch (BuscarException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());					
 					} catch (DadoException e) {
@@ -436,6 +434,7 @@ private BufferedReader buffer;
 						user.getSala().getPartida().ConfirmarCarta(Integer.parseInt(split[i]));
 						user.hacerPeticionAlServidor("addCarta|" + split[i]);
 						user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|1");
+						i++;
 					}
 					break;
 				case "atacar":

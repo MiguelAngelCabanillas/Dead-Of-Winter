@@ -245,7 +245,7 @@ public class ClientReader implements Runnable {
                 	}
                 	break;
                 case "cartasEncont": //cartasEncont|idC1|idC2|...|nCartas	
-                	FrameTablero.setNCartasABuscar(split.length-1);
+                	FrameTablero.setNCartasABuscar(Integer.parseInt(split[split.length-1]));
                 	List<Integer> cartas = new ArrayList<>();
                 	for(int m = 1; m < split.length - 1; m++) {
                 		cartas.add(Integer.parseInt(split[m]));
