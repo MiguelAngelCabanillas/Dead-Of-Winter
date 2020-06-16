@@ -441,7 +441,7 @@ public class Principal {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
 		String datos = actualizarTablero();
 		
-		muertos += actualizarTodosSupervivientes();
+		muertos = actualizarTodosSupervivientes();
 		
 		if(!crisisActual.pasada()) {
 			fallo();

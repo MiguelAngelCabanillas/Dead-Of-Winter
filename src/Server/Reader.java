@@ -398,6 +398,7 @@ private BufferedReader buffer;
 					user.hacerPeticionAlServidor("rmCarta|" + split[3]);
 					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");   //updtCartas|idJug|-1 --> resta una carta
 					user.enviarALaSala("numAportaciones|" + contribuciones); //numAportaciones|aportacionesjug0|aportacionesjug1....
+					user.enviarALaSala("chat|" + user.getNombre() + " ha aportado a la crisis");
 					break;
 				case "buscar": //buscar|idSup
 					try {
