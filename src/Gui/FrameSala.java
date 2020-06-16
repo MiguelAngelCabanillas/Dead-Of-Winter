@@ -42,6 +42,9 @@ public class FrameSala extends JFrame {
 	private int numJugadores;
 	private ObjetivosPrincipales obj;
 	private JButton btnIniciarPartida;
+	private JButton btnNewButtonVolver;
+	private JButton ObjetivoPrincipal;
+	private JButton Enviar;
 
 	/**
 	 * Launch the application.
@@ -107,7 +110,7 @@ public class FrameSala extends JFrame {
 		ImageIcon ima2 = new ImageIcon(this.getClass().getResource("/generic_user.png"));
 		Image img2 = ima2.getImage().getScaledInstance(116, 110, java.awt.Image.SCALE_SMOOTH);
 		
-		JButton ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
+		ObjetivoPrincipal = new JButton("Elegir Objetivo Principal");
 		ObjetivoPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -155,7 +158,7 @@ public class FrameSala extends JFrame {
 		GenericUser.setIcon(new ImageIcon(img2));
 		contentPane.add(GenericUser);
 		
-		JButton Enviar = new JButton("Enviar\r\n");
+		Enviar = new JButton("Enviar\r\n");
 		Enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -227,7 +230,7 @@ public class FrameSala extends JFrame {
 		btnIniciarPartida.setBounds(174, 449, 512, 51);
 		contentPane.add(btnIniciarPartida);
 		
-		JButton btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
+		btnNewButtonVolver = new JButton("Salir de la Sala\r\n");
 		btnNewButtonVolver.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnNewButtonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0){
@@ -297,6 +300,9 @@ public class FrameSala extends JFrame {
 	}
 	public void avanzarATablero(int objetivo) throws IOException, InterruptedException {
 		btnIniciarPartida.setEnabled(false);
+		btnNewButtonVolver.setEnabled(false);
+		ObjetivoPrincipal.setEnabled(false);
+		Enviar.setEnabled(false);
 		FrameTablero tablero = new FrameTablero(objetivo, usuario);
 		tablero.setVisible(true);
 		dispose();

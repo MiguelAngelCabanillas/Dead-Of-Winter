@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FrameTablero extends JFrame {
+	
+	private FrameCartasEncontradas auxCartasEncontradas;
 
 	private static int objetivo,objetivoSecreto,idJug,idCrisis;
 	private static Usuario usuario;
@@ -324,11 +326,26 @@ public class FrameTablero extends JFrame {
 		btnBuscar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Buscar.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(frameSeleccionar != null) {
-					frameSeleccionar.dispose();
+//				if(frameSeleccionar != null) {
+//					frameSeleccionar.dispose();
+//				}
+//				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
+//				frameSeleccionar.setVisible(true);
+				/////////
+				//Para probar el frameCartasEncontradas (hay que ver como conectarlo)
+				////////
+				if(auxCartasEncontradas != null) {
+					auxCartasEncontradas.dispose();
 				}
-				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
-				frameSeleccionar.setVisible(true);
+				List<Integer> cartitasDeMiguelito = new ArrayList<Integer>();
+				cartitasDeMiguelito.add(0);
+				cartitasDeMiguelito.add(5);
+				cartitasDeMiguelito.add(3);
+				cartitasDeMiguelito.add(10);
+				cartitasDeMiguelito.add(4);
+				cartitasDeMiguelito.add(11);
+				auxCartasEncontradas = new FrameCartasEncontradas(cartitasDeMiguelito, aso);
+				auxCartasEncontradas.setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(12, 144, 115, 41);
