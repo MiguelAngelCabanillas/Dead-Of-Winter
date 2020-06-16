@@ -27,6 +27,7 @@ import javax.swing.JCheckBox;
 public class FrameCartasEncontradas extends JFrame {
 
 	private JPanel contentPane;
+	private FrameCartasEncontradas auxCartasEncontradas;
 	private static int numCartasPoderBuscar;
 	private static List<Integer> cartas;
 	private List<Integer> cartaSeleccionada;
@@ -106,8 +107,17 @@ public class FrameCartasEncontradas extends JFrame {
 		JButton btnVolver = new JButton("Aceptar");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(cartaSeleccionada.toString());
+				String msg = "";
+				for(int i = 0; i < cartaSeleccionada.size(); i++) {
+					msg += "|" + cartaSeleccionada.get(i);
+				}
+				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|confirmarCarta" + msg);
 				dispose();
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnVolver.setBounds(278, 535, 155, 34);
@@ -116,7 +126,23 @@ public class FrameCartasEncontradas extends JFrame {
 		JButton btnRuido = new JButton("Hacer Ruido");
 		btnRuido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|ruido");
 				dispose();
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
+				if(auxCartasEncontradas != null) {
+					auxCartasEncontradas.dispose();
+				}
+				
+				List<Integer> cartas = new ArrayList<>();
+				cartas = FrameTablero.getCartasEncontradas();
+				
+				auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, numCartasPoderBuscar);
+				auxCartasEncontradas.setVisible(true);
 			}
 		});
 		btnRuido.setBounds(593, 535, 155, 34);

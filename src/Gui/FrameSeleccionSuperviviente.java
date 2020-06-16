@@ -135,7 +135,7 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				break;
 				
 			case "buscar":
-//				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				
 				if(auxCartasEncontradas != null) {
 					auxCartasEncontradas.dispose();
