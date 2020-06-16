@@ -52,6 +52,7 @@ public class FrameTablero extends JFrame {
 	private List<List<JLabel>> labelsZombies; //fichas circulares zombies/barricadas
 	private List<Point[]> locZombies; //localizaciones zombies/barricadas
 	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
+	private static List<Integer> cartEncont;
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
 	private Asociaciones aso;
@@ -326,26 +327,26 @@ public class FrameTablero extends JFrame {
 		btnBuscar.setIcon(new ImageIcon(FrameTablero.class.getResource("/Botones/Buscar.png")));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				if(frameSeleccionar != null) {
-//					frameSeleccionar.dispose();
-//				}
-//				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
-//				frameSeleccionar.setVisible(true);
+				if(frameSeleccionar != null) {
+					frameSeleccionar.dispose();
+				}
+				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
+				frameSeleccionar.setVisible(true);
 				/////////
 				//Para probar el frameCartasEncontradas (hay que ver como conectarlo)
 				////////
-				if(auxCartasEncontradas != null) {
-					auxCartasEncontradas.dispose();
-				}
-				List<Integer> cartitasDeMiguelito = new ArrayList<Integer>();
-				cartitasDeMiguelito.add(0);
-				cartitasDeMiguelito.add(5);
-				cartitasDeMiguelito.add(3);
-				cartitasDeMiguelito.add(10);
-				cartitasDeMiguelito.add(4);
-				cartitasDeMiguelito.add(11);
-				auxCartasEncontradas = new FrameCartasEncontradas(cartitasDeMiguelito, aso);
-				auxCartasEncontradas.setVisible(true);
+//				if(auxCartasEncontradas != null) {
+//					auxCartasEncontradas.dispose();
+//				}
+//				List<Integer> cartitasDeMiguelito = new ArrayList<Integer>();
+//				cartitasDeMiguelito.add(0);
+//				cartitasDeMiguelito.add(5);
+//				cartitasDeMiguelito.add(3);
+//				cartitasDeMiguelito.add(10);
+//				cartitasDeMiguelito.add(4);
+//				cartitasDeMiguelito.add(11);
+//				auxCartasEncontradas = new FrameCartasEncontradas(cartitasDeMiguelito, aso);
+//				auxCartasEncontradas.setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(12, 144, 115, 41);
@@ -1008,6 +1009,15 @@ public class FrameTablero extends JFrame {
 		return heridas;
 	}
 	
+	public static void setCartasEncontradas(List<Integer> l){
+		cartEncont = new ArrayList<>();
+		cartEncont.addAll(l);
+	}
+	
+	public static List<Integer> getCartasEncontradas(){
+		return cartEncont;
+	}
+	
 	public void setVertedero(int valor) {
 		vertedero = valor;
 	}
@@ -1019,6 +1029,9 @@ public class FrameTablero extends JFrame {
 	public void inicAportaciones() {
 		aportacionesCrisis = new ArrayList<>();
 		cartasResolucionCrisis = new ArrayList<>();
+		for(int i=0;i<nombresJugadores.size();i++) {
+			aportacionesCrisis.set(i, 0);
+		}
 	}
 	
 	public void cartasAportadas(int idCarta) {
