@@ -22,6 +22,7 @@ import java.util.Random;
 public class Reader implements Runnable {
 
 private Usuario user;
+private int id;
 private List <Usuario> us;
 
 private Sala sala;
@@ -310,7 +311,7 @@ private BufferedReader buffer;
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
 							  System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 						  }
-						  
+						  id = user.getJugador().getId();
 						  user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
 						  user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
 						  
@@ -319,47 +320,7 @@ private BufferedReader buffer;
 					}
 					 break;
 				case "finturno": //finturno|idJugAnterior
-					int cont = user.getSala().getContTurnos();
-					cont--;
-					user.getSala().setContTurnos(cont);
-					if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
-						String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
-						if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
-							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
-							}
-						} else {
-							user.getSala().setContTurnos(user.getSala().getUsuarios().size());
-							String muertos = user.getSala().getPartida().getMuertos(); //muertos
-							System.out.println(muertos);
-							if(!muertos.equals("")) {
-								int i = 0;
-								String[] sp = muertos.split("\\|");
-								while(i < sp.length) {
-									user.enviarALaSala("rmSup|" + sp[i] + "|" + sp[i+1]);
-									i+=2;
-								}
-							}
-							
-							user.getSala().getPartida().pasaTurno(0);
-							for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|1|0|2");
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies);
-								System.out.println("addZombies|" + zombies);
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
-								System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
-								user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
-							}
-							user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
-							user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
-						}
-						/////////////////////////////////////////////////////////////////////////////
-					} else {
-						int idSig = (Integer.parseInt(split[3]) + 1)%user.getSala().getUsuarios().size();
-						user.getSala().getPartida().pasaTurno(idSig);
-						user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
-						user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
-					}
+					pasarTurnoORonda(Integer.parseInt(split[3]));
 					break;
 				case "mover":
 					try {
@@ -385,6 +346,7 @@ private BufferedReader buffer;
 					} catch(MoverException e){
 						try {
 							user.hacerPeticionAlServidor("error|" + e.getMessage() );
+							
 							
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -512,6 +474,9 @@ private BufferedReader buffer;
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 			finally {
 		
@@ -522,6 +487,9 @@ private BufferedReader buffer;
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				 }
 				 us.remove(user);
@@ -592,7 +560,7 @@ private BufferedReader buffer;
 //	return 1;
 	}
 	
-	public void salirDeSala(Usuario usuario, Sala sala) throws IOException {
+	public void salirDeSala(Usuario usuario, Sala sala) throws IOException, InterruptedException {
 		if(sala != null) {
 	if(sala.getUsuarios().size() == 1) {
 		sala.getUsuarios().remove(0);
@@ -605,6 +573,8 @@ private BufferedReader buffer;
 		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
 		usuario.setSala(null);
 		sala.setHost(sala.getUsuarios().get(0));
+		sala.setPuedeEntrar(true);
+		
 		
 		System.out.println("El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
 	} else {
@@ -612,8 +582,63 @@ private BufferedReader buffer;
 		usuario.enviarALaSala("chat|" + usuario.getNombre() + " ha salido de la sala " + sala.getId());
 		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
 		usuario.setSala(null);
+		sala.setPuedeEntrar(true);
+		
+		
 	}
 	System.out.println(usuario.getNombre() + " ha salido de la sala " + sala.getId());
+	
+	if(sala != null && sala.getPartida() != null) {
+		if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
+			pasarTurnoORonda(usuario.getJugador().getId());
+		}
+		sala.getUsuarios().remove(user);
+		sala.getPartida().getJugadores().remove(usuario.getJugador());
+	}
 		}
   }
+	
+	public void pasarTurnoORonda(int idAnterior) throws IOException, InterruptedException {
+		int cont = user.getSala().getContTurnos();
+		cont--;
+		user.getSala().setContTurnos(cont);
+		Thread.sleep(300);
+		if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
+			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
+			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
+				for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("finpartida");
+				}
+			} else {
+				user.getSala().setContTurnos(user.getSala().getUsuarios().size());
+				String muertos = user.getSala().getPartida().getMuertos(); //muertos
+				System.out.println(muertos);
+				if(!muertos.equals("")) {
+					int i = 0;
+					String[] sp = muertos.split("\\|");
+					while(i < sp.length) {
+						user.enviarALaSala("rmSup|" + sp[i] + "|" + sp[i+1]);
+						i+=2;
+					}
+				}
+				
+				user.getSala().getPartida().pasaTurno(0);
+				for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|1|0|2");
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies + "|");
+					System.out.println("addZombies|" + zombies);
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
+					System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
+				}
+				user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
+				user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
+			}
+	} else {
+		int idSig = (idAnterior + 1)%user.getSala().getUsuarios().size();
+		user.getSala().getPartida().pasaTurno(idSig);
+		user.getSala().getUsuarios().get(idSig).hacerPeticionAlServidor("tuturno");
+		user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(idSig).getNombre());
+	}
+}
 }

@@ -327,6 +327,7 @@ public class Jugador {
 			salida += Integer.toString(loc.getId()) + "|";
 		}
 		 salida += res + "|" + Integer.toString(dado);
+		 
 		
 		return salida;
 	}

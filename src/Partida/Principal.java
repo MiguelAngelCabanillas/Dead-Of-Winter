@@ -409,6 +409,14 @@ public class Principal {
 		return jugadores.get(id);
 	}
 	
+	public List<Jugador> getJugadores(){
+		return this.jugadores;
+	}
+	
+	public Jugador getJugadorActual() {
+		return jugadorActual;
+	}
+	
 	public String inicTurno() {
 		return actualizarSupervivientesActual();
 	}
