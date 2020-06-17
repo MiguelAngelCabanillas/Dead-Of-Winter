@@ -125,6 +125,7 @@ public class ClientReader implements Runnable {
                 		tablero.addSupJug(id,sup2);
                 	}
                 	tablero.mostrarJugadorSupervivientes();
+                	tablero.inicHeridas();
                 	break;
                 	
                 //PASAR NOMBRES ASIGNADOS A IDs	
@@ -169,12 +170,17 @@ public class ClientReader implements Runnable {
                 	tablero.setMoral(Integer.parseInt(split[1]));
                 	break;
                 	
-                case "heridas": //heridas|numHeridasNormales|numHerdiasCongelacion
+                /*case "heridas": //heridas|numHeridasNormales|numHerdiasCongelacion
                 	int[] heridas = new int[2];
                 	heridas[0] = Integer.parseInt(split[1]);
                 	heridas[1] = Integer.parseInt(split[2]);
                 	System.out.println("Entran " + split[1] + ", " + split[2]);
                 	FrameTablero.setHeridas(heridas);
+                	break;*/
+                	
+                case "heridas": //heridas|idSup|numHeridasNormales|numHSeridasCongelacion
+                	tablero.setHeridasNormales(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+                	tablero.setHeridasCong(Integer.parseInt(split[1]),Integer.parseInt(split[3]));
                 	break;
                 	
                 case "tuturno": 
@@ -244,6 +250,7 @@ public class ClientReader implements Runnable {
 	                	tablero.cartasResCrisis();
                 	}
                 	break;
+                	
                 case "cartasEncont": //cartasEncont|idC1|idC2|...|nCartas	
                 	FrameTablero.setNCartasABuscar(Integer.parseInt(split[split.length-1]));
                 	if(split[1].length() != 0) {
@@ -254,6 +261,7 @@ public class ClientReader implements Runnable {
                     	FrameTablero.setCartasEncontradas(cartas);
                 	}
                 	break;
+                	
                 case "hacerRuido":
                 	List<Integer> c = new ArrayList<>();
                 	for(int m = 1; m < split.length; m++) {
@@ -261,6 +269,7 @@ public class ClientReader implements Runnable {
                 	}
                 	FrameTablero.setCartasEncontradas(c);
                 	break;
+                	
                 case "fichasComida": //fichasComida|num
                 	tablero.setFichComida(Integer.parseInt(split[1]));
                 	break;

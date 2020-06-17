@@ -54,6 +54,8 @@ public class FrameTablero extends JFrame {
 	private List<Point[]> locZombies; //localizaciones zombies/barricadas
 	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
 	private static List<Integer> cartEncont;
+	private HashMap<Integer,Integer> heridasNormales;
+	private HashMap<Integer,Integer> heridasCong;
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
 	private Asociaciones aso;
@@ -67,7 +69,7 @@ public class FrameTablero extends JFrame {
 	private FrameTiradaRiesgo tirRiesgo;
 	private FrameCartasAportadas frameCartasAportadas;
 
-	private static int[] heridas = new int[2];
+	//private static int[] heridas = new int[2];
 	
 	private JButton btnAtacar,btnMoverse,btnBuscar,btnBarricada,btnContribuir,btnLimpiarVertedero,btnAtraerZombie,btnFinalizarTurno,btnDarCarta,btnPedirCarta,
 					btnGastarComida,btnFichasComida,btnVertedero,btnContribucionesCrisis,btnInfoJugador,btnInfoTablero,ObjetivoPrin,btnSendChat,btnCartaCrisis;
@@ -466,7 +468,7 @@ public class FrameTablero extends JFrame {
 				}
 				System.out.println("DADOS "+dados.toString());
 				System.out.println("Tam de la mano del jugador: " + cartasJugador.size());
-				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados,turno);
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados,turno,heridasNormales,heridasCong);
 				infoJug.setVisible(true);
 			}
 		});
@@ -489,7 +491,7 @@ public class FrameTablero extends JFrame {
 				if(infoTab != null) {
 					infoTab.dispose();
 				}
-				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores);
+				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores,heridasNormales,heridasCong);
 				infoTab.setVisible(true);
 			}
 		});
@@ -1004,7 +1006,7 @@ public class FrameTablero extends JFrame {
 		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/fichaZombieReal.png",36,34));
 	}
 	
-	public static void pedirHeridas(int id) throws IOException{
+	/*public static void pedirHeridas(int id) throws IOException{
 		usuario.hacerPeticionAlServidor(usuario.getNombre() + "|" + 1 + "|heridas|" + id);
 	}
 	
@@ -1014,6 +1016,14 @@ public class FrameTablero extends JFrame {
 	
 	public static int[] getHeridas() {
 		return heridas;
+	}*/
+	
+	public void setHeridasNormales(int idSup, int numHeridas) {
+		heridasNormales.put(idSup, numHeridas);
+	}
+	
+	public void setHeridasCong(int idSup, int numHeridas) {
+		heridasCong.put(idSup, numHeridas);
 	}
 	
 	public static void setCartasEncontradas(List<Integer> l){
@@ -1047,6 +1057,17 @@ public class FrameTablero extends JFrame {
 		cartasResolucionCrisis = new ArrayList<>();
 		for(int i=0;i<nombresJugadores.size();i++) {
 			aportacionesCrisis.add(0);
+		}
+	}
+	
+	public void inicHeridas() {
+		heridasNormales = new HashMap<>();
+		heridasCong = new HashMap<>();
+		List<Integer> aux2 = new ArrayList<>();
+		aux2.addAll(labelsSup.keySet());
+		for (Integer i : aux2) {
+			heridasNormales.put(i, 0);
+			heridasCong.put(i, 0);
 		}
 	}
 	
