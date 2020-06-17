@@ -189,7 +189,7 @@ public class InfoTablero extends JFrame {
 			
 			try {
 				FrameTablero.pedirHeridas(Integer.parseInt(botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()));
-				Thread.sleep(100);
+				Thread.sleep(300);
 			} catch (InterruptedException | NumberFormatException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
