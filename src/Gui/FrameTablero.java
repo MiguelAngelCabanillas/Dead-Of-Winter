@@ -466,7 +466,7 @@ public class FrameTablero extends JFrame {
 				}
 				System.out.println("DADOS "+dados.toString());
 				System.out.println("Tam de la mano del jugador: " + cartasJugador.size());
-				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados);
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados,turno);
 				infoJug.setVisible(true);
 			}
 		});

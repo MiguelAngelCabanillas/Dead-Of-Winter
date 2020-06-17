@@ -466,7 +466,7 @@ public class Jugador {
 	public void resetBuffer() {
 		int cantidad = buffer.size();
 		for(int i = 0; i < cantidad; i++) {
-			locCartas.getMazo().anyadirAlFinal(buffer.remove(i));
+			locCartas.getMazo().anyadirAlFinal(buffer.remove(0));
 		}
 	}
 	

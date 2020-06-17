@@ -41,6 +41,7 @@ public class InfoJugador extends JFrame {
 	private FrameSupervivientes auxSuper;
 	private static List<Integer> dados;
 	private static int objetivoSecreto;
+	private static boolean turno;
 	private static List<Integer> supJugadores;
 	private static List<Integer> cartasJugador;
 	private JButton botonesCarta[];
@@ -60,7 +61,7 @@ public class InfoJugador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados);
+					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados,turno);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,7 +71,7 @@ public class InfoJugador extends JFrame {
 	}
 
 	public InfoJugador(List<Integer> supJugadores, List<Integer> cartasJugador, int objetivoSecreto,
-			Asociaciones aso, List<Integer> dados) {
+			Asociaciones aso, List<Integer> dados, boolean t) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -79,6 +80,7 @@ public class InfoJugador extends JFrame {
 		contentPane.setLayout(null);
 		
 		asociaciones = aso;
+		turno = t;
 		
 		DerHandler handler = new DerHandler();
 		SupDerHandler supervivientesHandler = new SupDerHandler();
@@ -211,7 +213,7 @@ public class InfoJugador extends JFrame {
 				if(auxCarta != null) {
 					auxCarta.dispose();
 				} 
-				auxCarta = new FrameCarta(asociaciones.getCartasObjetos(), botonesCarta[Integer.parseInt(e.getActionCommand())].getText());
+				auxCarta = new FrameCarta(asociaciones.getCartasObjetos(), botonesCarta[Integer.parseInt(e.getActionCommand())].getText(),turno);
 				auxCarta.setVisible(true);
 		}
 		
