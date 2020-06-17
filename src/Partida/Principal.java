@@ -65,7 +65,7 @@ public class Principal {
 		supervivientes = new InicSupervivientes();
 		enPartida = new PriorityQueue<>();
 		
-		vertedero = 6;
+		vertedero = 0;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
