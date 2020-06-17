@@ -684,16 +684,19 @@ public class Principal {
 		case 305 : {
 			
 			//SE AÑADEN 3 ZOMBIES EN BIBLIOTECA Y EN SUPERMERCADO
-			tablero.getBiblioteca().anyadirZombie();
-			tablero.getBiblioteca().anyadirZombie();
-			tablero.getBiblioteca().anyadirZombie();
-			
-			tablero.getSupermercado().anyadirZombie();
-			tablero.getSupermercado().anyadirZombie();
-			tablero.getSupermercado().anyadirZombie();
+			try {
+				tablero.getBiblioteca().anyadirZombie();
+				tablero.getBiblioteca().anyadirZombie();
+				tablero.getBiblioteca().anyadirZombie();
+				
+				tablero.getSupermercado().anyadirZombie();
+				tablero.getSupermercado().anyadirZombie();
+				tablero.getSupermercado().anyadirZombie();
+			}catch(NullPointerException e) {}
 		}
 		break;
 		case 306 : {
+			try {
 			
 			//SE AÑADEN 6 SUPERVIVIENTES A LA COLONIA Y UNO EN CADA LOCALIZACION
 			tablero.getBiblioteca().anyadirZombie();
@@ -711,6 +714,7 @@ public class Principal {
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
+			}catch(NullPointerException e) {}
 		}
 		break;
 		case 307 : {
