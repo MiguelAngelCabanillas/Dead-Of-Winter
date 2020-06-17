@@ -443,11 +443,7 @@ public class Principal {
 		
 		muertos = actualizarTodosSupervivientes();
 		
-		if(!crisisActual.pasada()) {
-			fallo();
-		}else if(crisisActual.sobra()) {
-			moral++;
-		}
+		System.out.println(crisisActual.pasada() + " " + crisisActual.sobra());
 		
 		if(vertedero >= 10) {
 			moral--;
@@ -540,6 +536,13 @@ public class Principal {
 	private String actualizarTablero() {
 		String aux = "";
 		
+		String[] fallo = null;
+		if(!crisisActual.pasada()) {
+			fallo = fallo();
+		}else if(crisisActual.sobra()) {
+			moral++;
+		}
+		
 		String[] com = tablero.getComisaria().actualizarCasillasZombiePasoDeRonda();
 		String[] sup = tablero.getSupermercado().actualizarCasillasZombiePasoDeRonda();
 		String[] col = tablero.getColegio().actualizarCasillasZombiePasoDeRonda();
@@ -548,13 +551,15 @@ public class Principal {
 		String[] bib = tablero.getBiblioteca().actualizarCasillasZombiePasoDeRonda();
 		String[] coll = tablero.getColonia().actualizarCasillasZombiePasoDeRonda();
 		
-		aux += com[0];
-		aux += "|" + sup[0];
-		aux += "|" + col[0];
-		aux += "|" + gas[0];
-		aux += "|" + hos[0];
-		aux += "|" + bib[0];
+		aux += com[0] + fallo[0];
+		aux += "|" + sup[0] + fallo[1];
+		aux += "|" + col[0] + fallo[2];
+		aux += "|" + gas[0] + fallo[3];
+		aux += "|" + hos[0] + fallo[4];
+		aux += "|" + bib[0] + fallo[5];
+		
 		aux += "|" + coll[0];
+			
 		
 		//ACTUALIZAMOS LOS MUERTOS EN LA PARTIDA
 		if(com[0].contentEquals("0")) {
@@ -641,18 +646,21 @@ public class Principal {
 		return muertos;
 	}
 	
-	private String fallo() {
-		String datos = null;
+	private String[] fallo() {
+		String[] datos = new String[6];
+		for(int i = 0; i < datos.length; i++) {
+			datos[i] = "";
+		}
 		
 		switch(crisisActual.getId()) {
 		case 300 : {
 			
-			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
-			for(int i = 0; i < 5; i++) {
-				enPartida.peek().recibirHerida(true);
-			}
-			
-			actualizarTodosSupervivientes();
+//			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
+//			for(int i = 0; i < 5; i++) {
+//				enPartida.peek().recibirHerida(true);
+//			}
+//			
+//			actualizarTodosSupervivientes();
 		}
 		break;
 		case 301 : {
@@ -682,39 +690,29 @@ public class Principal {
 		}
 		break;
 		case 305 : {
-			
 			//SE AÑADEN 3 ZOMBIES EN BIBLIOTECA Y EN SUPERMERCADO
-			try {
-				tablero.getBiblioteca().anyadirZombie();
-				tablero.getBiblioteca().anyadirZombie();
-				tablero.getBiblioteca().anyadirZombie();
-				
-				tablero.getSupermercado().anyadirZombie();
-				tablero.getSupermercado().anyadirZombie();
-				tablero.getSupermercado().anyadirZombie();
-			}catch(NullPointerException e) {}
+			datos[5] += tablero.getBiblioteca().anyadirZombie();
+			datos[5] += tablero.getBiblioteca().anyadirZombie();
+			datos[5] += tablero.getBiblioteca().anyadirZombie();
+			
+			datos[1] += tablero.getSupermercado().anyadirZombie();
+			datos[1] += tablero.getSupermercado().anyadirZombie();
+			datos[1] += tablero.getSupermercado().anyadirZombie();
 		}
 		break;
 		case 306 : {
-			try {
 			
 			//SE AÑADEN 6 SUPERVIVIENTES A LA COLONIA Y UNO EN CADA LOCALIZACION
-			tablero.getBiblioteca().anyadirZombie();
-			tablero.getColegio().anyadirZombie();
-			tablero.getComisaria().anyadirZombie();
-			tablero.getGasolinera().anyadirZombie();
-			tablero.getHospital().anyadirZombie();
-			tablero.getSupermercado().anyadirZombie();
+			datos[5] +=tablero.getBiblioteca().anyadirZombie();
+			datos[2] +=tablero.getColegio().anyadirZombie();
+			datos[0] +=tablero.getComisaria().anyadirZombie();
+			datos[3] +=tablero.getGasolinera().anyadirZombie();
+			datos[4] +=tablero.getHospital().anyadirZombie();
+			datos[1] +=tablero.getSupermercado().anyadirZombie();
 			
 			
 			//TODO CAMBIAR EL AÑADIR ZOMBIES PARA QUE SEAN EN RELOJ
-			tablero.getColonia().anyadirZombie();
-			tablero.getColonia().anyadirZombie();
-			tablero.getColonia().anyadirZombie();
-			tablero.getColonia().anyadirZombie();
-			tablero.getColonia().anyadirZombie();
-			tablero.getColonia().anyadirZombie();
-			}catch(NullPointerException e) {}
+			tablero.getColonia().addZombiesExternos(6);
 		}
 		break;
 		case 307 : {
