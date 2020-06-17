@@ -645,7 +645,7 @@ public class Principal {
 		String datos = null;
 		
 		switch(crisisActual.getId()) {
-		case 0 : {
+		case 300 : {
 			
 			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
 			for(int i = 0; i < 5; i++) {
@@ -655,14 +655,14 @@ public class Principal {
 			actualizarTodosSupervivientes();
 		}
 		break;
-		case 1 : {
+		case 301 : {
 			
 			//SE BAJA LA MORAL Y SE AÑADE TOKEN DE HAMBRE
 			hambre++;
 			moral--;
 		}
 		break;
-		case 2 : {
+		case 302 : {
 			
 			//SE BAJA LA MORAL Y SE AÑADE UNA HERIDA A CADA SUPERVIVIENTE
 			moral--;
@@ -673,27 +673,30 @@ public class Principal {
 			actualizarTodosSupervivientes();
 		}
 		break;
-		case 3 : {
+		case 303 : {
 			moral -=2;
 		}
 		break;
-		case 4 : {
+		case 304 : {
 			moral -=2;
 		}
 		break;
-		case 5 : {
+		case 305 : {
 			
 			//SE AÑADEN 3 ZOMBIES EN BIBLIOTECA Y EN SUPERMERCADO
-			tablero.getBiblioteca().anyadirZombie();
-			tablero.getBiblioteca().anyadirZombie();
-			tablero.getBiblioteca().anyadirZombie();
-			
-			tablero.getSupermercado().anyadirZombie();
-			tablero.getSupermercado().anyadirZombie();
-			tablero.getSupermercado().anyadirZombie();
+			try {
+				tablero.getBiblioteca().anyadirZombie();
+				tablero.getBiblioteca().anyadirZombie();
+				tablero.getBiblioteca().anyadirZombie();
+				
+				tablero.getSupermercado().anyadirZombie();
+				tablero.getSupermercado().anyadirZombie();
+				tablero.getSupermercado().anyadirZombie();
+			}catch(NullPointerException e) {}
 		}
 		break;
-		case 6 : {
+		case 306 : {
+			try {
 			
 			//SE AÑADEN 6 SUPERVIVIENTES A LA COLONIA Y UNO EN CADA LOCALIZACION
 			tablero.getBiblioteca().anyadirZombie();
@@ -711,9 +714,10 @@ public class Principal {
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
 			tablero.getColonia().anyadirZombie();
+			}catch(NullPointerException e) {}
 		}
 		break;
-		case 7 : {
+		case 307 : {
 			//TODO
 		}
 		break;

@@ -3,6 +3,7 @@ package Gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -54,6 +55,7 @@ public class FrameAportacionesCrisis extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
 		labelJugadores = new JLabel[5];
 		

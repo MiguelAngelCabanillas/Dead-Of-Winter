@@ -220,11 +220,12 @@ public class Localizacion {
 			}
 			i++;
 		}
+		Carta_Supervivientes sup = menorInfluencia();
 		
-		if(!colocado) {
-			menorInfluencia().recibirHerida(false);
-			menorInfluencia().recibirHerida(false);
-			menorInfluencia().recibirHerida(false);
+		if(!colocado && sup != null) {
+			sup.recibirHerida(false);
+			sup.recibirHerida(false);
+			sup.recibirHerida(false);
 		}
 		
 		return casillas;
