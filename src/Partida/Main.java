@@ -57,6 +57,7 @@ public class Main {
 			p.mover(119, 0);
 			p.mover(110, 3);
 			p.ponerBarricada(119);
+			p.pasaRonda();
 		} catch (DadoException e) {
 			System.err.println(e.getMessage());
 		}
