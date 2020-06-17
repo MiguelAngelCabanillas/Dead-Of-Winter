@@ -60,16 +60,6 @@ public class FrameTiradaRiesgo extends JFrame {
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
-		btnAceptar.setFont(new Font("Castellar", Font.BOLD, 17));
-		btnAceptar.setBounds(188, 278, 155, 34);
-		contentPane.add(btnAceptar);
-		
 		JLabel lblMensaje = new JLabel("Resultado de la tirada de riesgo");
 		lblMensaje.setForeground(Color.WHITE);
 		lblMensaje.setFont(new Font("Castellar", Font.BOLD, 17));

@@ -186,6 +186,7 @@ public class Localizacion {
 				salida++;
 			}
 		}
+		tokensDeRuido = 0;
 		
 		return salida;
 	}
@@ -220,11 +221,15 @@ public class Localizacion {
 			}
 			i++;
 		}
+		Carta_Supervivientes sup;
 		
 		if(!colocado) {
-			menorInfluencia().recibirHerida(false);
-			menorInfluencia().recibirHerida(false);
-			menorInfluencia().recibirHerida(false);
+			sup = menorInfluencia();
+			if(sup != null) {
+				sup.recibirHerida(false);
+				sup.recibirHerida(false);
+				sup.recibirHerida(false);
+			}
 		}
 		
 		return casillas;
@@ -267,7 +272,7 @@ public class Localizacion {
 		int i = 0;
 		boolean encontrado = false;
 		
-		while(!encontrado && i < supervivientes.size()) {
+		while(!encontrado && i < maximoNumSupervivientes) {
 			if(supervivientes.get(i) != null && !supervivientes.get(i).estaMuerto() && supervivientes.get(i).equals(personaje)) {
 				encontrado = true;
 			}else {

@@ -373,6 +373,7 @@ private BufferedReader buffer;
 						} else {
 							user.enviarALaSala("addBarricada|" + spl[0] + "|" + spl[1]);
 							user.hacerPeticionAlServidor("rmDado|" + spl[2]);
+							user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha puesto una barricada.");
 						}
 					} catch(BarricadaException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage() );
@@ -428,6 +429,7 @@ private BufferedReader buffer;
 				case "ruido":
 					String rui = user.getSala().getPartida().hacerRuido();
 					user.hacerPeticionAlServidor("hacerRuido|" + rui);
+					user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 					break;
 				case "confirmarCarta": //confirmarCarta|carta1|carta2...
 					int i = 3;
