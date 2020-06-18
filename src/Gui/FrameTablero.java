@@ -37,7 +37,7 @@ public class FrameTablero extends JFrame {
 	private Point p; //punto auxiliar
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
-	private int vertedero,nFichComida;
+	private int vertedero,nFichComida,nFichHambre;
 	private String crisisRes;
 	private static int nCartasABuscar;
 
@@ -51,7 +51,9 @@ public class FrameTablero extends JFrame {
 	private HashMap<Integer,JLabel> labelsSup; //mapa que relaciona los id de los supervivientes que se encuentran en partida con su respectiva ficha circular
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private List<List<JLabel>> labelsZombies; //fichas circulares zombies/barricadas
+	private List<List<JLabel>> labelsFichRuido; //fichas circulares fichas de ruido
 	private List<Point[]> locZombies; //localizaciones zombies/barricadas
+	private List<Point[]> locFichRuido; //localizaciones fichas de ruido
 	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
 	private static List<Integer> cartEncont;
 	private HashMap<Integer,Integer> heridasNormales;
@@ -105,6 +107,13 @@ public class FrameTablero extends JFrame {
 			locZColoniaZ4[] = {new Point(1341,592),new Point(1303,571),new Point(1304,611)},
 			locZColoniaZ5[] = {new Point(1341,481),new Point(1303,460),new Point(1304,500)},
 			locZColoniaZ6[] = {new Point(1341,368),new Point(1303,347),new Point(1304,387)};
+	
+	private Point locRComisaria[] = {new Point(390,225),new Point(422,225),new Point(454,225),new Point(486,225)},
+			locRSuperm[] = {new Point(390,532),new Point(422,532),new Point(454,532),new Point(486,532)},
+			locRColegio[] = {new Point(390,840),new Point(422,840),new Point(454,840),new Point(486,840)},
+			locRGasolinera[] = {new Point(1728,224),new Point(1760,224),new Point(1792,224),new Point(1824,224)},
+			locRHospital[] = {new Point(1728,532),new Point(1760,532),new Point(1792,532),new Point(1824,532)},
+			locRBiblioteca[] = {new Point(1728,840),new Point(1760,840),new Point(1792,840),new Point(1824,840)};
 	
 	private static Thread hilo;
 	private JMenu mnAyuda;
@@ -242,6 +251,26 @@ public class FrameTablero extends JFrame {
 				auxList.add(aux);
 			}
 			labelsZombies.add(auxList);
+		}
+		
+//////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS RUIDO
+		
+		locFichRuido = new ArrayList<>();
+		locFichRuido.add(locRComisaria);locFichRuido.add(locRSuperm);locFichRuido.add(locRColegio);locFichRuido.add(locRGasolinera);locFichRuido.add(locRHospital);locFichRuido.add(locRBiblioteca);
+		
+		labelsFichRuido = new ArrayList<>();
+		List<JLabel> auxListR;
+		for(int i=0;i<locFichRuido.size();i++) {
+			auxListR = new ArrayList<>();
+			for(int j=0;j<locFichRuido.get(i).length;j++) {
+				aux = new JLabel(""); 
+				aux.setBounds(locFichRuido.get(i)[j].x, locFichRuido.get(i)[j].y, 32, 28);
+				aux.setIcon(imgCircular("images/Fichas/fichaRuido.png",32,28));
+				aux.setVisible(false);
+				contentPane.add(aux);
+				auxListR.add(aux);
+			}
+			labelsFichRuido.add(auxListR);
 		}
 		
 //////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS AUXILIARES		
@@ -611,7 +640,8 @@ public class FrameTablero extends JFrame {
 		btnFichasComida = new JButton("");
 		btnFichasComida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + nFichComida); 
+				JOptionPane.showMessageDialog(null, "Numero de fichas de comida en la Colonia: " + nFichComida + "\n" +
+						"Numero de fichas de hambre en la Colonia: " + nFichHambre); 
 			}
 		});
 		btnFichasComida.setBounds(1165, 538, 107, 113);
@@ -995,6 +1025,14 @@ public class FrameTablero extends JFrame {
 	public void deleteZombie(int loc, int pos) {
 		labelsZombies.get(loc).get(pos).setVisible(false);
 	}
+	
+	public void addFichRuido(int loc, int pos) {
+		labelsFichRuido.get(loc).get(pos).setVisible(true);
+	}
+	
+	public void deleteFichRuido(int loc, int pos) {
+		labelsFichRuido.get(loc).get(pos).setVisible(false);
+	}
 
 	public void addBarricada(int loc, int pos) {
 		labelsZombies.get(loc).get(pos).setIcon(imgCircular("images/Fichas/barricada.png",36,34));
@@ -1050,6 +1088,10 @@ public class FrameTablero extends JFrame {
 	
 	public void setFichComida(int valor) {
 		nFichComida = valor;
+	}
+	
+	public void setFichHambre(int valor) {
+		nFichHambre = valor;
 	}
 	
 	public void inicAportaciones() {
