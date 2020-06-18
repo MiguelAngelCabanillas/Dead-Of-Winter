@@ -7,6 +7,7 @@ import Excepciones.ServerException;
 import Partida.BarricadaException;
 import Partida.BuscarException;
 import Partida.DadoException;
+import Partida.MatarException;
 import Partida.Principal;
 import Partida.VertederoException;
 
@@ -335,13 +336,22 @@ private BufferedReader buffer;
 						case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " no ha recibido heridas" );
 							break;
 						case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida normal" );
-							break;
+									user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+									System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+								break;
 						case "2": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha recibido una herida por congelación" );
+									user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+									System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
 							break;
 						case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(splitsplit[0])) + " ha muerto..." );
 									user.enviarALaSala("rmSup|" + user.getJugador().getId() + "|" + splitsplit[0]);
 									System.out.println(user.getNombre() + " ha llamado esta función");
-									user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
+									int moral = user.getSala().getPartida().getMoral();
+									if( moral <= 0 ) {
+										user.enviarALaSala("finpartida");
+									} else {
+										user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
+									}
 							break;
 						}
 						
@@ -440,12 +450,37 @@ private BufferedReader buffer;
 						i++;
 					}
 					break;
-				case "atacar":
-//					user.enviarALaSala("rmZombie|0|0");
-//					user.hacerPeticionAlServidor("setDado|0|6");
-//					user.hacerPeticionAlServidor("setDado|1|6");
-//					user.hacerPeticionAlServidor("setDado|2|6");
-//					user.enviarALaSala(user.getNombre() + " ha atacado un zombie");
+				case "atacar": //atacar|idSup
+					try {
+						String atc = user.getSala().getPartida().atacar(Integer.parseInt(split[3]));
+						System.out.println("Atacar: " + atc);
+						//atc ===> loc|pos|dadoRiesgo
+						String[] atcspl = atc.split("\\|");
+						user.enviarALaSala("rmZombie|" + atcspl[0] + "|" + atcspl[1]);
+						switch(atcspl[2]) {
+							case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " no ha recibido heridas" );
+							break;
+							case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida normal" );
+										user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+										System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+							break;
+							case "2": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida por congelación" );
+										user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+										System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+							break;
+							case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha muerto..." );
+								user.enviarALaSala("rmSup|" + user.getJugador().getId() + "|" + split[3]);
+								int moral = user.getSala().getPartida().getMoral();
+								if( moral <= 0 ) {
+									user.enviarALaSala("finpartida");
+								} else {
+									user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
+								}
+							break;
+						}
+					} catch (MatarException | DadoException e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
+					}
 					break;
 				case "gastarComida":
 //					user.hacerPeticionAlServidor("rmCarta|0");
@@ -464,9 +499,6 @@ private BufferedReader buffer;
 					user.hacerPeticionAlServidor("heridas|" + user.getSala().getPartida().getHeridas(id));
 					System.out.println("heridas|" + user.getSala().getPartida().getHeridas(id));
 					System.out.println(split[3]);
-					break;
-				case "dadoRiesgo": // 0 = nada, 1 = herida normal, 2 = congelacion, 3 = muerte ----- usuario|1|dadoRiesgo|numDadoRiesgo
-					
 					break;
 				case "host":
 					if(user.getSala() != null) {
@@ -644,12 +676,13 @@ private BufferedReader buffer;
 		int cont = user.getSala().getContTurnos();
 		cont--;
 		user.getSala().setContTurnos(cont);
-		Thread.sleep(400);
 		if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
 			String contribuciones = user.getSala().getPartida().cartasContrib(); //contribuciones a la crisis
 			System.out.println(contribuciones);
+			String resCrisis = user.getSala().getPartida().resultadoCrisis();
+			System.out.println(resCrisis);
 			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
-			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() == 0) {
+			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() <= 0) {
 				user.enviarALaSala("finpartida");
 			} else {
 				user.getSala().setContTurnos(user.getSala().getUsuarios().size());
@@ -667,6 +700,7 @@ private BufferedReader buffer;
 				user.getSala().getPartida().pasaTurno(0);
 				for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + contribuciones);
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("crisisResult|" + resCrisis);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies + "|");
 					System.out.println("addZombies|" + zombies);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));

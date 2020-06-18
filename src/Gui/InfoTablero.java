@@ -54,6 +54,7 @@ public class InfoTablero extends JFrame {
 	private Point posSupJugador4[] = {new Point(919, 72), new Point(1096, 72), new Point(1274, 72), new Point(1454, 72), new Point(1635, 72)};
 	private Point posSupJugador5[] = {new Point(919, 311), new Point(1096, 311), new Point(1274, 311), new Point(1454, 311), new Point(1635, 311)};
 	private Point[] posiciones[] = {posSupJugador1, posSupJugador2, posSupJugador3, posSupJugador4, posSupJugador5};
+	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
 	/**
 	 * Launch the application.
 	 */
@@ -61,7 +62,7 @@ public class InfoTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones, numCartas);
+					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones, numCartas,heridasNormales,heridasCong);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -70,7 +71,7 @@ public class InfoTablero extends JFrame {
 		});
 	}
 
-	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso, List<Integer> numC) {
+	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso, List<Integer> numC, HashMap<Integer,Integer> hN, HashMap<Integer,Integer> hC) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -79,6 +80,8 @@ public class InfoTablero extends JFrame {
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
+		heridasNormales = hN;
+		heridasCong = hC;
 		asociaciones = aso;
 		
 		SupDerHandler supervivientesHandler = new SupDerHandler();
@@ -89,8 +92,7 @@ public class InfoTablero extends JFrame {
 		separator_1.setBackground(Color.WHITE);
 		separator_1.setBounds(0, 40, 1924, 2);
 		contentPane.add(separator_1);
-		
-		
+
 		
 		botoneSuperviviente = new JButton[25]; //Tamaño del total de supervivientes que puede tener
 		labelJugadores = new JLabel[5];
@@ -189,14 +191,14 @@ public class InfoTablero extends JFrame {
 				auxSuper.dispose();
 			} 
 			
-			try {
+			/*try {
 				FrameTablero.pedirHeridas(Integer.parseInt(botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()));
 				Thread.sleep(300);
 			} catch (InterruptedException | NumberFormatException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), FrameTablero.getHeridas());
+			}*/
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong);
 			auxSuper.setVisible(true);
 			
 		}
