@@ -270,8 +270,20 @@ public class ClientReader implements Runnable {
                 	FrameTablero.setCartasEncontradas(c);
                 	break;
                 	
+                case "addFichRuido": //addFichRuido|loc|posVal
+                	tablero.addFichRuido(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	break;
+                	
+                case "rmFichRuido": //rmFichRuido|loc|posVal
+                	tablero.deleteFichRuido(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                	break;
+                	
                 case "fichasComida": //fichasComida|num
                 	tablero.setFichComida(Integer.parseInt(split[1]));
+                	break;
+                	
+                case "fichasHambre": //fichasHambre|num
+                	tablero.setFichHambre(Integer.parseInt(split[1]));
                 	break;
                 	
                 case "crisisResult": //crisisResult|result
