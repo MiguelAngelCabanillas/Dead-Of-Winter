@@ -23,7 +23,8 @@ public class FrameSupervivientes extends JFrame {
 	private JPanel contentPane;
 	private static HashMap<Integer, JLabel[]> carta;
 	private static String id;
-	private static int[] heridas;
+	//private static int[] heridas;
+	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
 	/**
 	 * Launch the application.
 	 */
@@ -31,7 +32,7 @@ public class FrameSupervivientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridas);
+					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridasNormales,heridasCong);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,12 +46,12 @@ public class FrameSupervivientes extends JFrame {
 	 */
 	
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id) {
-		this(carta, id, null);
+		this(carta, id, null,null);
 	}
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, int[] heridas) {
+	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC) {
 		
 		
 		
@@ -65,6 +66,9 @@ public class FrameSupervivientes extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		
+		heridasNormales = hN;
+		heridasCong = hC;
 		
 		JLabel lblSuperviviente = new JLabel("");
 		lblSuperviviente.setBounds(10, 12,  406, 575);
@@ -94,7 +98,7 @@ public class FrameSupervivientes extends JFrame {
 		
 		
 		//Se encarga de poner las heridas manuelamente (Automatico necesito asoc con las heridas)
-		switch (heridas[0]) {
+		switch (heridasNormales.get(Integer.parseInt(id))) {
 		case 2:
 			lblHerida.setIcon(new ImageIcon(heridaNormal));
 			lblHeridaCongelacion.setIcon(new ImageIcon(heridaNormal));
@@ -108,7 +112,7 @@ public class FrameSupervivientes extends JFrame {
 			break;
 		}
 		
-		switch (heridas[1]) {
+		switch (heridasCong.get(Integer.parseInt(id))) {
 		case 2:
 			lblHerida.setIcon(new ImageIcon(heridaCongelacion));
 			lblHeridaCongelacion.setIcon(new ImageIcon(heridaCongelacion));
@@ -130,8 +134,11 @@ public class FrameSupervivientes extends JFrame {
 		contentPane.add(btnNewButton);
 		contentPane.add(lblSuperviviente);
 		
-		if(heridas != null) {
-		System.out.println(heridas[0] + ", " + heridas[1]);
+		if(heridasNormales.get(Integer.parseInt(id)) != null) {
+		System.out.println("Heridas normales de " + Integer.parseInt(id) +": "+ heridasNormales.get(Integer.parseInt(id)));
+		}
+		if(heridasCong.get(Integer.parseInt(id)) != null) {
+			System.out.println("Heridas de congelacion de " + Integer.parseInt(id) +": "+ heridasCong.get(Integer.parseInt(id)));
 		}
 	}
 	private void ajustarAPantalla() {

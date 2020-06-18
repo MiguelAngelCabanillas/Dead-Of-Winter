@@ -23,6 +23,7 @@ public class Colonia extends Localizacion {
 	//DATOS DE CONTROL
 	private int inutiles;
 	private int numJugadores;
+	private int zombiesExternos;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -34,6 +35,7 @@ public class Colonia extends Localizacion {
 		this.ObjetivoPrincipal = c;
 		
 		inicCasillasZombie();
+		zombiesExternos = 0;
 		
 		this.inutiles = 23;
 		this.numJugadores = jugadores;
@@ -134,41 +136,42 @@ public class Colonia extends Localizacion {
 		return Integer.toString(i-1+6) + "|" + Integer.toString(j);
 	}
 	
-	@Override
-	public String anyadirZombie() {
-		boolean colocado = false;
-		int[] posiciones = new int[6];
-		int i = 0;
-		int j;
-		List<CasillasZombie> aux;
-		
-		
-		while(!colocado && i < 6) {
-			aux = puertas.get(i);
-			CasillasZombie aux2;
-			j = 0;
-			while(!colocado && j < 3) {
-				aux2 = aux.get(j);
-				if(!aux2.getHayBarricada() && !aux2.getHayZombie()){
-					aux2.setHayZombie(true);
-					colocado = true;
-					posiciones[i]++;
-				}
-			}
-		}
-		
-		//SI NO CABEN, SE MATA A UN SUPERVIVIENTE
-		if(!colocado) {
-			eliminarSuperviviente(super.menorInfluencia());
-		}
-		
-		return Integer.toString(posiciones[0]) + Integer.toString(posiciones[1]) + Integer.toString(posiciones[2]) + Integer.toString(posiciones[3]) + Integer.toString(posiciones[4])+ 
-				Integer.toString(posiciones[5]);
-	}
+//	@Override
+//	public String anyadirZombie() {
+//		boolean colocado = false;
+//		int[] posiciones = new int[6];
+//		int i = 0;
+//		int j;
+//		List<CasillasZombie> aux;
+//		
+//		
+//		while(!colocado && i < 6) {
+//			aux = puertas.get(i);
+//			CasillasZombie aux2;
+//			j = 0;
+//			while(!colocado && j < 3) {
+//				aux2 = aux.get(j);
+//				if(!aux2.getHayBarricada() && !aux2.getHayZombie()){
+//					aux2.setHayZombie(true);
+//					colocado = true;
+//					posiciones[i]++;
+//				}
+//				j++;
+//			}
+//		}
+//		
+//		//SI NO CABEN, SE MATA A UN SUPERVIVIENTE
+//		if(!colocado) {
+//			eliminarSuperviviente(super.menorInfluencia());
+//		}
+//		
+//		return Integer.toString(posiciones[0]) + Integer.toString(posiciones[1]) + Integer.toString(posiciones[2]) + Integer.toString(posiciones[3]) + Integer.toString(posiciones[4])+ 
+//				Integer.toString(posiciones[5]);
+//	}
 	
 	@Override
 	public String [] actualizarCasillasZombiePasoDeRonda() {
-		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2);
+		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2) + zombiesExternos;
 		int noColocados = 0;
 		String [] colocados = new String[6];
 		boolean colocado;
@@ -230,13 +233,16 @@ public class Colonia extends Localizacion {
 		}
 		
 		int muertos = noColocados;
+		Carta_Supervivientes muerto;
 		
 		//MATAMOS A LOS JUGADORES NECESARIOS
 		while(noColocados > 0) {
-			Carta_Supervivientes muerto = super.menorInfluencia();
-			muerto.recibirHerida(false);
-			muerto.recibirHerida(false);
-			muerto.recibirHerida(false);
+			muerto = super.menorInfluencia();
+			if(muerto != null) {
+				muerto.recibirHerida(false);
+				muerto.recibirHerida(false);
+				muerto.recibirHerida(false);
+			}
 			noColocados--;
 		}
 		
@@ -252,7 +258,7 @@ public class Colonia extends Localizacion {
 				salida[0] += colocados[i]; 
 			}
 		}
-		
+		zombiesExternos = 0;
 		salida [1] = Integer.toString(muertos);
 		
 		return salida;
@@ -289,6 +295,10 @@ public class Colonia extends Localizacion {
 		
 		//DEVUELVE LA PUERTA Y LA CASILLA EN LA QUE SE HA COLOCADO
 		return Integer.toString(i) + "|" + Integer.toString(j);
+	}
+	
+	public void addZombiesExternos(int num) {
+		zombiesExternos+= num;
 	}
 	
 	//GETTERS Y SETTERS

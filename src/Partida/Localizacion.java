@@ -186,6 +186,7 @@ public class Localizacion {
 				salida++;
 			}
 		}
+		tokensDeRuido = 0;
 		
 		return salida;
 	}
@@ -220,12 +221,15 @@ public class Localizacion {
 			}
 			i++;
 		}
-		Carta_Supervivientes sup = menorInfluencia();
+		Carta_Supervivientes sup;
 		
-		if(!colocado && sup != null) {
-			sup.recibirHerida(false);
-			sup.recibirHerida(false);
-			sup.recibirHerida(false);
+		if(!colocado) {
+			sup = menorInfluencia();
+			if(sup != null) {
+				sup.recibirHerida(false);
+				sup.recibirHerida(false);
+				sup.recibirHerida(false);
+			}
 		}
 		
 		return casillas;

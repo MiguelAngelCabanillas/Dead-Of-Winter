@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -45,6 +46,7 @@ public class InfoJugador extends JFrame {
 	private static boolean turno;
 	private static List<Integer> supJugadores;
 	private static List<Integer> cartasJugador;
+	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
 	private JButton botonesCarta[];
 	private JButton botoneSuperviviente[];
 	private JLabel labelsDados[];
@@ -62,7 +64,7 @@ public class InfoJugador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados,turno);
+					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados,turno,heridasNormales,heridasCong);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,7 +74,7 @@ public class InfoJugador extends JFrame {
 	}
 
 	public InfoJugador(List<Integer> supJugadores, List<Integer> cartasJugador, int objetivoSecreto,
-			Asociaciones aso, List<Integer> dados, boolean t) {
+			Asociaciones aso, List<Integer> dados, boolean t, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -80,6 +82,9 @@ public class InfoJugador extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
+		
+		heridasNormales = hN;
+		heridasCong = hC;
 		
 		asociaciones = aso;
 		turno = t;
@@ -229,14 +234,14 @@ public class InfoJugador extends JFrame {
 				auxSuper.dispose();
 			} 
 			
-			try {
+			/*try {
 				FrameTablero.pedirHeridas(Integer.parseInt(botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()));
 				Thread.sleep(300);
 			} catch (InterruptedException | NumberFormatException | IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), FrameTablero.getHeridas());
+			}*/
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong);
 			auxSuper.setVisible(true);
 			
     	}
