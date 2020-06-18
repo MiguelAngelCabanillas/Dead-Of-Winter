@@ -1,5 +1,6 @@
 package Partida;
 
+import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -102,14 +103,16 @@ public class Jugador {
 	}
 	
 	public void matar() {
-		int tam = this.mazoSuperviviente.size();
 		Carta_Supervivientes aux;
 		Localizacion loc;
-		for(int i = 0; i < tam;) {
+		int i = 0;
+		
+		while(i < this.mazoSuperviviente.size()) {
 			 aux = this.mazoSuperviviente.get(i);
+			 loc = localizacion(aux);
 			if (aux.estaMuerto()) {
 				this.mazoSuperviviente.remove(aux);
-				tam--;
+				loc.eliminarSuperviviente(aux);
 			}else {
 				i++;
 			}
@@ -118,7 +121,7 @@ public class Jugador {
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
 	public int valorDado(int valor) throws DadoException {
-		int menor = -1; int i = 0; int sal = -1;
+		int menor = 1000; int sal = -1;
 		
 		//SI NO HAY DADOS MANDO MENSAJE DISTINTO
 		if(dados.getDados().size() == 0) {
@@ -127,12 +130,8 @@ public class Jugador {
 		
 		for(int d : dados.getDados()) {
 			if(d >= valor) {
-				if(menor == -1 || menor > d) {
-					menor = d;
-					sal = i;
-				}
+				menor = Math.min(menor, d);
 			}
-			i++;
 		}
 		
 		return sal;

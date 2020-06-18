@@ -638,11 +638,6 @@ public class Principal {
 		String muertos = "";
 		List<Carta_Supervivientes> aux = jugadorActual.getMazoSuperviviente();
 		
-		//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
-		for(Carta_Supervivientes personaje : aux) {
-			personaje.congelamiento();
-		}
-		
 		//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
 		Carta_Supervivientes personaje;
 		int i = 0;
@@ -671,14 +666,24 @@ public class Principal {
 		for(Jugador j : jugadores) {
 			aux = j.getMazoSuperviviente();
 			
-			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
+			//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
 			for(Carta_Supervivientes personaje : aux) {
+				personaje.congelamiento();
+			}
+			
+			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
+			Carta_Supervivientes personaje;
+			int i = 0;
+			
+			while(i < aux.size()) {
+				personaje = aux.get(i);
 				if(personaje.estaMuerto()) {
 					if(muertos != "") {
 						muertos += "|";
 					}
 					muertos += + j.getId() + "|" + personaje.getId();
 				}
+				i++;
 			}
 			j.matar();
 		}
