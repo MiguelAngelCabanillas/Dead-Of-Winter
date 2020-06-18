@@ -27,12 +27,13 @@ import javax.swing.SwingConstants;
 public class FrameCartasAportadas extends JFrame {
 	
 	private JPanel contentPane;
+//	private static int idCrisisR;
 	private JLabel botoneCartas[];
 	private static List<Integer> cartas;
 	private static Asociaciones asociaciones;
-	private Point posCartaSuperviviente[] = {new Point(32, 40), new Point(230, 40), new Point(433, 40), new Point(643, 40), new Point(841, 40)
-			, new Point(32, 280), new Point(230, 280), new Point(433, 280), new Point(643, 280), new Point(841, 280),
-			new Point(32, 520), new Point(230, 520), new Point(433, 520), new Point(643, 520), new Point(841, 520)};
+	private Point posCartaSuperviviente[] = {new Point(32, 94), new Point(230, 94), new Point(433, 94), new Point(643, 94), new Point(841, 94)
+			, new Point(32, 334), new Point(230, 334), new Point(433, 334), new Point(643, 334), new Point(841, 334),
+			new Point(32, 574), new Point(230, 574), new Point(433, 574), new Point(643, 574), new Point(841, 574)};
 
 	/**
 	 * Launch the application.
@@ -41,7 +42,7 @@ public class FrameCartasAportadas extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCartasAportadas frame = new FrameCartasAportadas(cartas, asociaciones);
+					FrameCartasAportadas frame = new FrameCartasAportadas(cartas, asociaciones/*, idCrisisR */);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,12 +53,12 @@ public class FrameCartasAportadas extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * 29 nueva lenght/height
+	 * 29 nueva lenght/height, 54
 	 */
-	public FrameCartasAportadas(List<Integer> cartasAportadas, Asociaciones aso) {
+	public FrameCartasAportadas(List<Integer> cartasAportadas, Asociaciones aso/*, int idCrisisRes*/) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
-		setBounds(100, 100, 1041, 798);
+		setBounds(100, 100, 1041, 852);
 		setBackground(new Color(0, 0, 0, 10));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,34 +69,57 @@ public class FrameCartasAportadas extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
 		
-		JButton btnNewButton = new JButton("Volver");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		btnNewButton.setBounds(433, 758, 155, 34);
-		contentPane.add(btnNewButton);
-		
-		JLabel lblAportacionesCrisis = new JLabel("Cartas Aportadas a la Crisis:");
-		lblAportacionesCrisis.setFont(new Font("Castellar", Font.BOLD, 24));
-		lblAportacionesCrisis.setForeground(Color.WHITE);
-		lblAportacionesCrisis.setBounds(10, 11, 487, 29);
-		contentPane.add(lblAportacionesCrisis);
-		
-		JLabel lblNewLabel = new JLabel("Crisis Fallida");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 24));
-		lblNewLabel.setBounds(634, 11, 217, 29);
-		contentPane.add(lblNewLabel);
-		
-		
 		botoneCartas = new JLabel[15];
 		
 		int tamSupervivientes = cartasAportadas.size();
 		ImageIcon icon;
 		Image img;
 		Point p;
+		
+		
+		JButton btnNewButton = new JButton("Volver");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton.setBounds(435, 807, 155, 34);
+		contentPane.add(btnNewButton);
+		
+		JLabel lblAportacionesCrisis = new JLabel("");
+		lblAportacionesCrisis.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CAportadas.png")));
+		lblAportacionesCrisis.setFont(new Font("Castellar", Font.BOLD, 24));
+		lblAportacionesCrisis.setForeground(Color.WHITE);
+		lblAportacionesCrisis.setBounds(34, 36, 390, 28);
+		contentPane.add(lblAportacionesCrisis);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 24));
+		lblNewLabel.setBounds(479, 23, 446, 54);
+		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png"))); //Metida de prueba
+//		switch (idCrisisRes) {
+//		case 0:
+//			lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CFallida.png")));
+//			break;
+//		case 1:
+//		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CResuelta.png")));			
+//			break;
+//		case 2:
+//		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png")));			
+//			break;
+//		default:
+//			break;
+//		}
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(34, 64, 390, 2);
+		contentPane.add(separator);
+		//565 y 67
+		contentPane.add(lblNewLabel);
+		
+		
+		
 		
 		for(int z = 0; z < tamSupervivientes; z++) {
 			p = posCartaSuperviviente[z];
