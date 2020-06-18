@@ -17,6 +17,7 @@ public class Localizacion {
 	
 	//DATOS PARA LA INTERFAZ
 	private int id;
+	private int zombiesExternos;
 	
 	//DATOS PARA EL MOVIMIENTO
 	private List<CasillasZombie> casillasZombie;
@@ -43,7 +44,7 @@ public class Localizacion {
 		
 		this.mazo = m;
 		this.tokensDeRuido = 0;
-		
+		zombiesExternos = 0;
 
 		for(int i = 0; i < zombies; i++) {
 			anyadirZombie();
@@ -105,73 +106,83 @@ public class Localizacion {
 		String [] aux = new String[2];
 		int numZombies = this.supervivientes.size();
 		numZombies += zombiesPorRuido();
+		numZombies += + zombiesExternos;
 		CasillasZombie hueco;
-		int i = 0;
+		int i;
+		boolean colocado;
+		int colocados = 0;
 		
-		while(numZombies > 0 && i < casillasZombie.size()) {
-			hueco = casillasZombie.get(i);
-			if(numZombies > 0 && !hueco.getHayZombie() && !hueco.getHayBarricada()) {
-				hueco.setHayZombie(true);
-				if(aux[0] != null) {
-					aux[0] += i;
-				}else {
-					aux[0] = Integer.toString(i);
+		for(int j = 0; j < numZombies; j++) {
+			colocado = false;
+			i = 0;
+			
+			while(!colocado && i < casillasZombie.size()) {
+				hueco = casillasZombie.get(i);
+				if(!hueco.getHayZombie() && !hueco.getHayBarricada()) {
+					hueco.setHayZombie(true);
+					if(aux[0] != null) {
+						aux[0] += i;
+					}else {
+						aux[0] = Integer.toString(i);
+					}
+					colocado = true;
+					colocados++;
 				}
-				
-				numZombies--;
+				i++;
 			}
-			i++;
+			i = 0;
+	
+			while(!colocado && i < casillasZombie.size()) {
+				hueco = casillasZombie.get(i);
+				if(hueco.getHayBarricada()) {
+					hueco.setHayBarricada(false);
+					if(aux[0] != null) {
+						aux[0] += (i + 4);
+					}else {
+						aux[0] = Integer.toString(i + 4);
+					}
+					colocado = true;
+					colocados++;
+				}
+				i++;
+			}
+//			i = 0;
+//			
+//			while(!colocado && i < casillasZombie.size()) {
+//				hueco = casillasZombie.get(i);
+//				if(!hueco.getHayZombie() && !hueco.getHayBarricada()) {
+//					hueco.setHayZombie(true);
+//					if(aux[0] != null) {
+//						aux[0] += i;
+//					}else {
+//						aux[0] = Integer.toString(i);
+//					}
+//					colocado = true;
+//					colocados++;
+//				}
+//				i++;
+//			}
 		}
 		
-		i = 0;
-
-		while(numZombies > 0 && i < casillasZombie.size()) {
-			hueco = casillasZombie.get(i);
-			if(numZombies > 0 && hueco.getHayBarricada()) {
-				hueco.setHayBarricada(false);
-				if(aux[0] != null) {
-					aux[0] += (i + 4);
-				}else {
-					aux[0] = Integer.toString(i + 4);
-				}
-				
-				numZombies--;
-			}
-			i++;
-		}
-		
-		i = 0;
-		
-		while(numZombies > 0 && i < casillasZombie.size()) {
-			hueco = casillasZombie.get(i);
-			if(numZombies > 0 && !hueco.getHayZombie() && !hueco.getHayBarricada()) {
-				hueco.setHayZombie(true);
-				if(aux[0] != null) {
-					aux[0] += i;
-				}else {
-					aux[0] = Integer.toString(i);
-				}
-				
-				numZombies--;
-			}
-			i++;
-		}
-		
-		int muertos = numZombies;
+		int muertos = numZombies - colocados;
 		Carta_Supervivientes muerto;
 		//SE MATA A LOS SUPERVIVIENTES SOBRANTES
-		while(numZombies > 0 && supervivientes.size() > 0) {
-			 muerto = menorInfluencia();
-			muerto.recibirHerida(false);
-			muerto.recibirHerida(false);
-			muerto.recibirHerida(false);
-			numZombies--;
+		while(muertos > 0 && supervivientes.size() > 0) {
+			muerto = menorInfluencia();
+			if(muerto != null) {
+				muerto.recibirHerida(false);
+				muerto.recibirHerida(false);
+				muerto.recibirHerida(false);
+			}
+			muertos--;
 		}
 		
 		//CAMBIAMOS LOS NULL POR ESPACIOS
 		if(aux[0] == null) {
 			aux[0] = "";
 		}
+		
+		zombiesExternos = 0;
 		
 		aux[1] = Integer.toString(muertos);
 		
@@ -367,6 +378,10 @@ public class Localizacion {
 	
 	public void irse(Carta_Supervivientes personaje) {
 		supervivientes.remove(getPosicion(personaje));
+	}
+	
+	public void addZombiesExternos(int num) {
+		zombiesExternos+= num;
 	}
 	
 	//METODOS DE CLASE

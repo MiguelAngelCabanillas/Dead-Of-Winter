@@ -644,7 +644,7 @@ private BufferedReader buffer;
 		int cont = user.getSala().getContTurnos();
 		cont--;
 		user.getSala().setContTurnos(cont);
-		Thread.sleep(300);
+		Thread.sleep(400);
 		if(cont == 0) { //////////////////////////////////////////ACABA UNA RONDA
 			String contribuciones = user.getSala().getPartida().cartasContrib(); //contribuciones a la crisis
 			System.out.println(contribuciones);
