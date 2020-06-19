@@ -432,17 +432,21 @@ public class Jugador {
 		return salida + "|" + Integer.toString(cartasBuscadas) + "|" + Integer.toString(dado);
 	}
 	
-	public String hacerRuido() {
-		Carta aux = locCartas.cogerCarta();
-		locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
-		
+	public String hacerRuido() throws BuscarException {
 		String salida = "";
-		for(Carta c : buffer) {
-			salida += c.getId() + "|";
+		if(locCartas.getTokensDeRuido() >= 4) {
+			Carta aux = locCartas.cogerCarta();
+			locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
+			
+			for(Carta c : buffer) {
+				salida += c.getId() + "|";
+			}
+			
+			salida += aux.getId();
+			buffer.add(aux);
+		}else {
+			throw new BuscarException("Ya no se puede hacer más ruido en esta localización");
 		}
-		
-		salida += aux.getId();
-		buffer.add(aux);
 		
 		return salida;
 	}

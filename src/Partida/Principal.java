@@ -270,7 +270,7 @@ public class Principal {
 		jugadorActual.confirmarCarta(idCarta);
 	}
 	
-	public String hacerRuido() {
+	public String hacerRuido() throws BuscarException {
 		return jugadorActual.hacerRuido();
 	}
 	
@@ -460,7 +460,7 @@ public class Principal {
 	public void pasaTurno(int id) {
 		//RESETEAMOS HABILIDAD Y MOVIMIENTO
 		jugadorActual.resetHab();
-		
+		jugadorActual.setGasolina(false);
 		//RESETEAMOS EL BUFFER DE CARTAS
 		jugadorActual.resetBuffer();
 		jugadorActual = jugadores.get(id);
@@ -568,6 +568,10 @@ public class Principal {
 	
 	public int getVertedero() {
 		return vertedero;
+	}
+	
+	public int getHambre() {
+		return hambre;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
