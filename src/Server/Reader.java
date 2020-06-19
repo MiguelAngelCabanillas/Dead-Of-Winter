@@ -424,7 +424,7 @@ private BufferedReader buffer;
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
 						if(Integer.parseInt(enc[0]) >= 100) { //evento
-							user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[1]);
+							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[1]);
 							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
 						} else {
 							int indNCartas = enc.length - 2;
@@ -454,7 +454,7 @@ private BufferedReader buffer;
 						
 						String [] cRui = rui.split("\\|");
 						if(Integer.parseInt(cRui[0]) >= 100) {
-							user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
+							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
 							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
 						} else {
 							String carts = "";
@@ -463,7 +463,7 @@ private BufferedReader buffer;
 								carts += "|" + cRui[c];
 								c++;
 							}
-							
+						
 							user.hacerPeticionAlServidor("hacerRuido" + carts);
 							user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
 							user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
