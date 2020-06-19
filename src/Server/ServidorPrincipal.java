@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ServidorPrincipal {
 
-	public static final String IP_SERVER = "25.66.43.164";
+	public static final String IP_SERVER = "25.68.151.207";
 
 	public static final int PUERTO_SERVER = 12975;
 	

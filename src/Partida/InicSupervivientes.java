@@ -212,10 +212,10 @@ public class InicSupervivientes {
 		
 		while(aux == null) {
 			id = r.nextInt(31) + 100;
-			aux = cartas.get(id);
+			aux = personajes.get(id);
 		}
 		
-		cartas.remove(id);
+		personajes.remove(id);
 		return aux;
 	}
 }

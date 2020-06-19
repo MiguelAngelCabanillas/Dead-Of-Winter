@@ -452,6 +452,8 @@ private BufferedReader buffer;
 					try {
 						rui = user.getSala().getPartida().hacerRuido(); //si hay evento idSup|dado
 						
+						System.out.println("El server recibe: " + rui);
+						
 						String [] cRui = rui.split("\\|");
 						if(Integer.parseInt(cRui[0]) >= 100) {
 							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
@@ -465,9 +467,9 @@ private BufferedReader buffer;
 							}
 						
 							user.hacerPeticionAlServidor("hacerRuido" + carts);
-							user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
-							user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 						}
+						user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
+						user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 						
 					} catch (BuscarException e1) {
 						user.hacerPeticionAlServidor("error|" + e1.getMessage());
@@ -516,28 +518,36 @@ private BufferedReader buffer;
 					}
 					break;
 				case "usarCarta":
-					String sal = "";
-					int idCarta = Integer.parseInt(split[3]);
-					if(idCarta == 3) {
-						sal = user.getSala().getPartida().getVecinos();
-						user.hacerPeticionAlServidor("medicina|" + sal);
-					} else {
-						sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]);
-						if( idCarta <= 2 ) {
-							user.hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+					try {
+						String sal = "";
+						int idCarta = Integer.parseInt(split[3]);
+						if(idCarta == 3) {
+							sal = user.getSala().getPartida().getVecinos();
+							user.hacerPeticionAlServidor("medicina|" + sal);
+						} else {
+							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
+							if( idCarta <= 2 ) {
+								user.hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+							}
 						}
+						
+						user.hacerPeticionAlServidor("rmCarta|" + idCarta);
+						user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
+						user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
+						
+						break;
+					}catch (Exception e){
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
-					
-					user.hacerPeticionAlServidor("rmCarta|" + idCarta);
-					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
-					user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
-					
-					break;
 				case "medicina": //medicina|idSup curar a un superviviente
-					user.getSala().getPartida().usarCarta(3, Integer.parseInt(split[3]));
-					user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-					user.enviarALaSala(user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
-					break;
+					try {
+						user.getSala().getPartida().usarCarta(3, Integer.parseInt(split[3]));
+						user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+						user.enviarALaSala(user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
+						break;
+					}catch (Exception e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
+					}
 				case "gastarComida":
 //					user.hacerPeticionAlServidor("rmCarta|0");
 //					user.enviarALaSala("updtCartas|0|-1");
