@@ -83,7 +83,7 @@ public class ClientReader implements Runnable {
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
                 	int idSup,posValCol;
-                	while(split[i] != null) {
+                	while(i < split.length) {
                 		idJug = Integer.parseInt(split[i-1]);
                 		idSup = Integer.parseInt(split[i]);
                 		posValCol = Integer.parseInt(split[i+1]);

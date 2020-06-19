@@ -347,36 +347,45 @@ public class Principal {
 		return msg;
 	}
 	
-	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException, GasolinaException {
+	public String usarCarta(int idCarta, int idSup) throws HeridaException, GasolinaException, DadoException {
 		String salida = "";
 		
 			//COMIDA
 		switch (idCarta) {
 		case 0: comida += 1;
 		jugadorActual.eliminarCarta(idCarta);
+		vertedero++;
 			break;
 		case 1 : comida += 2;
 		jugadorActual.eliminarCarta(idCarta);
+		vertedero++;
 			break;
 		case 2 : comida += 3;
 		jugadorActual.eliminarCarta(idCarta);
+		vertedero++;
 			break;
 		case 3 : {
 			//MEDICINA
-			Carta_Supervivientes aux = jugadorActual.getSupConId(idSup);
-			if(aux.getHeridas() == 0) {
-				throw new HeridaException("El superviviente no tiene heridas");
-			}
+			Carta_Supervivientes aux = supervivientes.getSuperviviente(idSup);
 			aux.curarHerida();
+			jugadorActual.eliminarCarta(idCarta);
+			vertedero++;
 		}
 			break;
 			//TRASTOS
-		case 4 : jugadorActual.getDados().resetUnDado(idDado);;
+		case 4 : 
+		int idDado = jugadorActual.valorDado(1);
+		jugadorActual.getDados().resetUnDado(idDado);
+		jugadorActual.eliminarCarta(idCarta);
+		vertedero++;
+		salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
 			//GASOLINA
 		case 5 : {
 			if(!jugadorActual.getGasolina()) {
 				jugadorActual.setGasolina(true);
+				jugadorActual.eliminarCarta(idCarta);
+				vertedero++;
 			}else {
 				throw new GasolinaException("Ya has usado gasolina");
 			}
@@ -419,6 +428,10 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	public String getInutiles(){
+		return Integer.toString(tablero.getColonia().getInutiles());
+	}
+	
 	public String getMuertos() {
 		return muertos;
 	}
@@ -482,8 +495,9 @@ public class Principal {
 		
 		//LA COMIDA QUE SE GASTA ES IGUAL A LA MITAD DE LOS SUPERVIVIENTES DE LA COLONIA REDONDEANDO HACIA ARRIBA
 		int comidaGastada = (int) Math.round((double) (tablero.getColonia().getSupervivientes().size() + (23 - tablero.getColonia().getInutiles())));
+		System.out.println("Comida: " + comida + "\n Gastada: " + comidaGastada);
 		if(comida >= comidaGastada) {
-			comida += comidaGastada;
+			comida -= comidaGastada;
 		}else {
 			moral -= (hambre + 1);
 			hambre++;
@@ -575,9 +589,39 @@ public class Principal {
 		return hambre;
 	}
 	
+	public String getVecinos() throws HeridaException {
+		String msg = "";
+		for(Carta_Supervivientes sup : buscarSuperviviente()) {
+			msg += sup.getId() + "|";
+		}
+		
+		if(msg.contentEquals("")) {
+			throw new HeridaException("No hay ningún superviviente herido");
+		}
+		
+		return msg;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS AUXILIARES
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	private List<Carta_Supervivientes> buscarSuperviviente(){
+		List<Carta_Supervivientes> supDelJugador = jugadorActual.getMazoSuperviviente();
+		List<Carta_Supervivientes> salida = new ArrayList<>();
+		
+		for(Jugador j : jugadores) {
+			for(Carta_Supervivientes sup : j.getMazoSuperviviente()) {
+				for(Carta_Supervivientes supJug : supDelJugador) {
+					if(j.localizacion(sup).equals(jugadorActual.localizacion(supJug)) && sup.getHeridas() + sup.getCongelamiento() != 0) {
+						salida.add(sup);
+					}
+				}
+			}
+		}
+		
+		return salida;
+	}
+	
 	private String actualizarTablero() {
 		String aux = "";
 		if(!crisisActual.pasada()) {
