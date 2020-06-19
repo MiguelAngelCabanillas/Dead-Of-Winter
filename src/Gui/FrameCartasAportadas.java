@@ -27,7 +27,7 @@ import javax.swing.SwingConstants;
 public class FrameCartasAportadas extends JFrame {
 	
 	private JPanel contentPane;
-//	private static int idCrisisR;
+	private static int idCrisisR;
 	private JLabel botoneCartas[];
 	private static List<Integer> cartas;
 	private static Asociaciones asociaciones;
@@ -42,7 +42,7 @@ public class FrameCartasAportadas extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCartasAportadas frame = new FrameCartasAportadas(cartas, asociaciones/*, idCrisisR */);
+					FrameCartasAportadas frame = new FrameCartasAportadas(cartas, asociaciones, idCrisisR);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +55,7 @@ public class FrameCartasAportadas extends JFrame {
 	 * Create the frame.
 	 * 29 nueva lenght/height, 54
 	 */
-	public FrameCartasAportadas(List<Integer> cartasAportadas, Asociaciones aso/*, int idCrisisRes*/) {
+	public FrameCartasAportadas(List<Integer> cartasAportadas, Asociaciones aso, int idCrisisRes) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 1041, 852);
@@ -97,20 +97,20 @@ public class FrameCartasAportadas extends JFrame {
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 24));
 		lblNewLabel.setBounds(479, 23, 446, 54);
-		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png"))); //Metida de prueba
-//		switch (idCrisisRes) {
-//		case 0:
-//			lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CFallida.png")));
-//			break;
-//		case 1:
-//		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CResuelta.png")));			
-//			break;
-//		case 2:
-//		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png")));			
-//			break;
-//		default:
-//			break;
-//		}
+//		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png"))); //Metida de prueba
+		switch (idCrisisRes) {
+		case 0:
+			lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CFallida.png")));
+			break;
+		case 1:
+		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CResuelta.png")));			
+			break;
+		case 2:
+		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png")));			
+			break;
+		default:
+			break;
+		}
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(34, 64, 390, 2);
