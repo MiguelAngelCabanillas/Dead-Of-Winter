@@ -93,6 +93,10 @@ public class ClientReader implements Runnable {
                 	}
                 	break;
                 	
+                case "addSupInd": //addSupInd|casilla -> casilla a partir de la cual rellenamos supervivientes hasta el final de la colonia
+                	tablero.addSupInd(Integer.parseInt(split[1]));
+                	break;
+                	
                 case "rmSup": // rmSup|idJug|idSup
                 	tablero.borrarSuperviviente(Integer.parseInt(split[2]));
                 	tablero.rmSupJuga(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
@@ -202,6 +206,10 @@ public class ClientReader implements Runnable {
                 	tablero.removeDado(Integer.parseInt(split[1]));
                 	break;
                 	
+                case "tiradaRiesgo": //tiradaRiesgo|resultado
+                	tablero.tiradaDeRiesgo(Integer.parseInt(split[1]));
+                	break;
+                	
                 case "addCarta": //addCarta|idCarta|posDadoGastado
                 	tablero.addCartaJug(Integer.parseInt(split[1]));
                 	break;
@@ -263,7 +271,7 @@ public class ClientReader implements Runnable {
                 	FrameTablero.setCartasEncontradas(cartas);
                 	break;
                 	
-                case "hacerRuido":
+                case "hacerRuido": //hacerRuido|idCarta|idCarta
                 	List<Integer> c = new ArrayList<>();
                 	for(int m = 1; m < split.length; m++) {
                 		c.add(Integer.parseInt(split[m]));
@@ -272,12 +280,13 @@ public class ClientReader implements Runnable {
                 	break;
                 	
                 case "addFichRuido": //addFichRuido|loc|posVal
+                	System.out.println("AÑADIR FICHA DE RUIDO EN LOCALIZACION " + split[1] + ", POSICION " + split[2]);
                 	tablero.addFichRuido(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
                 	break;
                 	
-                case "rmFichRuido": //rmFichRuido|loc|posVal
-                	tablero.deleteFichRuido(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-                	break;
+//                case "rmFichRuido": //rmFichRuido|loc|posVal
+//                	tablero.deleteFichRuido(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+//                	break;
                 	
                 case "fichasComida": //fichasComida|num
                 	tablero.setFichComida(Integer.parseInt(split[1]));
@@ -296,6 +305,14 @@ public class ClientReader implements Runnable {
                 	}else if(split[1].trim().equals("fallo")) {
                 		tablero.crisisResult(0);
                 	}
+                	break;
+                	
+                case "medicina": //medicina|idSup|idSup|idSup... (todos los upervivientes y sus vecinos con heridas)
+                	List<Integer> list = new ArrayList<>();
+                	for(int j=1;j<split.length;j++) {
+                		list.add(Integer.parseInt(split[j]));
+                	}
+                	tablero.seleccionSupervivientes(list, "medicina");
                 	break;
                 	                	
                 default:

@@ -129,6 +129,11 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				dispose();
 				break;
+			
+			case "medicina":
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				dispose();
+				break;
 				
 			case "vaciar":
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());

@@ -55,6 +55,7 @@ public class FrameTablero extends JFrame {
 	private List<Point[]> locZombies; //localizaciones zombies/barricadas
 	private List<Point[]> locFichRuido; //localizaciones fichas de ruido
 	private List<Integer> cartasResolucionCrisis; //cartas aportadas a la crisis cuando termina la ronda
+	private List<JLabel> labelsSupInd;
 	private static List<Integer> cartEncont;
 	private HashMap<Integer,Integer> heridasNormales;
 	private HashMap<Integer,Integer> heridasCong;
@@ -273,6 +274,19 @@ public class FrameTablero extends JFrame {
 			labelsFichRuido.add(auxListR);
 		}
 		
+//////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS SUPERVIVIENTES INDEFENSOS
+		
+		labelsSupInd = new ArrayList<>();
+		for(int i=0;i<locColonia.length;i++) {
+			aux = new JLabel("");
+			p = locColonia[0];
+			aux.setBounds(p.x,p.y, 36, 34);
+			aux.setIcon(imgCircular("images/Fichas/fichaSupIndefenso.png",36,34));
+			aux.setVisible(false);
+			contentPane.add(aux);
+			labelsSupInd.add(aux);
+		}
+		
 //////////////////////////////////////////////////////////////////////////////////////////TODO: LABELS AUXILIARES		
 		
 		///LABELS CARTAS DE BÚSQUEDA DE OBJETOS
@@ -364,21 +378,6 @@ public class FrameTablero extends JFrame {
 				}
 				frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|buscar|", supJugadores.get(idJug), aso);
 				frameSeleccionar.setVisible(true);
-				/////////
-				//Para probar el frameCartasEncontradas (hay que ver como conectarlo)
-				////////
-//				if(auxCartasEncontradas != null) {
-//					auxCartasEncontradas.dispose();
-//				}
-//				List<Integer> cartitasDeMiguelito = new ArrayList<Integer>();
-//				cartitasDeMiguelito.add(0);
-//				cartitasDeMiguelito.add(5);
-//				cartitasDeMiguelito.add(3);
-//				cartitasDeMiguelito.add(10);
-//				cartitasDeMiguelito.add(4);
-//				cartitasDeMiguelito.add(11);
-//				auxCartasEncontradas = new FrameCartasEncontradas(cartitasDeMiguelito, aso);
-//				auxCartasEncontradas.setVisible(true);
 			}
 		});
 		btnBuscar.setBounds(12, 144, 115, 41);
@@ -654,7 +653,7 @@ public class FrameTablero extends JFrame {
 		btnVertedero.setBounds(973, 539, 173, 112);
 		btnVertedero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero); //TODO: HACER FRAME
+				JOptionPane.showMessageDialog(null, "Numero de cartas en vertedero: " + vertedero);
 			}
 		});
 		btnVertedero.setOpaque(false);
@@ -897,6 +896,14 @@ public class FrameTablero extends JFrame {
 		supIndMap.put(id,aux);
 	}
 	
+	public void addSupInd(int posDePartida) {
+		for(int i=posDePartida;i<locColonia.length;i++) {
+			aux = labelsSupInd.get(i);
+			aux.setVisible(true);
+			contentPane.setComponentZOrder(aux, contentPane.getComponentZOrder(lblTablero)-1);
+		}
+	}
+	
 	//PASAMOS ID DEL SUPERVIVIENTE A MOVER, ID DE LA LOCALIZACION A MOVER, POS DENTRO DE LA LOCALIZACION
 	public void moverSuperviviente(int id, int loc, int pos) {
 		aux = supMap.get(id)[0];
@@ -1071,7 +1078,7 @@ public class FrameTablero extends JFrame {
 	public static void setCartasEncontradas(List<Integer> l){
 		cartEncont = new ArrayList<>();
 		cartEncont.addAll(l);
-		System.out.println("Cartas Encontradas: " + cartEncont.toString()); //TODO: CartEncontr
+		System.out.println("Cartas Encontradas: " + cartEncont.toString()); 
 	}
 	
 	public static List<Integer> getCartasEncontradas(){
@@ -1118,7 +1125,11 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void inicRuido() {
-		
+		for(int i=0;i < labelsFichRuido.size();i++) {
+			for(int j=0;j < labelsFichRuido.get(i).size();j++) {
+				labelsFichRuido.get(i).get(j).setVisible(false);
+			}
+		}
 	}
 	
 	public void cartasAportadas(int idCarta) {
@@ -1138,6 +1149,14 @@ public class FrameTablero extends JFrame {
 		crisisRes = s;
 	}
 	
+	public void seleccionSupervivientes(List<Integer> list, String comando) {
+		//TODO: FRAME GENERICO PARA 
+		if(frameSeleccionar != null) {
+			frameSeleccionar.dispose();
+		}
+		frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|"+comando+"|", list, aso);
+		frameSeleccionar.setVisible(true);
+	}
 	
 	public static void enviarComando(String command) {
 		try {
