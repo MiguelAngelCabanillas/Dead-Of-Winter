@@ -99,7 +99,7 @@ public class Principal {
 						
 				mazoJugador.add(aux);
 			}
-			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo));
+			jugadores.add(new Jugador(i, mazoJugador, tablero, objetivo, supervivientes));
 		}
 		
 		//SE TIRAN LOS DADOS
@@ -449,8 +449,8 @@ public class Principal {
 		inicMazos();
 		inicTablero(numJugadores);
 		inicJugadores(numJugadores);
+		crisis = new InicCrisis(numJugadores);
 		
-		crisis = new InicCrisis(jugadores.size());
 		crisisActual = crisis.getCrisis();
 
 		jugadorActual = jugadores.get(0);
@@ -505,6 +505,8 @@ public class Principal {
 		}else {
 			sB.append("fallo");
 		}
+		
+		System.out.println("Numero de aportaciones = " + crisisActual.getActuales() + "\nNumero de aportaciones necesarias = " + crisisActual.getNecesarias());
 		return sB.toString();
 	}
 	

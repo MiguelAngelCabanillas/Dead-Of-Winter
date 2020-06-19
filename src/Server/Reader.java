@@ -551,6 +551,9 @@ private BufferedReader buffer;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (BuscarException e1) {
+			// TODO Auto-generated catch block
+			
 		}
 			finally {
 		

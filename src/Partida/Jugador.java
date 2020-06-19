@@ -32,12 +32,13 @@ public class Jugador {
 	//DATOS DE CONTROL
 	private Tablero tablero;
 	private Localizacion locCartas;
+	private InicSupervivientes supervivientes;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o) {
+	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o, InicSupervivientes s) {
 		this.id = id;
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
@@ -51,6 +52,7 @@ public class Jugador {
 		this.objetivo = o;
 		
 		tablero = t;
+		supervivientes = s;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -345,10 +347,6 @@ public class Jugador {
 		return salida;
 	}
 	
-//	public int atacarPersona(int personaje) {
-//		return valorDado(getSupConId(personaje).getAtaque()).usar();
-//	}
-	
 	public String barricada(int id) throws BarricadaException, DadoException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
@@ -396,7 +394,9 @@ public class Jugador {
 				aux = locCartas.cogerCarta();
 				
 				if(aux.getId() == 6) {
-					//salida += 
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					
+//					salida += encontrado.getId();
 				}else if(aux.getId() == 7){
 					
 				}else if(aux.getId() == 8) {
@@ -434,7 +434,7 @@ public class Jugador {
 	
 	public String hacerRuido() throws BuscarException {
 		String salida = "";
-		if(locCartas.getTokensDeRuido() >= 4) {
+		if(locCartas.getTokensDeRuido() < 4) {
 			Carta aux = locCartas.cogerCarta();
 			locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
 			
