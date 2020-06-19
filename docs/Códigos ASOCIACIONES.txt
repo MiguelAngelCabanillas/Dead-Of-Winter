@@ -1,0 +1,116 @@
+OBJETOS [0-34]-------------------------
+	- Comida 1 -> 0
+	- Comida 2 -> 1
+	- Comida 3 -> 2
+	- Medicina -> 3
+	- Trastos -> 4
+	- Gasolina -> 5
+	- Superviviente 1 -> 6
+	- Superviviente 2 -> 7
+	- Superviviente 3 -> 8
+	- Francotirador -> 9
+	- Pistola -> 10
+	- Escopeta -> 11
+	- Plano Super -> 12
+	- Plano Comisaria -> 13
+	- Plano Gasolinera -> 14
+	- Plano Hospital -> 15
+	- Plano Biblio -> 16
+	- Plano Colegio -> 17
+	- Libro Artes Marciales -> 18
+	- Libro DadosMas -> 19
+	- Libro FBarricada -> 20
+	- Libro NoMov -> 21
+	- Libro MasComida -> 22
+	- Bate Beisbol -> 23
+	- Candado -> 24
+	- Carne Podrida -> 25
+	- Fregona -> 26
+	- Gafas Nocturnas -> 27
+	- Lampara Oficina -> 28
+	- Linterna -> 29
+	- Llave Inglesa-> 30
+	- Martillo -> 31
+	- Megafono -> 31
+	- Raquetas Nieve -> 32
+	- Tijeras -> 33
+	- Adrenalina -> 34
+
+
+
+SUPERVIVIENTES [100-130]-----------------
+	- Alexis Grey -> 100
+	- Andrew Evanjs -> 101
+	- Annaleigh Chan -> 102
+	- Arthur Thurston -> 103
+	- Ashley Ross -> 104
+	- Bev Russell -> 105
+	- Brandon Kane -> 106
+	- Brian Lee -> 107
+	- Buddy Davis -> 108
+	- Carla Thompson -> 109
+	- Daniel Smith -> 110
+	- David Garcia -> 111
+	- Edward White -> 112
+	- Forest Plum -> 113
+	- Gabriel Diaz -> 114
+	- Gray Beard -> 115
+	- Harman Brooks -> 116
+	- James Meyers -> 117
+	- Janet Taylor -> 118
+	- Jenny Clark -> 119
+	- John Price -> 120
+	- Kodiak Colby -> 121
+	- Loretta Clay -> 122
+	- Maria Lopez -> 123
+	- Mike Cho -> 124
+	- Olivia Brown -> 125
+	- Rod Miller -> 126
+	- Sophie Robinson -> 127
+	- Sparky -> 128
+	- Talia Jones -> 129
+	- Thomas Heart -> 130
+
+OBJETIVOS SECRETOS [200-214]--------------
+	- AsEnSerie -> 200
+	- Coleccionista -> 201
+	- CaminoCasa -> 202
+	- Farmaceutico -> 203
+	- ganasVivir -> 204
+	- GatilloFacil -> 205
+	- Germofobia -> 206
+	- Historiador -> 207
+	- LiderSecta ->	208
+	- Lider -> 209
+	- QuemaloTodo -> 210
+	- Solitario -> 211
+	- UnNuevoDestino -> 212	
+	- RobotAsesino -> 213
+	- Venganza -> 214
+
+CRISIS [300-307]-------------------------
+	- Agotamiento  -> 300
+	- DespensaVacia -> 301
+	- Enfermedad  -> 302
+	- EscasezDeGasolina -> 303
+	- HorrorNoche -> 304
+	- NosEstanObservando -> 305
+	- OleadaZombis  -> 306
+	- Reorganizacion  -> 307
+
+DADOS [400-405]-------------------------
+	- Dado 1 -> 400
+	- Dado 2 -> 401
+	- Dado 3 -> 402
+	- Dado 4 -> 403 
+	- Dado 5 -> 404	
+	- Dado 6 -> 405
+
+
+
+
+
+
+
+
+
