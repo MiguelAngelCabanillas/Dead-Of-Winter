@@ -248,8 +248,8 @@ public class ClientReader implements Runnable {
 	                	for(int j=1; j < split.length; j++) {
 	                		tablero.cartasAportadas(Integer.parseInt(split[j]));
 	                	}
-	                	tablero.cartasResCrisis();
                 	}
+                	tablero.cartasResCrisis();
                 	break;
                 	
                 case "cartasEncont": //cartasEncont|idC1|idC2|...|nCartas	
@@ -288,11 +288,12 @@ public class ClientReader implements Runnable {
                 	break;
                 	
                 case "crisisResult": //crisisResult|result
-                	if(split[1].equals("sobra")) {
+                	System.out.println("Resultado de la crisis: " + split[1]);
+                	if(split[1].trim().equals("sobra")) {
                 		tablero.crisisResult(2);
-                	}else if(split[1].equals("pasada")) {
+                	}else if(split[1].trim().equals("pasada")) {
                 		tablero.crisisResult(1);
-                	}else if(split[1].equals("fallo")) {
+                	}else if(split[1].trim().equals("fallo")) {
                 		tablero.crisisResult(0);
                 	}
                 	break;

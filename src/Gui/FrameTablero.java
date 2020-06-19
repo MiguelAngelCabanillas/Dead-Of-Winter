@@ -1064,6 +1064,10 @@ public class FrameTablero extends JFrame {
 		heridasCong.put(idSup, numHeridas);
 	}
 	
+	public static void inicCartasEncontradas() {
+		cartEncont = new ArrayList<>();
+	}
+	
 	public static void setCartasEncontradas(List<Integer> l){
 		cartEncont = new ArrayList<>();
 		cartEncont.addAll(l);

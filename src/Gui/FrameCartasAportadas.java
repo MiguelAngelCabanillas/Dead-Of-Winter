@@ -68,8 +68,9 @@ public class FrameCartasAportadas extends JFrame {
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
-		
+		idCrisisR = idCrisisRes;
 		botoneCartas = new JLabel[15];
+		
 		
 		int tamSupervivientes = cartasAportadas.size();
 		ImageIcon icon;
@@ -98,14 +99,17 @@ public class FrameCartasAportadas extends JFrame {
 		lblNewLabel.setFont(new Font("Castellar", Font.BOLD, 24));
 		lblNewLabel.setBounds(479, 23, 446, 54);
 //		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png"))); //Metida de prueba
-		switch (idCrisisRes) {
+		switch (idCrisisR) {
 		case 0:
+			System.out.println("SE METE EN FALLIDA");
 			lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CFallida.png")));
 			break;
 		case 1:
+			System.out.println("SE METE EN RESUELTA");
 		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CResuelta.png")));			
 			break;
 		case 2:
+			System.out.println("SE METE EN PREVENIDA");
 		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png")));			
 			break;
 		default:

@@ -437,7 +437,13 @@ private BufferedReader buffer;
 					}
 					break;
 				case "ruido":
-					String rui = user.getSala().getPartida().hacerRuido();
+					String rui = "";
+					try {
+						rui = user.getSala().getPartida().hacerRuido();
+					} catch (BuscarException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					user.hacerPeticionAlServidor("hacerRuido|" + rui);
 					user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 					break;

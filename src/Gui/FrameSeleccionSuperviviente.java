@@ -150,6 +150,7 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				
 				cartas = FrameTablero.getCartasEncontradas();
 				
+				if(cartas != null) {
 				if(cartas.size() != 0) {
 					
 					try {
@@ -159,8 +160,10 @@ public class FrameSeleccionSuperviviente extends JFrame {
 						System.err.println(e1.getMessage());
 					}
 					
-				}
+				}}
+				
 				dispose();
+				FrameTablero.inicCartasEncontradas();
 				break;
 			//en principio atacamos a un zombie
 			case "atacar":
