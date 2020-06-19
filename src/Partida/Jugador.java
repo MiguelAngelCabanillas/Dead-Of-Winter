@@ -121,20 +121,19 @@ public class Jugador {
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
 	public int valorDado(int valor) throws DadoException {
-		int menor = 1000; int sal = -1;
-		
-		//SI NO HAY DADOS MANDO MENSAJE DISTINTO
-		if(dados.getDados().size() == 0) {
-			throw new DadoException("No tienes mas dados");
-		}
-		
-		for(int d : dados.getDados()) {
-			if(d >= valor) {
-				menor = Math.min(menor, d);
-			}
-		}
-		
-		return sal;
+		int actual = 100;
+        int indice = -1;
+        Iterator<Integer> iter = dados.getDados().iterator();
+        while(iter.hasNext()) {
+            int valorDado = iter.next();
+            if (valorDado >= valor) {
+                if (valorDado < actual) {
+                    actual = valorDado;
+                    indice = dados.getDados().indexOf(actual);
+                }
+            }
+        }
+		return indice;
 	}
 	
 	//METODO PARA SABER EL INDICE DE UN SUPERVIVIENTE
