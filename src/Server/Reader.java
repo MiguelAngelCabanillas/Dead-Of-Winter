@@ -199,8 +199,14 @@ private BufferedReader buffer;
 								System.out.println(a);
 								}
 							break;
-							case "end":
-								
+							case "addSup":
+								if(user.getSala() != null) {
+								if(user.getJugador().getSupConId(Integer.parseInt(splitSplit[1])) == null) {
+									user.getSala().getPartida().addSuperviviente(user.getJugador().getId(), Integer.parseInt(splitSplit[1]));
+									user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" + splitSplit[1] + "|10");
+									user.hacerPeticionAlServidor("chat|Añadido superviviente solicitado: " + splitSplit[1]);
+								}
+								}
 								break;
 							default:
 								user.hacerPeticionAlServidor("\nchat|Comando incorrecto. /mute, /unmute, /kick");
@@ -692,6 +698,15 @@ private BufferedReader buffer;
 		usuario.setSala(null);
 		System.out.println("La sala " + sala.getId() + " ha sido borrada");
 	} else if (sala.getUsuarios().size() > 1 && sala.getHost().getNombre().equals(usuario.getNombre())){
+		
+		if(sala != null && sala.getPartida() != null) {
+			if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
+				pasarTurnoORonda(usuario.getJugador().getId());
+			}
+			sala.getUsuarios().remove(user);
+			sala.getPartida().getJugadores().remove(usuario.getJugador());
+		}
+		
 		sala.getUsuarios().remove(usuario);
 		usuario.enviarALaSala("chat|El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
 		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
@@ -700,8 +715,18 @@ private BufferedReader buffer;
 		sala.setPuedeEntrar(true);
 		
 		
+		
 		System.out.println("El host de la sala " + sala.getId() + " ha cambiado de " + usuario.getNombre() + " a " + sala.getUsuarios().get(0).getNombre());
 	} else {
+		
+		if(sala != null && sala.getPartida() != null) {
+			if(sala.getPartida().getJugadorActual().getId() == usuario.getJugador().getId()) {
+				pasarTurnoORonda(usuario.getJugador().getId());
+			}
+			sala.getUsuarios().remove(user);
+			sala.getPartida().getJugadores().remove(usuario.getJugador());
+		}
+		
 		sala.getUsuarios().remove(usuario);
 		usuario.enviarALaSala("chat|" + usuario.getNombre() + " ha salido de la sala " + sala.getId());
 		sala.enviarAUsuariosDeLaSala("nusuarios|Numero de jugadores: " + sala.getUsuarios().size());
