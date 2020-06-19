@@ -419,7 +419,7 @@ private BufferedReader buffer;
 					break;
 				case "buscar": //buscar|idSup
 					try {
-						String cartasEnc = user.getSala().getPartida().buscar(Integer.parseInt(split[3])); //si es evento idSup|...|dado
+						String cartasEnc = user.getSala().getPartida().buscar(Integer.parseInt(split[3])); //si es evento idSup|posColonia|...|dado
 						System.out.println("Buscar: " + cartasEnc); //cartas|cartas|nCartas|dado
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
@@ -450,8 +450,8 @@ private BufferedReader buffer;
 				case "ruido":
 					String rui = "";
 					try {
-						rui = user.getSala().getPartida().hacerRuido(); //si hay evento idSup|dado
-						
+						rui = user.getSala().getPartida().hacerRuido(); //si hay evento idSup|posColonia|loc|posValFicha
+																		//si no cartas|loc|posValFicha
 						String [] cRui = rui.split("\\|");
 						if(Integer.parseInt(cRui[0]) >= 100) {
 							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
@@ -465,9 +465,9 @@ private BufferedReader buffer;
 							}
 						
 							user.hacerPeticionAlServidor("hacerRuido" + carts);
-							user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
-							user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 						}
+						user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
+						user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 						
 					} catch (BuscarException e1) {
 						user.hacerPeticionAlServidor("error|" + e1.getMessage());
@@ -490,6 +490,7 @@ private BufferedReader buffer;
 						String[] atcspl = atc.split("\\|");
 						user.enviarALaSala("rmZombie|" + atcspl[0] + "|" + atcspl[1]);
 						user.hacerPeticionAlServidor("rmDado|" + atcspl[2]);
+						user.enviarALaSala("tiradaRiesgo|" + atcspl[3]);
 						switch(atcspl[3]) {
 							case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " no ha recibido heridas" );
 							break;
@@ -525,6 +526,9 @@ private BufferedReader buffer;
 						sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]);
 						if( idCarta <= 2 ) {
 							user.hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+						}
+						if(idCarta == 4) { //TRASTOS
+							user.hacerPeticionAlServidor("setDado|" + sal);
 						}
 					}
 					
