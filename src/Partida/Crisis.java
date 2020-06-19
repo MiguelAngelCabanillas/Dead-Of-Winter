@@ -36,6 +36,8 @@ public class Crisis {
 
         contribJug = new int[jugadores];
         
+        actuales = 0;
+        
         inic();
     }
 	//TODO
@@ -118,6 +120,14 @@ public class Crisis {
 	
 	public int[] getDonaciones() {
 		return donaciones;
+	}
+	
+	public int getActuales() {
+		return actuales;
+	}
+	
+	public int getNecesarias() {
+		return cantidad;
 	}
 	
 	public String getContribJug() {

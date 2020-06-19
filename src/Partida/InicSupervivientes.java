@@ -211,7 +211,7 @@ public class InicSupervivientes {
 		int id = 0;
 		
 		while(aux == null) {
-			id = r.nextInt(31) + 99;
+			id = r.nextInt(31) + 100;
 			aux = cartas.get(id);
 		}
 		

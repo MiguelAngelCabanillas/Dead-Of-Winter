@@ -32,12 +32,13 @@ public class Jugador {
 	//DATOS DE CONTROL
 	private Tablero tablero;
 	private Localizacion locCartas;
+	private InicSupervivientes supervivientes;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o) {
+	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o, InicSupervivientes s) {
 		this.id = id;
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
@@ -51,6 +52,7 @@ public class Jugador {
 		this.objetivo = o;
 		
 		tablero = t;
+		supervivientes = s;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -345,10 +347,6 @@ public class Jugador {
 		return salida;
 	}
 	
-//	public int atacarPersona(int personaje) {
-//		return valorDado(getSupConId(personaje).getAtaque()).usar();
-//	}
-	
 	public String barricada(int id) throws BarricadaException, DadoException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
@@ -374,6 +372,7 @@ public class Jugador {
 	}
 	
 	public String buscar(int id) throws BuscarException, DadoException {
+		boolean evento = false;
 		Carta_Supervivientes personaje = getSupConId(id);
 		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
@@ -396,11 +395,23 @@ public class Jugador {
 				aux = locCartas.cogerCarta();
 				
 				if(aux.getId() == 6) {
-					//salida += 
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+					
 				}else if(aux.getId() == 7){
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
 				}else if(aux.getId() == 8) {
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
+//					tablero.getColonia().anyadirInutiles();
 				}else {
 					//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
 					salida += aux.getId();
@@ -412,7 +423,7 @@ public class Jugador {
 				
 				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
 				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
-				if(!locCartas.getMazo().vacio() && !personaje.getUsado() && 
+				if(!evento && !locCartas.getMazo().vacio() && !personaje.getUsado() && 
 						getLocalizacion(personaje.doble()).equals(locCartas)) {	
 					aux = locCartas.cogerCarta();
 					salida += "|" + aux.getId();
@@ -434,7 +445,7 @@ public class Jugador {
 	
 	public String hacerRuido() throws BuscarException {
 		String salida = "";
-		if(locCartas.getTokensDeRuido() >= 4) {
+		if(locCartas.getTokensDeRuido() < 4) {
 			Carta aux = locCartas.cogerCarta();
 			locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
 			

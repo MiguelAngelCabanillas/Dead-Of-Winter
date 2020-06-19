@@ -440,12 +440,12 @@ private BufferedReader buffer;
 					String rui = "";
 					try {
 						rui = user.getSala().getPartida().hacerRuido();
+						user.hacerPeticionAlServidor("hacerRuido|" + rui);
+						user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
 					} catch (BuscarException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						user.hacerPeticionAlServidor("error|" + e1.getMessage());
 					}
-					user.hacerPeticionAlServidor("hacerRuido|" + rui);
-					user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
+
 					break;
 				case "confirmarCarta": //confirmarCarta|carta1|carta2...
 					int i = 3;
@@ -705,13 +705,14 @@ private BufferedReader buffer;
 				
 				user.getSala().getPartida().pasaTurno(0);
 				for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + contribuciones);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("crisisResult|" + resCrisis);
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + contribuciones);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies + "|");
 					System.out.println("addZombies|" + zombies);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
+					
 				}
 				user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
 				user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());
