@@ -101,15 +101,12 @@ public class FrameCartasAportadas extends JFrame {
 //		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png"))); //Metida de prueba
 		switch (idCrisisR) {
 		case 0:
-			System.out.println("SE METE EN FALLIDA");
 			lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CFallida.png")));
 			break;
 		case 1:
-			System.out.println("SE METE EN RESUELTA");
 		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CResuelta.png")));			
 			break;
 		case 2:
-			System.out.println("SE METE EN PREVENIDA");
 		lblNewLabel.setIcon(new ImageIcon(this.getClass().getResource("/Crisis/CPrevenida.png")));			
 			break;
 		default:
