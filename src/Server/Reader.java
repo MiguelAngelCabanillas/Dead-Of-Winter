@@ -201,8 +201,11 @@ private BufferedReader buffer;
 							break;
 							case "addSup":
 								if(user.getSala() != null) {
-								user.getSala().getPartida().addSuperviviente(user.getJugador().getId(), Integer.parseInt(splitSplit[1]));
-								user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" + splitSplit[1] + "|10");
+								if(user.getJugador().getSupConId(Integer.parseInt(splitSplit[1])) == null) {
+									user.getSala().getPartida().addSuperviviente(user.getJugador().getId(), Integer.parseInt(splitSplit[1]));
+									user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" + splitSplit[1] + "|10");
+									user.hacerPeticionAlServidor("chat|Añadido superviviente solicitado: " + splitSplit[1]);
+								}
 								}
 								break;
 							default:
