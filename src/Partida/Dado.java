@@ -29,7 +29,12 @@ public class Dado {
 	
 	public String resetDados(int supervivientes) {
 		String sal = "";
-		cantidad = supervivientes + 1;
+		if(supervivientes != 0) {
+			cantidad = supervivientes + 1;
+		}else {
+			cantidad = 0;
+		}
+		
 		int val = 0;
 		dados.clear();
 		

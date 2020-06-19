@@ -1,5 +1,6 @@
 package Partida;
 
+import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,12 +32,13 @@ public class Jugador {
 	//DATOS DE CONTROL
 	private Tablero tablero;
 	private Localizacion locCartas;
+	private InicSupervivientes supervivientes;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o) {
+	public Jugador(int id, List<Carta> mazoJugador, Tablero t, Objetivo_Principal o, InicSupervivientes s) {
 		this.id = id;
 		
 		this.mazoSuperviviente = new ArrayList<Carta_Supervivientes>();
@@ -50,6 +52,7 @@ public class Jugador {
 		this.objetivo = o;
 		
 		tablero = t;
+		supervivientes = s;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,14 +105,16 @@ public class Jugador {
 	}
 	
 	public void matar() {
-		int tam = this.mazoSuperviviente.size();
 		Carta_Supervivientes aux;
 		Localizacion loc;
-		for(int i = 0; i < tam;) {
+		int i = 0;
+		
+		while(i < this.mazoSuperviviente.size()) {
 			 aux = this.mazoSuperviviente.get(i);
+			 loc = localizacion(aux);
 			if (aux.estaMuerto()) {
 				this.mazoSuperviviente.remove(aux);
-				tam--;
+				loc.eliminarSuperviviente(aux);
 			}else {
 				i++;
 			}
@@ -118,24 +123,19 @@ public class Jugador {
 	
 	//METODO PARA COMPROBAR SI HAY DADOS
 	public int valorDado(int valor) throws DadoException {
-		int menor = -1; int i = 0; int sal = -1;
-		
-		//SI NO HAY DADOS MANDO MENSAJE DISTINTO
-		if(dados.getDados().size() == 0) {
-			throw new DadoException("No tienes mas dados");
-		}
-		
-		for(int d : dados.getDados()) {
-			if(d >= valor) {
-				if(menor == -1 || menor > d) {
-					menor = d;
-					sal = i;
-				}
-			}
-			i++;
-		}
-		
-		return sal;
+		int actual = 100;
+        int indice = -1;
+        Iterator<Integer> iter = dados.getDados().iterator();
+        while(iter.hasNext()) {
+            int valorDado = iter.next();
+            if (valorDado >= valor) {
+                if (valorDado < actual) {
+                    actual = valorDado;
+                    indice = dados.getDados().indexOf(actual);
+                }
+            }
+        }
+		return indice;
 	}
 	
 	//METODO PARA SABER EL INDICE DE UN SUPERVIVIENTE
@@ -347,10 +347,6 @@ public class Jugador {
 		return salida;
 	}
 	
-//	public int atacarPersona(int personaje) {
-//		return valorDado(getSupConId(personaje).getAtaque()).usar();
-//	}
-	
 	public String barricada(int id) throws BarricadaException, DadoException {
 		Carta_Supervivientes personaje = getSupConId(id);
 		Localizacion loc = localizacion(personaje);
@@ -376,6 +372,7 @@ public class Jugador {
 	}
 	
 	public String buscar(int id) throws BuscarException, DadoException {
+		boolean evento = false;
 		Carta_Supervivientes personaje = getSupConId(id);
 		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
@@ -398,11 +395,23 @@ public class Jugador {
 				aux = locCartas.cogerCarta();
 				
 				if(aux.getId() == 6) {
-					//salida += 
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+					
 				}else if(aux.getId() == 7){
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
 				}else if(aux.getId() == 8) {
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
+//					tablero.getColonia().anyadirInutiles();
 				}else {
 					//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
 					salida += aux.getId();
@@ -414,7 +423,7 @@ public class Jugador {
 				
 				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
 				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
-				if(!locCartas.getMazo().vacio() && !personaje.getUsado() && 
+				if(!evento && !locCartas.getMazo().vacio() && !personaje.getUsado() && 
 						getLocalizacion(personaje.doble()).equals(locCartas)) {	
 					aux = locCartas.cogerCarta();
 					salida += "|" + aux.getId();
@@ -434,17 +443,21 @@ public class Jugador {
 		return salida + "|" + Integer.toString(cartasBuscadas) + "|" + Integer.toString(dado);
 	}
 	
-	public String hacerRuido() {
-		Carta aux = locCartas.cogerCarta();
-		locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
-		
+	public String hacerRuido() throws BuscarException {
 		String salida = "";
-		for(Carta c : buffer) {
-			salida += c.getId() + "|";
+		if(locCartas.getTokensDeRuido() < 4) {
+			Carta aux = locCartas.cogerCarta();
+			locCartas.setTokensDeRuido(locCartas.getTokensDeRuido() + 1);
+			
+			for(Carta c : buffer) {
+				salida += c.getId() + "|";
+			}
+			
+			salida += aux.getId();
+			buffer.add(aux);
+		}else {
+			throw new BuscarException("Ya no se puede hacer más ruido en esta localización");
 		}
-		
-		salida += aux.getId();
-		buffer.add(aux);
 		
 		return salida;
 	}

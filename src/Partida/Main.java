@@ -8,20 +8,25 @@ public class Main {
 	public static void main(String[] args) throws MoverException, BarricadaException, VertederoException {
 		Principal p = new Principal(1);
 		
-		p.inicPartida(3);
+		p.inicPartida(1);
 		//System.out.println(p.getIdCartas(0));
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
 		
-		p.addSuperviviente(0, 103);
-		p.addSuperviviente(0, 116);
-		p.addSuperviviente(1, 117);
-		p.addSuperviviente(1, 124);
-		p.addSuperviviente(2, 119);
-		p.addSuperviviente(2, 110);
-		p.inicSupervivientesEnColonia();
-		p.inicDados();
+//		p.addSuperviviente(0, 103);
+//		p.addSuperviviente(0, 116);
+//		p.addSuperviviente(1, 117);
+//		p.addSuperviviente(1, 124);
+//		p.addSuperviviente(2, 119);
+//		p.addSuperviviente(2, 110);
+//		p.inicSupervivientesEnColonia();
+//		p.inicDados();
 		p.pasaTurno(0);
+//		p.aportarCrisis(0);
+		p.aportarCrisis(3);
+//		p.aportarCrisis(4);
+//		p.aportarCrisis(5);
+		p.resultadoCrisis();
 		
 		/*
 		- jug 0 mover 103 loc 0 pos 0 1 herida
@@ -41,31 +46,31 @@ public class Main {
 		- jug 2 bar 119 (loc 0 pos 2) -> loc 6 puerta 0 pos 0
 		*/
 		
-		//try {
-//			p.mover(103, 0);
-//			p.ponerBarricada(103);
-//			p.mover(116, 5);
-//			p.ponerBarricada(116);
-//			p.ponerBarricada(116);
-//			p.pasaTurno(1);
-//			p.mover(117, 3);
-//			p.mover(124, 4);
-//			p.ponerBarricada(124);
-//			p.ponerBarricada(117);
-//			p.ponerBarricada(124);
-//			p.pasaTurno(2);
-//			p.mover(119, 0);
-//			p.mover(110, 3);
-//			p.ponerBarricada(119);
+		try {
+			p.mover(103, 0);
+			p.ponerBarricada(103);
+			p.mover(116, 5);
+			p.ponerBarricada(116);
+			p.ponerBarricada(116);
+			p.pasaTurno(1);
+			p.mover(117, 3);
+			p.mover(124, 4);
+			p.ponerBarricada(124);
+			p.ponerBarricada(117);
+			p.ponerBarricada(124);
+			p.pasaTurno(2);
+			p.mover(119, 0);
+			p.mover(110, 3);
+			p.ponerBarricada(119);
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
-//		} catch (DadoException e) {
-//			System.err.println(e.getMessage());
-//		}
+		} catch (DadoException e) {
+			System.err.println(e.getMessage());
+		}
 		
 		
 //		try {

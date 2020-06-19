@@ -440,9 +440,15 @@ private BufferedReader buffer;
 					}
 					break;
 				case "ruido":
-					String rui = user.getSala().getPartida().hacerRuido();
-					user.hacerPeticionAlServidor("hacerRuido|" + rui);
-					user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
+					String rui = "";
+					try {
+						rui = user.getSala().getPartida().hacerRuido();
+						user.hacerPeticionAlServidor("hacerRuido|" + rui);
+						user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
+					} catch (BuscarException e1) {
+						user.hacerPeticionAlServidor("error|" + e1.getMessage());
+					}
+
 					break;
 				case "confirmarCarta": //confirmarCarta|carta1|carta2...
 					int i = 3;
@@ -457,10 +463,11 @@ private BufferedReader buffer;
 					try {
 						String atc = user.getSala().getPartida().atacar(Integer.parseInt(split[3]));
 						System.out.println("Atacar: " + atc);
-						//atc ===> loc|pos|dadoRiesgo
+						//atc ===> loc|pos|dado|dadoRiesgo
 						String[] atcspl = atc.split("\\|");
 						user.enviarALaSala("rmZombie|" + atcspl[0] + "|" + atcspl[1]);
-						switch(atcspl[2]) {
+						user.hacerPeticionAlServidor("rmDado|" + atcspl[2]);
+						switch(atcspl[3]) {
 							case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " no ha recibido heridas" );
 							break;
 							case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida normal" );
@@ -544,9 +551,9 @@ private BufferedReader buffer;
 			
 			
 		} catch (SocketException e1) {
-			//e1.printStackTrace();
+			e1.printStackTrace();
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
@@ -721,13 +728,14 @@ private BufferedReader buffer;
 				
 				user.getSala().getPartida().pasaTurno(0);
 				for(int i = 0; i < user.getSala().getUsuarios().size(); i++) {
-					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + contribuciones);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("crisisResult|" + resCrisis);
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("cartasAportadas|" + contribuciones);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("addZombies|" + zombies + "|");
 					System.out.println("addZombies|" + zombies);
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
+					
 				}
 				user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
 				user.enviarALaSala("chat|Turno de " + user.getSala().getUsuarios().get(0).getNombre());

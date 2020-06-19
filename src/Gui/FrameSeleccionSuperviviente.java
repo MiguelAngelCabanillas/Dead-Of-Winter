@@ -149,13 +149,21 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				}
 				
 				cartas = FrameTablero.getCartasEncontradas();
-				try {
-					auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, FrameTablero.getNCartasABuscar());
-					auxCartasEncontradas.setVisible(true);
-				}catch(Exception e1) {
-					System.err.println(e1.getMessage());
-				}
+				
+				if(cartas != null) {
+				if(cartas.size() != 0) {
+					
+					try {
+						auxCartasEncontradas = new FrameCartasEncontradas(cartas, asociaciones, FrameTablero.getNCartasABuscar());
+						auxCartasEncontradas.setVisible(true);
+					}catch(Exception e1) {
+						System.err.println(e1.getMessage());
+					}
+					
+				}}
+				
 				dispose();
+				FrameTablero.inicCartasEncontradas();
 				break;
 			//en principio atacamos a un zombie
 			case "atacar":

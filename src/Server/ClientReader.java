@@ -159,6 +159,7 @@ public class ClientReader implements Runnable {
                 	tablero.setCrisis(Integer.parseInt(split[2]));
                 	tablero.inicDados();
                 	tablero.inicAportaciones();
+                	tablero.inicRuido();
                 	for(int j = 3; j<split.length;j++) {
                 		tablero.tiradaDados(Integer.parseInt(split[j]));
                 		System.out.println("Dado: " + Integer.parseInt(split[j]));
@@ -247,19 +248,19 @@ public class ClientReader implements Runnable {
 	                	for(int j=1; j < split.length; j++) {
 	                		tablero.cartasAportadas(Integer.parseInt(split[j]));
 	                	}
-	                	tablero.cartasResCrisis();
                 	}
+                	tablero.cartasResCrisis();
                 	break;
                 	
                 case "cartasEncont": //cartasEncont|idC1|idC2|...|nCartas	
                 	FrameTablero.setNCartasABuscar(Integer.parseInt(split[split.length-1]));
+                	List<Integer> cartas = new ArrayList<>();
                 	if(split[1].length() != 0) {
-                    	List<Integer> cartas = new ArrayList<>();
                     	for(int m = 1; m < split.length - 1; m++) {
                     		cartas.add(Integer.parseInt(split[m]));
                     	}
-                    	FrameTablero.setCartasEncontradas(cartas);
                 	}
+                	FrameTablero.setCartasEncontradas(cartas);
                 	break;
                 	
                 case "hacerRuido":
@@ -287,7 +288,14 @@ public class ClientReader implements Runnable {
                 	break;
                 	
                 case "crisisResult": //crisisResult|result
-                	tablero.crisisResult(split[1]);
+                	System.out.println("Resultado de la crisis: " + split[1]);
+                	if(split[1].trim().equals("sobra")) {
+                		tablero.crisisResult(2);
+                	}else if(split[1].trim().equals("pasada")) {
+                		tablero.crisisResult(1);
+                	}else if(split[1].trim().equals("fallo")) {
+                		tablero.crisisResult(0);
+                	}
                 	break;
                 	                	
                 default:
