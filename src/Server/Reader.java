@@ -460,10 +460,11 @@ private BufferedReader buffer;
 					try {
 						String atc = user.getSala().getPartida().atacar(Integer.parseInt(split[3]));
 						System.out.println("Atacar: " + atc);
-						//atc ===> loc|pos|dadoRiesgo
+						//atc ===> loc|pos|dado|dadoRiesgo
 						String[] atcspl = atc.split("\\|");
 						user.enviarALaSala("rmZombie|" + atcspl[0] + "|" + atcspl[1]);
-						switch(atcspl[2]) {
+						user.hacerPeticionAlServidor("rmDado|" + atcspl[2]);
+						switch(atcspl[3]) {
 							case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " no ha recibido heridas" );
 							break;
 							case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida normal" );
