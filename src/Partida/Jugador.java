@@ -372,6 +372,7 @@ public class Jugador {
 	}
 	
 	public String buscar(int id) throws BuscarException, DadoException {
+		boolean evento = false;
 		Carta_Supervivientes personaje = getSupConId(id);
 		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
@@ -395,12 +396,22 @@ public class Jugador {
 				
 				if(aux.getId() == 6) {
 //					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
-//					
+//					mazoSuperviviente.add(encontrado);
 //					salida += encontrado.getId();
+					
 				}else if(aux.getId() == 7){
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
 				}else if(aux.getId() == 8) {
-					
+//					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+//					mazoSuperviviente.add(encontrado);
+//					salida += encontrado.getId();
+//					
+//					tablero.getColonia().anyadirInutiles();
+//					tablero.getColonia().anyadirInutiles();
 				}else {
 					//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
 					salida += aux.getId();
@@ -412,7 +423,7 @@ public class Jugador {
 				
 				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
 				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
-				if(!locCartas.getMazo().vacio() && !personaje.getUsado() && 
+				if(!evento && !locCartas.getMazo().vacio() && !personaje.getUsado() && 
 						getLocalizacion(personaje.doble()).equals(locCartas)) {	
 					aux = locCartas.cogerCarta();
 					salida += "|" + aux.getId();

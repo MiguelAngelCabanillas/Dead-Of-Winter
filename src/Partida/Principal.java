@@ -488,7 +488,7 @@ public class Principal {
 			moral -= (hambre + 1);
 			hambre++;
 		}
-		
+		System.out.println("Moral :" + moral);
 		crisisActual = crisis.getCrisis();
 		
 		rondasRestantes--;
@@ -505,7 +505,6 @@ public class Principal {
 		}else {
 			sB.append("fallo");
 		}
-		
 		System.out.println("Numero de aportaciones = " + crisisActual.getActuales() + "\nNumero de aportaciones necesarias = " + crisisActual.getNecesarias());
 		return sB.toString();
 	}
@@ -581,7 +580,10 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	private String actualizarTablero() {
 		String aux = "";
-		fallo();
+		if(!crisisActual.pasada()) {
+			fallo();
+		}
+		
 		
 		String[] com = tablero.getComisaria().actualizarCasillasZombiePasoDeRonda();
 		String[] sup = tablero.getSupermercado().actualizarCasillasZombiePasoDeRonda();
