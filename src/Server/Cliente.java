@@ -27,35 +27,34 @@ public static void main(String[] args) {
 
 		
 	} catch (UnknownHostException err) {
-		err.printStackTrace();
+
 	} catch (IOException e ) {
 		try {
 			conectar();
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
 		}
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+	} finally {
+		System.out.println("Reintentando...");
 	}
 }
 }
 
 public static void conectar() throws UnknownHostException, IOException, InterruptedException {
 	System.out.println("Conectando al Servidor...");
-	Socket socket = new Socket("25.51.116.27", 12975);
+	Socket socket = new Socket("25.68.151.207", 12975);
 	ClientReader cr;
 	
-	String a = "a";
+	String a = "zunk";
 	while(true) {
-		cr = new ClientReader(new Socket("25.51.116.27", 12975));
+		cr = new ClientReader(socket);
 		cr.hacerPeticionAlServidor(a + "a");
 	    cr = new ClientReader(socket);
 		a = a + "a";
