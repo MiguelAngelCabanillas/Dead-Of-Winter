@@ -413,20 +413,25 @@ private BufferedReader buffer;
 					break;
 				case "buscar": //buscar|idSup
 					try {
-						String cartasEnc = user.getSala().getPartida().buscar(Integer.parseInt(split[3]));
+						String cartasEnc = user.getSala().getPartida().buscar(Integer.parseInt(split[3])); //si es evento idSup|...|dado
 						System.out.println("Buscar: " + cartasEnc); //cartas|cartas|nCartas|dado
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
-						int indNCartas = enc.length - 2;
-						String cEnc = "";
-						int i = 0;
-						while(i < indNCartas) {
+						if(Integer.parseInt(enc[0]) >= 100) { //evento
+							user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[1]);
+							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
+						} else {
+							int indNCartas = enc.length - 2;
+							String cEnc = "";
+							int i = 0;
+							while(i < indNCartas) {
+								cEnc += "|" + enc[i];
+								i++;
+							}
 							cEnc += "|" + enc[i];
-							i++;
+							user.hacerPeticionAlServidor("cartasEncont" + cEnc);
+							System.out.println("cartasEncont" + cEnc);
 						}
-						cEnc += "|" + enc[i];
-						user.hacerPeticionAlServidor("cartasEncont" + cEnc);
-						System.out.println("cartasEncont" + cEnc);
 						
 						user.hacerPeticionAlServidor("rmDado|" + enc[enc.length-1]);
 						
@@ -439,13 +444,28 @@ private BufferedReader buffer;
 				case "ruido":
 					String rui = "";
 					try {
-						rui = user.getSala().getPartida().hacerRuido();
-						user.hacerPeticionAlServidor("hacerRuido|" + rui);
-						user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
+						rui = user.getSala().getPartida().hacerRuido(); //si hay evento idSup|dado
+						
+						String [] cRui = rui.split("\\|");
+						if(Integer.parseInt(cRui[0]) >= 100) {
+							user.hacerPeticionAlServidor("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
+							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
+						} else {
+							String carts = "";
+							int c = 0;
+							while( c < cRui.length - 2) {
+								carts += "|" + cRui[c];
+								c++;
+							}
+							
+							user.hacerPeticionAlServidor("hacerRuido" + carts);
+							user.enviarALaSala("addFichRuido|" + cRui[cRui.length - 2] + "|" + cRui[cRui.length - 1]);
+							user.enviarALaSala("chat|" + user.getNombre() + " ha hecho ruido.");
+						}
+						
 					} catch (BuscarException e1) {
 						user.hacerPeticionAlServidor("error|" + e1.getMessage());
 					}
-
 					break;
 				case "confirmarCarta": //confirmarCarta|carta1|carta2...
 					int i = 3;
@@ -488,6 +508,29 @@ private BufferedReader buffer;
 					} catch (MatarException | DadoException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
+					break;
+				case "usarCarta":
+					String sal = "";
+					int idCarta = Integer.parseInt(split[3]);
+					if(idCarta == 3) {
+						sal = user.getSala().getPartida().getVecinos();
+						user.hacerPeticionAlServidor("medicina|" + sal);
+					} else {
+						sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]);
+						if( idCarta <= 2 ) {
+							user.hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+						}
+					}
+					
+					user.hacerPeticionAlServidor("rmCarta|" + idCarta);
+					user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
+					user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
+					
+					break;
+				case "medicina": //medicina|idSup curar a un superviviente
+					user.getSala().getPartida().usarCarta(3, Integer.parseInt(split[3]));
+					user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
+					user.enviarALaSala(user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
 					break;
 				case "gastarComida":
 //					user.hacerPeticionAlServidor("rmCarta|0");
