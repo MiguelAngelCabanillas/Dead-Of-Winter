@@ -50,7 +50,7 @@ public class FrameCartasEncontradas extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		});
 	}
@@ -152,6 +152,9 @@ public class FrameCartasEncontradas extends JFrame {
 		contentPane.add(btnRuido);
 		
 	}
+	
+	
+	
 	private class DerHandler implements ItemListener{
 		
 		@Override
