@@ -270,7 +270,7 @@ public class Principal {
 		jugadorActual.confirmarCarta(idCarta);
 	}
 	
-	public String hacerRuido() {
+	public String hacerRuido() throws BuscarException {
 		return jugadorActual.hacerRuido();
 	}
 	
@@ -350,7 +350,7 @@ public class Principal {
 	public String usarCarta(int idCarta, int idSup, int idDado) throws HeridaException, GasolinaException {
 		String salida = "";
 		
-			
+			//COMIDA
 		switch (idCarta) {
 		case 0: comida += 1;
 		jugadorActual.eliminarCarta(idCarta);
@@ -362,6 +362,7 @@ public class Principal {
 		jugadorActual.eliminarCarta(idCarta);
 			break;
 		case 3 : {
+			//MEDICINA
 			Carta_Supervivientes aux = jugadorActual.getSupConId(idSup);
 			if(aux.getHeridas() == 0) {
 				throw new HeridaException("El superviviente no tiene heridas");
@@ -369,8 +370,10 @@ public class Principal {
 			aux.curarHerida();
 		}
 			break;
+			//TRASTOS
 		case 4 : jugadorActual.getDados().resetUnDado(idDado);;
 			break;
+			//GASOLINA
 		case 5 : {
 			if(!jugadorActual.getGasolina()) {
 				jugadorActual.setGasolina(true);
@@ -378,6 +381,34 @@ public class Principal {
 				throw new GasolinaException("Ya has usado gasolina");
 			}
 		}
+			break;
+		case 9 : 
+			break;
+		case 10 : 
+			break;
+		case 11 :
+			break;
+		case 12 : 
+			break;
+		case 13 : 
+			break;
+		case 14 : 
+			break;
+		case 15 : 
+			break;
+		case 16 : 
+			break;
+		case 17 : 
+			break;
+		case 18 : 
+			break;
+		case 19 : 
+			break;
+		case 20 : 
+			break;
+		case 21 : 
+			break;
+		case 22 : 
 			break;
 		default : System.err.println(idCarta + " " + idSup);
 		}
@@ -429,7 +460,7 @@ public class Principal {
 	public void pasaTurno(int id) {
 		//RESETEAMOS HABILIDAD Y MOVIMIENTO
 		jugadorActual.resetHab();
-		
+		jugadorActual.setGasolina(false);
 		//RESETEAMOS EL BUFFER DE CARTAS
 		jugadorActual.resetBuffer();
 		jugadorActual = jugadores.get(id);
@@ -447,6 +478,15 @@ public class Principal {
 		
 		if(vertedero >= 10) {
 			moral--;
+		}
+		
+		//LA COMIDA QUE SE GASTA ES IGUAL A LA MITAD DE LOS SUPERVIVIENTES DE LA COLONIA REDONDEANDO HACIA ARRIBA
+		int comidaGastada = (int) Math.round((double) (tablero.getColonia().getSupervivientes().size() + (23 - tablero.getColonia().getInutiles())));
+		if(comida >= comidaGastada) {
+			comida += comidaGastada;
+		}else {
+			moral -= (hambre + 1);
+			hambre++;
 		}
 		
 		crisisActual = crisis.getCrisis();
@@ -530,18 +570,16 @@ public class Principal {
 		return vertedero;
 	}
 	
+	public int getHambre() {
+		return hambre;
+	}
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS AUXILIARES
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	private String actualizarTablero() {
 		String aux = "";
-		
-		String[] fallo = null;
-		if(!crisisActual.pasada()) {
-			fallo = fallo();
-		}else if(crisisActual.sobra()) {
-			moral++;
-		}
+		fallo();
 		
 		String[] com = tablero.getComisaria().actualizarCasillasZombiePasoDeRonda();
 		String[] sup = tablero.getSupermercado().actualizarCasillasZombiePasoDeRonda();
@@ -551,12 +589,12 @@ public class Principal {
 		String[] bib = tablero.getBiblioteca().actualizarCasillasZombiePasoDeRonda();
 		String[] coll = tablero.getColonia().actualizarCasillasZombiePasoDeRonda();
 		
-		aux += com[0] + fallo[0];
-		aux += "|" + sup[0] + fallo[1];
-		aux += "|" + col[0] + fallo[2];
-		aux += "|" + gas[0] + fallo[3];
-		aux += "|" + hos[0] + fallo[4];
-		aux += "|" + bib[0] + fallo[5];
+		aux += com[0];
+		aux += "|" + sup[0];
+		aux += "|" + col[0];
+		aux += "|" + gas[0];
+		aux += "|" + hos[0];
+		aux += "|" + bib[0];
 		
 		aux += "|" + coll[0];
 			
@@ -604,16 +642,17 @@ public class Principal {
 		String muertos = "";
 		List<Carta_Supervivientes> aux = jugadorActual.getMazoSuperviviente();
 		
-		//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
-		for(Carta_Supervivientes personaje : aux) {
-			personaje.congelamiento();
-		}
-		
 		//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
-		for(Carta_Supervivientes personaje : aux) {
+		Carta_Supervivientes personaje;
+		int i = 0;
+		
+		while(i < aux.size()) {
+			personaje = aux.get(i);
 			if(personaje.estaMuerto()) {
-				muertos += personaje.getId() + "|";
 				jugadorActual.matar();
+				muertos += personaje.getId() + "|";
+			}else {
+				i++;
 			}
 		}
 		
@@ -631,14 +670,24 @@ public class Principal {
 		for(Jugador j : jugadores) {
 			aux = j.getMazoSuperviviente();
 			
-			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
+			//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
 			for(Carta_Supervivientes personaje : aux) {
+				personaje.congelamiento();
+			}
+			
+			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
+			Carta_Supervivientes personaje;
+			int i = 0;
+			
+			while(i < aux.size()) {
+				personaje = aux.get(i);
 				if(personaje.estaMuerto()) {
 					if(muertos != "") {
 						muertos += "|";
 					}
 					muertos += + j.getId() + "|" + personaje.getId();
 				}
+				i++;
 			}
 			j.matar();
 		}
@@ -646,12 +695,7 @@ public class Principal {
 		return muertos;
 	}
 	
-	private String[] fallo() {
-		String[] datos = new String[6];
-		for(int i = 0; i < datos.length; i++) {
-			datos[i] = "";
-		}
-		
+	private void fallo() {
 		switch(crisisActual.getId()) {
 		case 300 : {
 			
@@ -691,24 +735,20 @@ public class Principal {
 		break;
 		case 305 : {
 			//SE AÑADEN 3 ZOMBIES EN BIBLIOTECA Y EN SUPERMERCADO
-			datos[5] += tablero.getBiblioteca().anyadirZombie();
-			datos[5] += tablero.getBiblioteca().anyadirZombie();
-			datos[5] += tablero.getBiblioteca().anyadirZombie();
+			tablero.getBiblioteca().addZombiesExternos(3);
 			
-			datos[1] += tablero.getSupermercado().anyadirZombie();
-			datos[1] += tablero.getSupermercado().anyadirZombie();
-			datos[1] += tablero.getSupermercado().anyadirZombie();
+			tablero.getSupermercado().addZombiesExternos(3);
 		}
 		break;
 		case 306 : {
 			
 			//SE AÑADEN 6 SUPERVIVIENTES A LA COLONIA Y UNO EN CADA LOCALIZACION
-			datos[5] +=tablero.getBiblioteca().anyadirZombie();
-			datos[2] +=tablero.getColegio().anyadirZombie();
-			datos[0] +=tablero.getComisaria().anyadirZombie();
-			datos[3] +=tablero.getGasolinera().anyadirZombie();
-			datos[4] +=tablero.getHospital().anyadirZombie();
-			datos[1] +=tablero.getSupermercado().anyadirZombie();
+			tablero.getBiblioteca().addZombiesExternos(1);
+			tablero.getColegio().addZombiesExternos(1);
+			tablero.getComisaria().addZombiesExternos(1);
+			tablero.getGasolinera().addZombiesExternos(1);
+			tablero.getHospital().addZombiesExternos(1);
+			tablero.getSupermercado().addZombiesExternos(1);
 			
 			
 			//TODO CAMBIAR EL AÑADIR ZOMBIES PARA QUE SEAN EN RELOJ
@@ -721,10 +761,10 @@ public class Principal {
 		break;
 		}
 		
-		return datos;
 	}
 	
 	//ESTE METODO SE COMPRUEBA CADA VEZ QUE EL JUGADOR REALIZA UNA ACCIÓN PARA MONITOREAR EL PROGRESO DEL OBJETIVO
+	//PUEDE QUE SE HAGA DESDE SERVIDOR Y NO SIRVA
 	private boolean terminaPartida() {
 		boolean estado;
 		if(objetivo.completado()) {	//SE CUMPLE EL OBJETIVO

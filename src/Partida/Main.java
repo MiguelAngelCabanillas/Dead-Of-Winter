@@ -41,31 +41,31 @@ public class Main {
 		- jug 2 bar 119 (loc 0 pos 2) -> loc 6 puerta 0 pos 0
 		*/
 		
-		//try {
-//			p.mover(103, 0);
-//			p.ponerBarricada(103);
-//			p.mover(116, 5);
-//			p.ponerBarricada(116);
-//			p.ponerBarricada(116);
-//			p.pasaTurno(1);
-//			p.mover(117, 3);
-//			p.mover(124, 4);
-//			p.ponerBarricada(124);
-//			p.ponerBarricada(117);
-//			p.ponerBarricada(124);
-//			p.pasaTurno(2);
-//			p.mover(119, 0);
-//			p.mover(110, 3);
-//			p.ponerBarricada(119);
+		try {
+			p.mover(103, 0);
+			p.ponerBarricada(103);
+			p.mover(116, 5);
+			p.ponerBarricada(116);
+			p.ponerBarricada(116);
+			p.pasaTurno(1);
+			p.mover(117, 3);
+			p.mover(124, 4);
+			p.ponerBarricada(124);
+			p.ponerBarricada(117);
+			p.ponerBarricada(124);
+			p.pasaTurno(2);
+			p.mover(119, 0);
+			p.mover(110, 3);
+			p.ponerBarricada(119);
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
 			p.pasaRonda();
-//		} catch (DadoException e) {
-//			System.err.println(e.getMessage());
-//		}
+		} catch (DadoException e) {
+			System.err.println(e.getMessage());
+		}
 		
 		
 //		try {

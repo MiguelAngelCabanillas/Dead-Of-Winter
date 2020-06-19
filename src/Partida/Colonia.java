@@ -274,14 +274,14 @@ public class Colonia extends Localizacion {
 		while(!matado && i < puertas.size()) {
 			puerta = puertas.get(i);
 			CasillasZombie casilla;
-			j = 0;
-			while(!matado && j < puerta.size()) {
+			j = puerta.size() - 1;
+			while(!matado && j >= 0) {
 				casilla = puerta.get(j);
-				if(!casilla.getHayBarricada() && casilla.getHayZombie()) {
+				if(casilla.getHayZombie()) {
 					casilla.setHayZombie(false);
 					matado = true;
 				}else {
-					j++;
+					j--;
 				}
 			}
 			if(!matado) {
@@ -305,5 +305,9 @@ public class Colonia extends Localizacion {
 	
 	public List<List<CasillasZombie>> getPuertas() {
 		return this.puertas;
+	}
+	
+	public int getInutiles() {
+		return inutiles;
 	}
 }

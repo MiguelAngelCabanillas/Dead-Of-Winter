@@ -541,9 +541,9 @@ private BufferedReader buffer;
 			
 			
 		} catch (SocketException e1) {
-			//e1.printStackTrace();
+			e1.printStackTrace();
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
