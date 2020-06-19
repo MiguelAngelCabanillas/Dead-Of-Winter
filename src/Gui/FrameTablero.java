@@ -38,7 +38,7 @@ public class FrameTablero extends JFrame {
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
 	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
 	private int vertedero,nFichComida,nFichHambre;
-	private String crisisRes;
+	private int crisisRes;
 	private static int nCartasABuscar;
 
 	private HashMap<Integer,JLabel[]> supMap;
@@ -1113,6 +1113,10 @@ public class FrameTablero extends JFrame {
 		}
 	}
 	
+	public void inicRuido() {
+		
+	}
+	
 	public void cartasAportadas(int idCarta) {
 		cartasResolucionCrisis.add(idCarta);
 	}
@@ -1122,13 +1126,14 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void cartasResCrisis() {
-		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso);
+		frameCartasAportadas = new FrameCartasAportadas(cartasResolucionCrisis,aso,crisisRes);
 		frameCartasAportadas.setVisible(true);
 	}
 	
-	public void crisisResult(String s) {
+	public void crisisResult(int s) {
 		crisisRes = s;
 	}
+	
 	
 	public static void enviarComando(String command) {
 		try {
