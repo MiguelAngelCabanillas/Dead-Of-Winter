@@ -795,6 +795,7 @@ private BufferedReader buffer;
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
 					
 				}
 				user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
