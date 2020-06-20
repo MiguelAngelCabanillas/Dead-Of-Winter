@@ -323,7 +323,7 @@ public class Principal {
 	//NECESITA SABER QUIEN USA LA HABILIDAD Y SOBRE QUIEN. MANDAR BASURA SI NO SE USA SOBRE NADIE
 	public String usarHabilidad(int idSup, int idObjetivo, int idDado) throws HabilidadException, MatarException, DadoException, BuscarException {
 		String salida = "";
-		if(supervivientes.getSuperviviente(idSup).getUsado()) {
+		if(supervivientes.getSuperviviente(idSup + 100).getUsado()) {
 			throw new HabilidadException("Ya has usado tu habilidad");
 		}
 		
