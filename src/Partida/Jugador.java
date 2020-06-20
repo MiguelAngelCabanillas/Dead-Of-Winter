@@ -124,19 +124,31 @@ public class Jugador {
 	
 	//METODO QUE COGE EL MENOR DE LOS DADOS
 	public int valorDado(int valor) throws DadoException {
-		int actual = 100;
+//		int actual = 100;
+//        int indice = -1;
+//        Iterator<Integer> iter = dados.getDados().iterator();
+//        while(iter.hasNext()) {
+//            int valorDado = iter.next();
+//            if (valorDado >= valor) {
+//                if (valorDado < actual) {
+//                    actual = valorDado;
+//                    indice = dados.getDados().indexOf(actual);
+//                }
+//            }
+//        }
+//		return indice;
+		
+		int menor = 1000;
         int indice = -1;
-        Iterator<Integer> iter = dados.getDados().iterator();
-        while(iter.hasNext()) {
-            int valorDado = iter.next();
-            if (valorDado >= valor) {
-                if (valorDado < actual) {
-                    actual = valorDado;
-                    indice = dados.getDados().indexOf(actual);
+        for (int i = 0; i < dados.getDados().size(); i++) {
+            if (dados.getDados().get(i) >= valor) {
+                if (dados.getDados().get(i) < menor) {
+                    indice = i;
+                    menor = dados.getDados().get(i);
                 }
             }
         }
-		return indice;
+        return indice;
 	}
 	
 	//METODO PARA SABER EL INDICE DE UN SUPERVIVIENTE
@@ -465,7 +477,7 @@ public class Jugador {
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida += encontrado.getId();
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 6;
 							enc = true;
 							
 						}else if(aux.getId() == 7){
@@ -473,21 +485,19 @@ public class Jugador {
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida += encontrado.getId();
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 7;
 							
 							tablero.getColonia().anyadirInutiles();
-							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 							enc = true;
 						}else if(aux.getId() == 8) {
 							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida += encontrado.getId();
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 8;
 							
 							tablero.getColonia().anyadirInutiles();
 							tablero.getColonia().anyadirInutiles();
-							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 							enc = true;
 						}else {
 							buffer.add(locCartas.cogerCarta());
@@ -503,7 +513,7 @@ public class Jugador {
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
 						salida += encontrado.getId();
-						salida += "|" + tablero.getColonia().getPosicion(encontrado);
+						salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 6;
 						evento = true;
 						
 					}else if(aux.getId() == 7){
@@ -511,21 +521,19 @@ public class Jugador {
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
 						salida += encontrado.getId();
-						salida += "|" + tablero.getColonia().getPosicion(encontrado);
+						salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 7;
 						
 						tablero.getColonia().anyadirInutiles();
-						System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 						evento = true;
 					}else if(aux.getId() == 8) {
 						Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
 						salida += encontrado.getId();
-						salida += "|" + tablero.getColonia().getPosicion(encontrado);
+						salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 8;
 						
 						tablero.getColonia().anyadirInutiles();
 						tablero.getColonia().anyadirInutiles();
-						System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 						evento = true;
 					}else {
 						//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
@@ -539,34 +547,32 @@ public class Jugador {
 					//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN O TIENE EQUIPADO UN PLANO
 					//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
 					if(!evento && !locCartas.getMazo().vacio() && (!personaje.getUsado() && 
-							getLocalizacion(personaje.doble()).equals(locCartas)) || (personaje.tieneEquipado((getLocalizacion(personaje.doble())).getId() + 12) 
+							getLocalizacion(personaje.doble()).equals(locCartas)) || (personaje.tieneEquipado((locCartas).getId() + 12) 
 							&& !personaje.usado((getLocalizacion(personaje.doble())).getId() + 12)) || personaje.getId() == 111) {	
 						if(aux.getId() == 6) {
 							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida = Integer.toString(encontrado.getId());
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado) + "|" + 6;
 							
 						}else if(aux.getId() == 7){
 							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida = Integer.toString(encontrado.getId());
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 7;
 							
 							tablero.getColonia().anyadirInutiles();
-							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 						}else if(aux.getId() == 8) {
 							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 							mazoSuperviviente.add(encontrado);
 							tablero.getColonia().anyadirSupervivientes(encontrado);
 							salida = Integer.toString(encontrado.getId());
-							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 8;
 							
 							tablero.getColonia().anyadirInutiles();
 							tablero.getColonia().anyadirInutiles();
-							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
 						}else {
 							//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
 							salida = Integer.toString(aux.getId());
@@ -606,14 +612,14 @@ public class Jugador {
 				mazoSuperviviente.add(encontrado);
 				tablero.getColonia().anyadirSupervivientes(encontrado);
 				salida = Integer.toString(encontrado.getId());
-				salida += "|" + tablero.getColonia().getPosicion(encontrado);
+				salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 6;
 				
 			}else if(aux.getId() == 7){
 				Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 				mazoSuperviviente.add(encontrado);
 				tablero.getColonia().anyadirSupervivientes(encontrado);
 				salida = Integer.toString(encontrado.getId());
-				salida += "|" + tablero.getColonia().getPosicion(encontrado);
+				salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 7;
 				
 				tablero.getColonia().anyadirInutiles();
 			}else if(aux.getId() == 8) {
@@ -621,7 +627,7 @@ public class Jugador {
 				mazoSuperviviente.add(encontrado);
 				tablero.getColonia().anyadirSupervivientes(encontrado);
 				salida = Integer.toString(encontrado.getId());
-				salida += "|" + tablero.getColonia().getPosicion(encontrado);
+				salida += "|" + tablero.getColonia().getPosicion(encontrado)+ "|" + 8;
 				
 				tablero.getColonia().anyadirInutiles();
 				tablero.getColonia().anyadirInutiles();

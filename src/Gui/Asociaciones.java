@@ -173,7 +173,7 @@ public class Asociaciones {
 		aux.put(117, JamesMeyers);
 		aux.put(118, JanetTaylor);
 		aux.put(119,JennyClark);
-		aux.put(120, JohnPrice);
+//		aux.put(120, JohnPrice);
 		aux.put(121, KodiakColby);
 		aux.put(122, LorettaClay);
 		aux.put(123,MariaLopez);

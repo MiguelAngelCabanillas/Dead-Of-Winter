@@ -155,8 +155,8 @@ public class Principal {
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
-
+		int [] cartas = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
+		 	//0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11
 		int i = 0;
 		
 		while(i < 30){
@@ -464,6 +464,8 @@ public class Principal {
 		String salida = "";
 		if(comida == 0) {
 			throw new DadoException("No hay comida en la colonia");
+		}else if(jugadorActual.getDados().getValor(dado) == 6) {
+			throw new DadoException("El dado ya es máximo");
 		}else {
 			salida += dado + "|" + jugadorActual.getDados().aumentarDado(dado);
 		}
