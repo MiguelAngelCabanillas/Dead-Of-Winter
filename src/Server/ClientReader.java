@@ -87,10 +87,15 @@ public class ClientReader implements Runnable {
                 	while(i < split.length) {
                 		idSup = Integer.parseInt(split[i]);
                 		posValCol = Integer.parseInt(split[i+1]);
+                		tablero.setHeridasNormales(idSup, 0);
+                		tablero.setHeridasCong(idSup, 0);
                 		tablero.anyadirSuperviviente(idSup, posValCol); //añadimos superviviente al tablero
+                		System.out.println("AÑADIMOS SUPERVIVIENTE "+ idSup + " EN LA POSICION " + posValCol);
                 		tablero.addSupJug(idJug,idSup); //añadimos superviviente a la lista del jugador al que se le asigna
+                		System.out.println("AÑADIMOS SUPERVIVIENTE "+ idSup + " AL JUGADOR " + idJug);
                 		i = i+2;
                 	}
+                	tablero.refresh();
                 	break;
                 	
                 case "addSupInd": //addSupInd|casilla -> casilla a partir de la cual rellenamos supervivientes hasta el final de la colonia
@@ -314,6 +319,11 @@ public class ClientReader implements Runnable {
                 		list.add(Integer.parseInt(split[j]));
                 	}
                 	tablero.seleccionSupervivientes(list, "medicina");
+                	break;
+                	
+                case "evento": //evento|idEvento
+                	System.out.println("ID DE EVENTO: "+ split[1]);
+                	tablero.evento(Integer.parseInt(split[1]));
                 	break;
                 	                	
                 default:
