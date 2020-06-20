@@ -24,6 +24,7 @@ public class FrameCarta extends JFrame {
 	private static HashMap<Integer, JLabel> carta;
 	private static String id;
 	private static boolean turno;
+	private FrameSeleccionSuperviviente frameSup;
 //	private Asociaciones asociaciones;
 	/**
 	 * Launch the application.
@@ -82,9 +83,19 @@ public class FrameCarta extends JFrame {
 		JButton btnUsarCarta = new JButton("Usar carta");
 		btnUsarCarta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|usarCarta|" + Integer.parseInt(id) + "|0"); //0 -> basura
-				InfoJugador.Dispose();
-				dispose();
+				if(Integer.parseInt(id) >= 9 && Integer.parseInt(id) != 19) {
+					if(frameSup != null) {
+						frameSup.dispose();
+					}
+					frameSup = new FrameSeleccionSuperviviente(FrameTablero.getUsuario().getNombre() + "|1|usarCarta|"+id+"|", FrameTablero.getSupJug(), FrameTablero.getAsociaciones());
+					frameSup.setVisible(true);
+					InfoJugador.Dispose();
+					dispose();
+				}else {
+					FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|usarCarta|" + id + "|0"); //0 -> basura
+					InfoJugador.Dispose();
+					dispose();
+				}
 			}
 		});
 		btnUsarCarta.setToolTipText("Se aplica el efecto de la carta seleccionada");
@@ -94,7 +105,7 @@ public class FrameCarta extends JFrame {
 		JButton btnAportarCrisis = new JButton("Aportar");
 		btnAportarCrisis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|aportarCrisis|" + Integer.parseInt(id));
+				FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|aportarCrisis|" + id);
 				InfoJugador.Dispose();
 				dispose();
 			}

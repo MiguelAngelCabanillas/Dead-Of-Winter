@@ -175,6 +175,12 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
 				dispose();
 				break;
+			
+			case "usarCarta":
+				System.out.println("USAR CARTA "+ aux[3] + " EN EL SUPERVIVIENTE " + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText());
+				FrameTablero.enviarComando(comando + botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()); //usuario|1|usarCarta|idCarta|idSup
+				dispose();
+				break;
 				
 			default:
 				break;

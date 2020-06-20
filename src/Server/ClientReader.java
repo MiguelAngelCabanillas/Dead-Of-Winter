@@ -325,6 +325,11 @@ public class ClientReader implements Runnable {
                 	System.out.println("ID DE EVENTO: "+ split[1]);
                 	tablero.evento(Integer.parseInt(split[1]));
                 	break;
+                	
+                case "equipar": //equipar|idSup|idObj
+                	System.out.println("EQUIPAMOS OBJETO " + split[2] + " AL SUPERVIVIENTE " + split[1]);
+                	tablero.equiparObj(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+                	break;
                 	                	
                 default:
                 	System.err.println("ERROR IN COMMAND-> " + split[0]);
