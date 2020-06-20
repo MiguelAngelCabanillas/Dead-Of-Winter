@@ -427,6 +427,7 @@ private BufferedReader buffer;
 							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[2]);
 							user.enviarALaSala("evento|" + enc[3]);
 							user.enviarALaSala("addSupInd|" + user.getSala().getPartida().getInutiles());
+							user.enviarALaSala("chat|" + user.getNombre() + " ha encontrado supervivientes.");
 						} else {
 							int indNCartas = enc.length - 2;
 							String cEnc = "";
