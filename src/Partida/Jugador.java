@@ -115,6 +115,7 @@ public class Jugador {
 			if (aux.estaMuerto()) {
 				this.mazoSuperviviente.remove(aux);
 				loc.eliminarSuperviviente(aux);
+				tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
 			}else {
 				i++;
 			}
@@ -159,6 +160,7 @@ public class Jugador {
 		for(Carta_Supervivientes sup : mazoSuperviviente) {
 			sup.setUsado(false);
 			sup.setMovido(false);
+			sup.resetEquipables();
 		}
 	}
 	
@@ -181,7 +183,7 @@ public class Jugador {
 		return salida;
 	}
 	
-	public void eliminarCarta(int id) { //El jugador no va a poder seleccionar una carta que no tiene
+	public boolean eliminarCarta(int id) { //El jugador no va a poder seleccionar una carta que no tiene
         Iterator<Carta> ite = mazoObjeto.iterator();
         boolean encontrado = false;
         while(ite.hasNext() && !encontrado) {
@@ -191,6 +193,8 @@ public class Jugador {
                 encontrado = true;
             }
         }
+        
+       return encontrado;
     }
 
 	public void darCarta(int id) {
@@ -299,6 +303,7 @@ public class Jugador {
 			localizacion(personaje).eliminarSuperviviente(personaje);
 			mazoSuperviviente.remove(personaje);
 			salida = 3;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
 		}
 		
 		return salida;
@@ -317,21 +322,70 @@ public class Jugador {
 		//EL UNICO CASO EN EL QUE RES ES NULL SE MANDA UNA MATAREXCEPTION
 		String res = null;
 		
+		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
+		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
+		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
+		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque();
+		
 		//USAMOS EL MENOR DADO POSIBLE
-		int dado = valorDado(personaje.getAtaque());
+		int dado = -1;
+		if(madre | quimico) {	//SI ES LA MADRE Y ESTA EN LA COLONIA GASTAMOS UN 1 SI ES POSIBLE
+			dado = valorDado(1);
+		}else if(sheriff) {
+			dado = valorDado(4);
+		}else {
+			dado = valorDado(personaje.getAtaque());
+			System.out.println("Ataque de: " + personaje.getId() + " con valor "+ personaje.getAtaque());
+		}
 		
 		//SI EL DADO ES VÁLIDO LO USAMOS Y HACEMOS TIRADA DE RIESGO
 		if(dado == -1) {
 			throw new DadoException("Tus dados son muy pequeños");
 		}else {
 			//MANDA UN ERROR SI NO HAY ZOMBIES
-			res = localizacion(personaje).matarZombie();
+			res = loc.matarZombie();
+			
+			//MIRAMOS SI EL SUPERVIVIENTE TIENE UNA ESCOPETA. NO AÑADE RUIDO SI YA HAY 4
+			if(personaje.tieneEquipado(11) && !personaje.usado(11)) {
+				personaje.usar(11);
+				res += "|" + loc.matarZombie();
+				int ruido = loc.getTokensDeRuido();
+				if(ruido != 4) {
+					loc.setTokensDeRuido(ruido + 1);
+				}
+			}
+			
+			//SI ES LA MADRE Y ESTA EN LA COLONIA MATA DOBLE. EL SHERIFF MATA DOBLE EN CUALQUIER SITIO
+			if(madre || sheriff) {
+				personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL SHERIFF
+				personaje.setUsado(true);
+				res += "|" + loc.matarZombie();
+			}
+			
+			if(quimico) {
+				personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL QUIMICO
+				personaje.setUsado(true);
+				res += "|" + loc.matarZombie();
+				res += "|" + loc.matarZombie();
+			}
 			
 			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
-			if(personaje.tiraAlAtacar()) {
-				riesgo = tiradaRiesgo(personaje);
+			if(personaje.tiraAlAtacar() && !personaje.tieneEquipado(9) && !personaje.tieneEquipado(10)) {
+				if(personaje.tieneEquipado(9) && !personaje.usado(9)) {
+					riesgo = tiradaRiesgo(personaje);
+				}else if(personaje.tieneEquipado(10) && !personaje.usado(10)) {
+					personaje.usar(10);
+					riesgo = tiradaRiesgo(personaje);
+				}else {
+					riesgo = tiradaRiesgo(personaje);
+				}
 			}
-			dados.usar(dado);
+			//MIRAMOS SI TIENE EQUIPADO UN FRANCOTIRADOR O SI ES LA MADRE
+			if(!madre && !quimico && !personaje.tieneEquipado(9) || personaje.tieneEquipado(9) && personaje.usado(9)) {
+				dados.usar(dado);
+			}else if(personaje.tieneEquipado(9) && !personaje.usado(9)) {	//SI TIENE EQUIPADO UN FRANCOTIRADOR Y NO LO HA USADO
+				personaje.usar(9);
+			}
 		}
 		
 		if(objetivo.getId() == 0) {
@@ -353,9 +407,13 @@ public class Jugador {
 		int dado = valorDado(1);
 		String res = loc.ponerBarricada();
 		
-		if(dado == -1) {
+		//SI EL PERSONAJE TIENE EQUIPADO EL LIBRO PARA PONER BARRICADAS
+		if((personaje.tieneEquipado(20) && !personaje.usado(20)) || personaje.getId() == 104) {
+			personaje.usar(20);
+			dado = -1;
+		}else if(dado == -1) {
 			res = null;
-		}else {
+		}else{
 			dados.usar(dado);
 		}
 		
@@ -380,6 +438,9 @@ public class Jugador {
 		locCartas = localizacion(personaje);
 		int cartasBuscadas = 0;
 		
+		//VARIABLES PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
+		boolean bombero = personaje.getId() == 114 && personaje.getPasivaDeBusqueda() && !personaje.getUsado();
+		
 		if(getLocalizacion(6).equals(localizacion(personaje))){
 			throw new BuscarException("No puedes buscar en la colonia");
 		}
@@ -392,81 +453,132 @@ public class Jugador {
 				throw new BuscarException("El mazo esta vacio");
 			}else {
 				//COGEMOS LA CARTA Y LA AÑADIMOS AL MAZO
-				aux = locCartas.cogerCarta();
 				
-				if(aux.getId() == 6) {
-					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
-					mazoSuperviviente.add(encontrado);
-					tablero.getColonia().anyadirSupervivientes(encontrado);
-					salida += encontrado.getId();
-					salida += "|" + tablero.getColonia().getPosicion(encontrado);
-					evento = true;
+				if(bombero) {
+					int i = 0;
+					boolean enc = false;
+					while(!enc && i < 4) {
+						aux = locCartas.cogerCarta();
+						
+						if(aux.getId() == 6) {
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida += encontrado.getId();
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							enc = true;
+							
+						}else if(aux.getId() == 7){
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida += encontrado.getId();
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							
+							tablero.getColonia().anyadirInutiles();
+							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+							enc = true;
+						}else if(aux.getId() == 8) {
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida += encontrado.getId();
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							
+							tablero.getColonia().anyadirInutiles();
+							tablero.getColonia().anyadirInutiles();
+							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+							enc = true;
+						}else {
+							buffer.add(locCartas.cogerCarta());
+						}
+					}
 					
-				}else if(aux.getId() == 7){
-					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
-					mazoSuperviviente.add(encontrado);
-					tablero.getColonia().anyadirSupervivientes(encontrado);
-					salida += encontrado.getId();
-					salida += "|" + tablero.getColonia().getPosicion(encontrado);
+					resetBuffer();
 					
-					tablero.getColonia().anyadirInutiles();
-					evento = true;
-				}else if(aux.getId() == 8) {
-					Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
-					mazoSuperviviente.add(encontrado);
-					tablero.getColonia().anyadirSupervivientes(encontrado);
-					salida += encontrado.getId();
-					salida += "|" + tablero.getColonia().getPosicion(encontrado);
-					
-					tablero.getColonia().anyadirInutiles();
-					tablero.getColonia().anyadirInutiles();
-					evento = true;
 				}else {
-					//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
-					salida += aux.getId();
-					buffer.add(aux);
-					cartasBuscadas++;
-				}
-				
-				dados.usar(dado);
-				
-				//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN
-				//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
-				if(!evento && !locCartas.getMazo().vacio() && !personaje.getUsado() && 
-						getLocalizacion(personaje.doble()).equals(locCartas)) {	
+					aux = locCartas.cogerCarta();
 					if(aux.getId() == 6) {
 						Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
-						salida = Integer.toString(encontrado.getId());
+						salida += encontrado.getId();
 						salida += "|" + tablero.getColonia().getPosicion(encontrado);
+						evento = true;
 						
 					}else if(aux.getId() == 7){
 						Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
-						salida = Integer.toString(encontrado.getId());
+						salida += encontrado.getId();
 						salida += "|" + tablero.getColonia().getPosicion(encontrado);
 						
 						tablero.getColonia().anyadirInutiles();
+						System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+						evento = true;
 					}else if(aux.getId() == 8) {
 						Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
 						mazoSuperviviente.add(encontrado);
 						tablero.getColonia().anyadirSupervivientes(encontrado);
-						salida = Integer.toString(encontrado.getId());
+						salida += encontrado.getId();
 						salida += "|" + tablero.getColonia().getPosicion(encontrado);
 						
 						tablero.getColonia().anyadirInutiles();
 						tablero.getColonia().anyadirInutiles();
+						System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+						evento = true;
 					}else {
 						//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
-						salida = Integer.toString(aux.getId());
+						salida += aux.getId();
 						buffer.add(aux);
 						cartasBuscadas++;
 					}
 					
-					//YA HA USADO SU PASIVA (HABILIDAD)
-					personaje.setUsado(true);
+					dados.usar(dado);
+					
+					//SI EL PERSONAJE BUSCA DOBLE EN LA LOCALIZACIÓN O TIENE EQUIPADO UN PLANO
+					//NOTA: SI AL BUSCAR LA SEGUNDA CARTA EL MAZO ESTA VACÍO NO SE MANDA ERROR
+					if(!evento && !locCartas.getMazo().vacio() && (!personaje.getUsado() && 
+							getLocalizacion(personaje.doble()).equals(locCartas)) || (personaje.tieneEquipado((getLocalizacion(personaje.doble())).getId() + 12) 
+							&& !personaje.usado((getLocalizacion(personaje.doble())).getId() + 12)) || personaje.getId() == 111) {	
+						if(aux.getId() == 6) {
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida = Integer.toString(encontrado.getId());
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							
+						}else if(aux.getId() == 7){
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida = Integer.toString(encontrado.getId());
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							
+							tablero.getColonia().anyadirInutiles();
+							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+						}else if(aux.getId() == 8) {
+							Carta_Supervivientes encontrado = supervivientes.getSupervienteAleatorio();
+							mazoSuperviviente.add(encontrado);
+							tablero.getColonia().anyadirSupervivientes(encontrado);
+							salida = Integer.toString(encontrado.getId());
+							salida += "|" + tablero.getColonia().getPosicion(encontrado);
+							
+							tablero.getColonia().anyadirInutiles();
+							tablero.getColonia().anyadirInutiles();
+							System.out.println("Indefensos: " + tablero.getColonia().getInutiles());
+						}else {
+							//SE AÑADE LA CARTA A UN BUFFER PARA ESPERAR CONFIRAMCIÓN DEL JUGADOR
+							salida = Integer.toString(aux.getId());
+							buffer.add(aux);
+							if(!(personaje.getId() == 111)) {	//PARA EL CONTABLE
+								cartasBuscadas++;
+							}
+						}
+						
+						//YA HA USADO SU PASIVA (HABILIDAD)
+						personaje.setUsado(true);
+					}
 				}
 			}
 		}
@@ -475,7 +587,11 @@ public class Jugador {
 			objetivo.actualizar(localizacion(personaje).getId());
 		}
 		
-		return salida + "|" + Integer.toString(cartasBuscadas) + "|" + Integer.toString(dado);
+		if(!bombero) {
+			salida += "|" + Integer.toString(cartasBuscadas) + "|" + Integer.toString(dado);
+		}
+		
+		return salida;
 	}
 	
 	public String hacerRuido() throws BuscarException {

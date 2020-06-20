@@ -782,17 +782,17 @@ public class Asociaciones {
 		//Escopeta -> 11
 		aux.put(11, escopeta);
 		//pSuper -> 12
-		aux.put(12, pSuper);
+		aux.put(12, pComisaria);
 		//pComisaria -> 13
-		aux.put(13, pComisaria);
+		aux.put(13, pSuper);
 		//pGasolinera -> 14
-		aux.put(14, pGasolinera);
+		aux.put(14, pColegio);
 		//pHospital -> 15
-		aux.put(15, pHospital);
+		aux.put(15, pGasolinera );
 		//pBiblio -> 16
-		aux.put(16, pBiblio);
+		aux.put(16, pHospital);
 		//pColegio -> 17
-		aux.put(17, pColegio);
+		aux.put(17, pBiblio);
 		//libArtesMarciales -> 18
 		aux.put(18, libArtesMarciales);
 		//libDadosMas -> 19
@@ -822,7 +822,7 @@ public class Asociaciones {
 		//Martillo -> 31
 		aux.put(31, martillo);
 		//Megafono -> 31
-		aux.put(9, megafono);
+		aux.put(35, megafono);
 		//RaquetasNieve -> 32
 		aux.put(32, raquetasNieve);
 		//Tijeras -> 33

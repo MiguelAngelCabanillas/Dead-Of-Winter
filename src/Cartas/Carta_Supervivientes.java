@@ -3,6 +3,8 @@ package Cartas;
 import java.util.ArrayList;
 import java.util.List;
 
+import Partida.EquipableException;
+
 public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supervivientes>{
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,16 +20,21 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private boolean tirarAlMover;
 	private boolean tirarAlMatar;
 	private boolean movido = false;
-	private boolean usada;
+	private boolean usada;	//PARA LA PASIVA
 	private int buscarDoble;
 	private int vaciaVertedero;
+	private int heridasParaMatar;
+	private boolean pasivaDeAtaque;
+	private boolean pasivaDeBusqueda;
+	//private boolean guarda
 	/*
 	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
 	 * PARA SUPERVIVIENTES SIN HABILIDAD DE BÚSQUEDA ESTE VALOR VALE -1
 	 * PARA EL RESTO, TENDRÁ UN NÚMERO ENTRE 0 Y 5 QUE INDICA LA LOCALIZACION
 	 */
 	
-	private List<Carta_Objeto> equipamiento;	//puede que no sea necesario despues
+	private List<Integer> equipamiento;	//puede que no sea necesario despues
+	private List<Boolean> usado;
 	private int heridas;
 	private int congelamiento;
 	
@@ -45,6 +52,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		this.congelamiento = 0;
 		this.influencia = influencia;
 		this.equipamiento = new ArrayList<>();
+		this.usado = new ArrayList<>();
 		
 		tirarAlMatar = true;
 		tirarAlMover = true;
@@ -52,6 +60,9 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		movido = false;
 		buscarDoble = -1;
 		vaciaVertedero = 3;
+		heridasParaMatar = 3;
+		pasivaDeAtaque = false;
+		pasivaDeBusqueda = false;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,18 +70,46 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//METODOS DE EQUIPAMIENTO
-	public void equipar(Carta_Objeto carta) {
-		equipamiento.add(carta);
+	public void equipar(int idCarta) {
+		equipamiento.add(idCarta);
+		usado.add(false);
 	}
 	
-	public List<Carta_Objeto> getEquipamiento(){
+	public List<Integer> getEquipamiento(){
 		return equipamiento;
-		
+	}
+	
+	public boolean tieneEquipado(int id) {
+		return equipamiento.contains(id);
+	}
+	
+	public boolean usado(int id) {
+		return usado.get(equipamiento.indexOf(id));
+	}
+	
+	public void usar(int id) {
+			usado.set(equipamiento.indexOf(id), true);
 	}
 	
 	//GETTERS Y SETTERS	
 	
 	//NECESARIOS EN INICSUPERVIVIENTES
+	public boolean getPasivaDeBusqueda() {
+		return pasivaDeBusqueda;
+	}
+	
+	public void setPasivaDeBusqueda(boolean val) {
+		pasivaDeBusqueda = val;
+	}
+	
+	public boolean getPasivaDeAtaque() {
+		return pasivaDeAtaque;
+	}
+	
+	public void setPasivaDeAtaque(boolean s) {
+		pasivaDeAtaque = s;
+	}
+	
 	public int doble() {
 		return buscarDoble;
 	}
@@ -89,6 +128,12 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	public void setUsado(boolean t) {
 		usada = true;
+	}
+	
+	public void resetEquipables() {
+		for(int i = 0; i < usado.size(); i++) {
+			usado.set(i, false);
+		}
 	}
 	
 	public boolean getUsado(){
@@ -159,6 +204,10 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		return congelamiento;
 	}
 	
+	public void setHeridasParaMatar(int cant) {
+		heridasParaMatar = cant;
+	}
+	
 	//METODOS DE SALUD DEL PERSONAJE
 	public void congelamiento() {
 		if (this.congelamiento != 0) {
@@ -167,7 +216,6 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public void recibirHerida(boolean esCongelamiento) {
-		
 		if (esCongelamiento) {
 			this.congelamiento++;
 		}else {
@@ -177,7 +225,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	
 	public boolean estaMuerto() {
 		boolean res = false;
-		if (this.heridas + this.congelamiento >= 3) {
+		if (this.heridas + this.congelamiento >= heridasParaMatar) {
 			res = true;
 		}
 		return res;

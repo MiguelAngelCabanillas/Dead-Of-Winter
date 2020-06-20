@@ -32,7 +32,7 @@ public class InicSupervivientes {
 		cartas.add(granjero);
 		personajes.put(101, granjero);
 		
-		//ABOGADA (102) TODO habilidad
+		//ABOGADA (102)
 		Carta_Supervivientes abogada = new Carta_Supervivientes(102, 2, 2, 38, "Annaleigh Chan");
 		cartas.add(abogada);
 		personajes.put(102, abogada);
@@ -43,29 +43,30 @@ public class InicSupervivientes {
 		cartas.add(director);
 		personajes.put(103, director);
 		
-		//OBRERA (104)	//TODO habilidad (intentar que la barricada se ponga en el lugar en el que está)
+		//OBRERA (104)
 		Carta_Supervivientes obrera = new Carta_Supervivientes(104, 2, 5, 52, "Ashley Ross");
 		cartas.add(obrera);
 		personajes.put(104, obrera);
 		
-		//MADRE (105)	//TODO habilidad (preguntar si hacer como pasiva)
+		//MADRE (105)
 		Carta_Supervivientes madre = new Carta_Supervivientes(105, 2, 4, 34, "Bev Russell");
 		cartas.add(madre);
 		personajes.put(105, madre);
 		
-		//CONSERJE (106)	//TODO habilidad (crear una variable para saber cuantas cartas se limpian del vertedero)
+		//CONSERJE (106)
 		Carta_Supervivientes conserje = new Carta_Supervivientes(106, 2, 4, 26, "Bandon Kane");
 		conserje.setVertedero(5);
 		cartas.add(conserje);
 		personajes.put(106, conserje);
 		
-		//ALCALDE (107)	//TODO habilidad (crear un metodo para aumentar el dado)
+		//ALCALDE (107)
 		Carta_Supervivientes alcalde = new Carta_Supervivientes(107, 3, 4, 68, "Brian Lee");
 		cartas.add(alcalde);
 		personajes.put(107, alcalde);
 		
-		//PREPARADOR (108)	//TODO habilidad (crear un contador de heridas?)
+		//PREPARADOR (108)
 		Carta_Supervivientes preparador = new Carta_Supervivientes(108, 2, 4, 36, "Buddy Davis");
+		preparador.setHeridasParaMatar(4);
 		cartas.add(preparador);
 		personajes.put(108, preparador);
 		
@@ -75,32 +76,32 @@ public class InicSupervivientes {
 		cartas.add(policia);
 		personajes.put(109, policia);
 		
-		//SHERIFF (110)	//TODO habilidad (crear una variable para matar doble)
+		//SHERIFF (110)
 		Carta_Supervivientes sher = new Carta_Supervivientes(110, 2, 5, 66, "Daniel Smith");
 		cartas.add(sher);
 		personajes.put(110, sher);
 		
-		//CONTABLE (111) //TODO habilidad
+		//CONTABLE (111)
 		Carta_Supervivientes cont = new Carta_Supervivientes(111, 4, 3, 50, "David García");
 		cartas.add(cont);
 		personajes.put(111, cont);
 		
-		//QUIMICO (112) //TODO habilidad
+		//QUIMICO (112)
 		Carta_Supervivientes quimico = new Carta_Supervivientes(112, 4, 3, 44, "Edward White");
 		cartas.add(quimico);
 		personajes.put(112, quimico);
 		
-		//NOEL (113)	//TODO va a ser horrible de hacer
+		//NOEL (113)
 		Carta_Supervivientes noel = new Carta_Supervivientes(113, 2, 5, 14, "Forest Plum");
 		cartas.add(noel);
 		personajes.put(113, noel);
 		
-		//BOMBERO (114)	//TODO ni idea
+		//BOMBERO (114)
 		Carta_Supervivientes bombero = new Carta_Supervivientes(114, 2, 3, 60, "Gabriel Díaz");
 		cartas.add(bombero);
 		personajes.put(114, bombero);
 		
-		//PIRATA (115) //TODO dificil
+		//PIRATA (115)
 		Carta_Supervivientes pirata = new Carta_Supervivientes(115, 1, 4, 16, "Gray Beard");
 		cartas.add(pirata);
 		personajes.put(115, pirata);
