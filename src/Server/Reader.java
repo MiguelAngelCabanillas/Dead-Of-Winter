@@ -424,8 +424,8 @@ private BufferedReader buffer;
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
 						if(Integer.parseInt(enc[0]) >= 100) { //evento
-							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[2]);
-							user.enviarALaSala("evento|" + enc[3]);
+							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[1]);
+							user.enviarALaSala("evento|" + enc[2]);
 							user.enviarALaSala("addSupInd|" + user.getSala().getPartida().getInutiles());
 							user.enviarALaSala("chat|" + user.getNombre() + " ha encontrado supervivientes.");
 						} else {

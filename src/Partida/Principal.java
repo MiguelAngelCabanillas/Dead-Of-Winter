@@ -155,8 +155,8 @@ public class Principal {
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
-
+		int [] cartas = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
+		 	//0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11
 		int i = 0;
 		
 		while(i < 30){
