@@ -83,17 +83,18 @@ public class ClientReader implements Runnable {
                 case "asignar": // asignar|idJug|idSup|posValCol|idSup|posValCol|idSup|posValCol...
                 	int i = 2;
                 	int idSup,posValCol;
+                	idJug = Integer.parseInt(split[1]);
                 	while(i < split.length) {
-                		idJug = Integer.parseInt(split[i-1]);
                 		idSup = Integer.parseInt(split[i]);
                 		posValCol = Integer.parseInt(split[i+1]);
-                		tablero.addSupJug(idJug,idSup); //añadimos superviviente a la lista del jugador al que se le asigna
                 		tablero.anyadirSuperviviente(idSup, posValCol); //añadimos superviviente al tablero
+                		tablero.addSupJug(idJug,idSup); //añadimos superviviente a la lista del jugador al que se le asigna
                 		i = i+2;
                 	}
                 	break;
                 	
                 case "addSupInd": //addSupInd|casilla -> casilla a partir de la cual rellenamos supervivientes hasta el final de la colonia
+                	System.out.println("AÑADIR SUPERVIVIENTE INDEFENSO EN LA POSICION: " + split[1]);
                 	tablero.addSupInd(Integer.parseInt(split[1]));
                 	break;
                 	

@@ -279,7 +279,7 @@ public class FrameTablero extends JFrame {
 		labelsSupInd = new ArrayList<>();
 		for(int i=0;i<locColonia.length;i++) {
 			aux = new JLabel("");
-			p = locColonia[0];
+			p = locColonia[i];
 			aux.setBounds(p.x,p.y, 36, 34);
 			aux.setIcon(imgCircular("images/Fichas/fichaSupIndefenso.png",36,34));
 			aux.setVisible(false);
