@@ -464,6 +464,8 @@ public class Principal {
 		String salida = "";
 		if(comida == 0) {
 			throw new DadoException("No hay comida en la colonia");
+		}else if(jugadorActual.getDados().getValor(dado) == 6) {
+			throw new DadoException("El dado ya es máximo");
 		}else {
 			salida += dado + "|" + jugadorActual.getDados().aumentarDado(dado);
 		}

@@ -127,11 +127,11 @@ public class InicSupervivientes {
 		cartas.add(camarera);
 		personajes.put(119, camarera);
 		
-		//ESTUDIANTE (120)//TODO ni de coña
-		Carta_Supervivientes estudiante = new Carta_Supervivientes(120, 3, 3, 18, "John Price");
-		director.setLoc(7);
-		cartas.add(estudiante);
-		personajes.put(120, estudiante);
+//		//ESTUDIANTE (120)//TODO ni de coña
+//		Carta_Supervivientes estudiante = new Carta_Supervivientes(120, 3, 3, 18, "John Price");
+//		director.setLoc(7);
+//		cartas.add(estudiante);
+//		personajes.put(120, estudiante);
 		
 		//LEÑADOR (121)	//TODO se puede hacer pero es dificil
 		Carta_Supervivientes lenador = new Carta_Supervivientes(121, 2, 2, 31, "Kodiak Colby");
