@@ -76,6 +76,7 @@ public class FrameDados extends JFrame {
 			labelsDados.get(d).setIcon(new ImageIcon(img));
 			labelsDados.get(d).setBounds(p.x, p.y, 70, 68);
 			labelsDados.get(d).addActionListener(handler);
+			labelsDados.get(d).setActionCommand("" + d);
 			contentPane.add(labelsDados.get(d));
 		}
 		
@@ -106,7 +107,7 @@ public class FrameDados extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("ACTION COMAND: "+e.getActionCommand());
-			FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|gastarComida|" + labelsDados.indexOf(Integer.parseInt(e.getActionCommand())));
+			FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|gastarComida|" + e.getActionCommand());
 			dispose();
 		}
 		
