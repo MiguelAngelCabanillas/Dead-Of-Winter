@@ -64,6 +64,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		pasivaDeAtaque = false;
 		pasivaDeBusqueda = false;
 		guarda = false;
+		usada = false;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +129,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public void setUsado(boolean t) {
-		usada = true;
+		usada = t;
 	}
 	
 	public void resetEquipables() {
