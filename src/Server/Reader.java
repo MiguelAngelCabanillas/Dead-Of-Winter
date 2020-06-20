@@ -526,16 +526,17 @@ private BufferedReader buffer;
 					try {
 						String sal = "";
 						int idCarta = Integer.parseInt(split[3]);
-						if(idCarta == 3) {
+						if(idCarta == 3) {									//MEDICINA
 							sal = user.getSala().getPartida().getVecinos();
 							user.hacerPeticionAlServidor("medicina|" + sal);
 						} else {
 							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
-							if( idCarta <= 2 ) {
+							if( idCarta <= 2 ) {								//COMIDA
 								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
-							}
-							if(idCarta == 4) { //TRASTOS
+							} else if(idCarta == 4) { 							//TRASTOS
 								user.hacerPeticionAlServidor("setDado|" + sal);
+							} else if(idCarta >= 6 && idCarta != 19) { 			//EQUIPABLES
+								
 							}
 						}
 						
@@ -567,6 +568,9 @@ private BufferedReader buffer;
 					}
 //					user.hacerPeticionAlServidor("rmCarta|0");
 //					user.enviarALaSala("updtCartas|0|-1");
+					break;
+				case "usarHabilidad": //usarHabilidad|idSup|objetivo|dado
+					
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
