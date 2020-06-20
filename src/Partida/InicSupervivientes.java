@@ -106,8 +106,9 @@ public class InicSupervivientes {
 		cartas.add(pirata);
 		personajes.put(115, pirata);
 		
-		//GUARDA (116)	//TODO HABILIDAD
+		//GUARDA (116)
 		Carta_Supervivientes guarda = new Carta_Supervivientes(116, 3, 3, 32, "Harman Brooks");
+		guarda.setGuarda(true);
 		cartas.add(guarda);
 		personajes.put(116, guarda);
 		
