@@ -518,6 +518,7 @@ private BufferedReader buffer;
 					}
 					break;
 				case "usarCarta":
+					System.out.println("hay Cosas");
 					try {
 						String sal = "";
 						int idCarta = Integer.parseInt(split[3]);
@@ -527,7 +528,7 @@ private BufferedReader buffer;
 						} else {
 							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
 							if( idCarta <= 2 ) {
-								user.hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
 							}
 							if(idCarta == 4) { //TRASTOS
 								user.hacerPeticionAlServidor("setDado|" + sal);
