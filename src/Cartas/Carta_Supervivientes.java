@@ -27,6 +27,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private boolean pasivaDeAtaque;
 	private boolean pasivaDeBusqueda;
 	private boolean guarda;
+	private boolean perro;
 	/*
 	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
 	 * PARA SUPERVIVIENTES SIN HABILIDAD DE BÚSQUEDA ESTE VALOR VALE -1
@@ -65,6 +66,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		pasivaDeBusqueda = false;
 		guarda = false;
 		usada = false;
+		perro = false;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +145,14 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	///////////////////////////////////////////////////////////////////////
+	public boolean getPerro() {
+		return perro;
+	}
+	
+	public void setPerro(boolean b) {
+		perro = b;
+	}
+	
 	public void setGuarda(boolean b) {
 		guarda = b;
 	}

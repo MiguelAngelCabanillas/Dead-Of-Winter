@@ -155,8 +155,8 @@ public class Principal {
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
-		 	//0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11
+		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
+
 		int i = 0;
 		
 		while(i < 30){
@@ -328,15 +328,15 @@ public class Principal {
 			throw new HabilidadException("Ya has usado tu habilidad");
 		}
 		
-		
 		switch(idSup) {
 		case 102 : {	//ABOGADA: SE NECESITA LA ID DE UN SUPERVIVIENTE DEL JUGADOR O A CAMBIAR POR ID DE JUGADOR Y DEVUELVE UNA ID DE CARTA
-			List<Carta_Supervivientes> aux = getJugConSup(idObjetivo).getMazoSuperviviente();
+			List<Carta> aux = jugadores.get((jugadorActual.getId() + 1) % jugadores.size()).getMazoObjetos();
 			if(aux.size() > 0) {
-				salida += aux.get(r.nextInt(aux.size()));
+				salida += aux.get(r.nextInt(aux.size())).getId();
 			}else {
 				throw new HabilidadException("El jugador no tiene cartas");
 			}
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 107 :{//ALCALDE: NECESITA LA ID DEL DADO A AUMENTAR
@@ -347,13 +347,13 @@ public class Principal {
 			}else {
 				throw new HabilidadException("No tienes dados");
 			}
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 110 : {	//SHERIFF: HACE UN ATAQUE DOBLE
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
-			try{
-				salida += jugadorActual.atacar(idSup);
-			}catch(MatarException e) {}
+			salida += jugadorActual.atacar(idSup);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 112 : {	//QUIMICO: ELIMINA UNA CARTA DE MEDICINA PARA MATAR 3 ZOMBIES
@@ -362,10 +362,8 @@ public class Principal {
 			if(carta == -1) {
 				throw new HabilidadException("No tienes medicina");
 			}
-			try {
-				salida += carta + "|" + jugadorActual.atacar(idSup);
-			}catch(MatarException e) {};
-			
+			salida += carta + "|" + jugadorActual.atacar(idSup);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 113 : {	//SANTA: MUERE PERO SUBE LA MORAL EN LUGAR DE BAJARLA
@@ -379,11 +377,9 @@ public class Principal {
 		}
 		break;
 		case 114 : {//BOMBERO: BUSCA 4 CARTAS Y SI UNA ES DE EVENTO SE LA QUEDA. DEVUELVE EL SUPERVIVIENTE Y LA POSICION EN LA COLONIA AL IGUAL QUE EN BUSCAR
-			supervivientes.getSuperviviente(idSup).setUsado(true);
 			supervivientes.getSuperviviente(idSup).setPasivaDeBusqueda(true);
-			try{
-				salida += jugadorActual.buscar(idSup); 
-			}catch (BuscarException e) {}
+			salida += jugadorActual.buscar(idSup); 
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 115 : {	//PIRATA: ROBA UNA CARTA DE UN JUGADOR
@@ -391,10 +387,11 @@ public class Principal {
 			if(mazoJugador.size() > 0) {
 				Carta aux = mazoJugador.remove(r.nextInt(mazoJugador.size()));
 				jugadorActual.getMazoObjetos().add(aux);
-				salida += aux.getId();
+				salida += aux.getId() + "|" + getJugConSup(idObjetivo).getId();
 			}else {
 				throw new HabilidadException("El jugador no tiene cartas");
 			}
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
 		case 117 : {	//PSQUIATRA: TIRA UN DADO OTRA VEZ
@@ -417,16 +414,27 @@ public class Principal {
 			jugadorActual.getDados().usar(dado);
 			
 			salida += dado;
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
-		case 123 : {
-			int dado = jugadorActual.valorDado(1);
-			if(dado == -1) {
-				throw new DadoException("No tienes dados");
-			}
+		case 123 : {//PROFESORA: REALIZA UN ATAQUE EN EL COLEGIO QUE GASTA UN DADO CON UN 1 O MAYOR
 			
-			
+			salida += jugadorActual.atacar(idSup);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
 		}
+		case 125 : {//DOCTORA: CURA UNA HERIDA SIN COSTE
+			supervivientes.getSuperviviente(idObjetivo).curarHerida();
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+		}
+		break;
+		case 127 : {//PILOTO: PUEDE MIRAR UNA CARTA DEL MAZO
+			Carta aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).cogerCarta();
+			salida += aux.getId();
+			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlFinal(aux);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+		}
+		break;
 		default : throw new HabilidadException("La habilidad de este superviviente es pasiva");
 		}
 		
@@ -501,7 +509,10 @@ public class Principal {
 			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
-		default : supervivientes.getSuperviviente(idCarta).equipar(idCarta);
+		default : {
+			supervivientes.getSuperviviente(idCarta).equipar(idCarta);
+			jugadorActual.eliminarCarta(idCarta);
+		}
 		}
 		
 		return salida;

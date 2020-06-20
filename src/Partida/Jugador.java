@@ -1,12 +1,10 @@
 package Partida;
 
-import java.time.chrono.MinguoChronology;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import Cartas.Carta;
-import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
 import Excepciones.MoverException;
 
@@ -314,10 +312,15 @@ public class Jugador {
 			personaje.recibirHerida(true);
 			salida = 2;
 		} else if (dado == 11) {
-			localizacion(personaje).eliminarSuperviviente(personaje);
-			mazoSuperviviente.remove(personaje);
-			salida = 3;
-			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
+			if(!personaje.getPerro()) {
+				localizacion(personaje).eliminarSuperviviente(personaje);
+				mazoSuperviviente.remove(personaje);
+				salida = 3;
+				tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
+			}else {
+				personaje.recibirHerida(false);
+				salida = 1;
+			}
 		}
 		
 		return salida;
@@ -338,12 +341,13 @@ public class Jugador {
 		
 		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
 		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
-		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
-		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque();
+		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
+		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
+		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
 		
 		//USAMOS EL MENOR DADO POSIBLE
 		int dado = -1;
-		if(madre | quimico) {	//SI ES LA MADRE Y ESTA EN LA COLONIA GASTAMOS UN 1 SI ES POSIBLE
+		if(madre | quimico | profesora) {	//SI ES LA MADRE Y ESTA EN LA COLONIA GASTAMOS UN 1 SI ES POSIBLE
 			dado = valorDado(1);
 		}else if(sheriff) {
 			dado = valorDado(4);
@@ -371,31 +375,38 @@ public class Jugador {
 			
 			//SI ES LA MADRE Y ESTA EN LA COLONIA MATA DOBLE. EL SHERIFF MATA DOBLE EN CUALQUIER SITIO
 			if(madre || sheriff) {
-				personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL SHERIFF
-				personaje.setUsado(true);
-				res += "|" + loc.matarZombie();
+				try {
+					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL SHERIFF
+					personaje.setUsado(true);
+					res += "|" + loc.matarZombie();
+				}catch(MatarException e) {}
 			}
 			
 			if(quimico) {
-				personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL QUIMICO
-				personaje.setUsado(true);
-				res += "|" + loc.matarZombie();
-				res += "|" + loc.matarZombie();
+				try {
+					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL QUIMICO
+					personaje.setUsado(true);
+					res += "|" + loc.matarZombie();
+				}catch (MatarException e) {}
+				try {
+					res += "|" + loc.matarZombie();
+				}catch (MatarException e) {}
 			}
 			
 			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
-			if(personaje.tiraAlAtacar() && !personaje.tieneEquipado(9) && !personaje.tieneEquipado(10)) {
+			if(personaje.tiraAlAtacar() && !personaje.tieneEquipado(9) && !personaje.tieneEquipado(10) && !profesora) {
+				riesgo = tiradaRiesgo(personaje);
+			}else if(!profesora && !quimico) {
 				if(personaje.tieneEquipado(9) && !personaje.usado(9)) {
-					riesgo = tiradaRiesgo(personaje);
+					personaje.usar(9);
 				}else if(personaje.tieneEquipado(10) && !personaje.usado(10)) {
 					personaje.usar(10);
-					riesgo = tiradaRiesgo(personaje);
 				}else {
 					riesgo = tiradaRiesgo(personaje);
 				}
 			}
 			//MIRAMOS SI TIENE EQUIPADO UN FRANCOTIRADOR O SI ES LA MADRE
-			if(!madre && !quimico && !personaje.tieneEquipado(9) || personaje.tieneEquipado(9) && personaje.usado(9)) {
+			if(!madre && !personaje.tieneEquipado(9) || personaje.tieneEquipado(9) && personaje.usado(9)) {
 				dados.usar(dado);
 			}else if(personaje.tieneEquipado(9) && !personaje.usado(9)) {	//SI TIENE EQUIPADO UN FRANCOTIRADOR Y NO LO HA USADO
 				personaje.usar(9);
@@ -505,6 +516,7 @@ public class Jugador {
 						}else {
 							buffer.add(locCartas.cogerCarta());
 						}
+						i++;
 					}
 					
 					resetBuffer();
