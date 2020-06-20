@@ -53,6 +53,9 @@ public class Principal {
 	//ESTOS SOLO SON LOS DADOS QUE SE DAN AL JUGADOR AL INICIO DE RONDA
 	private String[] dados;
 	
+	//OTRAS VARIABLES
+	private boolean libroDados = false;
+	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +156,7 @@ public class Principal {
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
 		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
-		 
+
 		int i = 0;
 		
 		while(i < 30){
@@ -318,36 +321,85 @@ public class Principal {
 		return Integer.toString(vertedero) + "|" + Integer.toString(dado);
 	}
 	
-	public String usarPasiva() {
-		return null;
+	//NECESITA SABER QUIEN USA LA HABILIDAD Y SOBRE QUIEN. MANDAR BASURA SI NO SE USA SOBRE NADIE
+	public String usarHabilidad(int idSup, int idObjetivo, int idDado) throws HabilidadException, MatarException, DadoException, BuscarException {
+		String salida = "";
+		
+		switch(idSup) {
+		case 102 : {	//ABOGADA: SE NECESITA LA ID DE UN SUPERVIVIENTE DEL JUGADOR O A CAMBIAR POR ID DE JUGADOR Y DEVUELVE UNA ID DE CARTA
+			List<Carta_Supervivientes> aux = getJugConSup(idObjetivo).getMazoSuperviviente();
+			if(aux.size() > 0) {
+				salida += aux.get(r.nextInt(aux.size()));
+			}else {
+				throw new HabilidadException("El jugador no tiene cartas");
+			}
+		}
+		break;
+		case 107 :{//ALCALDE: NECESITA LA ID DEL DADO A AUMENTAR
+			jugadorActual.getDados().aumentarDado(idDado);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+		}
+		break;
+		case 110 : {	//SHERIFF: HACE UN ATAQUE DOBLE
+			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
+			salida += jugadorActual.atacar(idSup);
+		}
+		break;
+		case 112 : {	//QUIMICO: ELIMINA UNA CARTA DE MEDICINA PARA MATAR 3 ZOMBIES
+			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
+			if(!jugadorActual.eliminarCarta(3)) {
+				throw new HabilidadException("No tienes medicina");
+			}
+			salida += jugadorActual.atacar(idSup);
+		}
+		break;
+		case 113 : {	//SANTA: MUERE PERO SUBE LA MORAL EN LUGAR DE BAJARLA
+			supervivientes.getSuperviviente(idSup).recibirHerida(false);
+			supervivientes.getSuperviviente(idSup).recibirHerida(false);
+			supervivientes.getSuperviviente(idSup).recibirHerida(false);
+			actualizarSupervivientesActual();
+			
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() + 2);
+		}
+		break;
+		case 114 : {//BOMBERO: BUSCA 4 CARTAS Y SI UNA ES DE EVENTO SE LA QUEDA. DEVUELVE EL SUPERVIVIENTE Y LA POSICION EN LA COLONIA AL IGUAL QUE EN BUSCAR
+			supervivientes.getSuperviviente(idSup).setPasivaDeBusqueda(true);
+			salida += jugadorActual.buscar(idSup); 
+		}
+		break;
+		case 115 : {	//PIRATA: ROBA UNA CARTA DE UN JUGADOR
+			List<Carta_Supervivientes> mazoJugador = getJugConSup(idObjetivo).getMazoSuperviviente();
+			if(mazoJugador.size() > 0) {
+				Carta aux = mazoJugador.remove(r.nextInt(mazoJugador.size()));
+				jugadorActual.getMazoObjetos().add(aux);
+				salida += aux.getId();
+			}else {
+				throw new HabilidadException("El jugador no tiene cartas");
+			}
+		}
+		break;
+		default : throw new HabilidadException("La habilidad de este superviviente es pasiva");
+		}
+		
+		moral = tablero.getColonia().getMoral();
+		
+		return salida;
 	}
 	
 	public String aportarCrisis(int id) {
 		int idJug = jugadorActual.getId();
-        crisisActual.anyadir(id,idJug); //TODO: metodo que añade la carta a la crisis (solo la carta)
+        crisisActual.anyadir(id,idJug);
         jugadorActual.eliminarCarta(id);
         return crisisActual.getContribJug();
     }
-//Set crisis para tests
-    public void setCrisis(Crisis crisis) {
-        this.crisisActual = crisis;
-    }
-    
-    public int getCrisisActualId() { //Devuelve el id de la crisis
-        return crisisActual.getId();
-    }
-
-    public Crisis getCrisisActual() { //Devuelve la crisis actual
-        return crisisActual;
-    }
-	
 	
 	public String ponerBarricada(int sup) throws BarricadaException, DadoException {
 		String msg = jugadorActual.barricada(sup);
 		return msg;
 	}
 	
-	public String usarCarta(int idCarta, int idSup) throws HeridaException, GasolinaException, DadoException {
+	public String usarCarta(int idCarta, int idSup) throws HeridaException, GasolinaException, DadoException, EquipableException {
 		String salida = "";
 		
 			//COMIDA
@@ -373,12 +425,13 @@ public class Principal {
 		}
 			break;
 			//TRASTOS
-		case 4 : 
-		int idDado = jugadorActual.valorDado(1);
-		jugadorActual.getDados().resetUnDado(idDado);
-		jugadorActual.eliminarCarta(idCarta);
-		vertedero++;
-		salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+		case 4 : {
+			int idDado = jugadorActual.valorDado(1);
+			jugadorActual.getDados().resetUnDado(idDado);
+			jugadorActual.eliminarCarta(idCarta);
+			vertedero++;
+			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+		}
 			break;
 			//GASOLINA
 		case 5 : {
@@ -391,43 +444,48 @@ public class Principal {
 			}
 		}
 			break;
-		case 9 : 
-			break;
-		case 10 : 
-			break;
-		case 11 :
-			break;
-		case 12 : 
-			break;
-		case 13 : 
-			break;
-		case 14 : 
-			break;
-		case 15 : 
-			break;
-		case 16 : 
-			break;
-		case 17 : 
-			break;
-		case 18 : 
-			break;
 		case 19 : 
+			if(!libroDados) {
+				throw new EquipableException("Ya has usado el libro esta ronda");
+			}
+			int idDado = jugadorActual.valorDado(1);
+			jugadorActual.getDados().resetUnDado(idDado);
+			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
-		case 20 : 
-			break;
-		case 21 : 
-			break;
-		case 22 : 
-			break;
-		default : System.err.println(idCarta + " " + idSup);
+			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
+		default : jugadorActual.getMazoSuperviviente().get(idSup).equipar(idCarta);
 		}
 		
+		return salida;
+	}
+	
+	//RECIBO LA ID DEL DADO I DEVUELVO LA ID DEL DADO Y EL NUEVO VALOR
+	public String gastarComida(int dado) throws DadoException {
+		String salida = "";
+		if(comida == 0) {
+			throw new DadoException("No hay comida en la colonia");
+		}else {
+			salida += dado + "|" + jugadorActual.getDados().aumentarDado(dado);
+		}
 		return salida;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS PARA EL SERVIDOR
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	//Set crisis para tests
+    public void setCrisis(Crisis crisis) {
+        this.crisisActual = crisis;
+    }
+    
+    public int getCrisisActualId() { //Devuelve el id de la crisis
+        return crisisActual.getId();
+    }
+
+    public Crisis getCrisisActual() { //Devuelve la crisis actual
+        return crisisActual;
+    }
+	
 	public String getInutiles(){
 		return Integer.toString(tablero.getColonia().getInutiles());
 	}
@@ -446,6 +504,7 @@ public class Principal {
 	}
 	
 	public void addSuperviviente(int idJug, int idSup) {
+		enPartida.add(supervivientes.getPersonaje(idSup));
 		jugadores.get(idJug).addSuperviviente(supervivientes.getPersonajes().remove(idSup));
 	}
 	
@@ -490,7 +549,7 @@ public class Principal {
 		System.out.println(crisisActual.pasada() + " " + crisisActual.sobra());
 		
 		if(vertedero >= 10) {
-			moral--;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
 		}
 		
 		//LA COMIDA QUE SE GASTA ES IGUAL A LA MITAD DE LOS SUPERVIVIENTES DE LA COLONIA REDONDEANDO HACIA ARRIBA
@@ -499,14 +558,14 @@ public class Principal {
 		if(comida >= comidaGastada) {
 			comida -= comidaGastada;
 		}else {
-			moral -= (hambre + 1);
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - (hambre + 1));
 			hambre++;
 		}
-		System.out.println("Moral :" + moral);
 		crisisActual = crisis.getCrisis();
 		
 		rondasRestantes--;
-		
+		moral = tablero.getColonia().getMoral();
+		System.out.println("Moral :" + moral);
 		return datos;
 	}
 	
@@ -589,6 +648,10 @@ public class Principal {
 		return hambre;
 	}
 	
+	public int getComida() {
+		return comida;
+	}
+	
 	public String getVecinos() throws HeridaException {
 		String msg = "";
 		for(Carta_Supervivientes sup : buscarSuperviviente()) {
@@ -605,6 +668,17 @@ public class Principal {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////METODOS AUXILIARES
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	private Jugador getJugConSup(int superviviente) {
+		int i = 0; boolean encontrado = false; Jugador salida = null;
+		Carta_Supervivientes personaje = supervivientes.getSuperviviente(superviviente);
+		while(!encontrado && i < jugadores.size()) {
+			if(jugadores.get(i).getMazoSuperviviente().contains(personaje)) {
+				salida = jugadores.get(i);
+			}
+		}
+		return salida;
+	}
+	
 	private List<Carta_Supervivientes> buscarSuperviviente(){
 		List<Carta_Supervivientes> supDelJugador = jugadorActual.getMazoSuperviviente();
 		List<Carta_Supervivientes> salida = new ArrayList<>();
@@ -747,25 +821,25 @@ public class Principal {
 		switch(crisisActual.getId()) {
 		case 300 : {
 			
-//			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
-//			for(int i = 0; i < 5; i++) {
-//				enPartida.peek().recibirHerida(true);
-//			}
-//			
-//			actualizarTodosSupervivientes();
+			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
+			for(int i = 0; i < 5; i++) {
+				enPartida.peek().recibirHerida(true);
+			}
+			
+			actualizarTodosSupervivientes();
 		}
 		break;
 		case 301 : {
 			
 			//SE BAJA LA MORAL Y SE AÑADE TOKEN DE HAMBRE
 			hambre++;
-			moral--;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
 		}
 		break;
 		case 302 : {
 			
 			//SE BAJA LA MORAL Y SE AÑADE UNA HERIDA A CADA SUPERVIVIENTE
-			moral--;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
 			for(Carta_Supervivientes sup : enPartida) {
 				sup.recibirHerida(false);
 			}
@@ -774,11 +848,11 @@ public class Principal {
 		}
 		break;
 		case 303 : {
-			moral -=2;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 2);
 		}
 		break;
 		case 304 : {
-			moral -=2;
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 2);
 		}
 		break;
 		case 305 : {
@@ -808,7 +882,7 @@ public class Principal {
 		}
 		break;
 		}
-		
+		moral = tablero.getColonia().getMoral();
 	}
 	
 	//ESTE METODO SE COMPRUEBA CADA VEZ QUE EL JUGADOR REALIZA UNA ACCIÓN PARA MONITOREAR EL PROGRESO DEL OBJETIVO
@@ -829,10 +903,6 @@ public class Principal {
 		}
 		
 		return estado;
-	}
-	
-	public int getComida() {
-		return comida;
 	}
 	
 }

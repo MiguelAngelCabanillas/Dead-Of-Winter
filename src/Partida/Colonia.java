@@ -24,6 +24,7 @@ public class Colonia extends Localizacion {
 	private int inutiles;
 	private int numJugadores;
 	private int zombiesExternos;
+	private int moral;
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	////CONSTRUCTORES
@@ -39,6 +40,7 @@ public class Colonia extends Localizacion {
 		
 		this.inutiles = 23;
 		this.numJugadores = jugadores;
+		this.moral = c.getMoral();
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +310,14 @@ public class Colonia extends Localizacion {
 	}
 	
 	public int getInutiles() {
-		return inutiles;
+		return inutiles + 1;
+	}
+	
+	public int getMoral() {
+		return moral;
+	}
+	
+	public void setMoral(int val) {
+		moral = val;
 	}
 }

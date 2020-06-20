@@ -424,8 +424,10 @@ private BufferedReader buffer;
 																	//carta|ncarta|dado
 						String[] enc = cartasEnc.split("\\|");
 						if(Integer.parseInt(enc[0]) >= 100) { //evento
-							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[1]);
-							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
+							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  enc[0] + "|" + enc[2]);
+							user.enviarALaSala("evento|" + enc[3]);
+							user.enviarALaSala("addSupInd|" + user.getSala().getPartida().getInutiles());
+							user.enviarALaSala("chat|" + user.getNombre() + " ha encontrado supervivientes.");
 						} else {
 							int indNCartas = enc.length - 2;
 							String cEnc = "";
@@ -547,7 +549,7 @@ private BufferedReader buffer;
 					try {
 						user.getSala().getPartida().usarCarta(3, Integer.parseInt(split[3]));
 						user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-						user.enviarALaSala(user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
+						user.enviarALaSala("chat|" + user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
 						break;
 					}catch (Exception e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());

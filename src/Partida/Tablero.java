@@ -1,10 +1,5 @@
 package Partida;
 
-import java.util.List;
-import java.util.Map;
-
-import Cartas.Carta_Supervivientes;
-
 public class Tablero {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////

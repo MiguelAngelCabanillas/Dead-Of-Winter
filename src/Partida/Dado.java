@@ -66,8 +66,10 @@ public class Dado {
 		dados.set(dado, (r.nextInt(6) + 1));
 	}
 	
-	public void aumentarDado(int dado) {
+	public String aumentarDado(int dado) {
+		String salida = Integer.toString(dados.get(dado) + 1);
 		dados.set(dado, dados.get(dado) + 1);
+		return salida;
 	}
 	
 	public List<Integer> getDados(){
