@@ -324,6 +324,10 @@ public class Principal {
 	//NECESITA SABER QUIEN USA LA HABILIDAD Y SOBRE QUIEN. MANDAR BASURA SI NO SE USA SOBRE NADIE
 	public String usarHabilidad(int idSup, int idObjetivo, int idDado) throws HabilidadException, MatarException, DadoException, BuscarException {
 		String salida = "";
+		if(supervivientes.getSuperviviente(idSup).getUsado()) {
+			throw new HabilidadException("Ya has usado tu habilidad");
+		}
+		
 		
 		switch(idSup) {
 		case 102 : {	//ABOGADA: SE NECESITA LA ID DE UN SUPERVIVIENTE DEL JUGADOR O A CAMBIAR POR ID DE JUGADOR Y DEVUELVE UNA ID DE CARTA
@@ -398,13 +402,10 @@ public class Principal {
 				throw new DadoException("No tienes dados");
 			}
 			
-			if(!supervivientes.getSuperviviente(idSup).getUsado()) {
-				jugadorActual.getDados().resetUnDado(idDado);
-				salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
-				supervivientes.getSuperviviente(idSup).setUsado(true);
-			}else {
-				throw new HabilidadException("Ya has usado tu habilidad");
-			}
+			jugadorActual.getDados().resetUnDado(idDado);
+			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+
 		}
 		break;
 		case 122 : {//COCINERA: GASTA UN DADO CON 4 O MAS PARA PONER 2 FICHAS DE ALIMENTO EN LA RESERVA
@@ -419,6 +420,11 @@ public class Principal {
 		}
 		break;
 		case 123 : {
+			int dado = jugadorActual.valorDado(1);
+			if(dado == -1) {
+				throw new DadoException("No tienes dados");
+			}
+			
 			
 		}
 		default : throw new HabilidadException("La habilidad de este superviviente es pasiva");
@@ -495,7 +501,7 @@ public class Principal {
 			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
-		default : jugadorActual.getMazoSuperviviente().get(idSup).equipar(idCarta);
+		default : supervivientes.getSuperviviente(idCarta).equipar(idCarta);
 		}
 		
 		return salida;
