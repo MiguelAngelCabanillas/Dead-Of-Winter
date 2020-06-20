@@ -155,7 +155,7 @@ public class Principal {
 	//INICIA MAZO COMISARÍA
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8};
+		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
 		 	//0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11
 		int i = 0;
 		
@@ -501,7 +501,7 @@ public class Principal {
 			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
-		default : supervivientes.getSuperviviente(idCarta).equipar(idCarta);
+		default : supervivientes.getSuperviviente(idSup).equipar(idCarta);
 		}
 		
 		return salida;
