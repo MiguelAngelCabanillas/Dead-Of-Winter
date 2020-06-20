@@ -26,7 +26,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	private int heridasParaMatar;
 	private boolean pasivaDeAtaque;
 	private boolean pasivaDeBusqueda;
-	//private boolean guarda
+	private boolean guarda;
 	/*
 	 * ESTE ATRIBUTO INDICA LA LOCALIZACIÓN DONDE EL SUPERVIVIENTE BUSCA DOBLE
 	 * PARA SUPERVIVIENTES SIN HABILIDAD DE BÚSQUEDA ESTE VALOR VALE -1
@@ -63,6 +63,8 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 		heridasParaMatar = 3;
 		pasivaDeAtaque = false;
 		pasivaDeBusqueda = false;
+		guarda = false;
+		usada = false;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +129,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public void setUsado(boolean t) {
-		usada = true;
+		usada = t;
 	}
 	
 	public void resetEquipables() {
@@ -141,6 +143,14 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	///////////////////////////////////////////////////////////////////////
+	public void setGuarda(boolean b) {
+		guarda = b;
+	}
+	
+	public boolean getGuarda() {
+		return guarda;
+	}
+	
 	public void setVertedero(int v) {
 		vaciaVertedero = v;
 	}
@@ -216,7 +226,7 @@ public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supe
 	}
 	
 	public void recibirHerida(boolean esCongelamiento) {
-		if (esCongelamiento) {
+		if (esCongelamiento && !guarda) {
 			this.congelamiento++;
 		}else {
 			this.heridas++;

@@ -106,12 +106,13 @@ public class InicSupervivientes {
 		cartas.add(pirata);
 		personajes.put(115, pirata);
 		
-		//GUARDA (116)	//TODO HABILIDAD
+		//GUARDA (116)
 		Carta_Supervivientes guarda = new Carta_Supervivientes(116, 3, 3, 32, "Harman Brooks");
+		guarda.setGuarda(true);
 		cartas.add(guarda);
 		personajes.put(116, guarda);
 		
-		//PSIQUIATRA (117)	//TODO dificil pero se puede hacer
+		//PSIQUIATRA (117)
 		Carta_Supervivientes psi = new Carta_Supervivientes(117, 6, 3, 54, "James Meyers");
 		cartas.add(psi);
 		personajes.put(117, psi);
@@ -122,18 +123,18 @@ public class InicSupervivientes {
 		cartas.add(enfermera);
 		personajes.put(118, enfermera);
 		
-		//CAMARERA (119) //TODO esta va a ser horrible
+		//CAMARERA (119)
 		Carta_Supervivientes camarera = new Carta_Supervivientes(119, 4, 3, 24, "Jenny Clark");
 		cartas.add(camarera);
 		personajes.put(119, camarera);
 		
-		//ESTUDIANTE (120)//TODO ni de coña
+		//ESTUDIANTE (120)//TODO NO SE IMPLEMENTARÁ
 		Carta_Supervivientes estudiante = new Carta_Supervivientes(120, 3, 3, 18, "John Price");
 		director.setLoc(7);
 		cartas.add(estudiante);
 		personajes.put(120, estudiante);
 		
-		//LEÑADOR (121)	//TODO se puede hacer pero es dificil
+		//LEÑADOR (121)	//TODO NO SE IMPLEMENTARÁ
 		Carta_Supervivientes lenador = new Carta_Supervivientes(121, 2, 2, 31, "Kodiak Colby");
 		cartas.add(lenador);
 		personajes.put(121, lenador);

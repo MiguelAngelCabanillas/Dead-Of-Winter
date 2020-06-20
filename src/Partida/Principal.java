@@ -156,7 +156,7 @@ public class Principal {
 	private Stack<Carta> iniCComisaria() {
 		Stack<Carta> mazo = new Stack<>();
 		int [] cartas = {0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11};
-
+		 	//0, 0, 0, 0, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 10, 10, 10, 9, 9, 11, 11, 11
 		int i = 0;
 		
 		while(i < 30){
@@ -324,6 +324,10 @@ public class Principal {
 	//NECESITA SABER QUIEN USA LA HABILIDAD Y SOBRE QUIEN. MANDAR BASURA SI NO SE USA SOBRE NADIE
 	public String usarHabilidad(int idSup, int idObjetivo, int idDado) throws HabilidadException, MatarException, DadoException, BuscarException {
 		String salida = "";
+		if(supervivientes.getSuperviviente(idSup).getUsado()) {
+			throw new HabilidadException("Ya has usado tu habilidad");
+		}
+		
 		
 		switch(idSup) {
 		case 102 : {	//ABOGADA: SE NECESITA LA ID DE UN SUPERVIVIENTE DEL JUGADOR O A CAMBIAR POR ID DE JUGADOR Y DEVUELVE UNA ID DE CARTA
@@ -336,22 +340,32 @@ public class Principal {
 		}
 		break;
 		case 107 :{//ALCALDE: NECESITA LA ID DEL DADO A AUMENTAR
-			jugadorActual.getDados().aumentarDado(idDado);
-			supervivientes.getSuperviviente(idSup).setUsado(true);
-			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+			if(jugadorActual.getDados().getDados().size() > 0) {
+				jugadorActual.getDados().aumentarDado(idDado);
+				supervivientes.getSuperviviente(idSup).setUsado(true);
+				salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+			}else {
+				throw new HabilidadException("No tienes dados");
+			}
 		}
 		break;
 		case 110 : {	//SHERIFF: HACE UN ATAQUE DOBLE
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
-			salida += jugadorActual.atacar(idSup);
+			try{
+				salida += jugadorActual.atacar(idSup);
+			}catch(MatarException e) {}
 		}
 		break;
 		case 112 : {	//QUIMICO: ELIMINA UNA CARTA DE MEDICINA PARA MATAR 3 ZOMBIES
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
-			if(!jugadorActual.eliminarCarta(3)) {
+			int carta = jugadorActual.eliminarCarta(3);
+			if(carta == -1) {
 				throw new HabilidadException("No tienes medicina");
 			}
-			salida += jugadorActual.atacar(idSup);
+			try {
+				salida += carta + "|" + jugadorActual.atacar(idSup);
+			}catch(MatarException e) {};
+			
 		}
 		break;
 		case 113 : {	//SANTA: MUERE PERO SUBE LA MORAL EN LUGAR DE BAJARLA
@@ -361,11 +375,15 @@ public class Principal {
 			actualizarSupervivientesActual();
 			
 			tablero.getColonia().setMoral(tablero.getColonia().getMoral() + 2);
+			salida += 113;
 		}
 		break;
 		case 114 : {//BOMBERO: BUSCA 4 CARTAS Y SI UNA ES DE EVENTO SE LA QUEDA. DEVUELVE EL SUPERVIVIENTE Y LA POSICION EN LA COLONIA AL IGUAL QUE EN BUSCAR
+			supervivientes.getSuperviviente(idSup).setUsado(true);
 			supervivientes.getSuperviviente(idSup).setPasivaDeBusqueda(true);
-			salida += jugadorActual.buscar(idSup); 
+			try{
+				salida += jugadorActual.buscar(idSup); 
+			}catch (BuscarException e) {}
 		}
 		break;
 		case 115 : {	//PIRATA: ROBA UNA CARTA DE UN JUGADOR
@@ -379,6 +397,36 @@ public class Principal {
 			}
 		}
 		break;
+		case 117 : {	//PSQUIATRA: TIRA UN DADO OTRA VEZ
+			if(jugadorActual.getDados().getDados().size() == 0) {
+				throw new DadoException("No tienes dados");
+			}
+			
+			jugadorActual.getDados().resetUnDado(idDado);
+			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
+			supervivientes.getSuperviviente(idSup).setUsado(true);
+
+		}
+		break;
+		case 122 : {//COCINERA: GASTA UN DADO CON 4 O MAS PARA PONER 2 FICHAS DE ALIMENTO EN LA RESERVA
+			int dado = jugadorActual.valorDado(4);
+			if(dado == -1) {
+				throw new DadoException("Tus dados son muy pequeños");
+			}
+			comida+=2;
+			jugadorActual.getDados().usar(dado);
+			
+			salida += dado;
+		}
+		break;
+		case 123 : {
+			int dado = jugadorActual.valorDado(1);
+			if(dado == -1) {
+				throw new DadoException("No tienes dados");
+			}
+			
+			
+		}
 		default : throw new HabilidadException("La habilidad de este superviviente es pasiva");
 		}
 		
@@ -453,7 +501,7 @@ public class Principal {
 			salida += idDado + "|" + jugadorActual.getDados().getValor(idDado);
 			break;
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
-		default : jugadorActual.getMazoSuperviviente().get(idSup).equipar(idCarta);
+		default : supervivientes.getSuperviviente(idSup).equipar(idCarta);
 		}
 		
 		return salida;
@@ -464,6 +512,8 @@ public class Principal {
 		String salida = "";
 		if(comida == 0) {
 			throw new DadoException("No hay comida en la colonia");
+		}else if(jugadorActual.getDados().getValor(dado) == 6) {
+			throw new DadoException("El dado ya es máximo");
 		}else {
 			salida += dado + "|" + jugadorActual.getDados().aumentarDado(dado);
 		}
