@@ -71,6 +71,7 @@ public class FrameTablero extends JFrame {
 	private FrameFinPartida frameFinPartida;
 	private FrameTiradaRiesgo tirRiesgo;
 	private FrameCartasAportadas frameCartasAportadas;
+	private FrameSupervivienteNuevo frameSupNuevo;
 
 	//private static int[] heridas = new int[2];
 	
@@ -1156,6 +1157,18 @@ public class FrameTablero extends JFrame {
 		}
 		frameSeleccionar = new FrameSeleccionSuperviviente(usuario.getNombre() + "|1|"+comando+"|", list, aso);
 		frameSeleccionar.setVisible(true);
+	}
+	
+	public void evento(int idEvento) {
+		if(frameSupNuevo != null) {
+			frameSupNuevo.dispose();
+		}
+		frameSupNuevo = new FrameSupervivienteNuevo(idEvento);
+		frameSupNuevo.setVisible(true);
+	}
+	
+	public void refresh() {
+		repaint();
 	}
 	
 	public static void enviarComando(String command) {

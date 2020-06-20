@@ -27,12 +27,13 @@ import javax.swing.SwingConstants;
 public class FrameSupervivienteNuevo extends JFrame {
 	
 	private JPanel contentPane;
+	private static int idS;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameSupervivienteNuevo frame = new FrameSupervivienteNuevo();
+					FrameSupervivienteNuevo frame = new FrameSupervivienteNuevo(idS);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +43,7 @@ public class FrameSupervivienteNuevo extends JFrame {
 	}
 
 
-	public FrameSupervivienteNuevo() {
+	public FrameSupervivienteNuevo(int id) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 944, 793);
@@ -55,6 +56,7 @@ public class FrameSupervivienteNuevo extends JFrame {
 		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
+		idS = id;
 		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
@@ -68,14 +70,14 @@ public class FrameSupervivienteNuevo extends JFrame {
 		lblCartaEvento.setBounds(277, 151, 406, 517);
 		
 		btnVolver.setBounds(405, 746, 155, 34);
-		switch (3) {
-		case 1:
+		switch (idS) {
+		case 6:
 			lblCartaEvento.setIcon(new ImageIcon(this.getClass().getResource("/GanarSuperviviente/Superviviente1.jpg")));
 			break;
-		case 2:
+		case 7:
 			lblCartaEvento.setIcon(new ImageIcon(this.getClass().getResource("/GanarSuperviviente/Superviviente2.jpg")));			
 			break;
-		case 3:
+		case 8:
 			lblCartaEvento.setIcon(new ImageIcon(this.getClass().getResource("/GanarSuperviviente/Superviviente3.jpg")));			
 			break;
 		default:
@@ -83,10 +85,7 @@ public class FrameSupervivienteNuevo extends JFrame {
 		}
 		contentPane.add(lblCartaEvento);
 		
-		
-		
-		
-		
+
 		JLabel lblEvento = new JLabel("");
 		lblEvento.setIcon(new ImageIcon(FrameSupervivienteNuevo.class.getResource("/Varios/Evento.png")));
 		lblEvento.setFont(new Font("Castellar", Font.BOLD, 24));
