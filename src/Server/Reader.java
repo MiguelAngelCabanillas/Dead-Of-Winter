@@ -7,6 +7,7 @@ import Excepciones.ServerException;
 import Partida.BarricadaException;
 import Partida.BuscarException;
 import Partida.DadoException;
+import Partida.HabilidadException;
 import Partida.MatarException;
 import Partida.Principal;
 import Partida.VertederoException;
@@ -521,21 +522,24 @@ private BufferedReader buffer;
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
 					break;
-				case "usarCarta":
+				case "usarCarta":					//usarCarta|idCarta|idSup
 					System.out.println("hay Cosas");
+					System.out.println("usarCarta|" + split[3] + "|" + split[4]);
 					try {
 						String sal = "";
 						int idCarta = Integer.parseInt(split[3]);
-						if(idCarta == 3) {
+						if(idCarta == 3) {									//MEDICINA
 							sal = user.getSala().getPartida().getVecinos();
 							user.hacerPeticionAlServidor("medicina|" + sal);
 						} else {
 							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
-							if( idCarta <= 2 ) {
+							if( idCarta <= 2 ) {								//COMIDA
 								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
-							}
-							if(idCarta == 4) { //TRASTOS
+							} else if(idCarta == 4 || idCarta == 19) { 							//TRASTOS O LIBRO
 								user.hacerPeticionAlServidor("setDado|" + sal);
+							} else if(idCarta >= 9 && idCarta != 19) { 			//EQUIPABLES
+								user.hacerPeticionAlServidor("equipar|" + split[4] + "|" + idCarta); //equipar|idSup|idCarta
+								System.out.println("equipa");
 							}
 						}
 						
@@ -543,19 +547,19 @@ private BufferedReader buffer;
 						user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
 						user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
 						
-						break;
 					}catch (Exception e){
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
+					break;
 				case "medicina": //medicina|idSup curar a un superviviente
 					try {
 						user.getSala().getPartida().usarCarta(3, Integer.parseInt(split[3]));
 						user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
 						user.enviarALaSala("chat|" + user.getNombre() +  " ha usado una medicina en " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])));
-						break;
 					}catch (Exception e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
+					break;
 				case "gastarComida": //gastarComida|idDado
 					try {
 						String st = user.getSala().getPartida().gastarComida(Integer.parseInt(split[3]));
@@ -565,8 +569,45 @@ private BufferedReader buffer;
 					} catch (DadoException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
-//					user.hacerPeticionAlServidor("rmCarta|0");
-//					user.enviarALaSala("updtCartas|0|-1");
+					break;
+				case "usarHabilidad": 			//usarHabilidad|idSup|objetivo|dado
+					int idSup = Integer.parseInt(split[3]);
+					int idObjetivo = Integer.parseInt(split[4]);
+					int idDado = Integer.parseInt(split[5]);
+					System.out.println("USAR HABILIDAD IDSUP: " + idSup + ", IDOBJ: " + idObjetivo + ", IDDADO: " + idDado);
+					try {
+						
+						String salida = user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
+						
+						switch(idSup) {
+							case 102:
+								//enviar carta
+								break;
+							case 107: //modifica un dado
+								user.hacerPeticionAlServidor("setDado|" + salida);
+								break;
+							case 110:
+								//zombies muertos
+								break;
+							case 112:
+								//id carta eliminada y zombies muertos
+								break;
+							case 113:
+								//eliminar santa claus, actualizar moral
+								break;
+							case 114:
+								//si no es cadena vacia, carta de evento
+								break;
+							case 115:
+								//añadir carta
+								break;
+							case 117: //vuelve a tirar un dado
+								user.hacerPeticionAlServidor("setDado|" + salida);
+								break;
+						}
+					} catch (Exception e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
+					}
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {

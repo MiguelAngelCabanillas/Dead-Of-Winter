@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 public class FrameDados extends JFrame {
 
 	private JPanel contentPane;
+	private static String cmd;
 	private static List<Integer> dados;
 	private static Asociaciones asociaciones;
 	private List<JButton> labelsDados;
@@ -34,7 +35,7 @@ public class FrameDados extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameDados frame = new FrameDados(dados, asociaciones);
+					FrameDados frame = new FrameDados(dados, asociaciones, cmd);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +49,7 @@ public class FrameDados extends JFrame {
 	 * @param numDados 
 	 * @param aso 
 	 */
-	public FrameDados(List<Integer> numDados, Asociaciones aso) {
+	public FrameDados(List<Integer> numDados, Asociaciones aso, String commando) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 901, 188);
@@ -59,6 +60,8 @@ public class FrameDados extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icono4.png")));
 		
 		setContentPane(contentPane);
+		
+		cmd = commando;
 		
 		DerHandler handler = new DerHandler();
 		labelsDados = new ArrayList<>();
@@ -106,10 +109,15 @@ public class FrameDados extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("ACTION COMAND: "+e.getActionCommand());
-			FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|gastarComida|" + e.getActionCommand());
-			dispose();
+			String[] split = cmd.split("\\|");
+			if(split[2].equalsIgnoreCase("gastarComida")) {
+				System.out.println("ACTION COMAND: "+e.getActionCommand());
+				FrameTablero.enviarComando(cmd + e.getActionCommand());
+				dispose();
+			} else if(split[2].equalsIgnoreCase("usarHabilidad")) {
+				FrameTablero.enviarComando(cmd + "-1|" + e.getActionCommand() + "|");
+				dispose();
+			}
 		}
-		
 	}
 }

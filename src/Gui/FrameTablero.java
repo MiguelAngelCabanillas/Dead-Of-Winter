@@ -36,19 +36,20 @@ public class FrameTablero extends JFrame {
 	private JTextArea txtrHistorial;
 	private Point p; //punto auxiliar
 	private JLabel lblTablero,fichMoral,fichRonda,aux;
-	private boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
+	private static boolean turno; //ESPECIFICA SI EL JUGADOR POSEE EL TURNO
 	private int vertedero,nFichComida,nFichHambre;
 	private int crisisRes;
 	private static int nCartasABuscar;
 
 	private HashMap<Integer,JLabel[]> supMap;
 	private static List<String> nombresJugadores;
-	private List<Integer> dados; //puntuación de los dado del jugador
+	private static List<Integer> dados; //puntuación de los dado del jugador
 	private List<Integer> aportacionesCrisis; //numero de cartas que ha aportado cada jugador a la crisis
 	private static List<Integer> nCartasJugadores; //numero de cartas que posee cada jugador
 	private HashMap<Integer,JLabel> supIndMap; //mapa supervivientes indefensos
-	private HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
+	private static HashMap<Integer,List<Integer>> supJugadores; //mapa<jug,listaSup>
 	private HashMap<Integer,JLabel> labelsSup; //mapa que relaciona los id de los supervivientes que se encuentran en partida con su respectiva ficha circular
+	private HashMap<Integer,List<Integer>> objetosEquipadosSup;
 	private List<Integer> cartasJugador; //mapa<jug,listaCartas>
 	private List<List<JLabel>> labelsZombies; //fichas circulares zombies/barricadas
 	private List<List<JLabel>> labelsFichRuido; //fichas circulares fichas de ruido
@@ -61,7 +62,7 @@ public class FrameTablero extends JFrame {
 	private HashMap<Integer,Integer> heridasCong;
 	private ObjPrincipal auxObj;
 	private Crisis crisis;
-	private Asociaciones aso;
+	private static Asociaciones aso;
 	private InfoJugador infoJug;
 	private FrameSeleccionSuperviviente frameSeleccionar;
 	private InfoTablero infoTab;
@@ -72,8 +73,6 @@ public class FrameTablero extends JFrame {
 	private FrameTiradaRiesgo tirRiesgo;
 	private FrameCartasAportadas frameCartasAportadas;
 	private FrameSupervivienteNuevo frameSupNuevo;
-
-	//private static int[] heridas = new int[2];
 	
 	private JButton btnAtacar,btnMoverse,btnBuscar,btnBarricada,btnContribuir,btnLimpiarVertedero,btnAtraerZombie,btnFinalizarTurno,btnDarCarta,btnPedirCarta,
 					btnGastarComida,btnFichasComida,btnVertedero,btnContribucionesCrisis,btnInfoJugador,btnInfoTablero,ObjetivoPrin,btnSendChat,btnCartaCrisis;
@@ -172,6 +171,7 @@ public class FrameTablero extends JFrame {
 		supIndMap = new HashMap<>();
 		nombresJugadores = new ArrayList<>();
 		labelsSup = new HashMap<>();
+		objetosEquipadosSup = new HashMap<>();
 		turno = false;	
 		
 ////////////////////////////////////////////////////////////////////////////////////////////////////TODO: MENU
@@ -497,7 +497,7 @@ public class FrameTablero extends JFrame {
 				}
 				System.out.println("DADOS "+dados.toString());
 				System.out.println("Tam de la mano del jugador: " + cartasJugador.size());
-				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados,turno,heridasNormales,heridasCong);
+				infoJug = new InfoJugador(supJugadores.get(idJug), cartasJugador,objetivoSecreto,aso,dados,turno,heridasNormales,heridasCong,objetosEquipadosSup);
 				infoJug.setVisible(true);
 			}
 		});
@@ -520,7 +520,7 @@ public class FrameTablero extends JFrame {
 				if(infoTab != null) {
 					infoTab.dispose();
 				}
-				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores,heridasNormales,heridasCong);
+				infoTab = new InfoTablero(nombresJugadores,supJugadores,aso,nCartasJugadores,heridasNormales,heridasCong,objetosEquipadosSup);
 				infoTab.setVisible(true);
 			}
 		});
@@ -1169,6 +1169,31 @@ public class FrameTablero extends JFrame {
 	
 	public void refresh() {
 		repaint();
+	}
+	
+	public static Asociaciones getAsociaciones() {
+		return aso;
+	}
+	
+	public static boolean getTurno() {
+		return turno;
+	}
+	
+	public static List<Integer> getDados(){
+		return dados;
+	}
+	
+	public void equiparObj(int idSup, int idObj) {
+		if(objetosEquipadosSup.get(idSup) == null) {
+			objetosEquipadosSup.put(idSup, new ArrayList<>());
+		}
+		objetosEquipadosSup.get(idSup).add(idObj);
+		System.out.println("AÑADIMOS OBJ "+ idObj);
+		System.out.println("LISTA DE OBJETOS EQUIPADOS DE " + idSup + ": " + objetosEquipadosSup.get(idSup).toString());
+	}
+	
+	public static List<Integer> getSupJug() {
+		return supJugadores.get(idJug);
 	}
 	
 	public static void enviarComando(String command) {
