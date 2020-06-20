@@ -16,8 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.awt.event.ActionEvent;
 
 public class FrameSupervivientes extends JFrame {
@@ -29,6 +31,8 @@ public class FrameSupervivientes extends JFrame {
 	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
 	private FrameObjetosEquipados frameObjEqu;
 	private static HashMap<Integer,List<Integer>> objetosEquipadosSup;
+	private FrameDados fDados;
+	private FrameSeleccionSuperviviente fSup;
 	/**
 	 * Launch the application.
 	 */
@@ -152,23 +156,49 @@ public class FrameSupervivientes extends JFrame {
 		btnHabilidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: HABILIDADES DE CADA SUPERVIVIENTE
-				String command = FrameTablero.getUsuario().getNombre()+"|1|usarHabilidad|"+id; //usarHabilidad|idSup|objetivo|dado
+				String command = FrameTablero.getUsuario().getNombre()+"|1|usarHabilidad|"+id+"|"; //usarHabilidad|idSup|objetivo|dado
 				switch(id) {
-				case "102": FrameTablero.enviarComando(command+"|-1|-1|");
+				case "102": FrameTablero.enviarComando(command+"-1|-1|");
 					break;
-				case "107":
+				case "107": 
+					if(fDados != null) {
+						fDados.dispose();
+					}
+					fDados = new FrameDados(FrameTablero.getDados(),FrameTablero.getAsociaciones(),command);
+					fDados.setVisible(true);
+					dispose();
 					break;
-				case "110":
+				case "110": FrameTablero.enviarComando(command+"-1|-1|");
 					break;
-				case "112":
+				case "112": FrameTablero.enviarComando(command+"-1|-1|");
 					break;
-				case "113":
+				case "113": FrameTablero.enviarComando(command+"-1|-1|");
 					break;
-				case "114":
+				case "114": FrameTablero.enviarComando(command+"-1|-1|");
 					break;
-				case "115":
+				case "115": 
+					HashMap<Integer,List<Integer>> supJugadores = FrameTablero.getSupJugadores();
+					Set<Integer> aux = supJugadores.keySet();
+					List<Integer> aux2 = new ArrayList<>();
+					for(int i=0;i<aux.size();i++) {
+						if(i != FrameTablero.getUsuario().getJugador().getId()) {
+							aux2.add(supJugadores.get(i).get(0));
+						}
+					}
+					if(fSup != null) {
+						fSup.dispose();
+					}
+					fSup = new FrameSeleccionSuperviviente(command,aux2,FrameTablero.getAsociaciones());
+					fSup.setVisible(true);
+					dispose();
 					break;
 				case "117":
+					if(fDados != null) {
+						fDados.dispose();
+					}
+					fDados = new FrameDados(FrameTablero.getDados(),FrameTablero.getAsociaciones(),command);
+					fDados.setVisible(true);
+					dispose();
 					break;
 		////////////////////////////////////
 				case "122":

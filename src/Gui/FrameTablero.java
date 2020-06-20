@@ -481,7 +481,7 @@ public class FrameTablero extends JFrame {
 				if(frameDados != null) {
 					frameDados.dispose();
 				}
-				frameDados = new FrameDados(dados,aso);
+				frameDados = new FrameDados(dados,aso,usuario.getNombre() + "|1|gastarComida|");
 				frameDados.setVisible(true);
 			}
 		});
@@ -1194,6 +1194,10 @@ public class FrameTablero extends JFrame {
 	
 	public static List<Integer> getSupJug() {
 		return supJugadores.get(idJug);
+	}
+	
+	public static HashMap<Integer,List<Integer>> getSupJugadores(){
+		return supJugadores;
 	}
 	
 	public static void enviarComando(String command) {
