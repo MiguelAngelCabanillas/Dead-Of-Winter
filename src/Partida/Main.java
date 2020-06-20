@@ -8,17 +8,15 @@ public class Main {
 	public static void main(String[] args) throws MoverException, BarricadaException, VertederoException {
 		Principal p = new Principal(1);
 		
-		p.inicPartida(3);
+		p.inicPartida(1);
 		//System.out.println(p.getIdCartas(0));
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
 		
 		p.addSuperviviente(0, 103);
 		p.addSuperviviente(0, 116);
-		p.addSuperviviente(1, 117);
-		p.addSuperviviente(1, 124);
-		p.addSuperviviente(2, 119);
-		p.addSuperviviente(2, 110);
+		p.addSuperviviente(0, 117);
+		p.addSuperviviente(0, 124);
 		p.inicSupervivientesEnColonia();
 		p.inicDados();
 		p.pasaTurno(0);
@@ -47,6 +45,9 @@ public class Main {
 		*/
 		
 		try {
+			p.addSuperviviente(0, 119);
+			p.addSuperviviente(0, 110);
+			p.pasaTurno(0);
 			p.mover(103, 0);
 			p.ponerBarricada(103);
 			p.mover(116, 5);
