@@ -13,10 +13,10 @@ public class Main {
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
 		
-		p.addSuperviviente(0, 103);
+		p.addSuperviviente(0, 119);
 		p.addSuperviviente(0, 116);
-		p.addSuperviviente(0, 117);
-		p.addSuperviviente(0, 124);
+//		p.addSuperviviente(0, 117);
+//		p.addSuperviviente(0, 124);
 		p.inicSupervivientesEnColonia();
 		p.inicDados();
 		p.pasaTurno(0);
@@ -45,32 +45,37 @@ public class Main {
 		*/
 		
 		try {
-			p.addSuperviviente(0, 119);
-			p.addSuperviviente(0, 110);
-			p.pasaTurno(0);
-			p.mover(103, 0);
-			p.ponerBarricada(103);
-			p.mover(116, 5);
-			p.ponerBarricada(116);
-			p.ponerBarricada(116);
-			p.pasaTurno(1);
-			p.mover(117, 3);
-			p.mover(124, 4);
-			p.ponerBarricada(124);
-			p.ponerBarricada(117);
-			p.ponerBarricada(124);
-			p.pasaTurno(2);
-			p.mover(119, 0);
-			p.mover(110, 3);
-			p.ponerBarricada(119);
-			p.pasaRonda();
-			p.pasaRonda();
-			p.pasaRonda();
-			p.pasaRonda();
-			p.pasaRonda();
-			p.pasaRonda();
+			p.mover(119, 5);
+			System.out.println(p.buscar(119));
+//			p.addSuperviviente(0, 119);
+//			p.addSuperviviente(0, 110);
+//			p.pasaTurno(0);
+//			p.mover(103, 0);
+//			p.ponerBarricada(103);
+//			p.mover(116, 5);
+//			p.ponerBarricada(116);
+//			p.ponerBarricada(116);
+//			p.pasaTurno(1);
+//			p.mover(117, 3);
+//			p.mover(124, 4);
+//			p.ponerBarricada(124);
+//			p.ponerBarricada(117);
+//			p.ponerBarricada(124);
+//			p.pasaTurno(2);
+//			p.mover(119, 0);
+//			p.mover(110, 3);
+//			p.ponerBarricada(119);
+//			p.pasaRonda();
+//			p.pasaRonda();
+//			p.pasaRonda();
+//			p.pasaRonda();
+//			p.pasaRonda();
+//			p.pasaRonda();
 		} catch (DadoException e) {
 			System.err.println(e.getMessage());
+		} catch (BuscarException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
