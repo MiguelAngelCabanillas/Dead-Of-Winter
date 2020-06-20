@@ -271,7 +271,9 @@ private BufferedReader buffer;
 						  
 						  List<Integer> sups = new ArrayList<>();
 						  for(int i = 100; i < 131; i++) {
-							  sups.add(i);
+							  if(i != 120) {
+								  sups.add(i);
+							  }
 						  }
 						  
 						  Collections.shuffle(sups);
@@ -554,7 +556,15 @@ private BufferedReader buffer;
 					}catch (Exception e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
-				case "gastarComida":
+				case "gastarComida": //gastarComida|idDado
+					try {
+						String st = user.getSala().getPartida().gastarComida(Integer.parseInt(split[3]));
+						user.hacerPeticionAlServidor("setDado|" + st);
+						user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
+						user.enviarALaSala("chat|" + user.getNombre() + " ha gastado comida");
+					} catch (DadoException e) {
+						user.hacerPeticionAlServidor("error|" + e.getMessage());
+					}
 //					user.hacerPeticionAlServidor("rmCarta|0");
 //					user.enviarALaSala("updtCartas|0|-1");
 					break;
@@ -798,6 +808,7 @@ private BufferedReader buffer;
 					System.out.println("newRound|" + user.getSala().getPartida().getRondasRestantes() + "|" + user.getSala().getPartida().getCrisisActualId() + "|" + user.getSala().getPartida().getDados(i));
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("fichasComida|" + user.getSala().getPartida().getComida());
+					user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("fichasHambre|" + user.getSala().getPartida().getHambre());
 					
 				}
 				user.getSala().getUsuarios().get(0).hacerPeticionAlServidor("tuturno");
