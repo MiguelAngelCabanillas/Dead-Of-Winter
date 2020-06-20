@@ -55,6 +55,7 @@ public class InfoTablero extends JFrame {
 	private Point posSupJugador5[] = {new Point(919, 311), new Point(1096, 311), new Point(1274, 311), new Point(1454, 311), new Point(1635, 311)};
 	private Point[] posiciones[] = {posSupJugador1, posSupJugador2, posSupJugador3, posSupJugador4, posSupJugador5};
 	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
+	private static HashMap<Integer,List<Integer>> objetosEquipadosSup;
 	/**
 	 * Launch the application.
 	 */
@@ -62,7 +63,7 @@ public class InfoTablero extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones, numCartas,heridasNormales,heridasCong);
+					InfoTablero frame = new InfoTablero(jugadores, supervivientes, asociaciones, numCartas,heridasNormales,heridasCong,objetosEquipadosSup);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +72,8 @@ public class InfoTablero extends JFrame {
 		});
 	}
 
-	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso, List<Integer> numC, HashMap<Integer,Integer> hN, HashMap<Integer,Integer> hC) {
+	public InfoTablero(List<String> Jugadores, HashMap<Integer, List<Integer>> Supervivientes, Asociaciones aso, List<Integer> numC, 
+			HashMap<Integer,Integer> hN, HashMap<Integer,Integer> hC, HashMap<Integer,List<Integer>> objEqu) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -83,6 +85,7 @@ public class InfoTablero extends JFrame {
 		heridasNormales = hN;
 		heridasCong = hC;
 		asociaciones = aso;
+		objetosEquipadosSup = objEqu;
 		
 		SupDerHandler supervivientesHandler = new SupDerHandler();
 		
@@ -198,7 +201,7 @@ public class InfoTablero extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}*/
-			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong);
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong,objetosEquipadosSup);
 			auxSuper.setVisible(true);
 			
 		}

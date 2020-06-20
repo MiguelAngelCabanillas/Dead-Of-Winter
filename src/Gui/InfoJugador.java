@@ -57,6 +57,7 @@ public class InfoJugador extends JFrame {
 	private Point posCartaSuperV[] = {new Point(30, 430), new Point(214, 430), new Point(398, 430), new Point(582, 430), new Point(766, 430)
 			, new Point(30, 646), new Point(214, 646), new Point(398, 646), new Point(582, 646), new Point(766, 646)};
 	private Point posDado[] = {new Point(138, 914), new Point(240, 914), new Point(344, 914), new Point(439, 914), new Point(533, 914), new Point(627, 914), new Point(722, 914), new Point(814, 914)};
+	private static HashMap<Integer,List<Integer>> objetosEquipadosSup;	
 	/**
 	 * Launch the application.
 	 */
@@ -64,7 +65,7 @@ public class InfoJugador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados,turno,heridasNormales,heridasCong);
+					InfoJugador frame = new InfoJugador(supJugadores, cartasJugador, objetivoSecreto, asociaciones, dados,turno,heridasNormales,heridasCong,objetosEquipadosSup);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -74,7 +75,7 @@ public class InfoJugador extends JFrame {
 	}
 
 	public InfoJugador(List<Integer> supJugadores, List<Integer> cartasJugador, int objetivoSecreto,
-			Asociaciones aso, List<Integer> dados, boolean t, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC) {
+			Asociaciones aso, List<Integer> dados, boolean t, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC, HashMap<Integer,List<Integer>> objtEqu) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		contentPane = new JPanel();
@@ -85,6 +86,7 @@ public class InfoJugador extends JFrame {
 		
 		heridasNormales = hN;
 		heridasCong = hC;
+		objetosEquipadosSup = objtEqu;
 		
 		asociaciones = aso;
 		turno = t;
@@ -241,7 +243,7 @@ public class InfoJugador extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}*/
-			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong);
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong,objetosEquipadosSup);
 			auxSuper.setVisible(true);
 			
     	}
