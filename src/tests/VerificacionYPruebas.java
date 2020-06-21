@@ -630,6 +630,10 @@ public class VerificacionYPruebas {
 		}
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR UNA CRISIS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test
 	public void testPrimeraCrisis() {
 		this.p.setCrisis(new Crisis(300, 5));
@@ -637,31 +641,45 @@ public class VerificacionYPruebas {
 		assertEquals(5, this.p.getMoral());
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR CRISIS 300 Y 5 HERIDAS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test
 	public void testSegundaCrisis() {
 		this.p.setCrisis(new Crisis(300, 5));
 		
 		this.p.pasaRonda();
+		
 		assertEquals(5, this.p.getMoral());
 		
+		int cont = 0;
 		for (int i = 0; i < 5; i++) {
-			//System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(0).getHeridas());
-			//System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(1).getHeridas());
+			for (int j = 0; j < 2; j++) {
+				if (this.p.getJugador(i).getMazoSuperviviente().get(j).getHeridas() == 1) {
+					cont++;
+				}
+			}
 		}
+		assertEquals(5,cont);
 	} 
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR CRISIS 302 Y TODAS LAS HERIDAS
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
 	public void testTerceraCrisis() {
 		this.p.setCrisis(new Crisis(302, 5));
 		
 		this.p.pasaRonda();
+		
 		assertEquals(4, this.p.getMoral());
 		
 		for (int i = 0; i < 5; i++) {
-			System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(0).getHeridas());
-			System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(1).getHeridas());
+			for (int j = 0; j < 2; j++) {
+				assertEquals(1, this.p.getJugador(i).getMazoSuperviviente().get(j).getHeridas());
+			}
 		}
 	} 
-	
-	
 }
