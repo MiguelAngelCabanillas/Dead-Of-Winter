@@ -2,6 +2,7 @@ package Partida;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Stack;
@@ -361,7 +362,7 @@ public class Principal {
 			if(carta == -1) {
 				throw new HabilidadException("No tienes medicina");
 			}
-			salida += carta + "|" + jugadorActual.atacar(idSup);
+			salida += 3 + "|" + jugadorActual.atacar(idSup);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
@@ -382,7 +383,7 @@ public class Principal {
 		}
 		break;
 		case 115 : {	//PIRATA: ROBA UNA CARTA DE UN JUGADOR
-			List<Carta_Supervivientes> mazoJugador = getJugConSup(idObjetivo).getMazoSuperviviente();
+			List<Carta> mazoJugador = getJugConSup(idObjetivo).getMazoObjetos();
 			if(mazoJugador.size() > 0) {
 				Carta aux = mazoJugador.remove(r.nextInt(mazoJugador.size()));
 				jugadorActual.getMazoObjetos().add(aux);
@@ -408,6 +409,9 @@ public class Principal {
 			int dado = jugadorActual.valorDado(4);
 			if(dado == -1) {
 				throw new DadoException("Tus dados son muy pequeños");
+			}
+			if(jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getId() != 6) {
+				throw new HabilidadException("No estás en la colonia");
 			}
 			comida+=2;
 			jugadorActual.getDados().usar(dado);
@@ -438,6 +442,7 @@ public class Principal {
 		}
 		
 		moral = tablero.getColonia().getMoral();
+		System.out.println("SalidaPartida " + salida);
 		
 		return salida;
 	}
@@ -662,6 +667,17 @@ public class Principal {
 		}
 	}
 	
+	public String getMismaLoc(int idSUp) {
+		Map<Integer, Carta_Supervivientes> aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSUp)).getSupervivientes();
+		String salida = "";
+		for(int i = 0; i < 20; i++) {
+			if(aux.get(i) != null) {
+				salida += aux.get(i).getId();
+			}
+		}
+		return salida;
+	}
+	
 	//COMPROBAMOS EL OBJETIVO PRINCIPAL, LA MORAL Y EL TURNO
 	
 	//PUEDE QUE HAYA QUE ELIMINAR ESTA FUNCION
@@ -736,6 +752,7 @@ public class Principal {
 			if(jugadores.get(i).getMazoSuperviviente().contains(personaje)) {
 				salida = jugadores.get(i);
 			}
+			i++;
 		}
 		return salida;
 	}

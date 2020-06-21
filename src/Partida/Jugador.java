@@ -342,7 +342,7 @@ public class Jugador {
 		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
 		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
 		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
-		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque();
+		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque() && loc.getId() == 6;
 		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
 		
 		//USAMOS EL MENOR DADO POSIBLE
@@ -362,11 +362,22 @@ public class Jugador {
 		}else {
 			//MANDA UN ERROR SI NO HAY ZOMBIES
 			res = loc.matarZombie();
+			//EN LA COLONIA SE AÑADE LA ID DE LA PUERTA EN EL MISMO METODO
+			if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+				salida += Integer.toString(loc.getId()) + "|";
+			}
+			salida += res;
+			
 			
 			//MIRAMOS SI EL SUPERVIVIENTE TIENE UNA ESCOPETA. NO AÑADE RUIDO SI YA HAY 4
-			if(personaje.tieneEquipado(11) && !personaje.usado(11)) {
+			if(!quimico && personaje.tieneEquipado(11) && !personaje.usado(11)) {
 				personaje.usar(11);
-				res += "|" + loc.matarZombie();
+				salida += "|";
+				res = loc.matarZombie();
+				if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+					salida += Integer.toString(loc.getId()) + "|";
+				}
+				salida += res;
 				int ruido = loc.getTokensDeRuido();
 				if(ruido != 4) {
 					loc.setTokensDeRuido(ruido + 1);
@@ -378,7 +389,12 @@ public class Jugador {
 				try {
 					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL SHERIFF
 					personaje.setUsado(true);
-					res += "|" + loc.matarZombie();
+					res =  loc.matarZombie();
+					salida += "|";
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";
+					}
+					salida += res;
 				}catch(MatarException e) {}
 			}
 			
@@ -386,10 +402,20 @@ public class Jugador {
 				try {
 					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL QUIMICO
 					personaje.setUsado(true);
-					res += "|" + loc.matarZombie();
+					res = loc.matarZombie();
+					salida += "|";
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";;
+					}
+					salida += res;
 				}catch (MatarException e) {}
 				try {
-					res += "|" + loc.matarZombie();
+					res = loc.matarZombie();
+					salida += "|";
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";;
+					}
+					salida += res;
 				}catch (MatarException e) {}
 			}
 			
@@ -417,11 +443,7 @@ public class Jugador {
 			objetivo.actualizar(0);
 		}
 		
-		//EN LA COLONIA SE AÑADE LA ID DE LA PUERTA EN EL MISMO METODO
-		if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
-			salida += Integer.toString(loc.getId()) + "|";
-		}
-		salida += res + "|" + Integer.toString(dado) + "|" + Integer.toString(riesgo);
+		salida += "|" + Integer.toString(dado) + "|" + Integer.toString(riesgo);
 		
 		return salida;
 	}
@@ -457,15 +479,19 @@ public class Jugador {
 	public String buscar(int id) throws BuscarException, DadoException {
 		boolean evento = false;
 		Carta_Supervivientes personaje = getSupConId(id);
-		int dado = valorDado(personaje.getBusqueda());
 		String salida = "";
 		Carta aux;
+		int dado = 0;
 		locCartas = localizacion(personaje);
 		int cartasBuscadas = 0;
 		
 		//VARIABLES PARA LAS HABILIDADES DE LOS SUPERVIVIENTES. USAMOS LA SEGUNDA VARIABLE PARA COMPROBAR QUE NO SEA UNA BUSQUEDA NORMAL Y SE ESTÉ USANDO LA HABILIDAD
 		boolean bombero = personaje.getId() == 114 && personaje.getPasivaDeBusqueda() && !personaje.getUsado();
 		boolean camarera = personaje.getId() == 119 && !personaje.getPasivaDeBusqueda() && !personaje.getUsado();
+		
+		if(!bombero) {
+			 dado = valorDado(personaje.getBusqueda());
+		}
 		
 		if(getLocalizacion(6).equals(localizacion(personaje))){
 			throw new BuscarException("No puedes buscar en la colonia");
