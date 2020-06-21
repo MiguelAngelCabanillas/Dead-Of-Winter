@@ -10,6 +10,7 @@ public class Crisis {
 	private int tipo1;
 	private int tipo2;
 	private int tipo3;
+	private int tipo4;
 	
 	private int cantidad;
 	private int actuales;
@@ -79,8 +80,8 @@ public class Crisis {
 		}
 	}
 	
-    public void anyadir(int id, int idJug) {
-        if(tipo1 == id || tipo2 == id || tipo3 == id) {
+    public void anyadir(int idCarta, int idJug) {
+        if(tipo1 == idCarta || tipo2 == idCarta || tipo3 == idCarta || ((id == 305 || id == 306 || id == 307 ) && idCarta >= 9)) {
             actuales++;
         }else {
             actuales--;
@@ -90,7 +91,7 @@ public class Crisis {
         boolean anyadida = false;
         while(i < donaciones.length && !anyadida) {
             if(donaciones[i] == -1) {
-                donaciones[i] = id;
+                donaciones[i] = idCarta;
                 contribJug[idJug]++;
                 anyadida = true;
             }

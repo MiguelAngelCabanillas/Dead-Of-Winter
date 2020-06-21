@@ -130,7 +130,6 @@ public class InicSupervivientes {
 		
 		//ESTUDIANTE (120)//TODO NO SE IMPLEMENTARÁ
 		Carta_Supervivientes estudiante = new Carta_Supervivientes(120, 3, 3, 18, "John Price");
-		director.setLoc(7);
 		cartas.add(null);
 		personajes.put(120, null);
 		

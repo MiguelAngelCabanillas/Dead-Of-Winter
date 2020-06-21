@@ -21,6 +21,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Reader implements Runnable {
@@ -272,20 +273,17 @@ private boolean seleccionadoCurado = false;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-//						  for(int i = 100; i < 131; i++) {
-							  sups.add(113);
-							  sups.add(123);
-							  sups.add(124);
-							  sups.add(105);
-							  sups.add(110);
-							  sups.add(125);
-//						  }
+						  for(int i = 100; i < 131; i++) {
+							  if(i != 120 && i != 121 && i != 129 && i != 130) {
+								  sups.add(i);
+							  }
+						  }
 						  
-						  //Collections.shuffle(sups);
+						  Collections.shuffle(sups);
 						  
 						  
 						  
-						 // user.getSala().shuffleUsuarios();
+						  user.getSala().shuffleUsuarios();
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
 							  mensInit += "|" + sups.get(i);
 							  
@@ -318,11 +316,7 @@ private boolean seleccionadoCurado = false;
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("moral|" + user.getSala().getPartida().getMoral());
 							  user.getSala().getUsuarios().get(i).hacerPeticionAlServidor("vertedero|" + user.getSala().getPartida().getVertedero());
 							  
-							  for(Usuario usu : user.getSala().getUsuarios()){
-								  System.out.println(user.getJugador().getMazoSuperviviente().size() + " " + user.getNombre());
-							  }
 							  System.out.println(mensInit);
-							  
 							  
 							  
 							  System.out.println("initCartas|" + user.getSala().getPartida().getIdCartas(i));
@@ -541,6 +535,7 @@ private boolean seleccionadoCurado = false;
 							user.hacerPeticionAlServidor("medicina|" + sal);
 						} else {
 							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
+							System.out.println("SALIDA DE USAR CARTA: " +sal);
 							if( idCarta <= 2 ) {																//COMIDA
 								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
 							} else if(idCarta == 4 || idCarta == 19) { 											//TRASTOS O LIBRO
@@ -955,6 +950,13 @@ private boolean seleccionadoCurado = false;
 			String contribuciones = user.getSala().getPartida().cartasContrib(); //contribuciones a la crisis
 			System.out.println(contribuciones);
 			String resCrisis = user.getSala().getPartida().resultadoCrisis();
+			int idCrisis = user.getSala().getPartida().getCrisisActual().getId();
+			if(idCrisis == 300 || idCrisis == 302) {
+				PriorityQueue<Carta_Supervivientes> aux = user.getSala().getPartida().getSupervivientes();
+				for (Carta_Supervivientes c : aux) {
+					user.enviarALaSala("heridas|"+c.getId()+"|"+c.getHeridas()+"|"+c.getCongelamiento());
+				}
+			}
 			System.out.println(resCrisis);
 			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
 			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() <= 0) {

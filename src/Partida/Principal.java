@@ -421,7 +421,9 @@ public class Principal {
 		}
 		break;
 		case 123 : {//PROFESORA: REALIZA UN ATAQUE EN EL COLEGIO QUE GASTA UN DADO CON UN 1 O MAYOR
-			
+			if(jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getId() != 2) {
+				throw new HabilidadException("No estas en el colegio");
+			}
 			salida += jugadorActual.atacar(idSup);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
@@ -516,7 +518,7 @@ public class Principal {
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
 
 		default : {
-			supervivientes.getSuperviviente(idCarta).equipar(idCarta);
+			supervivientes.getSuperviviente(idSup).equipar(idCarta);
 			jugadorActual.eliminarCarta(idCarta);
 		}
 		}
@@ -965,6 +967,10 @@ public class Principal {
 		break;
 		}
 		moral = tablero.getColonia().getMoral();
+	}
+	
+	public PriorityQueue<Carta_Supervivientes> getSupervivientes(){
+		return enPartida;
 	}
 	
 	//ESTE METODO SE COMPRUEBA CADA VEZ QUE EL JUGADOR REALIZA UNA ACCIÓN PARA MONITOREAR EL PROGRESO DEL OBJETIVO

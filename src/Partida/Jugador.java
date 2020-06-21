@@ -340,7 +340,7 @@ public class Jugador {
 		String res = null;
 		
 		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
-		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
+		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado() && tablero.getColonia().getInutiles() > 0;
 		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
 		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque() && loc.getId() == 6;
 		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque() && loc.getId() == 2;
@@ -422,7 +422,7 @@ public class Jugador {
 			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
 			if(personaje.tiraAlAtacar() && !personaje.tieneEquipado(9) && !personaje.tieneEquipado(10) && !profesora) {
 				riesgo = tiradaRiesgo(personaje);
-			}else if(!profesora && !quimico) {
+			}else if(!profesora && !quimico && personaje.tiraAlAtacar()) {
 				if(personaje.tieneEquipado(9) && !personaje.usado(9)) {
 					personaje.usar(9);
 				}else if(personaje.tieneEquipado(10) && !personaje.usado(10)) {
