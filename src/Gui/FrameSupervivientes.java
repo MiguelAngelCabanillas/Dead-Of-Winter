@@ -31,6 +31,7 @@ public class FrameSupervivientes extends JFrame {
 	private static HashMap<Integer,Integer> heridasNormales,heridasCong;
 	private FrameObjetosEquipados frameObjEqu;
 	private static HashMap<Integer,List<Integer>> objetosEquipadosSup;
+	private static boolean act;
 	private FrameDados fDados;
 	private FrameSeleccionSuperviviente fSup;
 	/**
@@ -40,7 +41,7 @@ public class FrameSupervivientes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridasNormales,heridasCong,objetosEquipadosSup);
+					FrameSupervivientes frame = new FrameSupervivientes(carta, id, heridasNormales,heridasCong,objetosEquipadosSup, act);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +57,7 @@ public class FrameSupervivientes extends JFrame {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC,HashMap<Integer,List<Integer>> objt) {
+	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC,HashMap<Integer,List<Integer>> objt, boolean activo) {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -242,6 +243,7 @@ public class FrameSupervivientes extends JFrame {
 				}
 			}
 		});
+		btnHabilidad.setEnabled(activo);
 		contentPane.add(btnHabilidad);
 		
 		JButton btnObjEquipados = new JButton("Objetos Equipados");
