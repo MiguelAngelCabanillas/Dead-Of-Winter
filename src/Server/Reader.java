@@ -34,6 +34,7 @@ private List<Sala> salas;
 
 private InputStreamReader reader;
 private BufferedReader buffer;
+private boolean seleccionadoCurado = false;
 
 
 	
@@ -581,9 +582,24 @@ private BufferedReader buffer;
 					System.out.println("USAR HABILIDAD IDSUP: " + idSup + ", IDOBJ: " + idObjetivo + ", IDDADO: " + idDado);
 					try {
 						
-						String salida = user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
-						user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
-						System.out.println("Salida de USAR HABILIDAD: " + salida);
+						String salida = "";
+						if(idSup == 125) { //cura a un superviviente
+							if(!seleccionadoCurado) {
+								String s = user.getSala().getPartida().getMismaLoc(idSup);
+								user.hacerPeticionAlServidor("habilidadMedicina|" + s);
+								seleccionadoCurado = true;
+							} else {
+								user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
+								user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
+								user.enviarALaSala("chat|" + user.getNombre() +  " ha curado a " + user.getSala().getPartida().getNombre(idObjetivo));
+								user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(idObjetivo));
+								seleccionadoCurado = false;
+							}
+						} else {
+							salida = user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
+							user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
+							System.out.println("Salida de USAR HABILIDAD: " + salida);
+						}
 						
 						switch(idSup) {
 							case 102: {
@@ -687,6 +703,7 @@ private BufferedReader buffer;
 							case 122:
 								//gasta un dado
 								user.hacerPeticionAlServidor("rmDado|" + salida);
+								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
 								break;
 							case 123: {
 								//igual que atacar
@@ -723,12 +740,6 @@ private BufferedReader buffer;
 										}
 									break;
 								}
-							}
-								break;
-							case 125: {
-								//cura a un superviviente
-								
-								
 							}
 								break;
 							case 127: {
