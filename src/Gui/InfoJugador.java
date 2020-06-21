@@ -243,7 +243,7 @@ public class InfoJugador extends JFrame {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}*/
-			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong,objetosEquipadosSup);
+			auxSuper = new FrameSupervivientes(asociaciones.getSupMap(), botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText(), heridasNormales,heridasCong,objetosEquipadosSup, true);
 			auxSuper.setVisible(true);
 			
     	}

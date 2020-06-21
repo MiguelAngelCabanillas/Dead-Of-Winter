@@ -421,11 +421,14 @@ public class Principal {
 		}
 		break;
 		case 123 : {//PROFESORA: REALIZA UN ATAQUE EN EL COLEGIO QUE GASTA UN DADO CON UN 1 O MAYOR
-			
+			if(jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getId() != 2) {
+				throw new HabilidadException("No estas en el colegio");
+			}
 			salida += jugadorActual.atacar(idSup);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
 		}
+		break;
 		case 125 : {//DOCTORA: CURA UNA HERIDA SIN COSTE
 			supervivientes.getSuperviviente(idObjetivo).curarHerida();
 			supervivientes.getSuperviviente(idSup).setUsado(true);
@@ -434,7 +437,7 @@ public class Principal {
 		case 127 : {//PILOTO: PUEDE MIRAR UNA CARTA DEL MAZO
 			Carta aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).cogerCarta();
 			salida += aux.getId();
-			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlFinal(aux);
+			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlPrincipio(aux);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
@@ -515,7 +518,7 @@ public class Principal {
 			//SI ES CUAQUIERA DE LOS DEMÁS OBJETOS, LO EQUIPAMOS
 
 		default : {
-			supervivientes.getSuperviviente(idCarta).equipar(idCarta);
+			supervivientes.getSuperviviente(idSup).equipar(idCarta);
 			jugadorActual.eliminarCarta(idCarta);
 		}
 		}
@@ -671,8 +674,8 @@ public class Principal {
 		Map<Integer, Carta_Supervivientes> aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSUp)).getSupervivientes();
 		String salida = "";
 		for(int i = 0; i < 20; i++) {
-			if(aux.get(i) != null) {
-				salida += aux.get(i).getId();
+			if(aux.get(i) != null && (aux.get(i).getHeridas() + aux.get(i).getCongelamiento()) > 0) {
+				salida += "|" + aux.get(i).getId();
 			}
 		}
 		return salida;
@@ -898,10 +901,13 @@ public class Principal {
 	private void fallo() {
 		switch(crisisActual.getId()) {
 		case 300 : {
-			
+			PriorityQueue<Carta_Supervivientes> aux = new PriorityQueue<Carta_Supervivientes>();
+			aux.addAll(this.enPartida);
 			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
-			for(int i = 0; i < 5; i++) {
-				enPartida.peek().recibirHerida(true);
+			int i = 0;
+			while (i < 5 && i < aux.size()) {
+				aux.poll().recibirHerida(false);
+				i++;
 			}
 			
 			actualizarTodosSupervivientes();
@@ -961,6 +967,10 @@ public class Principal {
 		break;
 		}
 		moral = tablero.getColonia().getMoral();
+	}
+	
+	public PriorityQueue<Carta_Supervivientes> getSupervivientes(){
+		return enPartida;
 	}
 	
 	//ESTE METODO SE COMPRUEBA CADA VEZ QUE EL JUGADOR REALIZA UNA ACCIÓN PARA MONITOREAR EL PROGRESO DEL OBJETIVO

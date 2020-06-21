@@ -340,10 +340,10 @@ public class Jugador {
 		String res = null;
 		
 		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
-		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
+		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado() && tablero.getColonia().getInutiles() > 0;
 		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
 		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque() && loc.getId() == 6;
-		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
+		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque() && loc.getId() == 2;
 		
 		//USAMOS EL MENOR DADO POSIBLE
 		int dado = -1;

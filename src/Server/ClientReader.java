@@ -323,6 +323,15 @@ public class ClientReader implements Runnable {
                 	}
                 	tablero.seleccionSupervivientes(list, "medicina");
                 	break;
+                
+                case "habilidadMedicina": //solo para la doctora aunque se podría generalizar
+                	list = new ArrayList<>();
+                	for(int j=1;j<split.length;j++) {
+                		list.add(Integer.parseInt(split[j]));
+                	}
+                	System.out.println("LISTA DE SUPERVIVIENTES VECINOS CON HERIDAS: "+ list.toString());
+                	tablero.seleccionSupervivientes(list, "usarHabilidad|125");
+                	break;
                 	
                 case "evento": //evento|idEvento
                 	System.out.println("ID DE EVENTO: "+ split[1]);
