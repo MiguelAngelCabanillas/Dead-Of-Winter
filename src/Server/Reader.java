@@ -272,10 +272,8 @@ private BufferedReader buffer;
 						  
 						  List<Integer> sups = new ArrayList<>();
 //						  for(int i = 100; i < 131; i++) {
-							  sups.add(114);
-							  sups.add(115);
-							  sups.add(100);
-							  sups.add(101);
+							  sups.add(122);
+							  sups.add(123);
 //						  }
 						  
 						  //Collections.shuffle(sups);
@@ -690,6 +688,7 @@ private BufferedReader buffer;
 							case 122:
 								//gasta un dado
 								user.hacerPeticionAlServidor("rmDado|" + salida);
+								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
 								break;
 							case 123: {
 								//igual que atacar

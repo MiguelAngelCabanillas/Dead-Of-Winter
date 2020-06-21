@@ -481,7 +481,7 @@ public class Jugador {
 		Carta_Supervivientes personaje = getSupConId(id);
 		String salida = "";
 		Carta aux;
-		int dado = -1;
+		int dado = 0;
 		locCartas = localizacion(personaje);
 		int cartasBuscadas = 0;
 		
