@@ -604,9 +604,9 @@ public class Principal {
 		jugadorActual.setGasolina(false);
 		//RESETEAMOS EL BUFFER DE CARTAS
 		jugadorActual.resetBuffer();
+		resetDados();
 		jugadorActual = jugadores.get(id);
 		inicTurno();
-		resetDados();
 	}
 	
 	public String pasaRonda() {
