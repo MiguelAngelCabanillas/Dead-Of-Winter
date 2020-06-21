@@ -492,7 +492,6 @@ public class VerificacionYPruebas {
 		
 		//Aportamos todas las cartas que tiene en mano el jugador actual
 		int idObjeto = 0;
-		System.out.println(j);
 		for (int i = 4; i > -1; i--) {
 			idObjeto = this.p.getJugadorActual().getMazoObjetos().get(i).getId();
 			this.p.aportarCrisis(idObjeto);
@@ -537,12 +536,9 @@ public class VerificacionYPruebas {
 		if (res) {
 			String s = this.p.buscar(104);
 			String[] resultado = s.split("\\|");
-			System.out.println(s);
-
-			assertEquals(4, Integer.parseInt(resultado[1]));
-			assertEquals(8, Integer.parseInt(resultado[2]));
-			assertEquals(0, Integer.parseInt(resultado[3]));
-			assertTrue(Integer.parseInt(resultado[4]) >=  0 && Integer.parseInt(resultado[4]) <  3);
+			
+			assertEquals(1, Integer.parseInt(resultado[1]));
+			assertTrue(Integer.parseInt(resultado[2]) >=  0 && Integer.parseInt(resultado[2]) <  3);
 			assertEquals(2, this.p.getJugadorActual().getDados().getDados().size());
 			
 		//Si no lo encontramos, salta la excepción.
@@ -633,4 +629,39 @@ public class VerificacionYPruebas {
 			break;
 		}
 	}
+	
+	@Test
+	public void testPrimeraCrisis() {
+		this.p.setCrisis(new Crisis(300, 5));
+		this.p.pasaRonda();
+		assertEquals(5, this.p.getMoral());
+	}
+	
+	@Test
+	public void testSegundaCrisis() {
+		this.p.setCrisis(new Crisis(300, 5));
+		
+		this.p.pasaRonda();
+		assertEquals(5, this.p.getMoral());
+		
+		for (int i = 0; i < 5; i++) {
+			//System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(0).getHeridas());
+			//System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(1).getHeridas());
+		}
+	} 
+	
+	@Test
+	public void testTerceraCrisis() {
+		this.p.setCrisis(new Crisis(302, 5));
+		
+		this.p.pasaRonda();
+		assertEquals(4, this.p.getMoral());
+		
+		for (int i = 0; i < 5; i++) {
+			System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(0).getHeridas());
+			System.out.println("HOLA: " + this.p.getJugador(i).getMazoSuperviviente().get(1).getHeridas());
+		}
+	} 
+	
+	
 }

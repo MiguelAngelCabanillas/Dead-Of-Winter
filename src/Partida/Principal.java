@@ -435,7 +435,7 @@ public class Principal {
 		case 127 : {//PILOTO: PUEDE MIRAR UNA CARTA DEL MAZO
 			Carta aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).cogerCarta();
 			salida += aux.getId();
-			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlFinal(aux);
+			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlPrincipio(aux);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
@@ -899,10 +899,13 @@ public class Principal {
 	private void fallo() {
 		switch(crisisActual.getId()) {
 		case 300 : {
-			
+			PriorityQueue<Carta_Supervivientes> aux = new PriorityQueue<Carta_Supervivientes>();
+			aux.addAll(this.enPartida);
 			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
-			for(int i = 0; i < 5; i++) {
-				enPartida.peek().recibirHerida(true);
+			int i = 0;
+			while (i < 5 && i < aux.size()) {
+				aux.poll().recibirHerida(false);
+				i++;
 			}
 			
 			actualizarTodosSupervivientes();
