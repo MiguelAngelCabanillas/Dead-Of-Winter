@@ -273,8 +273,12 @@ private boolean seleccionadoCurado = false;
 						  
 						  List<Integer> sups = new ArrayList<>();
 //						  for(int i = 100; i < 131; i++) {
-							  sups.add(122);
+							  sups.add(113);
 							  sups.add(123);
+							  sups.add(124);
+							  sups.add(105);
+							  sups.add(110);
+							  sups.add(125);
 //						  }
 						  
 						  //Collections.shuffle(sups);
@@ -587,8 +591,14 @@ private boolean seleccionadoCurado = false;
 						if(idSup == 125) { //cura a un superviviente
 							if(!seleccionadoCurado) {
 								String s = user.getSala().getPartida().getMismaLoc(idSup);
-								user.hacerPeticionAlServidor("habilidadMedicina|" + s);
-								seleccionadoCurado = true;
+								System.out.println("Supervivientes en la misma loc: " + s);
+								if(s.equals("")){
+									System.out.println("es vacio");
+									user.hacerPeticionAlServidor("error|No hay supervivientes heridos en tu localización");
+								} else {
+									user.hacerPeticionAlServidor("habilidadMedicina" + s);
+									seleccionadoCurado = true;
+								}
 							} else {
 								user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
 								user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
@@ -719,28 +729,6 @@ private boolean seleccionadoCurado = false;
 								
 								user.enviarALaSala("rmZombie" + zomb);
 								user.hacerPeticionAlServidor("rmDado|" + arr[arr.length - 2]);
-								user.enviarALaSala("tiradaRiesgo|" + arr[arr.length - 1]);
-								switch(arr[arr.length - 1]) {
-									case "0": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " no ha recibido heridas" );
-									break;
-									case "1": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida normal" );
-												user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-												System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-									break;
-									case "2": user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha recibido una herida por congelación" );
-												user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-												System.out.println("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(Integer.parseInt(split[3])));
-									break;
-									case "3": user.enviarALaSala("chat|[" + user.getNombre() + "] "  + user.getSala().getPartida().getNombre(Integer.parseInt(split[3])) + " ha muerto..." );
-										user.enviarALaSala("rmSup|" + user.getJugador().getId() + "|" + split[3]);
-										int moral = user.getSala().getPartida().getMoral();
-										if( moral <= 0 ) {
-											user.enviarALaSala("finpartida");
-										} else {
-											user.enviarALaSala("moral|" +  user.getSala().getPartida().getMoral());
-										}
-									break;
-								}
 							}
 								break;
 							case 127: {
