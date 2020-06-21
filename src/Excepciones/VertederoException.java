@@ -1,4 +1,4 @@
-package Partida;
+package Excepciones;
 
 public class VertederoException extends Exception {
 

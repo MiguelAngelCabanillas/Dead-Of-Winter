@@ -1,4 +1,4 @@
-package Partida;
+package Excepciones;
 
 public class MatarException extends Exception{
 

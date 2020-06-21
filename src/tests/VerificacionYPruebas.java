@@ -1,16 +1,22 @@
 package tests;
+
 import static org.junit.Assert.*;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.*;
-
 import org.junit.*;
-import org.junit.jupiter.api.BeforeAll;
-
 import Cartas.*;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
+import Excepciones.MatarException;
 import Excepciones.MoverException;
 import Partida.*;
 
 public class VerificacionYPruebas {
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////INICIALIZACIÓN DE OBJETOS
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	Localizacion l;
 	Jugador j;
@@ -35,7 +41,7 @@ public class VerificacionYPruebas {
 		for (int i = 0; i < 5; i++) {
 			this.mazoObjeto.add(new Carta(3));
 		}
-		this.j = new Jugador(1, this.mazoObjeto, this.t, this.op);
+		this.j = new Jugador(1, this.mazoObjeto, this.t, this.op, new InicSupervivientes());
 		this.c = new Colonia(this.op,5);
 		
 		this.p = new Principal(1);
@@ -135,11 +141,10 @@ public class VerificacionYPruebas {
 		//Ponemos una barricada después.
 		try {
 			l.ponerBarricada();
-		}catch(BarricadaException e) {
+		} catch (BarricadaException e) {
 			System.err.println(e.getMessage());
 		}
 		
-			
 		/*Debería quedarnos un zombie en la pos. 0 y una barricada en la pos. 1 */
 		for (int i = 0; i < l.getCasillasZombie().size(); ++i) {
 			if (i == 0) {
@@ -166,7 +171,6 @@ public class VerificacionYPruebas {
 			l.getSupervivientes().put(i,this.superviviente);
 		}
 		
-		System.out.println("este");
 		//Actualizamos las casillas zombies, de manera que quedan las tres casillas llenas de zombies.
 		l.actualizarCasillasZombiePasoDeRonda();
 		
@@ -197,39 +201,11 @@ public class VerificacionYPruebas {
 		//Añadimos el superviviente al jugador con su respectivo dado.
 		this.j.getMazoSuperviviente().add(superviviente);
 
-//		this.j.getMazoSuperviviente().add(superviviente);
-//		this.j.anyadirDados();
-//		
-//		//Tiramos el dado
-//		this.j.getDados().get(0).tirarDado();
-
-		
 		//Movemos al superviviente a la localización de prueba.
 		l.llegar(this.j.getMazoSuperviviente().get(0));
 		
 		//Comprobamos si está en dicha localizacion.
 		assertEquals(true, l.esta(this.j.getMazoSuperviviente().get(0)));
-		
-		
-		
-		/*Herimos tres veces al superviviente
-		for (int i = 0; i < 3; ++i) {
-			this.j.herir(this.superviviente, false);
-		}
-		
-		//Comprobamos que está muerto.
-		assertEquals(true, j.getMazoSuperviviente().get(0).estaMuerto());
-		
-		//Matamos al personaje
-		l.irse(this.j.getMazoSuperviviente().get(0));
-		j.matar();
-		
-		//Comprobamos que la lista se ha quedado vacía
-		assertEquals(true ,j.getMazoSuperviviente().isEmpty());
-		
-		
-		//Comprobamos si sigue en la localización de prueba
-		assertEquals(false, l.esta(superviviente));*/
 	}
 	
 	@Test
@@ -238,8 +214,6 @@ public class VerificacionYPruebas {
 			//No añade dados.
 			this.j.addSuperviviente(this.superviviente);
 		}
-		
-		//System.out.println(this.j.tirarDados());
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,12 +279,10 @@ public class VerificacionYPruebas {
 	
 	@Test
 	public void testColoniaSegundoCaso() {
-		
 		//Añadimos 12 supervivientes.
 		for (int i = 0; i < 12; ++i) {
 			this.c.llegar(this.superviviente);
 		}
-		
 		
 		//Pasamos ronda
 		this.c.actualizarCasillasZombiePasoDeRonda();
@@ -341,7 +313,7 @@ public class VerificacionYPruebas {
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
-	////INICIAR JUGADORES
+	////INICIAR JUGADORES: UNO DE MÁS
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -351,21 +323,20 @@ public class VerificacionYPruebas {
 		
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////INICIAR JUGADORES: NÚMERO NEGATIVO
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test (expected = NegativeArraySizeException.class)
 	public void testPrincipalMenosJugadores() {
 		this.p.inicPartida(-100);
-	}
-	
-	@Test 
-	public void testExcepcionAnyadirSupervivientes() {
-		
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 	////TEST PRINCIPAL
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	@Test (expected = DadoException.class)
+	@Test
 	public void testPrincipal() throws BarricadaException, DadoException {
 		//Comprobamos que todos los jugadores tienen dos supervivientes.
 		for (int i = 0; i < 5; i++) {
@@ -385,7 +356,6 @@ public class VerificacionYPruebas {
 		
 		//2 dados (+ 1 barra).
 		assertEquals(2,this.p.getJugador(0).getDados().getDados().size());
-		System.out.println( "Tienen pelos " + this.p.getDados(0));
 		
 		this.p.ponerBarricada(100);
 		
@@ -400,8 +370,12 @@ public class VerificacionYPruebas {
 		
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////MOVER
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test
-	public void TestPrincipalMover() throws MoverException {
+	public void testPrincipalMover() throws MoverException {
 			//Movemos e superviviente 100 a la comisaría.
 			String s = this.p.mover(100, 0);
 			String[] resultado = s.split("\\|");
@@ -411,41 +385,28 @@ public class VerificacionYPruebas {
 			//Testear tirada de riesgo
 	}
 	
-	@Test
-	public void TestPrincipalDos() throws MoverException {
-	}
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////CRISIS
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test
-	public void TestCrisis() {
-			System.out.println(this.p.getJugador(0).getMazoObjetos().toString());
-		
+	public void testCrisis() {
 			Crisis crisis = new Crisis(300,5);
 			
 			this.p.setCrisis(crisis);
-			
-//			this.p.getJugador(0).darCarta(3);
-//			assertEquals(true, this.p.getJugador(0).get);
 			
 			for (int i = 0; i < 5; i++) {
 				this.p.getJugador(0).darCarta(3);
 			}
 			
-			System.out.println(this.p.getJugador(0).getMazoObjetos().toString());
-			//this.p.getCrisisActual().pasada();
-			
 			for (int i = 0; i < 5; i++) {
 				this.p.aportarCrisis(3);
 			}
-			System.out.println(this.p.getJugador(0).getMazoObjetos().toString());
 			
 			this.p.aportarCrisis(4);
 			this.p.aportarCrisis(3);
 			this.p.aportarCrisis(3);
 			this.p.aportarCrisis(3);
-			
-			for (int i = 0; i < 15; i++) {
-				System.out.println(this.p.getCrisisActual().getDonaciones()[i]);
-			}
 			
 			//Crisis pasada y de sobra ya que introducimos 8(correcto) - 1(incorrecto) = 7 -> 5 + 2
 			assertEquals(true, this.p.getCrisisActual().pasada());
@@ -453,39 +414,42 @@ public class VerificacionYPruebas {
 			assertEquals(true, this.p.getCrisisActual().sobra());
 		}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////BARRICADA CON CASILLAS LLENAS DE ZOMBIES
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test (expected = BarricadaException.class)
 	public void ponerBarricadaCasillasZombieLlenas() throws MoverException, BarricadaException, DadoException {
 
 		//Forzamos que no se realice tirada de riesgo.
-			this.p.getJugador(0).getTablero().getColonia().irse(p.getJugador(0).getMazoSuperviviente().get(0));
-			this.p.getJugador(0).getTablero().getComisaria().llegar(p.getJugador(0).getMazoSuperviviente().get(0));
+		this.p.getJugador(0).getTablero().getColonia().irse(p.getJugador(0).getMazoSuperviviente().get(0));
+		this.p.getJugador(0).getTablero().getComisaria().llegar(p.getJugador(0).getMazoSuperviviente().get(0));
 			
-			this.p.pasaRonda();
-			this.p.pasaRonda();
-			this.p.pasaRonda();
-			
-			this.p.ponerBarricada(100);
+		for (int i = 1; i < 4; i++) {
+			this.p.getJugadorActual().getTablero().getComisaria().getCasillasZombie().get(i).setHayZombie(true);
+		}
+
+		this.p.ponerBarricada(100);
 	}
 	
-	@Test
-	public void partida() {
-		
-		this.p.getCrisisActual().anyadir(this.p.getJugador(0).getMazoObjetos().get(0).getId(), 0);
-		//this.p.atacar(100);
-		
-	}
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////NO PODEMOS MATAR DONDE NO HAY ZOMBIES
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	
 	@Test 
-	public void TestMatarException() throws MatarException, DadoException {
+	public void testMatarException() throws MatarException, DadoException {
 		try {
 		this.p.getJugador(0).atacar(100);
 		} catch (MatarException m) {} 
 		  catch (DadoException d) {}
 	}
 	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////NO PODEMOS MATAR DONDE NO HAY ZOMBIES
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@Test 
-	public void TestMatar() throws MatarException, MoverException {
+	public void testMatar() throws MatarException, MoverException {
 		//Forzamos que no se realice tirada de riesgo.
 		this.p.getJugador(0).getTablero().getColonia().irse(p.getJugador(0).getMazoSuperviviente().get(0));
 		this.p.getJugador(0).getTablero().getComisaria().llegar(p.getJugador(0).getMazoSuperviviente().get(0));
@@ -499,4 +463,227 @@ public class VerificacionYPruebas {
 			assertTrue(Integer.parseInt(resultado[2]) >=  0 && Integer.parseInt(resultado[2]) <  3);
 		} catch (DadoException d) {}
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////NO PODEMOS HACER RUIDO MÁS DE CUATRO VECES
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test (expected = BuscarException.class)
+	public void testExcesoDeRuido() throws BuscarException, DadoException {
+		//Añadimos un superviviente que siempre realiza la búsqueda tenga los dados que tenga.
+		this.p.addSuperviviente(0, 127);
+		
+		//Movemos al superviviente sin realizar tirada de riesgo.
+		this.p.getJugador(0).getTablero().getColonia().irse(p.getJugador(0).getMazoSuperviviente().get(2));
+		this.p.getJugador(0).getTablero().getComisaria().llegar(p.getJugador(0).getMazoSuperviviente().get(2));
+		
+		//El límite de fichas de ruido es 4, por lo que salta excepción.
+		this.p.buscar(127);
+		for (int i = 0; i < 5; i++) {
+			this.p.hacerRuido();
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////APORTACIONES DE CRISIS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test 
+	public void testAportacionesCrisis() {
+		
+		//Comprobamos que el mazo de objetos se inicializa con cinco cartas.
+		assertEquals(5, this.p.getJugadorActual().getMazoObjetos().size());
+		
+		//Aportamos todas las cartas que tiene en mano el jugador actual
+		int idObjeto = 0;
+		for (int i = 4; i > -1; i--) {
+			idObjeto = this.p.getJugadorActual().getMazoObjetos().get(i).getId();
+			this.p.aportarCrisis(idObjeto);
+			assertEquals(i, this.p.getJugadorActual().getMazoObjetos().size());
+		}
+		
+		//Comprobamos si se ha superado la crisis.
+		if (this.p.getCrisisActual().getActuales() >= this.p.getCrisisActual().getNecesarias()) {
+			assertEquals(true, this.p.getCrisisActual().pasada());
+		} else {
+			assertEquals(false, this.p.getCrisisActual().pasada());
+		}
+		
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////USO DE DADOS EN ACCIÓN: BUSCAR
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testBuscarDados() throws BuscarException, DadoException {
+		//Le damos el turno al segundo jugador (tiene una carta con muchos puntos de búsqueda,
+		//lo cual es intersante desde el punto de vista del testeo).
+		this.p.pasaTurno(2);
+		
+		//Movemos susodicho superviviente manualmente, esto es: sin realizar la tirada de riesgo.
+		this.p.getJugador(2).getTablero().getColonia().irse(p.getJugador(2).getMazoSuperviviente().get(0));
+		this.p.getJugador(2).getTablero().getComisaria().llegar(p.getJugador(2).getMazoSuperviviente().get(0));
+		
+		//Comprobamos que el jugador tiene tres dados.
+		assertEquals(3, this.p.getJugadorActual().getDados().getDados().size());
+		
+		//Comprobamos si existe un valor que nos permite realizar la acción de búsqueda.
+		boolean res = false;
+		for (int i = 0; i < 3; i++) {
+			if (this.p.getJugador(2).getDados().getValor(i) > 4) {
+				res = true;
+			}
+		}
+		
+		//Si encontramos susodicho valor, realizamos la acción.
+		if (res) {
+			String s = this.p.buscar(104);
+			String[] resultado = s.split("\\|");
+			
+			assertEquals(1, Integer.parseInt(resultado[1]));
+			assertTrue(Integer.parseInt(resultado[2]) >=  0 && Integer.parseInt(resultado[2]) <  3);
+			assertEquals(2, this.p.getJugadorActual().getDados().getDados().size());
+			
+		//Si no lo encontramos, salta la excepción.
+		} else {
+			Exception e = assertThrows(DadoException.class, () -> this.p.buscar(104));
+			assertEquals("Tus dados son muy pequeños", e.getMessage());
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////USO DE DADOS EN ACCIÓN: ATACAR
+	///////////////////////////////////////////////////////////////////////////////////////////////
+		
+	@Test
+	public void testAtacarDados() throws BuscarException, DadoException, MatarException {
+		//Movemos el superviviente a la comisaría.
+		this.p.getJugador(0).getTablero().getColonia().irse(p.getJugador(0).getMazoSuperviviente().get(0));
+		this.p.getJugador(0).getTablero().getComisaria().llegar(p.getJugador(0).getMazoSuperviviente().get(0));
+		
+		//Nos aseguramos que el jugador que posee susodicho superviviente tiene 3 dados.
+		assertEquals(3, this.p.getJugadorActual().getDados().getDados().size());
+			
+		//Comprobamos si hay algún valor de dado que nos permita realizar la acción.
+		boolean res = false;
+		for (int i = 0; i < 3; i++) {
+			if (this.p.getJugador(0).getDados().getValor(i) > 4) {
+				res = true;
+			}
+		}
+			
+		//Si se ha encontrado, será el menor valor posible y se consumirá.
+		if (res) {
+			String s = this.p.atacar(100);
+			String[] resultado = s.split("\\|");
+			assertTrue(Integer.parseInt(resultado[2]) >=  0 && Integer.parseInt(resultado[2]) <  3);
+			assertEquals(2, this.p.getJugadorActual().getDados().getDados().size());
+			
+		//De no encontrarse el dado, salta error.
+		} else {
+			Exception e = assertThrows(DadoException.class, () -> this.p.atacar(100));
+			assertEquals("Tus dados son muy pequeños", e.getMessage());
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////TIRADA DE RIESGO
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void tiradaDeRiesgo() throws MoverException {
+		//Guardamos el número de supervivientes en colonia y comprobamos que es 10.
+		int supColonia =  this.p.getJugadorActual().getTablero().getColonia().getSupervivientes().size();
+		assertEquals(10, supColonia);
+		
+		//Movemos al superviviente realizando tirada de riesgo.
+		String s = this.p.mover(100, 0);
+		String[] resultado = s.split("\\|");
+		
+		//Comprobamos que el superviviente ha abandonado la colonia.
+		
+		assertEquals(supColonia - 1, this.p.getJugadorActual().getTablero().getColonia().getSupervivientes().size());
+		
+		//Dependiendo de la tirada de riesgo...
+		switch (Integer.parseInt(resultado[3])) {
+		
+		//Comprobamos que el superviviente ha llegado a la lozalización de manera satisfactoria.
+		case 0:
+			assertEquals(1, this.p.getJugadorActual().getTablero().getComisaria().getSupervivientes().size());
+			assertEquals(0, this.p.getJugadorActual().getMazoSuperviviente().get(0).getHeridas());
+			break;
+			
+		//Comprobamos que el superviviente llega con una herida.
+		case 1:
+			assertEquals(1, this.p.getJugadorActual().getMazoSuperviviente().get(0).getHeridas());
+			assertEquals(1, this.p.getJugadorActual().getTablero().getComisaria().getSupervivientes().size());
+			break;
+			
+		//Comprobamos que el superviviente llega con una herida de congelamiento.
+		case 2: 
+			assertEquals(1, this.p.getJugadorActual().getMazoSuperviviente().get(0).getCongelamiento());
+			assertEquals(1, this.p.getJugadorActual().getTablero().getComisaria().getSupervivientes().size());
+			break;
+		
+		//Comprobamos que el superviviente muere y no llega a ninguna localización
+		case 3:
+			assertEquals(1, this.p.getJugadorActual().getMazoSuperviviente().size());
+			assertEquals(0, this.p.getJugadorActual().getTablero().getComisaria().getSupervivientes().size());
+			break;
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR UNA CRISIS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testPrimeraCrisis() {
+		this.p.setCrisis(new Crisis(300, 5));
+		this.p.pasaRonda();
+		assertEquals(5, this.p.getMoral());
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR CRISIS 300 Y 5 HERIDAS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testSegundaCrisis() {
+		this.p.setCrisis(new Crisis(300, 5));
+		
+		this.p.pasaRonda();
+		
+		assertEquals(5, this.p.getMoral());
+		
+		int cont = 0;
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 2; j++) {
+				if (this.p.getJugador(i).getMazoSuperviviente().get(j).getHeridas() == 1) {
+					cont++;
+				}
+			}
+		}
+		assertEquals(5,cont);
+	} 
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	////DESCENSO DE MORAL TRAS FALLAR CRISIS 302 Y TODAS LAS HERIDAS
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testTerceraCrisis() {
+		this.p.setCrisis(new Crisis(302, 5));
+		
+		this.p.pasaRonda();
+		
+		assertEquals(4, this.p.getMoral());
+		
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 2; j++) {
+				assertEquals(1, this.p.getJugador(i).getMazoSuperviviente().get(j).getHeridas());
+			}
+		}
+	} 
 }

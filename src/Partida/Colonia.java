@@ -6,6 +6,8 @@ import java.util.List;
 import Cartas.Carta_Crisis;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.MatarException;
 
 public class Colonia extends Localizacion {
 	
@@ -74,7 +76,6 @@ public class Colonia extends Localizacion {
 	}
 	
 	public int anyadirInutiles() {
-		super.getSupervivientes().put(inutiles, null);
 		inutiles--;
 		
 		return inutiles + 1;
@@ -173,7 +174,7 @@ public class Colonia extends Localizacion {
 	
 	@Override
 	public String [] actualizarCasillasZombiePasoDeRonda() {
-		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2) + zombiesExternos;
+		int numZombies = (int) Math.round(((double) this.getSupervivientes().size() + (double) (23 - inutiles)) / 2) + zombiesExternos;
 		int noColocados = 0;
 		String [] colocados = new String[6];
 		boolean colocado;
@@ -296,7 +297,7 @@ public class Colonia extends Localizacion {
 		}
 		
 		//DEVUELVE LA PUERTA Y LA CASILLA EN LA QUE SE HA COLOCADO
-		return Integer.toString(i) + "|" + Integer.toString(j);
+		return Integer.toString(i + 6) + "|" + Integer.toString(j);
 	}
 	
 	public void addZombiesExternos(int num) {
