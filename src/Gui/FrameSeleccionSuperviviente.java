@@ -184,6 +184,7 @@ public class FrameSeleccionSuperviviente extends JFrame {
 				
 			case "usarHabilidad":
 				FrameTablero.enviarComando(comando+ botoneSuperviviente[Integer.parseInt(e.getActionCommand())].getText()+"|-1");
+				dispose();
 				break;
 				
 			default:

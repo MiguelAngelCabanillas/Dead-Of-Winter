@@ -59,7 +59,6 @@ public class FrameSupervivientes extends JFrame {
 	public FrameSupervivientes(HashMap<Integer, JLabel[]> carta, String id, HashMap<Integer,Integer> hN,HashMap<Integer,Integer> hC,HashMap<Integer,List<Integer>> objt) {
 		
 		
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
@@ -192,7 +191,7 @@ public class FrameSupervivientes extends JFrame {
 					Set<Integer> aux = supJugadores.keySet();
 					List<Integer> aux2 = new ArrayList<>();
 					for(int i=0;i<aux.size();i++) {
-						if(i != FrameTablero.getUsuario().getJugador().getId()) {
+						if(i != FrameTablero.getid()) {
 							aux2.add(supJugadores.get(i).get(0));
 						}
 					}
@@ -215,13 +214,27 @@ public class FrameSupervivientes extends JFrame {
 					break;
 		////////////////////////////////////
 				case "122":
+					FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
 				case "123":
+//					FrameTablero.enviarComando(command+"-1|-1");
+//					dispose();
+//					InfoJugador.Dispose();
 					break;
 				case "125":
+					//Va a ver que cambiarlo
+					FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|usarCarta|3|0");
+					dispose();
+					InfoJugador.Dispose();
 					break;
 				case "127":
+					FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
+				default: JOptionPane.showMessageDialog(null, "Tu habilidad es Pasiva");
 				}
 			}
 		});
