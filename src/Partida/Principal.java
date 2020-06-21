@@ -25,6 +25,8 @@ public class Principal {
 	private int hambre;
 	private int vertedero;
 	
+	private boolean primero;
+	
 	private List<Jugador> jugadores = new ArrayList<>();
 	private Tablero tablero;
 	private Objetivo_Principal objetivo;
@@ -70,6 +72,7 @@ public class Principal {
 		enPartida = new PriorityQueue<>();
 		
 		vertedero = 0;
+		primero = true;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -599,13 +602,15 @@ public class Principal {
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
-		if(jugadorActual != null) {
+		if(!primero) {
 			//RESETEAMOS HABILIDAD Y MOVIMIENTO
 			jugadorActual.resetHab();
 			jugadorActual.setGasolina(false);
 			//RESETEAMOS EL BUFFER DE CARTAS
 			jugadorActual.resetBuffer();
 			resetDados();
+		}else {
+			primero = false;
 		}
 		jugadorActual = jugadores.get(id);
 		inicTurno();

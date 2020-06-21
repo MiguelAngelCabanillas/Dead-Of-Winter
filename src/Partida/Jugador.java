@@ -509,7 +509,7 @@ public class Jugador {
 				if(bombero) {
 					int i = 0;
 					boolean enc = false;
-					while(!enc && i < 4) {
+					while(i < 4) {
 						aux = locCartas.cogerCarta();
 						
 						if(aux.getId() == 6) {
@@ -540,14 +540,14 @@ public class Jugador {
 							tablero.getColonia().anyadirInutiles();
 							enc = true;
 						}else {
-							for(Carta car : buffer) {
-								locCartas.getMazo().anyadirAlFinal(car);
-							}
+							buffer.add(aux);
 						}
 						i++;
 					}
 					
-					resetBuffer();
+					for(Carta car : buffer) {
+						locCartas.getMazo().anyadirAlFinal(car);
+					}
 					
 				}else {
 					aux = locCartas.cogerCarta();
