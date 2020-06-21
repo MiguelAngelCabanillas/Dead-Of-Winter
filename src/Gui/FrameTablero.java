@@ -154,6 +154,8 @@ public class FrameTablero extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE | JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1940, 1048);
 		
+		//inicializarTablero("C:/Users/xdmrg/Desktop/DoW/Dead-Of-Winter/default.dow");
+		
 	
 		//OBJETIVO PRINCIPAL PASADO COMO PARAMETRO AL CONSTRUCTOR
 		for (int i = 1; i <= 10; i++) {
@@ -1291,6 +1293,30 @@ public class FrameTablero extends JFrame {
 			System.out.println("Jugador: " + nombresJugadores.get(i) + ", Supervivientes: " + supJugadores.get(i).toString());
 			
 		}
+	}
+	
+	private void inicializarTablero(String ruta) {
+		List<List<List<Point>>> puntosFichero = PruebaFile.leerFicheroMapa(ruta);
+		
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////			Supervivientes			/////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		locComisaria = (Point[]) puntosFichero.get(0).get(0).toArray();
+		locSupermercado = (Point[]) puntosFichero.get(0).get(1).toArray();
+		locColegio = (Point[]) puntosFichero.get(0).get(2).toArray();
+		locGasolinera  = (Point[]) puntosFichero.get(0).get(3).toArray();
+		locHospital = (Point[]) puntosFichero.get(0).get(4).toArray();
+		locBiblioteca= (Point[]) puntosFichero.get(0).get(5).toArray();
+		locColonia= (Point[]) puntosFichero.get(0).get(6).toArray();
+		
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////			Zombies					/////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////	
+		
+		
+		
+		
 	}
 }
 
