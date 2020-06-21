@@ -361,7 +361,7 @@ public class Principal {
 			if(carta == -1) {
 				throw new HabilidadException("No tienes medicina");
 			}
-			salida += carta + "|" + jugadorActual.atacar(idSup);
+			salida += 3 + "|" + jugadorActual.atacar(idSup);
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 		}
 		break;
@@ -438,6 +438,7 @@ public class Principal {
 		}
 		
 		moral = tablero.getColonia().getMoral();
+		System.out.println("SalidaPartida " + salida);
 		
 		return salida;
 	}

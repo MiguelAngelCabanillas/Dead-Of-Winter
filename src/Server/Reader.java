@@ -271,11 +271,12 @@ private BufferedReader buffer;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 131; i++) {
-							  sups.add(i);
-						  }
+//						  for(int i = 100; i < 131; i++) {
+							  sups.add(112);
+							  sups.add(110);
+//						  }
 						  
-						  Collections.shuffle(sups);
+						  //Collections.shuffle(sups);
 						  
 						  
 						  
