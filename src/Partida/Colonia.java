@@ -74,7 +74,6 @@ public class Colonia extends Localizacion {
 	}
 	
 	public int anyadirInutiles() {
-		super.getSupervivientes().put(inutiles, null);
 		inutiles--;
 		
 		return inutiles + 1;
