@@ -426,6 +426,7 @@ public class Principal {
 			supervivientes.getSuperviviente(idSup).setUsado(true);
 			supervivientes.getSuperviviente(idSup).setPasivaDeAtaque(true);
 		}
+		break;
 		case 125 : {//DOCTORA: CURA UNA HERIDA SIN COSTE
 			supervivientes.getSuperviviente(idObjetivo).curarHerida();
 			supervivientes.getSuperviviente(idSup).setUsado(true);
@@ -671,8 +672,8 @@ public class Principal {
 		Map<Integer, Carta_Supervivientes> aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSUp)).getSupervivientes();
 		String salida = "";
 		for(int i = 0; i < 20; i++) {
-			if(aux.get(i) != null) {
-				salida += aux.get(i).getId();
+			if(aux.get(i) != null && (aux.get(i).getHeridas() + aux.get(i).getCongelamiento()) > 0) {
+				salida += "|" + aux.get(i).getId();
 			}
 		}
 		return salida;
