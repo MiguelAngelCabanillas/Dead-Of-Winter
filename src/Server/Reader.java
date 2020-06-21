@@ -272,15 +272,17 @@ private BufferedReader buffer;
 						  
 						  List<Integer> sups = new ArrayList<>();
 //						  for(int i = 100; i < 131; i++) {
-							  sups.add(112);
-							  sups.add(110);
+							  sups.add(114);
+							  sups.add(115);
+							  sups.add(100);
+							  sups.add(101);
 //						  }
 						  
 						  //Collections.shuffle(sups);
 						  
 						  
 						  
-						  user.getSala().shuffleUsuarios();
+						 // user.getSala().shuffleUsuarios();
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
 							  mensInit += "|" + sups.get(i);
 							  

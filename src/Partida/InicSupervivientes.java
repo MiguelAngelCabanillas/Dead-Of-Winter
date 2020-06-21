@@ -131,13 +131,13 @@ public class InicSupervivientes {
 		//ESTUDIANTE (120)//TODO NO SE IMPLEMENTARÁ
 		Carta_Supervivientes estudiante = new Carta_Supervivientes(120, 3, 3, 18, "John Price");
 		director.setLoc(7);
-		cartas.add(estudiante);
-		personajes.put(120, estudiante);
+		cartas.add(null);
+		personajes.put(120, null);
 		
 		//LEÑADOR (121)	//TODO NO SE IMPLEMENTARÁ
 		Carta_Supervivientes lenador = new Carta_Supervivientes(121, 2, 2, 31, "Kodiak Colby");
-		cartas.add(lenador);
-		personajes.put(121, lenador);
+		cartas.add(null);
+		personajes.put(121, null);
 		
 		//COCINERA (122)
 		Carta_Supervivientes cocinera = new Carta_Supervivientes(122, 2, 4, 20, "Loretta Clay");
@@ -179,13 +179,13 @@ public class InicSupervivientes {
 		
 		//ADIVINA (129) //TODO complicada
 		Carta_Supervivientes adivina = new Carta_Supervivientes(129, 3, 1, 28, "Talia Jones");
-		cartas.add(adivina);
-		personajes.put(129, adivina);
+		cartas.add(null);
+		personajes.put(129, null);
 		
 		//SOLDADO (130)	//TODO MODIFICAR EL METODO ATACAR
 		Carta_Supervivientes soldado = new Carta_Supervivientes(130, 1, 3, 64, "Thomas Heart");
-		cartas.add(soldado);
-		personajes.put(130, soldado);
+		cartas.add(null);
+		personajes.put(130, null);
 		
 	}
 	

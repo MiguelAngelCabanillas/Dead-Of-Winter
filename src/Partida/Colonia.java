@@ -290,7 +290,6 @@ public class Colonia extends Localizacion {
 				i++;
 			}
 		}
-		System.out.println("Ha entrao");
 		
 		if(!matado) {
 			throw new MatarException("No hay zombies en esa posicion");
