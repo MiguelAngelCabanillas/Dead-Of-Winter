@@ -378,6 +378,9 @@ public class Jugador {
 				try {
 					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL SHERIFF
 					personaje.setUsado(true);
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";
+					}
 					res += "|" + loc.matarZombie();
 				}catch(MatarException e) {}
 			}
@@ -386,9 +389,15 @@ public class Jugador {
 				try {
 					personaje.setPasivaDeAtaque(false);//RESETEAMOS LA HABILIDAD DEL QUIMICO
 					personaje.setUsado(true);
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";
+					}
 					res += "|" + loc.matarZombie();
 				}catch (MatarException e) {}
 				try {
+					if(!tablero.getColonia().getSupervivientes().containsValue(personaje)) {
+						salida += Integer.toString(loc.getId()) + "|";
+					}
 					res += "|" + loc.matarZombie();
 				}catch (MatarException e) {}
 			}
