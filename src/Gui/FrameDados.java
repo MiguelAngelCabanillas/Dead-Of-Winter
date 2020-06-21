@@ -115,7 +115,7 @@ public class FrameDados extends JFrame {
 				FrameTablero.enviarComando(cmd + e.getActionCommand());
 				dispose();
 			} else if(split[2].equalsIgnoreCase("usarHabilidad")) {
-				FrameTablero.enviarComando(cmd + "-1|" + e.getActionCommand() + "|");
+				FrameTablero.enviarComando(cmd + "-1|" + e.getActionCommand());
 				dispose();
 			}
 		}

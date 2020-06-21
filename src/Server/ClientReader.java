@@ -239,11 +239,14 @@ public class ClientReader implements Runnable {
                 	}
                 break;
                 	
-                case "rmZombie": //rmZombie|loc|pos
-                	tablero.deleteZombie(Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                case "rmZombie": //rmZombie|loc|pos|loc|pos|loc|pos
+                	for(int j=1;j<split.length;j+=2) {
+                		tablero.deleteZombie(Integer.parseInt(split[j]), Integer.parseInt(split[j+1]));
+                	}
                 	break;
                 
                 case "rmCarta": //rmCarta|idCarta
+                	System.out.println("BORRAR CARTA: " + split[1]);
                 	tablero.rmCartaJug(Integer.parseInt(split[1]));
                 	break;
           	
@@ -329,6 +332,11 @@ public class ClientReader implements Runnable {
                 case "equipar": //equipar|idSup|idObj
                 	System.out.println("EQUIPAMOS OBJETO " + split[2] + " AL SUPERVIVIENTE " + split[1]);
                 	tablero.equiparObj(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
+                	break;
+                	
+                case "verCarta": //verCarta|idCarta
+                	System.out.println("MOSTRAMOS CARTA " + split[1]);
+                	tablero.verCarta(split[1]);
                 	break;
                 	                	
                 default:

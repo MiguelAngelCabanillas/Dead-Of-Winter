@@ -158,7 +158,9 @@ public class FrameSupervivientes extends JFrame {
 				//TODO: HABILIDADES DE CADA SUPERVIVIENTE
 				String command = FrameTablero.getUsuario().getNombre()+"|1|usarHabilidad|"+id+"|"; //usarHabilidad|idSup|objetivo|dado
 				switch(id) {
-				case "102": FrameTablero.enviarComando(command+"-1|-1|");
+				case "102": FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
 				case "107": 
 					if(fDados != null) {
@@ -167,14 +169,23 @@ public class FrameSupervivientes extends JFrame {
 					fDados = new FrameDados(FrameTablero.getDados(),FrameTablero.getAsociaciones(),command);
 					fDados.setVisible(true);
 					dispose();
+					InfoJugador.Dispose();
 					break;
-				case "110": FrameTablero.enviarComando(command+"-1|-1|");
+				case "110": FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
-				case "112": FrameTablero.enviarComando(command+"-1|-1|");
+				case "112": FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
-				case "113": FrameTablero.enviarComando(command+"-1|-1|");
+				case "113": FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
-				case "114": FrameTablero.enviarComando(command+"-1|-1|");
+				case "114": FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
 				case "115": 
 					HashMap<Integer,List<Integer>> supJugadores = FrameTablero.getSupJugadores();
@@ -191,6 +202,7 @@ public class FrameSupervivientes extends JFrame {
 					fSup = new FrameSeleccionSuperviviente(command,aux2,FrameTablero.getAsociaciones());
 					fSup.setVisible(true);
 					dispose();
+					InfoJugador.Dispose();
 					break;
 				case "117":
 					if(fDados != null) {
@@ -199,6 +211,7 @@ public class FrameSupervivientes extends JFrame {
 					fDados = new FrameDados(FrameTablero.getDados(),FrameTablero.getAsociaciones(),command);
 					fDados.setVisible(true);
 					dispose();
+					InfoJugador.Dispose();
 					break;
 		////////////////////////////////////
 				case "122":

@@ -73,6 +73,7 @@ public class FrameTablero extends JFrame {
 	private FrameTiradaRiesgo tirRiesgo;
 	private FrameCartasAportadas frameCartasAportadas;
 	private FrameSupervivienteNuevo frameSupNuevo;
+	private static FrameCarta fCarta;
 	
 	private JButton btnAtacar,btnMoverse,btnBuscar,btnBarricada,btnContribuir,btnLimpiarVertedero,btnAtraerZombie,btnFinalizarTurno,btnDarCarta,btnPedirCarta,
 					btnGastarComida,btnFichasComida,btnVertedero,btnContribucionesCrisis,btnInfoJugador,btnInfoTablero,ObjetivoPrin,btnSendChat,btnCartaCrisis;
@@ -1194,6 +1195,14 @@ public class FrameTablero extends JFrame {
 	
 	public static List<Integer> getSupJug() {
 		return supJugadores.get(idJug);
+	}
+	
+	public void verCarta(String idCarta) {
+		if(fCarta != null) {
+			fCarta.dispose();
+		}
+		fCarta = new FrameCarta(aso.getCartasObjetos(),idCarta,false);
+		fCarta.setVisible(true);
 	}
 	
 	public static HashMap<Integer,List<Integer>> getSupJugadores(){
