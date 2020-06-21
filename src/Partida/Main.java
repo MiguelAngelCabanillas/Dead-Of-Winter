@@ -1,7 +1,11 @@
 package Partida;
 
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
 import Excepciones.MoverException;
+import Excepciones.VertederoException;
 
 public class Main {
 

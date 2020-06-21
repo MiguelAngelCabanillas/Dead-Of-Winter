@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.*;
 import org.junit.*;
 import Cartas.*;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
+import Excepciones.MatarException;
 import Excepciones.MoverException;
 import Partida.*;
 

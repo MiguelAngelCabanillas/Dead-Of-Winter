@@ -6,6 +6,8 @@ import java.util.List;
 import Cartas.Carta_Crisis;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.MatarException;
 
 public class Colonia extends Localizacion {
 	

@@ -10,7 +10,16 @@ import java.util.Stack;
 import Cartas.Carta;
 import Cartas.Carta_Objeto;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
+import Excepciones.EquipableException;
+import Excepciones.GasolinaException;
+import Excepciones.HabilidadException;
+import Excepciones.HeridaException;
+import Excepciones.MatarException;
 import Excepciones.MoverException;
+import Excepciones.VertederoException;
 
 public class Principal {
 

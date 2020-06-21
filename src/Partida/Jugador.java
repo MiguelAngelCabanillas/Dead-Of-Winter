@@ -6,6 +6,10 @@ import java.util.List;
 
 import Cartas.Carta;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
+import Excepciones.MatarException;
 import Excepciones.MoverException;
 
 public class Jugador {

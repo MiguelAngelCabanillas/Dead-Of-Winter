@@ -2,15 +2,15 @@ package Server;
 
 import BD.*;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.BuscarException;
+import Excepciones.DadoException;
+import Excepciones.HabilidadException;
+import Excepciones.MatarException;
 import Excepciones.MoverException;
 import Excepciones.ServerException;
-import Partida.BarricadaException;
-import Partida.BuscarException;
-import Partida.DadoException;
-import Partida.HabilidadException;
-import Partida.MatarException;
+import Excepciones.VertederoException;
 import Partida.Principal;
-import Partida.VertederoException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

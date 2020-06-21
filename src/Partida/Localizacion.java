@@ -8,6 +8,8 @@ import java.util.TreeMap;
 
 import Cartas.Carta;
 import Cartas.Carta_Supervivientes;
+import Excepciones.BarricadaException;
+import Excepciones.MatarException;
 
 public class Localizacion {
 	

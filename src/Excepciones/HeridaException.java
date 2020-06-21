@@ -1,4 +1,4 @@
-package Partida;
+package Excepciones;
 
 public class HeridaException extends Exception {
 

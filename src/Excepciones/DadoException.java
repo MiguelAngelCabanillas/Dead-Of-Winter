@@ -1,4 +1,4 @@
-package Partida;
+package Excepciones;
 
 public class DadoException extends Exception{
 

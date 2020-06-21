@@ -3,7 +3,7 @@ package Cartas;
 import java.util.ArrayList;
 import java.util.List;
 
-import Partida.EquipableException;
+import Excepciones.EquipableException;
 
 public class Carta_Supervivientes extends Carta implements Comparable<Carta_Supervivientes>{
 
