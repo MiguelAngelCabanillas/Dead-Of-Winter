@@ -296,7 +296,7 @@ public class Colonia extends Localizacion {
 		}
 		
 		//DEVUELVE LA PUERTA Y LA CASILLA EN LA QUE SE HA COLOCADO
-		return Integer.toString(i) + "|" + Integer.toString(j);
+		return Integer.toString(i + 6) + "|" + Integer.toString(j);
 	}
 	
 	public void addZombiesExternos(int num) {

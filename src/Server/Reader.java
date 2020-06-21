@@ -272,15 +272,16 @@ private boolean seleccionadoCurado = false;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 131; i++) {
-							  sups.add(i);
-						  }
+//						  for(int i = 100; i < 131; i++) {
+							  sups.add(122);
+							  sups.add(123);
+//						  }
 						  
-						  Collections.shuffle(sups);
+						  //Collections.shuffle(sups);
 						  
 						  
 						  
-						  user.getSala().shuffleUsuarios();
+						 // user.getSala().shuffleUsuarios();
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
 							  mensInit += "|" + sups.get(i);
 							  
