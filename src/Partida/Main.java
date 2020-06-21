@@ -48,9 +48,17 @@ public class Main {
 		- jug 2 bar 119 (loc 0 pos 2) -> loc 6 puerta 0 pos 0
 		*/
 		
-		try {
-			p.mover(103, 2);
-			System.out.println(p.buscar(119));
+//		try {
+			//p.mover(103, 2);
+			//System.out.println(p.buscar(119));
+//			p.pasaTurno(0);
+//			p.pasaTurno(0);
+//			p.pasaTurno(0);
+//			p.pasaTurno(0);
+			p.pasaRonda();
+			p.pasaRonda();
+			p.pasaRonda();
+			p.pasaRonda();
 //			p.addSuperviviente(0, 119);
 //			p.addSuperviviente(0, 110);
 //			p.pasaTurno(0);
@@ -75,13 +83,13 @@ public class Main {
 //			p.pasaRonda();
 //			p.pasaRonda();
 //			p.pasaRonda();
-		} catch (DadoException e) {
-			System.err.println(e.getMessage());
-		} catch (BuscarException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		} catch (DadoException e) {
+//			System.err.println(e.getMessage());
+//		} catch (BuscarException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		
 //		try {
 //		System.out.println(p.getNombre(103));

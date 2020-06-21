@@ -243,6 +243,7 @@ public class FrameSupervivientes extends JFrame {
 				}
 			}
 		});
+
 		btnHabilidad.setEnabled(activo);
 		contentPane.add(btnHabilidad);
 		

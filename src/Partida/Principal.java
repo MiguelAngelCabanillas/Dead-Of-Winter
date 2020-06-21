@@ -546,6 +546,7 @@ public class Principal {
 		}else if(jugadorActual.getDados().getValor(dado) == 6) {
 			throw new DadoException("El dado ya es máximo");
 		}else {
+			comida--;
 			salida += dado + "|" + jugadorActual.getDados().aumentarDado(dado);
 		}
 		return salida;
@@ -846,14 +847,15 @@ public class Principal {
 	
 	private void resetDados() {
 		jugadorActual.getDados().resetDados(jugadorActual.getMazoSuperviviente().size());
-		List<Integer> d = jugadorActual.getDados().getDados();
+		Dado d = jugadorActual.getDados();
 		dados[jugadorActual.getId()] = "";
+		d.resetDados(jugadorActual.getMazoSuperviviente().size());
 		
-		for(int i = 0; i < d.size(); i++) {
+		for(int i = 0; i < d.getDados().size(); i++) {
 			if(i != 0) {
 				dados[jugadorActual.getId()] += "|";
 			}
-			dados[jugadorActual.getId()] += d.get(i);
+			dados[jugadorActual.getId()] += d.getDados().get(i);
 		}
 	}
 	
