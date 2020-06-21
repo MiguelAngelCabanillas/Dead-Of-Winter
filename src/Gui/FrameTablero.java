@@ -1180,6 +1180,10 @@ public class FrameTablero extends JFrame {
 		return turno;
 	}
 	
+	public static int getid() {
+		return idJug;
+	}
+	
 	public static List<Integer> getDados(){
 		return dados;
 	}
