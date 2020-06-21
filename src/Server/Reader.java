@@ -593,7 +593,7 @@ private boolean seleccionadoCurado = false;
 								user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
 								user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
 								user.enviarALaSala("chat|" + user.getNombre() +  " ha curado a " + user.getSala().getPartida().getNombre(idObjetivo));
-								user.enviarALaSala("heridas|" + split[3] + "|" + user.getSala().getPartida().getHeridas(idObjetivo));
+								user.enviarALaSala("heridas|" + idObjetivo + "|" + user.getSala().getPartida().getHeridas(idObjetivo));
 								seleccionadoCurado = false;
 							}
 						} else {
