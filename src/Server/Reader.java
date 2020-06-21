@@ -272,9 +272,7 @@ private BufferedReader buffer;
 						  
 						  List<Integer> sups = new ArrayList<>();
 						  for(int i = 100; i < 131; i++) {
-							  if(i != 120) {
-								  sups.add(i);
-							  }
+							  sups.add(i);
 						  }
 						  
 						  Collections.shuffle(sups);
@@ -461,7 +459,9 @@ private BufferedReader buffer;
 						String [] cRui = rui.split("\\|");
 						if(Integer.parseInt(cRui[0]) >= 100) {
 							user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  cRui[0] + "|" + cRui[1]);
-							user.hacerPeticionAlServidor("addSupInd|" + user.getSala().getPartida().getInutiles());
+							user.enviarALaSala("evento|" + cRui[2]);
+							user.enviarALaSala("addSupInd|" + user.getSala().getPartida().getInutiles());
+							user.enviarALaSala("chat|" + user.getNombre() + " ha encontrado supervivientes.");
 						} else {
 							String carts = "";
 							int c = 0;
@@ -533,19 +533,21 @@ private BufferedReader buffer;
 							user.hacerPeticionAlServidor("medicina|" + sal);
 						} else {
 							sal = user.getSala().getPartida().usarCarta(idCarta, Integer.parseInt(split[4]));
-							if( idCarta <= 2 ) {								//COMIDA
+							if( idCarta <= 2 ) {																//COMIDA
 								user.enviarALaSala("fichasComida|" + user.getSala().getPartida().getComida());
-							} else if(idCarta == 4 || idCarta == 19) { 							//TRASTOS O LIBRO
+							} else if(idCarta == 4 || idCarta == 19) { 											//TRASTOS O LIBRO
 								user.hacerPeticionAlServidor("setDado|" + sal);
-							} else if(idCarta >= 9 && idCarta != 19) { 			//EQUIPABLES
+							} else if(idCarta >= 9 && idCarta != 19) { 											//EQUIPABLES
 								user.hacerPeticionAlServidor("equipar|" + split[4] + "|" + idCarta); //equipar|idSup|idCarta
 								System.out.println("equipa");
 							}
 						}
 						
-						user.hacerPeticionAlServidor("rmCarta|" + idCarta);
-						user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
-						user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
+						if(idCarta != 19) {
+							user.hacerPeticionAlServidor("rmCarta|" + idCarta);
+							user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
+							user.enviarALaSala("vertedero|" + user.getSala().getPartida().getVertedero());
+						}
 						
 					}catch (Exception e){
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
@@ -578,36 +580,89 @@ private BufferedReader buffer;
 					try {
 						
 						String salida = user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
+						user.enviarALaSala("chat|[" + user.getNombre() + "] " + user.getSala().getPartida().getNombre(idSup) + " ha usado su habilidad" );
+						System.out.println("Salida de USAR HABILIDAD: " + salida);
 						
 						switch(idSup) {
-							case 102:
-								//enviar carta
+							case 102: {
+								//ve una carta del jugador objetivo
+								user.hacerPeticionAlServidor("verCarta|" + salida);
+								user.hacerPeticionAlServidor("error|La carta es de " + user.getSala().getUsuarios().get((user.getJugador().getId() + 1) % user.getSala().getUsuarios().size()).getNombre());
+							}
 								break;
-							case 107: //modifica un dado
+							case 107: 
+								//modifica un dado
 								user.hacerPeticionAlServidor("setDado|" + salida);
 								break;
-							case 110:
+							case 110: {
 								//zombies muertos
+								String[] arr = salida.split("\\|"); //loc|pos|loc...|dado|riesgo
+								String zomb = "";
+								int con = 0;
+								
+								while(con < arr.length - 2) {
+									zomb += "|" + arr[con] + "|" + arr[con+1];
+									con += 2;
+								}
+								
+								user.enviarALaSala("rmZombie" + zomb);
+								user.hacerPeticionAlServidor("rmDado|" + arr[arr.length - 2]);
+								user.enviarALaSala("tiradaRiesgo|" + arr[arr.length - 1]);
+								user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
+								
+							}
 								break;
-							case 112:
+							case 112: {
 								//id carta eliminada y zombies muertos
+								String[] arr = salida.split("\\|"); //idCarta|loc|pos|loc...|dado|riesgo
+								user.hacerPeticionAlServidor("rmCarta|" + arr[0]);
+								user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|-1");
+								String zomb = "";
+								int con = 1;
+								
+								while(con < arr.length - 2) {
+									zomb += "|" + arr[con] + "|" + arr[con+1];
+									con += 2;
+								}
+								
+								user.enviarALaSala("rmZombie" + zomb);
+								user.hacerPeticionAlServidor("rmDado|" + arr[arr.length - 2]);
+							}
 								break;
 							case 113:
 								//eliminar santa claus, actualizar moral
+								user.enviarALaSala("rmSup|" + user.getJugador().getId() + "|" + salida);
+								user.enviarALaSala("moral|" + user.getSala().getPartida().getMoral());
 								break;
-							case 114:
+							case 114: {
 								//si no es cadena vacia, carta de evento
+								if(salida.equals("")) {
+									user.hacerPeticionAlServidor("error|No se ha encontrado nada");
+								} else {
+									String[] sp = salida.split("\\|");
+									user.enviarALaSala("asignar|" + user.getJugador().getId() + "|" +  sp[0] + "|" + sp[1]);
+									user.enviarALaSala("evento|" + sp[2]);
+									user.enviarALaSala("addSupInd|" + user.getSala().getPartida().getInutiles());
+									user.enviarALaSala("chat|" + user.getNombre() + " ha encontrado supervivientes.");
+								}
+							}
 								break;
-							case 115:
-								//añadir carta
+							case 115: {
+								//roba una carta
+								String[] sp = salida.split("\\|"); //idCarta|jugadorRobado
+								user.hacerPeticionAlServidor("addCarta|" + sp[0]);
+								user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|1");
+								user.enviarALaSala("updtCartas|" + sp[1] + "|-1");
+							}	
 								break;
 							case 117: //vuelve a tirar un dado
 								user.hacerPeticionAlServidor("setDado|" + salida);
 								break;
 						}
-					} catch (Exception e) {
+					} catch (HabilidadException | MatarException | DadoException | BuscarException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
 					}
+					
 					break;
 				case "newRound": // Me hace falta la crisis
 					for(Usuario usario : user.getSala().getUsuarios()) {
@@ -828,13 +883,15 @@ private BufferedReader buffer;
 				user.enviarALaSala("finpartida");
 			} else {
 				user.getSala().setContTurnos(user.getSala().getUsuarios().size());
-				String muertos = user.getSala().getPartida().getMuertos(); //muertos
+				String muertos = user.getSala().getPartida().getMuertos(); //muertos al pasar la ronda
 				System.out.println(muertos);
-				if(!muertos.equals("")) {
+				if(!muertos.equals("")) { 
 					int i = 0;
 					String[] sp = muertos.split("\\|");
 					while(i < sp.length) {
 						user.enviarALaSala("rmSup|" + sp[i] + "|" + sp[i+1]);
+						user.enviarALaSala("chat|[" + user.getSala().getUsuarios().get(Integer.parseInt(sp[i])).getNombre() + "] " +
+												user.getSala().getPartida().getNombre(Integer.parseInt(sp[i+1])) + " ha muerto");
 						i+=2;
 					}
 				}

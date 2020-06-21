@@ -341,8 +341,8 @@ public class Jugador {
 		
 		//PARA LAS HABILIDADES DE LOS SUPERVIVIENTES
 		boolean madre = personaje.getId() == 105 && loc.getId() == 6 && !personaje.getUsado();
-		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
-		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
+		boolean sheriff = personaje.getId() == 110 && !personaje.getUsado() && personaje.getPasivaDeAtaque();	//CONTROLAMOS QUE SE HAYA SELECCIONADO LA HABILIDAD
+		boolean quimico = personaje.getId() == 112 && !personaje.getUsado() && personaje.getPasivaDeAtaque();
 		boolean profesora = personaje.getId() == 123 && !personaje.getUsado() && !personaje.getPasivaDeAtaque();
 		
 		//USAMOS EL MENOR DADO POSIBLE
