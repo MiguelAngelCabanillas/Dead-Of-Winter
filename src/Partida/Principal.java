@@ -599,12 +599,14 @@ public class Principal {
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
-		//RESETEAMOS HABILIDAD Y MOVIMIENTO
-		jugadorActual.resetHab();
-		jugadorActual.setGasolina(false);
-		//RESETEAMOS EL BUFFER DE CARTAS
-		jugadorActual.resetBuffer();
-		resetDados();
+		if(jugadorActual != null) {
+			//RESETEAMOS HABILIDAD Y MOVIMIENTO
+			jugadorActual.resetHab();
+			jugadorActual.setGasolina(false);
+			//RESETEAMOS EL BUFFER DE CARTAS
+			jugadorActual.resetBuffer();
+			resetDados();
+		}
 		jugadorActual = jugadores.get(id);
 		inicTurno();
 	}
