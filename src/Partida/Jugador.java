@@ -490,7 +490,7 @@ public class Jugador {
 		boolean camarera = personaje.getId() == 119 && !personaje.getPasivaDeBusqueda() && !personaje.getUsado();
 		
 		if(!bombero) {
-			 dado = valorDado(personaje.getBusqueda());
+			dado = valorDado(personaje.getBusqueda());
 		}
 		
 		if(getLocalizacion(6).equals(localizacion(personaje))){
@@ -540,7 +540,9 @@ public class Jugador {
 							tablero.getColonia().anyadirInutiles();
 							enc = true;
 						}else {
-							buffer.add(locCartas.cogerCarta());
+							for(Carta car : buffer) {
+								locCartas.getMazo().anyadirAlFinal(car);
+							}
 						}
 						i++;
 					}
