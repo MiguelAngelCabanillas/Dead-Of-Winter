@@ -36,4 +36,8 @@ public class Mazo {
 		Mazo.add(carta);
 	}
 	
+	public void anyadirAlPrincipio(Carta carta) {
+		Mazo.push(carta);
+	}
+	
 }

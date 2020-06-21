@@ -139,12 +139,12 @@ public class InicSupervivientes {
 		cartas.add(lenador);
 		personajes.put(121, lenador);
 		
-		//COCINERA (122) //TODO facil de hacer
+		//COCINERA (122)
 		Carta_Supervivientes cocinera = new Carta_Supervivientes(122, 2, 4, 20, "Loretta Clay");
 		cartas.add(cocinera);
 		personajes.put(122, cocinera);
 		
-		//MAESTRA (123)	//TODO se puede hacer
+		//MAESTRA (123)
 		Carta_Supervivientes maestra = new Carta_Supervivientes(123, 4, 2, 48, "María López");
 		cartas.add(maestra);
 		personajes.put(123, maestra);
@@ -155,7 +155,7 @@ public class InicSupervivientes {
 		cartas.add(ninja);
 		personajes.put(124, ninja);
 		
-		//DOCTORA (125)	//TODO se puede hacer facil
+		//DOCTORA (125)
 		Carta_Supervivientes doctora = new Carta_Supervivientes(125, 4, 3, 56, "Olivia Brown");
 		cartas.add(doctora);
 		personajes.put(125, doctora);
@@ -166,13 +166,14 @@ public class InicSupervivientes {
 		cartas.add(camionero);
 		personajes.put(126, camionero);
 		
-		//PILOTO (127)	//TODO 
+		//PILOTO (127)
 		Carta_Supervivientes piloto = new Carta_Supervivientes(127, 4, 1, 58, "Sophie Robinson");
 		cartas.add(piloto);
 		personajes.put(127, piloto);
 		
-		//PERRO (128)	//TODO MODIFICAR LA CLASE TIRADA DE RIESGO DE JUGADOR
+		//PERRO (128)
 		Carta_Supervivientes perro = new Carta_Supervivientes(128, 2, 2, 10, "Sparky");
+		perro.setPerro(true);
 		cartas.add(perro);
 		personajes.put(128, perro);
 		
