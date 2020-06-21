@@ -170,19 +170,23 @@ public class FrameSupervivientes extends JFrame {
 					dispose();
 					InfoJugador.Dispose();
 					break;
-				case "110": FrameTablero.enviarComando(command+"-1|-1");
+				case "110": //sheriff
+					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
-				case "112": FrameTablero.enviarComando(command+"-1|-1");
+				case "112": //quimico
+					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
-				case "113": FrameTablero.enviarComando(command+"-1|-1");
+				case "113": 
+					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
-				case "114": FrameTablero.enviarComando(command+"-1|-1");
+				case "114": 
+					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
@@ -213,19 +217,18 @@ public class FrameSupervivientes extends JFrame {
 					InfoJugador.Dispose();
 					break;
 		////////////////////////////////////
-				case "122":
+				case "122": //cocinera
 					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
-				case "123":
-//					FrameTablero.enviarComando(command+"-1|-1");
-//					dispose();
-//					InfoJugador.Dispose();
+				case "123": //profesora
+					FrameTablero.enviarComando(command+"-1|-1");
+					dispose();
+					InfoJugador.Dispose();
 					break;
-				case "125":
-					//Va a ver que cambiarlo
-					FrameTablero.enviarComando(FrameTablero.getUsuario().getNombre() + "|1|usarCarta|3|0");
+				case "125": //doctora
+					FrameTablero.enviarComando(command+"-1|-1");
 					dispose();
 					InfoJugador.Dispose();
 					break;
@@ -235,6 +238,7 @@ public class FrameSupervivientes extends JFrame {
 					InfoJugador.Dispose();
 					break;
 				default: JOptionPane.showMessageDialog(null, "Tu habilidad es Pasiva");
+				break;
 				}
 			}
 		});

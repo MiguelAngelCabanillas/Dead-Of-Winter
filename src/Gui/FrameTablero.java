@@ -1152,7 +1152,7 @@ public class FrameTablero extends JFrame {
 	}
 	
 	public void seleccionSupervivientes(List<Integer> list, String comando) {
-		//TODO: FRAME GENERICO PARA 
+		//TODO: FRAME GENERICO PARA MOSTRAR UNA LISTA DE SUPERVIVIENTES SELECCIONABLES
 		if(frameSeleccionar != null) {
 			frameSeleccionar.dispose();
 		}
