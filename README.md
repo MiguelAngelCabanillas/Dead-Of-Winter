@@ -5,10 +5,10 @@
 
 2º Iteracion:
 
-	Implementar el Chat y las Salas correctamente
+	Implementación del Chat y las Salas correctamente
 	
 3º Iteracion:
 
-	Implementar la conexion con el codigo del juego(Inicio de partida y el juego en si)
+	Implementar la conexion con el código del juego, y vincular todas las funcionalidades entre GUI, modelo y servidor
 
 
