@@ -80,13 +80,8 @@ public class FrameFinPartida extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSalir.setBounds(848, 381, 137, 37);
+		btnSalir.setBounds(717, 379, 137, 37);
 		contentPane.add(btnSalir);
-		
-		JButton btnVolverSala = new JButton("Volver a salas");
-		btnVolverSala.setToolTipText("Volver a seleccion de salas");
-		btnVolverSala.setBounds(599, 381, 137, 37);
-		contentPane.add(btnVolverSala);
 		contentPane.add(lblFinPartida);
 	}
 }

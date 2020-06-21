@@ -124,17 +124,17 @@ public class Login {
 		btnNewButton_1.setBounds(441, 711, 309, 33);
 		frmDeadOfWinter.getContentPane().add(btnNewButton_1);
 		
-		JLabel lblNewLabel = new JLabel("Username");
+		JLabel lblNewLabel = new JLabel("Usuario");
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
-		lblNewLabel.setBounds(350, 479, 223, 57);
+		lblNewLabel.setBounds(385, 480, 179, 57);
 		frmDeadOfWinter.getContentPane().add(lblNewLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("Password");
+		JLabel lblNewLabel_1 = new JLabel("Contrase\u00F1a");
 		lblNewLabel_1.setForeground(new Color(255, 255, 255));
 		lblNewLabel_1.setFont(new Font("Century Schoolbook", Font.BOLD, 40));
-		lblNewLabel_1.setBounds(350, 568, 214, 57);
+		lblNewLabel_1.setBounds(350, 568, 238, 57);
 		frmDeadOfWinter.getContentPane().add(lblNewLabel_1);
 		
 		textFieldUN = new JTextField();
