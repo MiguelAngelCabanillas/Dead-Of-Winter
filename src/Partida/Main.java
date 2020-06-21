@@ -13,7 +13,7 @@ public class Main {
 		//System.out.println(p.getIdCartas(1));
 		//System.out.println(p.getIdCartas(2));
 		
-		p.addSuperviviente(0, 119);
+		p.addSuperviviente(0, 103);
 		p.addSuperviviente(0, 116);
 //		p.addSuperviviente(0, 117);
 //		p.addSuperviviente(0, 124);
@@ -45,7 +45,7 @@ public class Main {
 		*/
 		
 		try {
-			p.mover(119, 5);
+			p.mover(103, 2);
 			System.out.println(p.buscar(119));
 //			p.addSuperviviente(0, 119);
 //			p.addSuperviviente(0, 110);

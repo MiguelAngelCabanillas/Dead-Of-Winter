@@ -619,7 +619,7 @@ public class Principal {
 		}
 		
 		//LA COMIDA QUE SE GASTA ES IGUAL A LA MITAD DE LOS SUPERVIVIENTES DE LA COLONIA REDONDEANDO HACIA ARRIBA
-		int comidaGastada = (int) Math.round((double) (tablero.getColonia().getSupervivientes().size() + (23 - tablero.getColonia().getInutiles())));
+		int comidaGastada = (int) Math.round(((double) tablero.getColonia().getSupervivientes().size() + (double) (23 - tablero.getColonia().getInutiles())) / 2);
 		System.out.println("Comida: " + comida + "\n Gastada: " + comidaGastada);
 		if(comida >= comidaGastada) {
 			comida -= comidaGastada;

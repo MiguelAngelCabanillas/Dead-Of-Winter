@@ -422,7 +422,7 @@ public class Jugador {
 			//SI NO HABIA ZOMBIES NO HACEMOS TIRADA DE RIESGO (DEVUELVE -1)
 			if(personaje.tiraAlAtacar() && !personaje.tieneEquipado(9) && !personaje.tieneEquipado(10) && !profesora) {
 				riesgo = tiradaRiesgo(personaje);
-			}else if(!profesora && !quimico) {
+			}else if(!profesora && !quimico && personaje.tiraAlAtacar()) {
 				if(personaje.tieneEquipado(9) && !personaje.usado(9)) {
 					personaje.usar(9);
 				}else if(personaje.tieneEquipado(10) && !personaje.usado(10)) {

@@ -173,7 +173,7 @@ public class Colonia extends Localizacion {
 	
 	@Override
 	public String [] actualizarCasillasZombiePasoDeRonda() {
-		int numZombies = (int) Math.round((double) (this.getSupervivientes().size() + (23 - inutiles)) / 2) + zombiesExternos;
+		int numZombies = (int) Math.round(((double) this.getSupervivientes().size() + (double) (23 - inutiles)) / 2) + zombiesExternos;
 		int noColocados = 0;
 		String [] colocados = new String[6];
 		boolean colocado;
