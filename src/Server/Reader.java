@@ -672,9 +672,13 @@ private BufferedReader buffer;
 							case 115: {
 								//roba una carta
 								String[] sp = salida.split("\\|"); //idCarta|jugadorRobado
+								int idOtro = Integer.parseInt(sp[1]);
 								user.hacerPeticionAlServidor("addCarta|" + sp[0]);
+								user.getSala().getUsuarios().get(idOtro).hacerPeticionAlServidor("rmCarta|" + sp[0]);
 								user.enviarALaSala("updtCartas|" + user.getJugador().getId() + "|1");
 								user.enviarALaSala("updtCartas|" + sp[1] + "|-1");
+								user.getSala().getUsuarios().get(idOtro).hacerPeticionAlServidor("error|" + user.getNombre() + " te ha robado una carta");
+								user.hacerPeticionAlServidor("error|Robaste una carta de " + user.getSala().getUsuarios().get(idOtro).getNombre());
 							}	
 								break;
 							case 117: //vuelve a tirar un dado
@@ -720,8 +724,18 @@ private BufferedReader buffer;
 									break;
 								}
 							}
-							break;
+								break;
+							case 125: {
+								//cura a un superviviente
 								
+								
+							}
+								break;
+							case 127: {
+								//ve una carta
+								
+							}
+								break;
 						}
 					} catch (HabilidadException | MatarException | DadoException | BuscarException e) {
 						user.hacerPeticionAlServidor("error|" + e.getMessage());
