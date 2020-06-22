@@ -18,7 +18,7 @@ public class Main {
 		//System.out.println(p.getIdCartas(2));
 		
 		p.addSuperviviente(0, 103);
-		p.addSuperviviente(0, 116);
+		p.addSuperviviente(0, 100);
 //		p.addSuperviviente(0, 117);
 //		p.addSuperviviente(0, 124);
 		p.inicSupervivientesEnColonia();
@@ -56,9 +56,12 @@ public class Main {
 //			p.pasaTurno(0);
 //			p.pasaTurno(0);
 			p.pasaRonda();
+			p.pasaTurno(0);
 			p.pasaRonda();
+			p.pasaTurno(0);
 			p.pasaRonda();
-			p.pasaRonda();
+//			p.pasaRonda();
+//			p.pasaRonda();
 //			p.addSuperviviente(0, 119);
 //			p.addSuperviviente(0, 110);
 //			p.pasaTurno(0);

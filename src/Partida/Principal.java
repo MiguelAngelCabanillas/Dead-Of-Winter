@@ -447,6 +447,9 @@ public class Principal {
 		}
 		break;
 		case 127 : {//PILOTO: PUEDE MIRAR UNA CARTA DEL MAZO
+			if(jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getId() == 6) {
+				throw new HabilidadException("No puedes buscar en la colonia");
+			}
 			Carta aux = jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).cogerCarta();
 			salida += aux.getId();
 			jugadorActual.localizacion(supervivientes.getSuperviviente(idSup)).getMazo().anyadirAlPrincipio(aux);
@@ -612,25 +615,28 @@ public class Principal {
 	
 	//RESETEA LAS HABILIDADES DEL ACTUAL Y PASA AL SIGUIENTE
 	public void pasaTurno(int id) {
-		if(!primero) {
-			//RESETEAMOS HABILIDAD Y MOVIMIENTO
-			jugadorActual.resetHab();
-			jugadorActual.setGasolina(false);
-			//RESETEAMOS EL BUFFER DE CARTAS
-			jugadorActual.resetBuffer();
-			resetDados();
-		}else {
-			primero = false;
-		}
+		//RESETEAMOS HABILIDAD Y MOVIMIENTO
+		jugadorActual.resetHab();
+		jugadorActual.setGasolina(false);
+		//RESETEAMOS EL BUFFER DE CARTAS
+		jugadorActual.resetBuffer();
+
 		jugadorActual = jugadores.get(id);
 		inicTurno();
 	}
 	
+	public void resetMuertos() {
+		muertos = "";
+	}
+	
 	public String pasaRonda() {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
+		resetDados();
+		
+		muertos += actualizarTodosSupervivientes(true);
 		String datos = actualizarTablero();
 		
-		muertos = actualizarTodosSupervivientes();
+		muertos += actualizarTodosSupervivientes(false);
 		
 		System.out.println(crisisActual.pasada() + " " + crisisActual.sobra());
 		
@@ -730,6 +736,7 @@ public class Principal {
 	}
 	
 	public int getMoral() {
+		moral = tablero.getColonia().getMoral();
 		return moral;
 	}	
 
@@ -846,16 +853,18 @@ public class Principal {
 	}
 	
 	private void resetDados() {
-		jugadorActual.getDados().resetDados(jugadorActual.getMazoSuperviviente().size());
-		Dado d = jugadorActual.getDados();
-		dados[jugadorActual.getId()] = "";
-		d.resetDados(jugadorActual.getMazoSuperviviente().size());
-		
-		for(int i = 0; i < d.getDados().size(); i++) {
-			if(i != 0) {
-				dados[jugadorActual.getId()] += "|";
+		for(Jugador j : jugadores) {
+			j.getDados().resetDados(j.getMazoSuperviviente().size());
+			Dado d = j.getDados();
+			dados[j.getId()] = "";
+			d.resetDados(j.getMazoSuperviviente().size());
+			
+			for(int i = 0; i < d.getDados().size(); i++) {
+				if(i != 0) {
+					dados[j.getId()] += "|";
+				}
+				dados[j.getId()] += d.getDados().get(i);
 			}
-			dados[jugadorActual.getId()] += d.getDados().get(i);
 		}
 	}
 	
@@ -884,7 +893,7 @@ public class Principal {
 		return muertos;
 	}
 	
-	private String actualizarTodosSupervivientes() {
+	private String actualizarTodosSupervivientes(boolean cong) {
 		String muertos = "";
 		List<Carta_Supervivientes> aux;
 		
@@ -892,8 +901,10 @@ public class Principal {
 			aux = j.getMazoSuperviviente();
 			
 			//ACTUALIZAMOS HERIDAS POR CONGELAMIENTO
-			for(Carta_Supervivientes personaje : aux) {
-				personaje.congelamiento();
+			if(cong) {
+				for(Carta_Supervivientes personaje : aux) {
+					personaje.congelamiento();
+				}
 			}
 			
 			//MATAMOS A LOS SUPERVIVIENTES CON TRES HERIDAS
@@ -909,9 +920,12 @@ public class Principal {
 					muertos += + j.getId() + "|" + personaje.getId();
 				}
 				i++;
+				System.out.println("ID: " + personaje.getId() + " Heridas: " + personaje.getHeridas() + " Cong: " + personaje.getCongelamiento());
 			}
 			j.matar();
 		}
+		
+		System.out.println("Muertos " + muertos);
 		
 		return muertos;
 	}
@@ -923,12 +937,14 @@ public class Principal {
 			aux.addAll(this.enPartida);
 			//LOS 5 SUPERVIVIENTES CON MAS INFLUENCIA RECIBEN UNA HERIDA POR CONGELACION
 			int i = 0;
-			while (i < 5 && i < aux.size()) {
-				aux.poll().recibirHerida(false);
+			int tam = aux.size();
+			while (i < 5 && i < tam) {
+				Carta_Supervivientes car = aux.peek();
+				aux.poll().recibirHerida(true);
 				i++;
 			}
 			
-			actualizarTodosSupervivientes();
+			//actualizarTodosSupervivientes(false);
 		}
 		break;
 		case 301 : {
@@ -946,7 +962,7 @@ public class Principal {
 				sup.recibirHerida(false);
 			}
 			
-			actualizarTodosSupervivientes();
+			//actualizarTodosSupervivientes(false);
 		}
 		break;
 		case 303 : {

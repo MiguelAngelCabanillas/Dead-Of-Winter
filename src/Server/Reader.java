@@ -273,14 +273,16 @@ private boolean seleccionadoCurado = false;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 131; i++) {
-							  if(i != 120 && i != 121 && i != 129 && i != 130) {
-								  sups.add(i);
-							  }
-						  }
+//						  for(int i = 100; i < 131; i++) {
+//							  if(i != 120 && i != 121 && i != 129 && i != 130) {
+//								  sups.add(i);
+//							  }
+//						  }
 						  
-						  Collections.shuffle(sups);
+//						  Collections.shuffle(sups);
 						  
+						  sups.add(127);
+						  sups.add(110);
 						  
 						  
 						  user.getSala().shuffleUsuarios();
@@ -728,7 +730,7 @@ private boolean seleccionadoCurado = false;
 								break;
 							case 127: {
 								//ve una carta
-								
+								user.hacerPeticionAlServidor("verCarta|" + salida);
 							}
 								break;
 						}
@@ -951,20 +953,20 @@ private boolean seleccionadoCurado = false;
 			System.out.println(contribuciones);
 			String resCrisis = user.getSala().getPartida().resultadoCrisis();
 			int idCrisis = user.getSala().getPartida().getCrisisActual().getId();
+			System.out.println(resCrisis);
+			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
 			if(idCrisis == 300 || idCrisis == 302) {
 				PriorityQueue<Carta_Supervivientes> aux = user.getSala().getPartida().getSupervivientes();
 				for (Carta_Supervivientes c : aux) {
 					user.enviarALaSala("heridas|"+c.getId()+"|"+c.getHeridas()+"|"+c.getCongelamiento());
 				}
 			}
-			System.out.println(resCrisis);
-			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
 			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() <= 0) {
 				user.enviarALaSala("finpartida");
 			} else {
 				user.getSala().setContTurnos(user.getSala().getUsuarios().size());
 				String muertos = user.getSala().getPartida().getMuertos(); //muertos al pasar la ronda
-				System.out.println(muertos);
+				System.out.println("Muertos 234134 = " + muertos);
 				if(!muertos.equals("")) { 
 					int i = 0;
 					String[] sp = muertos.split("\\|");
@@ -974,6 +976,7 @@ private boolean seleccionadoCurado = false;
 												user.getSala().getPartida().getNombre(Integer.parseInt(sp[i+1])) + " ha muerto");
 						i+=2;
 					}
+					user.getSala().getPartida().resetMuertos();
 				}
 				
 				user.getSala().getPartida().pasaTurno(0);

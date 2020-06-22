@@ -513,7 +513,7 @@ public class Jugador {
 				if(bombero) {
 					int i = 0;
 					boolean enc = false;
-					while(i < 4) {
+					while(!enc && i < 4) {
 						aux = locCartas.cogerCarta();
 						
 						if(aux.getId() == 6) {
