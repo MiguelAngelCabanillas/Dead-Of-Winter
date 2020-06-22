@@ -660,7 +660,7 @@ public class VerificacionYPruebas {
 		int cont = 0;
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 2; j++) {
-				if (this.p.getJugador(i).getMazoSuperviviente().get(j).getHeridas() == 1) {
+				if (this.p.getJugador(i).getMazoSuperviviente().get(j).getCongelamiento() == 1) {
 					cont++;
 				}
 			}
