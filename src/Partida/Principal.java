@@ -631,7 +631,6 @@ public class Principal {
 	
 	public String pasaRonda() {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
-		resetDados();
 		
 		muertos += actualizarTodosSupervivientes(true);
 		String datos = actualizarTablero();
@@ -654,7 +653,7 @@ public class Principal {
 			hambre++;
 		}
 		crisisActual = crisis.getCrisis();
-		
+		resetDados();
 		rondasRestantes--;
 		moral = tablero.getColonia().getMoral();
 		System.out.println("Moral :" + moral);
@@ -805,6 +804,8 @@ public class Principal {
 		String aux = "";
 		if(!crisisActual.pasada()) {
 			fallo();
+		}else if(crisisActual.sobra()) {
+			tablero.getColonia().setMoral(tablero.getColonia().getMoral() + 1);
 		}
 		
 		

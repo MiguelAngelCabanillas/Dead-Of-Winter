@@ -273,17 +273,13 @@ private boolean seleccionadoCurado = false;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-//						  for(int i = 100; i < 131; i++) {
-//							  if(i != 120 && i != 121 && i != 129 && i != 130) {
-//								  sups.add(i);
-//							  }
-//						  }
+						  for(int i = 100; i < 131; i++) {
+							  if(i != 120 && i != 121 && i != 129 && i != 130) {
+								  sups.add(i);
+							  }
+						  }
 						  
-//						  Collections.shuffle(sups);
-						  
-						  sups.add(127);
-						  sups.add(110);
-						  
+						  Collections.shuffle(sups);
 						  
 						  user.getSala().shuffleUsuarios();
 						  for(int i = 0; i < (user.getSala().getUsuarios().size()*2); i++) {
