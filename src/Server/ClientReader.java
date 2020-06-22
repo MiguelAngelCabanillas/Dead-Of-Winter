@@ -190,6 +190,7 @@ public class ClientReader implements Runnable {
                 	break;*/
                 	
                 case "heridas": //heridas|idSup|numHeridasNormales|numHSeridasCongelacion
+                	System.out.println("HERIDAS DEL SUPERVIVIENTE: " + split[1] + " Normales: " + split[2] + " Congelacion: "  + split[3]);
                 	tablero.setHeridasNormales(Integer.parseInt(split[1]),Integer.parseInt(split[2]));
                 	tablero.setHeridasCong(Integer.parseInt(split[1]),Integer.parseInt(split[3]));
                 	break;

@@ -311,7 +311,7 @@ public class Colonia extends Localizacion {
 	}
 	
 	public int getInutiles() {
-		return inutiles + 1;
+		return inutiles+1;
 	}
 	
 	public int getMoral() {

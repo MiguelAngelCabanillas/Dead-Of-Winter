@@ -589,8 +589,10 @@ private boolean seleccionadoCurado = false;
 									System.out.println("es vacio");
 									user.hacerPeticionAlServidor("error|No hay supervivientes heridos en tu localización");
 								} else {
-									user.hacerPeticionAlServidor("habilidadMedicina" + s);
-									seleccionadoCurado = true;
+									if (idObjetivo != -1) { //TODO: CAMBIADO 
+										user.hacerPeticionAlServidor("habilidadMedicina" + s);
+										seleccionadoCurado = true;
+									}
 								}
 							} else {
 								user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
@@ -949,14 +951,21 @@ private boolean seleccionadoCurado = false;
 			System.out.println(contribuciones);
 			String resCrisis = user.getSala().getPartida().resultadoCrisis();
 			int idCrisis = user.getSala().getPartida().getCrisisActual().getId();
+//			System.out.println(resCrisis);
+//			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
+			//if(idCrisis == 300 || idCrisis == 302) {
+//				PriorityQueue<Carta_Supervivientes> aux = user.getSala().getPartida().getSupervivientes();
+//				for (Carta_Supervivientes c : aux) {
+//					user.enviarALaSala("heridas|"+c.getId()+"|"+c.getHeridas()+"|"+c.getCongelamiento());
+//				}
+			//}
 			System.out.println(resCrisis);
 			String zombies = user.getSala().getPartida().pasaRonda(); //poszombieloc0|poszombieloc1|...
-			if(idCrisis == 300 || idCrisis == 302) {
-				PriorityQueue<Carta_Supervivientes> aux = user.getSala().getPartida().getSupervivientes();
-				for (Carta_Supervivientes c : aux) {
-					user.enviarALaSala("heridas|"+c.getId()+"|"+c.getHeridas()+"|"+c.getCongelamiento());
-				}
+			PriorityQueue<Carta_Supervivientes> aux = user.getSala().getPartida().getSupervivientes();
+			for (Carta_Supervivientes c : aux) {
+				user.enviarALaSala("heridas|"+c.getId()+"|"+c.getHeridas()+"|"+c.getCongelamiento());
 			}
+			
 			if(user.getSala().getPartida().getRondasRestantes() == 0 || user.getSala().getPartida().getMoral() <= 0) {
 				user.enviarALaSala("finpartida");
 			} else {

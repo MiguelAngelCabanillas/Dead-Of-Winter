@@ -187,7 +187,6 @@ public class Principal {
 	private Stack<Carta> inicSupermercado() {
 		Stack<Carta> mazo = new Stack<>();
 		int [] cartas = {0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4 ,4, 4, 4, 4, 4, 4, 7, 8};
-		 
 		int i = 0;
 		
 		while(i < 30){
@@ -262,7 +261,8 @@ public class Principal {
 	//INICIA MAZO BIBLIOTECA
 	private Stack<Carta> inicBiblioteca() {
 		Stack<Carta> mazo = new Stack<>();
-		int [] cartas = {0, 0, 0, 0, 0, 1, 1, 1, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 14, 15, 16, 17, 18, 21};
+		int [] cartas = //{0, 0, 0, 0, 0, 1, 1, 1, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 8, 14, 15, 16, 17, 18, 21};
+			{7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
 		 
 		int i = 0;
 		
@@ -633,9 +633,10 @@ public class Principal {
 		//ACTUALIZAMOS LOS ZOMBIES DE CADA LOCALIZACIÓN
 		
 		muertos += actualizarTodosSupervivientes(true);
-		String datos = actualizarTablero();
+		//String datos = actualizarTablero();
 		
 		muertos += actualizarTodosSupervivientes(false);
+		String datos = actualizarTablero();
 		
 		System.out.println(crisisActual.pasada() + " " + crisisActual.sobra());
 		
@@ -644,8 +645,11 @@ public class Principal {
 		}
 		
 		//LA COMIDA QUE SE GASTA ES IGUAL A LA MITAD DE LOS SUPERVIVIENTES DE LA COLONIA REDONDEANDO HACIA ARRIBA
-		int comidaGastada = (int) Math.round(((double) tablero.getColonia().getSupervivientes().size() + (double) (23 - tablero.getColonia().getInutiles())) / 2);
-		System.out.println("Comida: " + comida + "\n Gastada: " + comidaGastada);
+		int comidaGastada = (int) Math.round(((double) tablero.getColonia().getSupervivientes().size() + (double) (23 - (tablero.getColonia().getInutiles()-1))) / 2);
+		System.out.println("INUTILES SIN: " + tablero.getColonia().getInutiles());
+		System.out.println("Inutiles con (-23): " + (23 - tablero.getColonia().getInutiles()));
+		System.out.println("Supervivientes: " + tablero.getColonia().getSupervivientes().size());
+		System.out.println("Comida: " + comida + " Gastada: " + comidaGastada);
 		if(comida >= comidaGastada) {
 			comida -= comidaGastada;
 		}else {
@@ -827,29 +831,36 @@ public class Principal {
 		aux += "|" + coll[0];
 			
 		
-		//ACTUALIZAMOS LOS MUERTOS EN LA PARTIDA
-		if(com[0].contentEquals("0")) {
-			muertos += Integer.parseInt(com[1]);
-		}
-		if(sup[0].contentEquals("0")) {
-			muertos += Integer.parseInt(sup[1]);
-		}
-		if(col[0].contentEquals("0")) {
-			muertos += Integer.parseInt(col[1]);
-		}
-		if(gas[0].contentEquals("0")) {
-			muertos += Integer.parseInt(gas[1]);
-		}
-		if(hos[0].contentEquals("0")) {
-			muertos += Integer.parseInt(hos[1]);
-		}
-		if(bib[0].contentEquals("0")) {
-			muertos += Integer.parseInt(bib[1]);
-		}
-		if(coll[0].contentEquals("0")) {
-			muertos += Integer.parseInt(coll[1]);
-		}
-		
+//		//ACTUALIZAMOS LOS MUERTOS EN LA PARTIDA
+//		if(com[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(com[1]);
+//			System.out.println("Muertos 1: -> " + muertos);
+//		}
+//		if(sup[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(sup[1]);
+//			System.out.println("Muertos 2: -> " + muertos);
+//		}
+//		if(col[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(col[1]);
+//			System.out.println("Muertos 3: -> " + muertos);
+//		}
+//		if(gas[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(gas[1]);
+//			System.out.println("Muertos 4: -> " + muertos);
+//		}
+//		if(hos[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(hos[1]);
+//			System.out.println("Muertos 5: -> " + muertos);
+//		}
+//		if(bib[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(bib[1]);
+//			System.out.println("Muertos 6: -> " + muertos);
+//		}
+//		if(coll[0].contentEquals("0")) {
+//			muertos += Integer.parseInt(coll[1]);
+//			System.out.println("Muertos 7: -> " + muertos);
+//		}
+		System.out.println("Valor de aux" + aux);
 		return aux;
 	}
 	

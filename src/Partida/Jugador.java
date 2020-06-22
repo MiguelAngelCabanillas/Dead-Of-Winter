@@ -118,9 +118,10 @@ public class Jugador {
 				this.mazoSuperviviente.remove(aux);
 				loc.eliminarSuperviviente(aux);
 				tablero.getColonia().setMoral(tablero.getColonia().getMoral() - 1);
-			}else {
-				i++;
+			//}else {
+				//i++;
 			}
+			i++;  //TODO: CAMBIADO
 		}
 	}
 	
