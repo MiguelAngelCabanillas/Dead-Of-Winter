@@ -273,11 +273,13 @@ private boolean seleccionadoCurado = false;
 						  //////////////////////////////////////////////////////////////////////////////////////////////////
 						  
 						  List<Integer> sups = new ArrayList<>();
-						  for(int i = 100; i < 131; i++) {
-							  if(i != 120 && i != 121 && i != 129 && i != 130) {
-								  sups.add(i);
-							  }
-						  }
+//						  for(int i = 100; i < 131; i++) {
+//							  if(i != 120 && i != 121 && i != 129 && i != 130) {
+//								  sups.add(i);
+//							  }
+//						  }
+						  sups.add(125);
+						  sups.add(113);
 						  
 						  Collections.shuffle(sups);
 						  
@@ -589,10 +591,8 @@ private boolean seleccionadoCurado = false;
 									System.out.println("es vacio");
 									user.hacerPeticionAlServidor("error|No hay supervivientes heridos en tu localización");
 								} else {
-									if (idObjetivo != -1) { //TODO: CAMBIADO 
 										user.hacerPeticionAlServidor("habilidadMedicina" + s);
 										seleccionadoCurado = true;
-									}
 								}
 							} else {
 								user.getSala().getPartida().usarHabilidad(idSup, idObjetivo, idDado);
